@@ -10,15 +10,19 @@ Board::Board():
 
 void Board::printBoard()
 {
-  std::cout << " ---------------------------------\n";
+  //Slightly inefficient but the code is cleaner
+  std::cout << "   ╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗\n";
   for (int row=7; row>-1; row--) {
-    std::cout << " |";
+    std::cout << " " << row+1 << " ║ ";
     for (int column=0; column<8; column++)
     {
-      std::cout << " ";
       squaresVector[row*8+column].printSquareContent();
-      std::cout << " |";
+      if (column == 7) std::cout << " ║";
+      else std::cout << " │ ";
     }
-    std::cout << "\n ---------------------------------\n";
+    std::cout << "\n   ";
+    if (row == 0) std::cout << "╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝\n";
+    else std::cout << "╟───┼───┼───┼───┼───┼───┼───┼───╢\n";
   }
+  std::cout << "     1   2   3   4   5   6   7   8\n"; 
 }
