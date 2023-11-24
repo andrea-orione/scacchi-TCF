@@ -1,9 +1,10 @@
 #pragma once
+//♔ ♕ ♖ ♗ ♘ ♙ ♚ ♛ ♜ ♝ ♞ ♟︎ Unicode characters to use later
+
+#include <string>
 
 class Piece
 {
 public:
-  virtual ~Piece()=0;
-  
-  virtual void printPiece() = 0;
+  virtual std::string toString() = 0;
 };
