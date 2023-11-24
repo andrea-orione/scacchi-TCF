@@ -10,11 +10,7 @@ private:
 
 public:
   Square();
-  Square(Square &&) = default;
-  Square(const Square &) = default;
-  Square &operator=(Square &&) = default;
-  Square &operator=(const Square &) = default;
-  ~Square() = default;
+  Square(Piece *occupyingPiece);
 
   bool getOccupied() const;
   void setOccupied(bool &);

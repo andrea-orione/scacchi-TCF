@@ -20,6 +20,12 @@ public:
   int getX() const;
   int getY() const;
 
+  bool operator < (const Coordinate other) const;
+  bool operator > (const Coordinate other) const;
+  bool operator == (const Coordinate other) const;
+  bool operator <= (const Coordinate other) const;
+  bool operator >= (const Coordinate other) const;
+
   void print() const;
   std::string toString() const;
 

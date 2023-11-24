@@ -5,10 +5,6 @@
 
 const std::string Coordinate::literalChars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
 
-Coordinate::Coordinate():
-  x(1),
-  y(1) {}
-
 Coordinate::Coordinate(int newX, int newY) {
   if (newX < 1 || newX > 8) throw std::out_of_range("x value outside the board");
   if (newY < 1 || newY > 8) throw std::out_of_range("y value outside the board");
@@ -62,6 +58,26 @@ int Coordinate::getX() const {
 
 int Coordinate::getY() const {
   return y;
+}
+
+bool Coordinate::operator<(const Coordinate other) const {
+  return (y < other.y) || ((y == other.y) && (x < other.x));
+}
+
+bool Coordinate::operator>(const Coordinate other) const {
+  return (y > other.y) || ((y == other.y) && (x > other.x));
+}
+
+bool Coordinate::operator==(const Coordinate other) const {
+  return (x==other.x && y==other.y);
+}
+
+bool Coordinate::operator<=(const Coordinate other) const {
+  return !((y > other.y) || ((y == other.y) && (x > other.x)));
+}
+
+bool Coordinate::operator>=(const Coordinate other) const {
+  return !((y < other.y) || ((y == other.y) && (x < other.x)));
 }
 
 void Coordinate::print() const {

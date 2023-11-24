@@ -6,6 +6,10 @@ Square::Square():
   occupied(false),
   piece(nullptr) {}
 
+Square::Square(Piece *occupyingPiece):
+  occupied(true),
+  piece(occupyingPiece) {}
+
 bool Square::getOccupied() const {
   return occupied;
 }
@@ -24,5 +28,5 @@ void Square::setPiece(Piece *&newPiece) {
 
 void Square::printSquareContent() {
   if (!occupied) std::cout << " ";
-  else piece->printPiece();
+  else std::cout << piece->toString();
 }
