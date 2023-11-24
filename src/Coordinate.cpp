@@ -1,25 +1,22 @@
-#include "../include/Coordinates.hh"
+#include "../include/Coordinate.hh"
 #include <iostream>
 #include <stdexcept>
 #include <string>
 
-const std::string Coordinates::literalChars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
+const std::string Coordinate::literalChars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
 
-Coordinates::Coordinates():
+Coordinate::Coordinate():
   x(1),
-  y(1)
-{}
+  y(1) {}
 
-Coordinates::Coordinates(int newX, int newY)
-{
+Coordinate::Coordinate(int newX, int newY) {
   if (newX < 1 || newX > 8) throw std::out_of_range("x value outside the board");
   if (newY < 1 || newY > 8) throw std::out_of_range("y value outside the board");
   x = newX;
   y = newY;
 }
 
-Coordinates::Coordinates(const char literalNewX, int newY)
-{
+Coordinate::Coordinate(const char literalNewX, int newY) {
   if (newY < 1 || newY > 8) throw std::out_of_range("y value outside the board");
   int xIndex = literalChars.find(literalNewX);
   if (xIndex == std::string::npos) throw std::invalid_argument("x value not valid");
@@ -27,8 +24,7 @@ Coordinates::Coordinates(const char literalNewX, int newY)
   y = newY;
 }
 
-Coordinates::Coordinates(std::string literalNewX, int newY)
-{
+Coordinate::Coordinate(std::string literalNewX, int newY) {
   if (newY < 1 || newY > 8) throw std::out_of_range("y value outside the board");
   if (literalNewX.length() != 1) throw std::invalid_argument("x value not valid");
   int xIndex = literalChars.find(literalNewX);
@@ -37,43 +33,41 @@ Coordinates::Coordinates(std::string literalNewX, int newY)
   y = newY;
 }
 
-Coordinates::Coordinates(std::string literalExpression)
-{
+Coordinate::Coordinate(std::string literalExpression) {
   if (literalExpression.length() != 2) throw std::invalid_argument("Non valid literal expression");
-  
-
+  int newY = std::stoi(literalExpression.substr(1,1));
+  if (newY < 1 || newY > 8) throw std::out_of_range("y value outside the board");
+  char literalNewX = literalExpression[0];
+  int xIndex = literalChars.find(literalNewX);
+  if (xIndex == std::string::npos) throw std::invalid_argument("x value not valid");
+  x = xIndex+1;
+  y = newY;
 }
 
-Coordinates &Coordinates::setX(int newX)
-{
+Coordinate &Coordinate::setX(int newX) {
   if (newX > 8 || newX < 1) throw std::out_of_range("x value outside the board");
   x = newX;
   return *this;
 }
 
-Coordinates &Coordinates::setY(int newY)
-{
+Coordinate &Coordinate::setY(int newY) {
   if (newY > 8 || newY < 1) throw std::out_of_range("y value outside the board");
   y = newY;
   return *this;
 }
 
-int Coordinates::getX() const
-{
+int Coordinate::getX() const {
   return x;
 }
 
-int Coordinates::getY() const
-{
+int Coordinate::getY() const {
   return y;
 }
 
-void Coordinates::print() const
-{
+void Coordinate::print() const {
   std::cout << literalChars[x-1] << y << std::endl;
 }
 
-std::string Coordinates::toString() const
-{
+std::string Coordinate::toString() const {
   return (literalChars[x-1] + std::to_string(y));
 }

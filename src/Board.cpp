@@ -1,15 +1,20 @@
 #include "../include/Board.hh"
+#include "../include/Coordinate.hh"
+#include <map>
 #include <iostream>
 #include <vector>
 
 Board::Board():
-  squaresVector(std::vector<Square>(64))
-{
-
+  squaresVector(std::vector<Square>(64)),
+  squaresMap(std::map<Coordinate, Square>()){
+  for (int row=1; row<9; row++) {
+    for (int column=1; column<9; column++) {
+      std::pair<Coordinate, Square> squareCoordPair(Coordinate(row, column), Square()); 
+    }
+  }
 }
 
-void Board::printBoard()
-{
+void Board::printBoard() {
   //Slightly inefficient but the code is cleaner
   std::cout << "   ╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗\n";
   for (int row=7; row>-1; row--) {

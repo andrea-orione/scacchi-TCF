@@ -4,31 +4,25 @@
 
 Square::Square():
   occupied(false),
-  piece(nullptr)
-{}
+  piece(nullptr) {}
 
-bool Square::getOccupied() const
-{
+bool Square::getOccupied() const {
   return occupied;
 }
 
-void Square::setOccupied(bool &newOccupied)
-{
+void Square::setOccupied(bool &newOccupied) {
   occupied = newOccupied;
 }
 
-Piece *Square::getPiece() const
-{
+Piece *Square::getPiece() const {
   return piece;
 }
 
-void Square::setPiece(Piece *&newPiece)
-{
+void Square::setPiece(Piece *&newPiece) {
   piece = newPiece;
 }
 
-void Square::printSquareContent()
-{
+void Square::printSquareContent() {
   if (!occupied) std::cout << " ";
   else piece->printPiece();
 }
