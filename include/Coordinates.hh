@@ -10,6 +10,7 @@ private:
   int x;
   int y;
 public:
+  Coordinates();
   Coordinates(int newX, int newY);
   Coordinates(char literalNewX, int newY);
   Coordinates(std::string literalNewX, int newY);
@@ -20,6 +21,8 @@ public:
   int getX() const;
   int getY() const;
 
+  void print() const;
+  std::string toString() const;
 
 private:
   
