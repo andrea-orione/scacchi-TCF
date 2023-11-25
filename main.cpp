@@ -2,10 +2,10 @@
 
 int main (int argc, char *argv[]) {
   Board provaBoard;
-  provaBoard.printBoard();
+  provaBoard.printBoardReversed();
 
   Board provaBoardSemplificata;
-  provaBoardSemplificata.printBoard(true);
+  provaBoardSemplificata.printBoardReversed(true);
 
   return 0;
 }

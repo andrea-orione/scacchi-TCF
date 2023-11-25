@@ -25,7 +25,7 @@ public:
   
   //TODO make this method constant (there are some problems with the iterator)
   /**
-    * Print the state of the board.
+    * Print the state of the board from the white perspective.
     *
     * It displays visually to the screen the board using UNICODE characters
     * 
@@ -33,6 +33,17 @@ public:
     *  (useful if terminal doesn't support special chars)
     */
   void printBoard(bool simplified=false);
+
+  //TODO make this method constant (there are some problems with the iterator)
+  /**
+    * Print the state of the board from the black perspective.
+    *
+    * It displays visually to the screen the board using UNICODE characters
+    * 
+    * @param[in] simplified wether to use simplified chars to print
+    *  (useful if terminal doesn't support special chars)
+    */
+  void printBoardReversed(bool simplified=false);
 
 private:
   std::map<Coordinate, Square> squaresMap;
