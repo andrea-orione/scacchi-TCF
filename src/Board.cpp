@@ -2,10 +2,10 @@
 #include "../include/Coordinate.hh"
 #include <map>
 #include <iostream>
+#include <string>
 #include <vector>
 
 Board::Board():
-  squaresVector(std::vector<Square>(64)),
   squaresMap(std::map<Coordinate, Square>()){
   for (int row=1; row<9; row++) {
     for (int column=1; column<9; column++) {
@@ -15,20 +15,27 @@ Board::Board():
   }
 }
 
-void Board::printBoard() {
-  //Slightly inefficient but the code is cleaner
-  std::cout << "\n   ╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗\n";
+//TODO make this method const
+void Board::printBoard(bool simplified) {
+  std::string top = (simplified) ? "---------------------------------" : "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗";
+  std::string middle = (simplified) ? "|---|---|---|---|---|---|---|---|" : "╟───┼───┼───┼───┼───┼───┼───┼───╢";
+  std::string bottom = (simplified) ? "---------------------------------" : "╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝";
+  std::string border = (simplified) ? "|" : "║";
+  std::string separator = (simplified) ? "|" : "│";
+  std::cout << "\n   " << top << "\n";
   for (int row=8; row>0; row--) {
-    std::cout << " " << row << " ║ ";
+    std::cout << " " << row << " " << border << " ";
     for (int column=1; column<9; column++)
     {
-      squaresMap[Coordinate(column,row)].printSquareContent();
-      if (column == 8) std::cout << " ║";
-      else std::cout << " │ ";
+      //Have to use iterator to make method const
+      std::map<Coordinate, Square>::iterator squareIterator(squaresMap.find(Coordinate(column,row)));
+      std::cout << squareIterator->second.toString(simplified);
+      //Slightly inefficient but makes the code cleaner
+      if (column != 8) std::cout << " " << separator << " ";
+      else std::cout << " " << border;
     }
-    std::cout << "\n   ";
-    if (row == 1) std::cout << "╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝\n";
-    else std::cout << "╟───┼───┼───┼───┼───┼───┼───┼───╢\n";
+    if (row != 1) std::cout << "\n   " << middle << "\n";
+    else std::cout << "\n   " << bottom << "\n";
   }
   std::cout << "     a   b   c   d   e   f   g   h\n\n"; 
 }
