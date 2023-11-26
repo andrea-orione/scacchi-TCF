@@ -1,5 +1,4 @@
 #include "../include/Board.hh"
-#include "../include/Coordinate.hh"
 #include <map>
 #include <iostream>
 #include <string>
@@ -16,7 +15,7 @@ Board::Board():
 }
 
 //TODO make this method const
-void Board::printBoard(bool simplified) {
+void Board::printBoard(const bool &simplified) {
   std::string top = (simplified) ? "---------------------------------" : "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗";
   std::string middle = (simplified) ? "|---|---|---|---|---|---|---|---|" : "╟───┼───┼───┼───┼───┼───┼───┼───╢";
   std::string bottom = (simplified) ? "---------------------------------" : "╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝";
@@ -41,7 +40,7 @@ void Board::printBoard(bool simplified) {
 }
 
 //TODO make this method const
-void Board::printBoardReversed(bool simplified) {
+void Board::printBoardReversed(const bool &simplified) {
   std::string top = (simplified) ? "---------------------------------" : "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗";
   std::string middle = (simplified) ? "|---|---|---|---|---|---|---|---|" : "╟───┼───┼───┼───┼───┼───┼───┼───╢";
   std::string bottom = (simplified) ? "---------------------------------" : "╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝";

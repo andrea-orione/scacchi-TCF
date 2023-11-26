@@ -32,7 +32,7 @@ public:
     * @param[in] simplified wether to use simplified chars to print
     *  (useful if terminal doesn't support special chars)
     */
-  void printBoard(bool simplified=false);
+  void printBoard(const bool &simplified=false);
 
   //TODO make this method constant (there are some problems with the iterator)
   /**
@@ -43,7 +43,7 @@ public:
     * @param[in] simplified wether to use simplified chars to print
     *  (useful if terminal doesn't support special chars)
     */
-  void printBoardReversed(bool simplified=false);
+  void printBoardReversed(const bool &simplified=false);
 
 private:
   std::map<Coordinate, Square> squaresMap;
