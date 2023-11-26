@@ -1,7 +1,9 @@
 #pragma once
 //♔ ♕ ♖ ♗ ♘ ♙ ♚ ♛ ♜ ♝ ♞ ♟︎ Unicode characters to use later
 
+#include "Coordinate.hh"
 #include <string>
+#include <vector>
 
 //TODO Try implementing void Piece representing an empty square, to replace the Square class (should be useless)
 /**
@@ -15,5 +17,6 @@ public:
    *
    * @return the above described string.
    */
-  virtual std::string toString(bool literal=false) = 0;
+  virtual std::string toString(const bool &literal=false) const = 0;
+  virtual std::vector<Coordinate> listValidCoordinate() const = 0;
 };

@@ -1,5 +1,4 @@
 #include "../include/Square.hh"
-#include "../include/Piece.hh"
 #include <iostream>
 #include <string>
 
@@ -15,7 +14,7 @@ bool Square::getOccupied() const {
   return occupied;
 }
 
-void Square::setOccupied(bool &newOccupied) {
+void Square::setOccupied(const bool &newOccupied) {
   occupied = newOccupied;
 }
 
@@ -27,12 +26,12 @@ void Square::setPiece(Piece *&newPiece) {
   piece = newPiece;
 }
 
-void Square::printSquareContent(bool simplified) const {
+void Square::printSquareContent(const bool &simplified) const {
   if (!occupied) std::cout << " ";
   else std::cout << piece->toString(simplified);
 }
 
-std::string Square::toString(bool simplified) const {
+std::string Square::toString(const bool &simplified) const {
   if (!occupied) return " ";
   else return piece->toString(simplified);
 }

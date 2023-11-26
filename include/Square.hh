@@ -41,7 +41,7 @@ public:
    * 
    * @param[in] newOccupied the new occupied value.
    */
-  void setOccupied(bool &newOccupied);
+  void setOccupied(const bool &newOccupied);
 
   /**
    * The piece getter.
@@ -55,7 +55,7 @@ public:
    *
    * @param[in] newPiece the new Piece pointer to be contained in the square.
    */
-  void setPiece(Piece *&);
+  void setPiece(Piece *&newPiece);
 
   /**
    * DEPRECATED, ONLY FOR TESTING. Print the content of the square to the screen.
@@ -65,7 +65,7 @@ public:
    * @param[in] simplified wether to use simplified chars to print
    *  (useful if terminal doesn't support special chars)
    */
-  void printSquareContent(bool simplified=false) const;
+  void printSquareContent(const bool &simplified=false) const;
 
   /**
    * Return the string representing the content of the square.
@@ -74,7 +74,7 @@ public:
    *  (useful if terminal doesn't support special chars)
    * @return the above described string.
    */
-  std::string toString(bool simplified=false) const;
+  std::string toString(const bool &simplified=false) const;
 
 private:
   bool occupied;
