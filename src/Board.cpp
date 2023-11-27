@@ -4,8 +4,17 @@
 #include <string>
 #include <vector>
 
-Board::Board() : squaresMap(std::map<Coordinate, Square>())
+Board &Board::Instance()
 {
+  static Board instance;
+
+  return instance;
+}
+
+void Board::InitializeBoard()
+{
+  squaresMap = std::map<Coordinate, Square>();
+
   for (int row = 1; row < 9; row++)
   {
     for (int column = 1; column < 9; column++)
