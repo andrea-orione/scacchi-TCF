@@ -1,9 +1,19 @@
 #pragma once
 
+#include <map>
+#include <iostream>
+#include <string>
+#include <vector>
+
 #include "Coordinate.hh"
 #include "Square.hh"
-#include <map>
-#include <vector>
+
+using std::cout;
+using std::endl;
+using std::map;
+using std::pair;
+using std::string;
+using std::vector;
 
 /**
  * The most important class in the program.
@@ -41,7 +51,7 @@ public:
    * @param[in] simplified wether to use simplified chars to print
    *  (useful if terminal doesn't support special chars)
    */
-  void printBoard(const bool &simplified = false);
+  void printBoard(const bool &simplified = false) const;
 
   // TODO make this method constant (there are some problems with the iterator)
   /**
@@ -52,10 +62,10 @@ public:
    * @param[in] simplified wether to use simplified chars to print
    *  (useful if terminal doesn't support special chars)
    */
-  void printBoardReversed(const bool &simplified = false);
+  void printBoardReversed(const bool &simplified = false) const;
 
 private:
   Board() {}
 
-  std::map<Coordinate, Square> squaresMap;
+  map<Coordinate, Square> squaresMap;
 };
