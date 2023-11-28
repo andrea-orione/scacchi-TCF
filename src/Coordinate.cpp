@@ -2,7 +2,7 @@
 
 const string Coordinate::literalChars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
 
-Coordinate::Coordinate(const int &newX, const int &newY)
+Coordinate::Coordinate(int newX, int newY)
 {
   if (newX < 1 || newX > 8)
     throw std::out_of_range("x value outside the board");
@@ -13,7 +13,7 @@ Coordinate::Coordinate(const int &newX, const int &newY)
   y = newY;
 }
 
-Coordinate::Coordinate(const char &literalNewX, const int &newY)
+Coordinate::Coordinate(char literalNewX, int newY)
 {
   if (newY < 1 || newY > 8)
     throw std::out_of_range("y value outside the board");
@@ -26,7 +26,7 @@ Coordinate::Coordinate(const char &literalNewX, const int &newY)
   y = newY;
 }
 
-Coordinate::Coordinate(const string &literalNewX, const int &newY)
+Coordinate::Coordinate(string literalNewX, int newY)
 {
   if (newY < 1 || newY > 8)
     throw std::out_of_range("y value outside the board");
@@ -41,7 +41,7 @@ Coordinate::Coordinate(const string &literalNewX, const int &newY)
   y = newY;
 }
 
-Coordinate::Coordinate(const string &literalExpression)
+Coordinate::Coordinate(string literalExpression)
 {
   if (literalExpression.length() != 2)
     throw std::invalid_argument("Non valid literal expression");
@@ -70,7 +70,7 @@ Coordinate Coordinate::operator=(const Coordinate &newCoordinate)
   return Coordinate(newCoordinate.x, newCoordinate.y);
 }
 
-Coordinate &Coordinate::setX(const int &newX)
+Coordinate &Coordinate::setX(int newX)
 {
   if (newX < 1 || newX > 8)
     throw std::out_of_range("x value outside the board");
@@ -80,7 +80,7 @@ Coordinate &Coordinate::setX(const int &newX)
   return *this;
 }
 
-Coordinate &Coordinate::setY(const int &newY)
+Coordinate &Coordinate::setY(int newY)
 {
   if (newY < 1 || newY > 8)
     throw std::out_of_range("y value outside the board");

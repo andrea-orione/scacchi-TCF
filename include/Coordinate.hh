@@ -30,7 +30,7 @@ public:
    * @param[in] newX the value between 1 and 8 (included) to assign to the x (column).
    * @param[in] newY the value between 1 and 8 (included) to assign to the y (row).
    */
-  Coordinate(const int &newX = 1, const int &newY = 1);
+  Coordinate(int newX = 1, int newY = 1);
 
   /**
    * Take a char and an int and assignes them to the x and y
@@ -40,7 +40,7 @@ public:
    *   valid values are chars from `a` to `h` (included) corresponding to an int from 1 to 8.
    * @param[in] newY the value between 1 and 8 (included) to assign to the y (row).
    */
-  Coordinate(const char &literalNewX, const int &newY);
+  Coordinate(char literalNewX, int newY);
 
   /**
    * Take a std::string and an int and assignes them to the x and y
@@ -50,7 +50,7 @@ public:
    *   valid values are chars from `a` to `h` (included) corresponding to an int from 1 to 8.
    * @param[in] newY the value between 1 and 8 (included) to assign to the y (row).
    */
-  Coordinate(const std::string &literalNewX, const int &newY);
+  Coordinate(std::string literalNewX, int newY);
 
   /**
    * Take a string representing the coordinate with a char and an int.
@@ -60,7 +60,7 @@ public:
    *   a char from `a` to `h` (included) corresponding to an int from 1 to 8 for the x (column)
    *   and an int between 1 to 8 (included) for the y (row).
    */
-  Coordinate(const std::string &literalExpression);
+  Coordinate(std::string literalExpression);
 
   /**
    * The copy constructor.
@@ -82,7 +82,7 @@ public:
    * @param[in] newX an int from 1 to 8 (included) to assign to the x (column).
    * @return a reference to the object, for cascaded member function calls.
    */
-  Coordinate &setX(const int &newX);
+  Coordinate &setX(int newX);
 
   /**
    * The y setter.
@@ -90,7 +90,7 @@ public:
    * @param[in] newY an int from 1 to 8 (included) to assign to the y (row).
    * @return a reference to the object, for cascaded member function calls.
    */
-  Coordinate &setY(const int &newY);
+  Coordinate &setY(int newY);
 
   /**
    * The x getter.
@@ -135,10 +135,10 @@ public:
    *
    * @return the above described string.
    */
-  std::string toString() const;
+  string toString() const;
 
 private:
-  static const std::string literalChars;
+  static const string literalChars;
   int x;
   int y;
 };
