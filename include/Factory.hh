@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Piece.hh"
+#include "Bishop.hh"
 
 using std::make_unique;
 using std::unique_ptr;
@@ -14,17 +15,6 @@ using std::vector;
  */
 class AbstractFactory
 {
-protected:
-    enum class Pieces
-    {
-        PAWN,
-        BISHOP,
-        KNIGHT,
-        ROOK,
-        QUEEN,
-        KING
-    };
-
 public:
     AbstractFactory() {}
     virtual ~AbstractFactory() {}
@@ -38,6 +28,11 @@ public:
 class WhiteFactory : public AbstractFactory
 {
 public:
+    /**
+     * Create a vector of white pieces.
+     *
+     * @return A vector with unique pointers to the white pieces.
+     */
     virtual vector<unique_ptr<Piece>> createPieces();
 };
 
@@ -47,6 +42,11 @@ public:
 class BlackFactory : public AbstractFactory
 {
 public:
+    /**
+     * Create a vector of black pieces.
+     *
+     * @return A vector with unique pointers to the white pieces.
+     */
     virtual vector<unique_ptr<Piece>> createPieces();
 };
 
@@ -56,5 +56,10 @@ public:
 class EmptyFactory : public AbstractFactory
 {
 public:
+    /**
+     * Create a vector of empty pieces.
+     *
+     * @return A vector with unique pointers to the white pieces.
+     */
     virtual vector<unique_ptr<Piece>> createPieces();
 };

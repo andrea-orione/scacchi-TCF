@@ -2,7 +2,7 @@
 #include "Coordinate.hh"
 #include "Movement.hh"
 #include "Piece.hh"
-#include "Bishop.hh"
+#include "Factory.hh"
 
 int main(int argc, char *argv[])
 {
@@ -22,8 +22,28 @@ int main(int argc, char *argv[])
   Board &board = Board::Instance();
   board.printBoard();
 
-  Bishop *p = new Bishop(PieceType::WHITE);
-  cout << p->toString() << endl;
+  AbstractFactory *whiteFactory;
+  AbstractFactory *blackFactory;
+
+  whiteFactory = new WhiteFactory();
+  blackFactory = new BlackFactory();
+
+  auto whitePieces = whiteFactory->createPieces();
+  auto blackPieces = blackFactory->createPieces();
+
+  cout << "WHITE PIECES:" << endl;
+  for (auto &i : whitePieces)
+  {
+    cout << i->toString() << " " << endl;
+  }
+  cout << endl;
+
+  cout << "BLACK PIECES:" << endl;
+  for (auto &i : blackPieces)
+  {
+    cout << i->toString() << " " << endl;
+  }
+  cout << endl;
 
   return 0;
 }
