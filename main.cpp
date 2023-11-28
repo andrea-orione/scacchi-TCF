@@ -1,6 +1,8 @@
 #include "Board.hh"
 #include "Coordinate.hh"
 #include "Movement.hh"
+#include "Piece.hh"
+#include "Bishop.hh"
 
 int main(int argc, char *argv[])
 {
@@ -19,6 +21,9 @@ int main(int argc, char *argv[])
 
   Board &board = Board::Instance();
   board.printBoard();
+
+  Bishop *p = new Bishop(PieceType::WHITE);
+  cout << p->toString() << endl;
 
   return 0;
 }
