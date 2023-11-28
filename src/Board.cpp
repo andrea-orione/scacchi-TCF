@@ -22,7 +22,7 @@ void Board::InitializeBoard()
 }
 
 // TODO make this method const
-void Board::printBoard(const bool &simplified) const
+void Board::printBoard(bool simplified) const
 {
   string top = (simplified) ? "---------------------------------" : "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗";
   string middle = (simplified) ? "|---|---|---|---|---|---|---|---|" : "╟───┼───┼───┼───┼───┼───┼───┼───╢";
@@ -54,7 +54,7 @@ void Board::printBoard(const bool &simplified) const
 }
 
 // TODO make this method const
-void Board::printBoardReversed(const bool &simplified) const
+void Board::printBoardReversed(bool simplified) const
 {
   string top = (simplified) ? "---------------------------------" : "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗";
   string middle = (simplified) ? "|---|---|---|---|---|---|---|---|" : "╟───┼───┼───┼───┼───┼───┼───┼───╢";
