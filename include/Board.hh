@@ -4,15 +4,18 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <memory>
 
 #include "Coordinate.hh"
 #include "Square.hh"
+#include "Piece.hh"
 
 using std::cout;
 using std::endl;
 using std::map;
 using std::pair;
 using std::string;
+using std::unique_ptr;
 using std::vector;
 
 /**
@@ -67,5 +70,5 @@ public:
 private:
   Board() {}
 
-  map<Coordinate, Square> squaresMap;
+  map<Coordinate, unique_ptr<Piece>> squaresMap;
 };

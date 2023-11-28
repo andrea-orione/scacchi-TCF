@@ -9,14 +9,13 @@ Board &Board::Instance()
 
 void Board::InitializeBoard()
 {
-  squaresMap = map<Coordinate, Square>();
+  squaresMap = map<Coordinate, unique_ptr<Piece>>();
 
   for (int row = 1; row < 9; row++)
   {
     for (int column = 1; column < 9; column++)
     {
-      pair<Coordinate, Square> squareCoordPair(Coordinate(column, row), Square());
-      squaresMap.insert(squareCoordPair);
+      squaresMap.insert(std::make_pair(Coordinate(column, row), nullptr));
     }
   }
 }
@@ -36,8 +35,10 @@ void Board::printBoard(bool simplified) const
     cout << " " << row << " " << border << " ";
     for (int column = 1; column < 9; column++)
     {
-      auto squareIterator = squaresMap.find(Coordinate(column, row));
-      cout << squareIterator->second.toString(simplified);
+      if (squaresMap.find(Coordinate(column, row))->second == nullptr)
+        cout << " ";
+      else
+        cout << squaresMap.find(Coordinate(column, row))->second->toString(simplified);
 
       // Slightly inefficient but makes the code cleaner
       if (column != 8)
@@ -68,9 +69,10 @@ void Board::printBoardReversed(bool simplified) const
     cout << " " << row << " " << border << " ";
     for (int column = 8; column > 0; column--)
     {
-      // Have to use iterator to make method const
-      auto squareIterator = squaresMap.find(Coordinate(column, row));
-      cout << squareIterator->second.toString(simplified);
+      if (squaresMap.find(Coordinate(column, row))->second == nullptr)
+        cout << " ";
+      else
+        cout << squaresMap.find(Coordinate(column, row))->second->toString(simplified);
 
       // Slightly inefficient but makes the code cleaner
       if (column != 1)
