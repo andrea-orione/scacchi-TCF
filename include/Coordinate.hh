@@ -1,7 +1,15 @@
 #pragma once
 
-#include "Movement.hh"
 #include <string>
+#include <iostream>
+#include <stdexcept>
+#include <string>
+#include <array>
+
+#include "Movement.hh"
+
+using std::array;
+using std::string;
 
 // TODO Delete DEPRECATED methods
 // TODO Consider switching the + operator whith a traditional method `Movement add(const Movement movement) const`. Just 'cause. Idk.
