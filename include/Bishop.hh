@@ -13,7 +13,7 @@ class Bishop : public Piece
 {
 private:
 public:
-    Bishop(PieceType pType) { type = pType; }
+    Bishop(PieceColor pColor) { type = pColor; }
 
     virtual string toString(bool literal = false) const;
 

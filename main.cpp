@@ -22,28 +22,13 @@ int main(int argc, char *argv[])
   Board &board = Board::Instance();
   board.printBoard();
 
-  AbstractFactory *whiteFactory;
-  AbstractFactory *blackFactory;
+  Factory *f = new Factory();
+  f->createWhitePieces();
+  f->createBlackPieces();
 
-  whiteFactory = new WhiteFactory();
-  blackFactory = new BlackFactory();
+  delete f;
 
-  auto whitePieces = whiteFactory->createPieces();
-  auto blackPieces = blackFactory->createPieces();
-
-  cout << "WHITE PIECES:" << endl;
-  for (auto &i : whitePieces)
-  {
-    cout << i->toString() << " " << endl;
-  }
-  cout << endl;
-
-  cout << "BLACK PIECES:" << endl;
-  for (auto &i : blackPieces)
-  {
-    cout << i->toString() << " " << endl;
-  }
-  cout << endl;
+  board.printBoard();
 
   return 0;
 }

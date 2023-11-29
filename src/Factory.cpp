@@ -1,26 +1,35 @@
 #include "Factory.hh"
 
-vector<unique_ptr<Piece>> WhiteFactory::createPieces()
+void Factory::createWhitePieces()
 {
-    vector<unique_ptr<Piece>> pieces;
+    PieceColor pColor = PieceColor::WHITE;
+    Board &boardInstance = Board::Instance();
 
-    // bishop
-    pieces.push_back(make_unique<Bishop>(PieceType::WHITE));
-
-    return pieces;
+    // bishops
+    boardInstance.AddPiece(std::make_pair(Coordinate(3, 1), makePiece(PieceType::BISHOP, pColor)));
+    boardInstance.AddPiece(std::make_pair(Coordinate(6, 1), makePiece(PieceType::BISHOP, pColor)));
 }
 
-vector<unique_ptr<Piece>> BlackFactory::createPieces()
+void Factory::createBlackPieces()
 {
-    vector<unique_ptr<Piece>> pieces;
+    PieceColor pColor = PieceColor::BLACK;
+    Board &boardInstance = Board::Instance();
 
-    // bishop
-    pieces.push_back(make_unique<Bishop>(PieceType::BLACK));
-
-    return pieces;
+    // bishops
+    boardInstance.AddPiece(std::make_pair(Coordinate(3, 8), makePiece(PieceType::BISHOP, pColor)));
+    boardInstance.AddPiece(std::make_pair(Coordinate(6, 8), makePiece(PieceType::BISHOP, pColor)));
 }
 
-vector<unique_ptr<Piece>> EmptyFactory::createPieces()
+shared_ptr<Piece> Factory::makePiece(PieceType pType, PieceColor pColor)
 {
-    return vector<unique_ptr<Piece>>();
+
+    switch (pType)
+    {
+    case PieceType::BISHOP:
+        return std::make_shared<Bishop>(pColor);
+        break;
+
+    default:
+        return nullptr;
+    }
 }

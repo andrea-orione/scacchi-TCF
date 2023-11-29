@@ -14,8 +14,8 @@ using std::cout;
 using std::endl;
 using std::map;
 using std::pair;
-using std::string;
 using std::shared_ptr;
+using std::string;
 using std::vector;
 
 /**
@@ -45,7 +45,6 @@ public:
    */
   void InitializeBoard();
 
-  // TODO make this method constant (there are some problems with the iterator)
   /**
    * Print the state of the board from the white perspective.
    *
@@ -56,7 +55,6 @@ public:
    */
   void printBoard(bool simplified = false) const;
 
-  // TODO make this method constant (there are some problems with the iterator)
   /**
    * Print the state of the board from the black perspective.
    *
@@ -66,6 +64,13 @@ public:
    *  (useful if terminal doesn't support special chars)
    */
   void printBoardReversed(bool simplified = false) const;
+
+  /**
+   * Function for updating the `squaresMap`.
+   *
+   * @param[in] piece Pair with the coordinate and the pointer to the piece to be added.
+   */
+  void AddPiece(pair<Coordinate, shared_ptr<Piece>> pair);
 
 private:
   Board() {}

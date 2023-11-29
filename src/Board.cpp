@@ -91,3 +91,8 @@ void Board::printBoardReversed(bool simplified) const
   }
   cout << "     h   g   f   e   d   c   b   a\n\n";
 }
+
+void Board::AddPiece(pair<Coordinate, shared_ptr<Piece>> pair)
+{
+  squaresMap[pair.first] = pair.second;
+}

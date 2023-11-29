@@ -3,63 +3,46 @@
 #include <memory>
 #include <vector>
 
+#include "Board.hh"
 #include "Piece.hh"
 #include "Bishop.hh"
 
 using std::make_unique;
-using std::unique_ptr;
+using std::shared_ptr;
 using std::vector;
+
+enum class PieceType
+{
+    PAWN,
+    ROOK,
+    KNIGHT,
+    BISHOP,
+    QUEEN,
+    KING
+};
 
 /**
  * Abstract factory for the creation of the pieces.
  */
-class AbstractFactory
+class Factory
 {
 public:
-    AbstractFactory() {}
-    virtual ~AbstractFactory() {}
+    Factory() {}
+    ~Factory() {}
 
-    virtual vector<unique_ptr<Piece>> createPieces() = 0;
-};
-
-/**
- * Concrete factory for the creation of white pieces.
- */
-class WhiteFactory : public AbstractFactory
-{
-public:
     /**
-     * Create a vector of white pieces.
+     * Function for creating white pieces.
      *
-     * @return A vector with unique pointers to the white pieces.
+     * It calls the Board (singleton) and updates its `std::map<Coordinate, Piece>`.
      */
-    virtual vector<unique_ptr<Piece>> createPieces();
-};
+    void createWhitePieces();
 
-/**
- * Concrete factory for the creation of black pieces.
- */
-class BlackFactory : public AbstractFactory
-{
-public:
     /**
-     * Create a vector of black pieces.
+     * Function for creating black pieces.
      *
-     * @return A vector with unique pointers to the white pieces.
+     * It calls the Board (singleton) and updates its `std::map<Coordinate, Piece>`.
      */
-    virtual vector<unique_ptr<Piece>> createPieces();
-};
+    void createBlackPieces();
 
-/**
- * Concrete factory for the creation of empty pieces.
- */
-class EmptyFactory : public AbstractFactory
-{
-public:
-    /**
-     * Create a vector of empty pieces.
-     *
-     * @return A vector with unique pointers to the white pieces.
-     */
-    virtual vector<unique_ptr<Piece>> createPieces();
+    shared_ptr<Piece> makePiece(PieceType pType, PieceColor pColor);
 };

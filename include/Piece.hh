@@ -8,12 +8,10 @@
 using std::string;
 using std::vector;
 
-// TODO Try implementing void Piece representing an empty square, to replace the Square class (should be useless)
-enum class PieceType
+enum class PieceColor
 {
-  WHITE,
   BLACK,
-  EMPTY
+  WHITE
 };
 
 /**
@@ -22,7 +20,7 @@ enum class PieceType
 class Piece
 {
 protected:
-  PieceType type;
+  PieceColor type;
 
 public:
   virtual ~Piece() {}
