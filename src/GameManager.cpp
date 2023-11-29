@@ -1,6 +1,6 @@
-#include "Factory.hh"
+#include "GameManager.hh"
 
-void Factory::createWhitePieces()
+void GameManager::createWhitePieces()
 {
     PieceColor pColor = PieceColor::WHITE;
     Board &boardInstance = Board::Instance();
@@ -10,7 +10,7 @@ void Factory::createWhitePieces()
     boardInstance.AddPiece(std::make_pair(Coordinate(6, 1), makePiece(PieceType::BISHOP, pColor)));
 }
 
-void Factory::createBlackPieces()
+void GameManager::createBlackPieces()
 {
     PieceColor pColor = PieceColor::BLACK;
     Board &boardInstance = Board::Instance();
@@ -20,7 +20,7 @@ void Factory::createBlackPieces()
     boardInstance.AddPiece(std::make_pair(Coordinate(6, 8), makePiece(PieceType::BISHOP, pColor)));
 }
 
-shared_ptr<Piece> Factory::makePiece(PieceType pType, PieceColor pColor)
+shared_ptr<Piece> GameManager::makePiece(PieceType pType, PieceColor pColor)
 {
 
     switch (pType)

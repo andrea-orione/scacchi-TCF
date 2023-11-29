@@ -22,13 +22,13 @@ enum class PieceType
 };
 
 /**
- * Abstract factory for the creation of the pieces.
+ * Abstract GameManager for the creation of the pieces.
  */
-class Factory
+class GameManager
 {
 public:
-    Factory() {}
-    ~Factory() {}
+    GameManager() {}
+    ~GameManager() {}
 
     /**
      * Function for creating white pieces.
