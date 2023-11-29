@@ -9,7 +9,7 @@ Board &Board::Instance()
 
 void Board::InitializeBoard()
 {
-  squaresMap = map<Coordinate, unique_ptr<Piece>>();
+  squaresMap = map<Coordinate, shared_ptr<Piece>>();
 
   for (int row = 1; row < 9; row++)
   {
@@ -35,10 +35,12 @@ void Board::printBoard(bool simplified) const
     cout << " " << row << " " << border << " ";
     for (int column = 1; column < 9; column++)
     {
-      if (squaresMap.find(Coordinate(column, row))->second == nullptr)
+      auto piecePtr = squaresMap.find(Coordinate(column, row))->second;
+
+      if (piecePtr == nullptr)
         cout << " ";
       else
-        cout << squaresMap.find(Coordinate(column, row))->second->toString(simplified);
+        cout << piecePtr->toString(simplified);
 
       // Slightly inefficient but makes the code cleaner
       if (column != 8)
@@ -69,10 +71,12 @@ void Board::printBoardReversed(bool simplified) const
     cout << " " << row << " " << border << " ";
     for (int column = 8; column > 0; column--)
     {
-      if (squaresMap.find(Coordinate(column, row))->second == nullptr)
+      auto piecePtr = squaresMap.find(Coordinate(column, row))->second;
+
+      if (piecePtr == nullptr)
         cout << " ";
       else
-        cout << squaresMap.find(Coordinate(column, row))->second->toString(simplified);
+        cout << piecePtr->toString(simplified);
 
       // Slightly inefficient but makes the code cleaner
       if (column != 1)

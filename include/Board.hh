@@ -15,7 +15,7 @@ using std::endl;
 using std::map;
 using std::pair;
 using std::string;
-using std::unique_ptr;
+using std::shared_ptr;
 using std::vector;
 
 /**
@@ -70,5 +70,5 @@ public:
 private:
   Board() {}
 
-  map<Coordinate, unique_ptr<Piece>> squaresMap;
+  map<Coordinate, shared_ptr<Piece>> squaresMap;
 };
