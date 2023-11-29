@@ -44,5 +44,14 @@ public:
      */
     void createBlackPieces();
 
+    /**
+     * Function for creating the pointer to a specified piece.
+     *
+     * @param[in] pType The type of the piece: `PieceType::PAWN`, `PieceType::ROOK`,
+     * `PieceType::KNIGHT`, `PieceType::BISHOP`, `PieceType::QUEEN`, `PieceType::KING`.
+     * @param[in] pColor The color of the piece: `PieceColor::BLACK`, `PieceColor::WHITE`.
+     *
+     * @return The pointer to the piece that has been created created.
+     */
     shared_ptr<Piece> makePiece(PieceType pType, PieceColor pColor);
 };

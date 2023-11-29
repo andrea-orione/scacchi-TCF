@@ -14,5 +14,5 @@ int main(int argc, char *argv[])
 
   delete f;
 
-  return 0;
+  std::cin.get();
 }
