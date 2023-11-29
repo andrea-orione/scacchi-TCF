@@ -3,16 +3,17 @@
 #include <memory>
 #include <vector>
 #include <array>
-#include <map>
-#include <utility>
 
 #include "Board.hh"
 #include "Piece.hh"
 #include "Bishop.hh"
+#include "Pawn.hh"
+#include "Rook.hh"
+#include "Knight.hh"
+#include "King.hh"
+#include "Queen.hh"
 
 using std::array;
-using std::map;
-using std::pair;
 using std::shared_ptr;
 using std::unique_ptr;
 using std::vector;
@@ -76,7 +77,7 @@ private:
         vector<array<int, 2>> QUEEN = {{5, 1}};
         vector<array<int, 2>> PAWN = {{1, 2}, {2, 2}, {3, 2}, {4, 2}, {5, 2}, {6, 2}, {7, 2}, {8, 2}};
 
-        array<vector<array<int, 2>>, 6> COORD = {ROOK, KNIGHT, BISHOP, KING, QUEEN, PAWN};
+        array<vector<array<int, 2>>, 6> COORD = {PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING};
     };
 
     /**
@@ -93,6 +94,6 @@ private:
         vector<array<int, 2>> QUEEN = {{5, 8}};
         vector<array<int, 2>> PAWN = {{1, 7}, {2, 7}, {3, 7}, {4, 7}, {5, 7}, {6, 7}, {7, 7}, {8, 7}};
 
-        array<vector<array<int, 2>>, 6> COORD = {ROOK, KNIGHT, BISHOP, KING, QUEEN, PAWN};
+        array<vector<array<int, 2>>, 6> COORD = {PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING};
     };
 };
