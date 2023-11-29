@@ -4,7 +4,6 @@
 int main(int argc, char *argv[])
 {
   Board &board = Board::Instance();
-  board.printBoard();
 
   GameManager *f = new GameManager();
   f->createWhitePieces();
