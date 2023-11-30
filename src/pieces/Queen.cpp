@@ -1,8 +1,8 @@
 #include "Queen.hh"
 
-string Queen::toString(bool literal) const
+std::string Queen::toString(bool literal) const
 {
-    string pieceString;
+    std::string pieceString;
 
     if (!literal)
     {
@@ -36,7 +36,7 @@ string Queen::toString(bool literal) const
     return pieceString;
 }
 
-vector<Coordinate> Queen::listValidCoordinate() const
+std::vector<Coordinate> Queen::listValidCoordinate() const
 {
-    return vector<Coordinate>();
+    return std::vector<Coordinate>();
 }

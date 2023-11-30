@@ -1,8 +1,8 @@
 #include "Pawn.hh"
 
-string Pawn::toString(bool literal) const
+std::string Pawn::toString(bool literal) const
 {
-    string pieceString;
+    std::string pieceString;
 
     if (!literal)
     {
@@ -36,7 +36,7 @@ string Pawn::toString(bool literal) const
     return pieceString;
 }
 
-vector<Coordinate> Pawn::listValidCoordinate() const
+std::vector<Coordinate> Pawn::listValidCoordinate() const
 {
-    return vector<Coordinate>();
+    return std::vector<Coordinate>();
 }

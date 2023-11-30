@@ -6,16 +6,13 @@
 #include "Piece.hh"
 #include "Coordinate.hh"
 
-using std::string;
-using std::vector;
-
 class Pawn : public Piece
 {
 private:
 public:
     Pawn(PieceColor pColor) { type = pColor; }
 
-    virtual string toString(bool literal = false) const;
+    virtual std::string toString(bool literal = false) const;
 
-    virtual vector<Coordinate> listValidCoordinate() const;
+    virtual std::vector<Coordinate> listValidCoordinate() const;
 };

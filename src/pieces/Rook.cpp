@@ -1,8 +1,8 @@
 #include "Rook.hh"
 
-string Rook::toString(bool literal) const
+std::string Rook::toString(bool literal) const
 {
-    string pieceString;
+    std::string pieceString;
 
     if (!literal)
     {
@@ -36,7 +36,7 @@ string Rook::toString(bool literal) const
     return pieceString;
 }
 
-vector<Coordinate> Rook::listValidCoordinate() const
+std::vector<Coordinate> Rook::listValidCoordinate() const
 {
-    return vector<Coordinate>();
+    return std::vector<Coordinate>();
 }

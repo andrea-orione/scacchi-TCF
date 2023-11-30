@@ -1,5 +1,11 @@
 #include "Board.hh"
 
+#include <iostream>
+#include <string>
+
+using std::cout;
+using std::endl;
+
 Board &Board::Instance()
 {
   static Board instance;
@@ -9,7 +15,7 @@ Board &Board::Instance()
 
 void Board::InitializeBoard()
 {
-  squaresMap = map<Coordinate, shared_ptr<Piece>>();
+  squaresMap = std::map<Coordinate, std::shared_ptr<Piece>>();
 
   for (int row = 1; row < 9; row++)
   {
@@ -23,11 +29,11 @@ void Board::InitializeBoard()
 // TODO make this method const
 void Board::printBoard(bool simplified) const
 {
-  string top = (simplified) ? "---------------------------------" : "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗";
-  string middle = (simplified) ? "|---|---|---|---|---|---|---|---|" : "╟───┼───┼───┼───┼───┼───┼───┼───╢";
-  string bottom = (simplified) ? "---------------------------------" : "╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝";
-  string border = (simplified) ? "|" : "║";
-  string separator = (simplified) ? "|" : "│";
+  std::string top = (simplified) ? "---------------------------------" : "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗";
+  std::string middle = (simplified) ? "|---|---|---|---|---|---|---|---|" : "╟───┼───┼───┼───┼───┼───┼───┼───╢";
+  std::string bottom = (simplified) ? "---------------------------------" : "╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝";
+  std::string border = (simplified) ? "|" : "║";
+  std::string separator = (simplified) ? "|" : "│";
 
   cout << "\n   " << top << "\n";
   for (int row = 8; row > 0; row--)
@@ -59,11 +65,11 @@ void Board::printBoard(bool simplified) const
 // TODO make this method const
 void Board::printBoardReversed(bool simplified) const
 {
-  string top = (simplified) ? "---------------------------------" : "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗";
-  string middle = (simplified) ? "|---|---|---|---|---|---|---|---|" : "╟───┼───┼───┼───┼───┼───┼───┼───╢";
-  string bottom = (simplified) ? "---------------------------------" : "╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝";
-  string border = (simplified) ? "|" : "║";
-  string separator = (simplified) ? "|" : "│";
+  std::string top = (simplified) ? "---------------------------------" : "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗";
+  std::string middle = (simplified) ? "|---|---|---|---|---|---|---|---|" : "╟───┼───┼───┼───┼───┼───┼───┼───╢";
+  std::string bottom = (simplified) ? "---------------------------------" : "╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝";
+  std::string border = (simplified) ? "|" : "║";
+  std::string separator = (simplified) ? "|" : "│";
 
   cout << "\n   " << top << "\n";
   for (int row = 1; row < 9; row++)
@@ -92,7 +98,7 @@ void Board::printBoardReversed(bool simplified) const
   cout << "     h   g   f   e   d   c   b   a\n\n";
 }
 
-void Board::AddPiece(pair<Coordinate, shared_ptr<Piece>> pair)
+void Board::AddPiece(std::pair<Coordinate, std::shared_ptr<Piece>> pair)
 {
   squaresMap[pair.first] = pair.second;
 }

@@ -48,7 +48,7 @@ void GameManager::createBlackPieces()
     }
 }
 
-shared_ptr<Piece> GameManager::makePiece(PieceType pType, PieceColor pColor)
+std::shared_ptr<Piece> GameManager::makePiece(PieceType pType, PieceColor pColor)
 {
 
     switch (pType)

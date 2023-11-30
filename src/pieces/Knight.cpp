@@ -1,8 +1,8 @@
 #include "Knight.hh"
 
-string Knight::toString(bool literal) const
+std::string Knight::toString(bool literal) const
 {
-    string pieceString;
+    std::string pieceString;
 
     if (!literal)
     {
@@ -36,7 +36,7 @@ string Knight::toString(bool literal) const
     return pieceString;
 }
 
-vector<Coordinate> Knight::listValidCoordinate() const
+std::vector<Coordinate> Knight::listValidCoordinate() const
 {
-    return vector<Coordinate>();
+    return std::vector<Coordinate>();
 }

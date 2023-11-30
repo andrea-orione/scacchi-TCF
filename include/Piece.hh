@@ -5,9 +5,6 @@
 #include <string>
 #include <vector>
 
-using std::string;
-using std::vector;
-
 enum class PieceColor
 {
   BLACK,
@@ -30,10 +27,10 @@ public:
    *
    * @return The aforementioned string.
    */
-  virtual string toString(bool literal = false) const = 0;
+  virtual std::string toString(bool literal = false) const = 0;
 
   /**
    *
    */
-  virtual vector<Coordinate> listValidCoordinate() const = 0;
+  virtual std::vector<Coordinate> listValidCoordinate() const = 0;
 };

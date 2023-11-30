@@ -1,22 +1,11 @@
 #pragma once
 
 #include <map>
-#include <iostream>
-#include <string>
 #include <vector>
 #include <memory>
 
 #include "Coordinate.hh"
-#include "Square.hh"
 #include "Piece.hh"
-
-using std::cout;
-using std::endl;
-using std::map;
-using std::pair;
-using std::shared_ptr;
-using std::string;
-using std::vector;
 
 /**
  * The most important class in the program.
@@ -70,10 +59,10 @@ public:
    *
    * @param[in] piece Pair with the coordinate and the pointer to the piece to be added.
    */
-  void AddPiece(pair<Coordinate, shared_ptr<Piece>> pair);
+  void AddPiece(std::pair<Coordinate, std::shared_ptr<Piece>> pair);
 
 private:
   Board() {}
 
-  map<Coordinate, shared_ptr<Piece>> squaresMap;
+  std::map<Coordinate, std::shared_ptr<Piece>> squaresMap;
 };

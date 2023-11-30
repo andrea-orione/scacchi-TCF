@@ -1,8 +1,8 @@
 #include "King.hh"
 
-string King::toString(bool literal) const
+std::string King::toString(bool literal) const
 {
-    string pieceString;
+    std::string pieceString;
 
     if (!literal)
     {
@@ -36,7 +36,7 @@ string King::toString(bool literal) const
     return pieceString;
 }
 
-vector<Coordinate> King::listValidCoordinate() const
+std::vector<Coordinate> King::listValidCoordinate() const
 {
-    return vector<Coordinate>();
+    return std::vector<Coordinate>();
 }

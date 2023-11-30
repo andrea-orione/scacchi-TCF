@@ -3,13 +3,8 @@
 #include <string>
 #include <iostream>
 #include <stdexcept>
-#include <string>
-#include <array>
 
 #include "Movement.hh"
-
-using std::array;
-using std::string;
 
 // TODO Delete DEPRECATED methods
 // TODO Consider switching the + operator whith a traditional method `Movement add(const Movement movement) const`. Just 'cause. Idk.
@@ -135,10 +130,10 @@ public:
    *
    * @return the above described string.
    */
-  string toString() const;
+  std::string toString() const;
 
 private:
-  static const string literalChars;
+  static const std::string literalChars;
   int x;
   int y;
 };

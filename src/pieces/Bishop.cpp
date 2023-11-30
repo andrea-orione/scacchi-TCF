@@ -1,8 +1,8 @@
 #include "Bishop.hh"
 
-string Bishop::toString(bool literal) const
+std::string Bishop::toString(bool literal) const
 {
-    string pieceString;
+    std::string pieceString;
 
     if (!literal)
     {
@@ -36,7 +36,7 @@ string Bishop::toString(bool literal) const
     return pieceString;
 }
 
-vector<Coordinate> Bishop::listValidCoordinate() const
+std::vector<Coordinate> Bishop::listValidCoordinate() const
 {
-    return vector<Coordinate>();
+    return std::vector<Coordinate>();
 }
