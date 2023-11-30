@@ -3,20 +3,9 @@
 #include <memory>
 #include <vector>
 #include <array>
+#include <map>
 
-#include "Board.hh"
 #include "Piece.hh"
-#include "Bishop.hh"
-#include "Pawn.hh"
-#include "Rook.hh"
-#include "Knight.hh"
-#include "King.hh"
-#include "Queen.hh"
-
-using std::array;
-using std::shared_ptr;
-using std::unique_ptr;
-using std::vector;
 
 enum class PieceType
 {
@@ -60,7 +49,7 @@ public:
      *
      * @return The pointer to the piece that has been created created.
      */
-    shared_ptr<Piece> makePiece(PieceType pType, PieceColor pColor);
+    std::shared_ptr<Piece> makePiece(PieceType pType, PieceColor pColor);
 
 private:
     /**
@@ -68,16 +57,21 @@ private:
      */
     struct WhiteMap
     {
-        const array<PieceType, 6> P_TYPE = {PieceType::PAWN, PieceType::ROOK, PieceType::KNIGHT, PieceType::BISHOP, PieceType::QUEEN, PieceType::KING};
+        const std::array<PieceType, 6> P_TYPE = {PieceType::PAWN,
+                                                 PieceType::ROOK,
+                                                 PieceType::KNIGHT,
+                                                 PieceType::BISHOP,
+                                                 PieceType::QUEEN,
+                                                 PieceType::KING};
 
-        vector<array<int, 2>> ROOK = {{1, 1}, {8, 1}};
-        vector<array<int, 2>> KNIGHT = {{2, 1}, {7, 1}};
-        vector<array<int, 2>> BISHOP = {{3, 1}, {6, 1}};
-        vector<array<int, 2>> KING = {{4, 1}};
-        vector<array<int, 2>> QUEEN = {{5, 1}};
-        vector<array<int, 2>> PAWN = {{1, 2}, {2, 2}, {3, 2}, {4, 2}, {5, 2}, {6, 2}, {7, 2}, {8, 2}};
+        std::vector<std::pair<char, int>> ROOK = {{'a', 1}, {'h', 1}};
+        std::vector<std::pair<char, int>> KNIGHT = {{'b', 1}, {'g', 1}};
+        std::vector<std::pair<char, int>> BISHOP = {{'c', 1}, {'f', 1}};
+        std::vector<std::pair<char, int>> KING = {{'e', 1}};
+        std::vector<std::pair<char, int>> QUEEN = {{'d', 1}};
+        std::vector<std::pair<char, int>> PAWN = {{'a', 2}, {'b', 2}, {'c', 2}, {'d', 2}, {'e', 2}, {'f', 2}, {'g', 2}, {'h', 2}};
 
-        array<vector<array<int, 2>>, 6> COORD = {PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING};
+        std::array<std::vector<std::pair<char, int>>, 6> COORD = {PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING};
     };
 
     /**
@@ -85,15 +79,20 @@ private:
      */
     struct BlackMap
     {
-        const array<PieceType, 6> P_TYPE = {PieceType::PAWN, PieceType::ROOK, PieceType::KNIGHT, PieceType::BISHOP, PieceType::QUEEN, PieceType::KING};
+        const std::array<PieceType, 6> P_TYPE = {PieceType::PAWN,
+                                                 PieceType::ROOK,
+                                                 PieceType::KNIGHT,
+                                                 PieceType::BISHOP,
+                                                 PieceType::QUEEN,
+                                                 PieceType::KING};
 
-        vector<array<int, 2>> ROOK = {{1, 8}, {8, 8}};
-        vector<array<int, 2>> KNIGHT = {{2, 8}, {7, 8}};
-        vector<array<int, 2>> BISHOP = {{3, 8}, {6, 8}};
-        vector<array<int, 2>> KING = {{4, 8}};
-        vector<array<int, 2>> QUEEN = {{5, 8}};
-        vector<array<int, 2>> PAWN = {{1, 7}, {2, 7}, {3, 7}, {4, 7}, {5, 7}, {6, 7}, {7, 7}, {8, 7}};
+        std::vector<std::pair<char, int>> ROOK = {{'a', 8}, {'h', 8}};
+        std::vector<std::pair<char, int>> KNIGHT = {{'b', 8}, {'g', 8}};
+        std::vector<std::pair<char, int>> BISHOP = {{'c', 8}, {'f', 8}};
+        std::vector<std::pair<char, int>> KING = {{'e', 8}};
+        std::vector<std::pair<char, int>> QUEEN = {{'d', 8}};
+        std::vector<std::pair<char, int>> PAWN = {{'a', 7}, {'b', 7}, {'c', 7}, {'d', 7}, {'e', 7}, {'f', 7}, {'g', 7}, {'h', 7}};
 
-        array<vector<array<int, 2>>, 6> COORD = {PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING};
+        std::array<std::vector<std::pair<char, int>>, 6> COORD = {PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING};
     };
 };

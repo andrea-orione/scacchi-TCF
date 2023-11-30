@@ -6,6 +6,7 @@ int main(int argc, char *argv[])
   Board &board = Board::Instance();
 
   GameManager *f = new GameManager();
+
   f->createWhitePieces();
   f->createBlackPieces();
 
