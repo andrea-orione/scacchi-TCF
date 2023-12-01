@@ -1,50 +1,49 @@
 #pragma once
 
-#include "Coordinate.hh"
-#include "Square.hh"
 #include <map>
 #include <vector>
+#include <memory>
+
+#include "Coordinate.hh"
+#include "Piece.hh"
 
 /**
  * The most important class in the program.
- * 
- * This class contains a map from the coordinates to the actual squares 
+ *
+ * This class contains a map from the coordinates to the actual squares
  * that contain pieces.
  * It also has methods to accept moves from the command line, to move pieces
  * and check the game status.
+ *
+ * It is a singleton.
  */
 class Board
 {
 public:
-  /**
-    * The default constructor.
-    *
-    * It initializes all 64 squares to an empty state.
-    */
-  Board();
-  
-  //TODO make this method constant (there are some problems with the iterator)
-  /**
-    * Print the state of the board from the white perspective.
-    *
-    * It displays visually to the screen the board using UNICODE characters
-    * 
-    * @param[in] simplified wether to use simplified chars to print
-    *  (useful if terminal doesn't support special chars)
-    */
-  void printBoard(const bool &simplified=false);
+  static Board &Instance();
 
-  //TODO make this method constant (there are some problems with the iterator)
-  /**
-    * Print the state of the board from the black perspective.
-    *
-    * It displays visually to the screen the board using UNICODE characters
-    * 
-    * @param[in] simplified wether to use simplified chars to print
-    *  (useful if terminal doesn't support special chars)
-    */
-  void printBoardReversed(const bool &simplified=false);
+  Board(const Board &) = delete;             // delete copy constructor
+  Board(const Board &&) = delete;            // delete move constructor
+  Board &operator=(const Board &) = delete;  // delete assignment operator
+  Board &operator=(const Board &&) = delete; // delete move assignment operator
+
+  void InitializeBoard();
+
+  void printBoard(bool simplified = false) const;
+  void printBoardReversed(bool simplified = false) const;
+
+  void UpdateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> square);
+  void UpdateWhitePiecesVector();
+  void UpdateBlackPiecesVector();
 
 private:
-  std::map<Coordinate, Square> squaresMap;
+  Board() {}
+
+  // Map defining the squares as {coordinate : pointer to piece}.
+  std::map<Coordinate, std::shared_ptr<Piece>> squaresMap;
+
+  // Vector with the pointers to the white pieces on the board.
+  std::vector<std::shared_ptr<Piece>> whitePieces;
+  // Vector with the pointers to the black pieces on the board.
+  std::vector<std::shared_ptr<Piece>> blackPieces;
 };

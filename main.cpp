@@ -1,20 +1,18 @@
 #include "Board.hh"
-#include "Coordinate.hh"
-#include "Movement.hh"
+#include "GameManager.hh"
 
 int main(int argc, char *argv[])
 {
-  // Board provaBoard;
-  // provaBoard.printBoardReversed();
+  Board &board = Board::Instance();
 
-  // Board provaBoardSemplificata;
-  // provaBoardSemplificata.printBoardReversed(true);
+  GameManager *f = new GameManager();
 
-  Movement movimentoProva(-1, -1);
-  Coordinate coordinataProva("e5");
+  f->createWhitePieces();
+  f->createBlackPieces();
 
-  Movement movimentoProva2 = movimentoProva * 4;
-  Coordinate coordinataProva2 = coordinataProva + movimentoProva2;
-  coordinataProva2.print();
-  return 0;
+  board.printBoard();
+
+  delete f;
+
+  std::cin.get();
 }
