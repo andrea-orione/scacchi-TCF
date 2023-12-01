@@ -22,47 +22,21 @@ class Board
 public:
   static Board &Instance();
 
-  Board(const Board &) = delete;
-  Board(const Board &&) = delete;
-  Board &operator=(const Board &) = delete;
-  Board &operator=(const Board &&) = delete;
+  Board(const Board &) = delete;             // delete copy constructor
+  Board(const Board &&) = delete;            // delete move constructor
+  Board &operator=(const Board &) = delete;  // delete assignment operator
+  Board &operator=(const Board &&) = delete; // delete move assignment operator
 
-  /**
-   * The default constructor.
-   *
-   * It initializes all 64 squares to an empty state.
-   */
   void InitializeBoard();
 
-  /**
-   * Print the state of the board from the white perspective.
-   *
-   * It displays visually to the screen the board using UNICODE characters
-   *
-   * @param[in] simplified wether to use simplified chars to print
-   *  (useful if terminal doesn't support special chars)
-   */
   void printBoard(bool simplified = false) const;
-
-  /**
-   * Print the state of the board from the black perspective.
-   *
-   * It displays visually to the screen the board using UNICODE characters
-   *
-   * @param[in] simplified wether to use simplified chars to print
-   *  (useful if terminal doesn't support special chars)
-   */
   void printBoardReversed(bool simplified = false) const;
 
-  /**
-   * Function for updating the `squaresMap`.
-   *
-   * @param[in] piece Pair with the coordinate and the pointer to the piece to be added.
-   */
-  void AddPiece(std::pair<Coordinate, std::shared_ptr<Piece>> pair);
+  void UpdateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> square);
 
 private:
   Board() {}
 
+  // Map defining the squares as {coordinate : pointer to piece}.
   std::map<Coordinate, std::shared_ptr<Piece>> squaresMap;
 };

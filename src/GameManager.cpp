@@ -8,6 +8,11 @@
 #include "King.hh"
 #include "Queen.hh"
 
+/**
+ * Function for creating white pieces.
+ *
+ * It calls the Board (singleton) and updates its `std::map<Coordinate, Piece>`.
+ */
 void GameManager::createWhitePieces()
 {
     PieceColor pColor = PieceColor::WHITE;
@@ -23,11 +28,16 @@ void GameManager::createWhitePieces()
 
         for (std::pair<char, int> xy : wm->COORD[i])
         {
-            boardInstance.AddPiece(std::make_pair(Coordinate(xy.first, xy.second), makePiece(pt, pColor)));
+            boardInstance.UpdateSquare(std::make_pair(Coordinate(xy.first, xy.second), makePiece(pt, pColor)));
         }
     }
 }
 
+/**
+ * Function for creating black pieces.
+ *
+ * It calls the Board (singleton) and updates its `std::map<Coordinate, Piece>`.
+ */
 void GameManager::createBlackPieces()
 {
     PieceColor pColor = PieceColor::BLACK;
@@ -43,11 +53,20 @@ void GameManager::createBlackPieces()
 
         for (std::pair<char, int> xy : wm->COORD[i])
         {
-            boardInstance.AddPiece(std::make_pair(Coordinate(xy.first, xy.second), makePiece(pt, pColor)));
+            boardInstance.UpdateSquare(std::make_pair(Coordinate(xy.first, xy.second), makePiece(pt, pColor)));
         }
     }
 }
 
+/**
+ * Function for creating the pointer to a specified piece.
+ *
+ * @param[in] pType The type of the piece: `PieceType::PAWN`, `PieceType::ROOK`,
+ * `PieceType::KNIGHT`, `PieceType::BISHOP`, `PieceType::QUEEN`, `PieceType::KING`.
+ * @param[in] pColor The color of the piece: `PieceColor::BLACK`, `PieceColor::WHITE`.
+ *
+ * @return The pointer to the piece that has been created created.
+ */
 std::shared_ptr<Piece> GameManager::makePiece(PieceType pType, PieceColor pColor)
 {
 

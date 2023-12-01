@@ -6,6 +6,11 @@
 using std::cout;
 using std::endl;
 
+/**
+ * Static method for accessing the singleton instance.
+ *
+ * @return The reference to the instance of the board (singleton).
+ */
 Board &Board::Instance()
 {
   static Board instance;
@@ -13,6 +18,11 @@ Board &Board::Instance()
   return instance;
 }
 
+/**
+ * The default constructor.
+ *
+ * It initializes all 64 squares to an empty state.
+ */
 void Board::InitializeBoard()
 {
   squaresMap = std::map<Coordinate, std::shared_ptr<Piece>>();
@@ -26,7 +36,14 @@ void Board::InitializeBoard()
   }
 }
 
-// TODO make this method const
+/**
+ * Print the state of the board from the white perspective.
+ *
+ * It displays visually to the screen the board using UNICODE characters
+ *
+ * @param[in] simplified wether to use simplified chars to print
+ *  (useful if terminal doesn't support special chars)
+ */
 void Board::printBoard(bool simplified) const
 {
   std::string top = (simplified) ? "---------------------------------" : "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗";
@@ -62,7 +79,14 @@ void Board::printBoard(bool simplified) const
   cout << "     a   b   c   d   e   f   g   h\n\n";
 }
 
-// TODO make this method const
+/**
+ * Print the state of the board from the black perspective.
+ *
+ * It displays visually to the screen the board using UNICODE characters
+ *
+ * @param[in] simplified wether to use simplified chars to print
+ *  (useful if terminal doesn't support special chars)
+ */
 void Board::printBoardReversed(bool simplified) const
 {
   std::string top = (simplified) ? "---------------------------------" : "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗";
@@ -98,7 +122,12 @@ void Board::printBoardReversed(bool simplified) const
   cout << "     h   g   f   e   d   c   b   a\n\n";
 }
 
-void Board::AddPiece(std::pair<Coordinate, std::shared_ptr<Piece>> pair)
+/**
+ * Function for updating the `squaresMap`.
+ *
+ * @param[in] square The `std::pair` representing the square (see `squaresMap`).
+ */
+void Board::UpdateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> square)
 {
-  squaresMap[pair.first] = pair.second;
+  squaresMap[square.first] = square.second;
 }
