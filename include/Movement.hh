@@ -21,7 +21,7 @@ public:
    * @param[in] newX the value between -7 and +7 (included) to assign to the x (column) movement.
    * @param[in] newY the value between -7 and +7 (included) to assign to the y (row) movement.
    */
-  Movement(const int &newX = 0, const int &newY = 0);
+  Movement(int newX = 0, int newY = 0);
 
   /**
    * The copy constructor.
@@ -43,7 +43,7 @@ public:
    * @param[in] newX an int from -7 to 7 (included) to assign to the x (column) movement.
    * @return a reference to the object, for cascaded member function calls.
    */
-  Movement &setX(const int &newX);
+  Movement &setX(int newX);
 
   /**
    * The y setter.
@@ -51,7 +51,7 @@ public:
    * @param[in] newY an int from -7 to +7 (included) to assign to the y (row) movement.
    * @return a reference to the object, for cascaded member function calls.
    */
-  Movement &setY(const int &newY);
+  Movement &setY(int newY);
 
   /**
    * The x getter.
@@ -82,7 +82,7 @@ public:
    * @param[in] multiplier the positive factor by which the movement will be scaled.
    * @return the scaled movement.
    */
-  Movement operator*(const int &multiplier) const;
+  Movement operator*(int multiplier) const;
 
 private:
   int x;
