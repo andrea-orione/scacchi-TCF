@@ -1,43 +1,39 @@
 #include "Bishop.hh"
 
-Bishop::Bishop(PieceColor pColor)
+Bishop::Bishop(PieceColor pColor): color(pColor)
 {
-    type = pColor;
+  switch (color)
+  {
+  case PieceColor::WHITE:
+    character = "♝";
+    break;
+  case PieceColor::BLACK:
+    character = "♗";
+    break;
+  default:
+    break;
+  }
 
-    switch (type)
-    {
-    case PieceColor::WHITE:
-        character = "♝";
-        break;
-    case PieceColor::BLACK:
-        character = "♗";
-        break;
-    default:
-        break;
-    }
-
-    switch (type)
-    {
-    case PieceColor::WHITE:
-        literalCharacter = 'B';
-        break;
-    case PieceColor::BLACK:
-        literalCharacter = 'b';
-        break;
-    default:
-        break;
-    }
+  switch (color)
+  {
+  case PieceColor::WHITE:
+    literalCharacter = 'B';
+    break;
+  case PieceColor::BLACK:
+    literalCharacter = 'b';
+    break;
+  default:
+    break;
+  }
 }
 
 std::string Bishop::toString(bool literal) const
 {
-    if (!literal)
-        return character;
-
-    return std::to_string(literalCharacter);
+  if (literal) return std::to_string(literalCharacter);
+  return character;
 }
 
 std::vector<Coordinate> Bishop::listValidCoordinate() const
 {
-    return std::vector<Coordinate>();
+  return std::vector<Coordinate>();
 }

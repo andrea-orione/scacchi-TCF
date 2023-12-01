@@ -8,9 +8,8 @@
 
 class King : public Piece
 {
-private:
 public:
-    King(PieceColor pColor) { type = pColor; }
+    King(PieceColor pColor);
 
     virtual std::string toString(bool literal = false) const;
 

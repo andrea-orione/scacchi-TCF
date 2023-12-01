@@ -8,9 +8,8 @@
 
 class Rook : public Piece
 {
-private:
 public:
-    Rook(PieceColor pColor) { type = pColor; }
+    Rook(PieceColor pColor)
 
     virtual std::string toString(bool literal = false) const;
 

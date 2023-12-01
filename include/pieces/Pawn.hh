@@ -8,9 +8,8 @@
 
 class Pawn : public Piece
 {
-private:
 public:
-    Pawn(PieceColor pColor) { type = pColor; }
+    Pawn(PieceColor pColor)
 
     virtual std::string toString(bool literal = false) const;
 

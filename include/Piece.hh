@@ -17,7 +17,7 @@ enum class PieceColor
 class Piece
 {
 protected:
-  PieceColor type;
+  PieceColor color;
   std::string character;
   char literalCharacter;
 
