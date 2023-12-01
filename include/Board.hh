@@ -33,10 +33,17 @@ public:
   void printBoardReversed(bool simplified = false) const;
 
   void UpdateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> square);
+  void UpdateWhitePiecesVector();
+  void UpdateBlackPiecesVector();
 
 private:
   Board() {}
 
   // Map defining the squares as {coordinate : pointer to piece}.
   std::map<Coordinate, std::shared_ptr<Piece>> squaresMap;
+
+  // Vector with the pointers to the white pieces on the board.
+  std::vector<std::shared_ptr<Piece>> whitePieces;
+  // Vector with the pointers to the black pieces on the board.
+  std::vector<std::shared_ptr<Piece>> blackPieces;
 };

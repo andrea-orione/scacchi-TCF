@@ -18,6 +18,8 @@ class Piece
 {
 protected:
   PieceColor type;
+  std::string character;
+  char literalCharacter;
 
 public:
   virtual ~Piece() {}

@@ -10,7 +10,7 @@ class Bishop : public Piece
 {
 private:
 public:
-    Bishop(PieceColor pColor) { type = pColor; }
+    Bishop(PieceColor pColor);
 
     virtual std::string toString(bool literal = false) const;
 
