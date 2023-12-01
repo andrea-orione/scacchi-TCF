@@ -35,4 +35,6 @@
 /out
 /.vs
 /.vscode
+/.cache
 compile_run.sh
+compile_commands.json
