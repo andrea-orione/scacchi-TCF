@@ -1,7 +1,8 @@
 #include "Knight.hh"
 
-Knight::Knight(PieceColor pColor): color(pColor)
+Knight::Knight(PieceColor pColor)
 {
+  color = pColor;
   switch (color)
   {
   case PieceColor::WHITE:
@@ -29,7 +30,7 @@ Knight::Knight(PieceColor pColor): color(pColor)
 
 std::string Knight::toString(bool literal) const
 {
-  if (literal) return std::to_string(literalCharacter);
+  if (literal) return std::string(1, literalCharacter);
   return character;
 }
 

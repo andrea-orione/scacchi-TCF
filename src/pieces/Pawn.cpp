@@ -1,7 +1,8 @@
 #include "Pawn.hh"
 
-Pawn::Pawn(PieceColor pColor): color(pColor)
+Pawn::Pawn(PieceColor pColor)
 {
+  color = pColor;
   switch (color)
   {
   case PieceColor::WHITE:
@@ -29,7 +30,7 @@ Pawn::Pawn(PieceColor pColor): color(pColor)
 
 std::string Pawn::toString(bool literal) const
 {
-  if (literal) return std::to_string(literalCharacter);
+  if (literal) return std::string(1, literalCharacter);
   return character;
 }
 

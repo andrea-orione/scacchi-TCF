@@ -1,7 +1,8 @@
 #include "Queen.hh"
 
-Queen::Queen(PieceColor pColor): color(pColor)
+Queen::Queen(PieceColor pColor)
 {
+  color = pColor;
   switch (color)
   {
   case PieceColor::WHITE:
@@ -29,7 +30,7 @@ Queen::Queen(PieceColor pColor): color(pColor)
 
 std::string Queen::toString(bool literal) const
 {
-  if (literal) return std::to_string(literalCharacter);
+  if (literal) return std::string(1, literalCharacter);
   return character;
 }
 

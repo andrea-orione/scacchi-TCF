@@ -9,7 +9,7 @@
 class Queen : public Piece
 {
 public:
-    Queen(PieceColor pColor)
+    Queen(PieceColor pColor);
 
     virtual std::string toString(bool literal = false) const;
 

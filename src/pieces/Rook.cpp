@@ -1,7 +1,8 @@
 #include "Rook.hh"
 
-Rook::Rook(PieceColor pColor): color(pColor)
+Rook::Rook(PieceColor pColor)
 {
+  color = pColor;
   switch (color)
   {
   case PieceColor::WHITE:
@@ -29,7 +30,7 @@ Rook::Rook(PieceColor pColor): color(pColor)
 
 std::string Rook::toString(bool literal) const
 {
-  if (literal) return std::to_string(literalCharacter);
+  if (literal) return std::string(1, literalCharacter);
   return character;
 }
 
