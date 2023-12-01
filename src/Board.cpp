@@ -1,6 +1,8 @@
 #include "Board.hh"
+#include "Piece.hh"
 
 #include <iostream>
+#include <memory>
 #include <string>
 
 using std::cout;
@@ -130,4 +132,14 @@ void Board::printBoardReversed(bool simplified) const
 void Board::UpdateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> square)
 {
   squaresMap[square.first] = square.second;
+}
+
+void Board::UpdateWhitePiecesVector(std::shared_ptr<Piece> newPiece)
+{
+  whitePieces.push_back(newPiece);
+}
+
+void Board::UpdateBlackPiecesVector(std::shared_ptr<Piece> newPiece)
+{
+  blackPieces.push_back(newPiece);
 }

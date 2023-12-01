@@ -29,7 +29,9 @@ void GameManager::createWhitePieces()
         for (std::pair<char, int> xy : wm->COORD[i])
         {
             Coordinate pPosition(xy.first, xy.second);
-            boardInstance.UpdateSquare(std::make_pair(pPosition, makePiece(pt, pColor, pPosition)));
+            auto piece = makePiece(pt, pColor, pPosition);
+            boardInstance.UpdateSquare(std::make_pair(pPosition, piece));
+            boardInstance.UpdateWhitePiecesVector(piece);
         }
     }
 }
@@ -55,7 +57,9 @@ void GameManager::createBlackPieces()
         for (std::pair<char, int> xy : wm->COORD[i])
         {
             Coordinate pPosition(xy.first, xy.second);
-            boardInstance.UpdateSquare(std::make_pair(pPosition, makePiece(pt, pColor, pPosition)));
+            auto piece = makePiece(pt, pColor, pPosition);
+            boardInstance.UpdateSquare(std::make_pair(pPosition, piece));
+            boardInstance.UpdateBlackPiecesVector(piece);
         }
     }
 }
