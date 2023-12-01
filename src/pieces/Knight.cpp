@@ -1,8 +1,9 @@
 #include "Knight.hh"
 
-Knight::Knight(PieceColor pColor)
+Knight::Knight(PieceColor pColor, Coordinate pPosition)
 {
   color = pColor;
+  position = pPosition;
   switch (color)
   {
   case PieceColor::WHITE:

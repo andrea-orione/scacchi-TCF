@@ -28,7 +28,8 @@ void GameManager::createWhitePieces()
 
         for (std::pair<char, int> xy : wm->COORD[i])
         {
-            boardInstance.UpdateSquare(std::make_pair(Coordinate(xy.first, xy.second), makePiece(pt, pColor)));
+            Coordinate pPosition(xy.first, xy.second);
+            boardInstance.UpdateSquare(std::make_pair(pPosition, makePiece(pt, pColor, pPosition)));
         }
     }
 }
@@ -53,7 +54,8 @@ void GameManager::createBlackPieces()
 
         for (std::pair<char, int> xy : wm->COORD[i])
         {
-            boardInstance.UpdateSquare(std::make_pair(Coordinate(xy.first, xy.second), makePiece(pt, pColor)));
+            Coordinate pPosition(xy.first, xy.second);
+            boardInstance.UpdateSquare(std::make_pair(pPosition, makePiece(pt, pColor, pPosition)));
         }
     }
 }
@@ -67,28 +69,28 @@ void GameManager::createBlackPieces()
  *
  * @return The pointer to the piece that has been created created.
  */
-std::shared_ptr<Piece> GameManager::makePiece(PieceType pType, PieceColor pColor)
+std::shared_ptr<Piece> GameManager::makePiece(PieceType pType, PieceColor pColor, Coordinate pPosition)
 {
 
     switch (pType)
     {
     case PieceType::PAWN:
-        return std::make_shared<Pawn>(pColor);
+        return std::make_shared<Pawn>(pColor, pPosition);
         break;
     case PieceType::ROOK:
-        return std::make_shared<Rook>(pColor);
+        return std::make_shared<Rook>(pColor, pPosition);
         break;
     case PieceType::KNIGHT:
-        return std::make_shared<Knight>(pColor);
+        return std::make_shared<Knight>(pColor, pPosition);
         break;
     case PieceType::BISHOP:
-        return std::make_shared<Bishop>(pColor);
+        return std::make_shared<Bishop>(pColor, pPosition);
         break;
     case PieceType::QUEEN:
-        return std::make_shared<Queen>(pColor);
+        return std::make_shared<Queen>(pColor, pPosition);
         break;
     case PieceType::KING:
-        return std::make_shared<King>(pColor);
+        return std::make_shared<King>(pColor, pPosition);
         break;
 
     default:

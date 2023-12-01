@@ -1,8 +1,9 @@
 #include "Rook.hh"
 
-Rook::Rook(PieceColor pColor)
+Rook::Rook(PieceColor pColor, Coordinate pPosition)
 {
   color = pColor;
+  position = pPosition;
   switch (color)
   {
   case PieceColor::WHITE:

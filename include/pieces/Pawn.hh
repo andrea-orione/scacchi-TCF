@@ -9,7 +9,7 @@
 class Pawn : public Piece
 {
 public:
-    Pawn(PieceColor pColor);
+    Pawn(PieceColor pColor, Coordinate pPosition);
 
     virtual std::string toString(bool literal = false) const;
 

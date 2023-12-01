@@ -1,8 +1,9 @@
 #include "Pawn.hh"
 
-Pawn::Pawn(PieceColor pColor)
+Pawn::Pawn(PieceColor pColor, Coordinate pPosition)
 {
   color = pColor;
+  position = pPosition;
   switch (color)
   {
   case PieceColor::WHITE:

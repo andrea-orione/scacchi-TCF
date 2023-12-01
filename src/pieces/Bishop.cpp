@@ -1,8 +1,9 @@
 #include "Bishop.hh"
 
-Bishop::Bishop(PieceColor pColor)
+Bishop::Bishop(PieceColor pColor, Coordinate pPosition)
 {
   color = pColor;
+  position = pPosition;
   switch (color)
   {
   case PieceColor::WHITE:

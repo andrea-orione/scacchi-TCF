@@ -1,8 +1,9 @@
 #include "King.hh"
 
-King::King(PieceColor pColor)
+King::King(PieceColor pColor, Coordinate pPosition)
 {
   color = pColor;
+  position = pPosition;
   switch (color)
   {
   case PieceColor::WHITE:

@@ -29,7 +29,7 @@ public:
     void createWhitePieces();
     void createBlackPieces();
 
-    std::shared_ptr<Piece> makePiece(PieceType pType, PieceColor pColor);
+    std::shared_ptr<Piece> makePiece(PieceType pType, PieceColor pColor, Coordinate pPosition);
 
 private:
     /**

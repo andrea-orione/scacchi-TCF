@@ -9,7 +9,7 @@
 class Bishop : public Piece
 {
 public:
-    Bishop(PieceColor pColor);
+    Bishop(PieceColor pColor, Coordinate pPosition);
 
     virtual std::string toString(bool literal = false) const;
 

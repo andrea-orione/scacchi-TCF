@@ -1,5 +1,4 @@
 #pragma once
-// ♔ ♕ ♖ ♗ ♘ ♙ ♚ ♛ ♜ ♝ ♞ ♟︎ Unicode characters to use later
 
 #include "Coordinate.hh"
 #include <string>
@@ -20,6 +19,7 @@ protected:
   PieceColor color;
   std::string character;
   char literalCharacter;
+  Coordinate position;
 
 public:
   virtual ~Piece() {}

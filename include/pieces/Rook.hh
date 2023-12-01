@@ -9,7 +9,7 @@
 class Rook : public Piece
 {
 public:
-    Rook(PieceColor pColor);
+    Rook(PieceColor pColor, Coordinate pPosition);
 
     virtual std::string toString(bool literal = false) const;
 

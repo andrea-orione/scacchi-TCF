@@ -1,8 +1,9 @@
 #include "Queen.hh"
 
-Queen::Queen(PieceColor pColor)
+Queen::Queen(PieceColor pColor, Coordinate pPosition)
 {
   color = pColor;
+  position = pPosition;
   switch (color)
   {
   case PieceColor::WHITE:

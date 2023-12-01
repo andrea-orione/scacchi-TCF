@@ -9,7 +9,7 @@
 class King : public Piece
 {
 public:
-    King(PieceColor pColor);
+    King(PieceColor pColor, Coordinate pPosition);
 
     virtual std::string toString(bool literal = false) const;
 
