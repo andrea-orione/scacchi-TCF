@@ -8,20 +8,10 @@ Knight::Knight(PieceColor pColor, Coordinate pPosition)
   {
   case PieceColor::WHITE:
     character = "♞";
-    break;
-  case PieceColor::BLACK:
-    character = "♘";
-    break;
-  default:
-    break;
-  }
-
-  switch (color)
-  {
-  case PieceColor::WHITE:
     literalCharacter = 'N';
     break;
   case PieceColor::BLACK:
+    character = "♘";
     literalCharacter = 'n';
     break;
   default:

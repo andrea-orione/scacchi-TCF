@@ -8,20 +8,10 @@ Rook::Rook(PieceColor pColor, Coordinate pPosition)
   {
   case PieceColor::WHITE:
     character = "♜";
-    break;
-  case PieceColor::BLACK:
-    character = "♖";
-    break;
-  default:
-    break;
-  }
-
-  switch (color)
-  {
-  case PieceColor::WHITE:
     literalCharacter = 'R';
     break;
   case PieceColor::BLACK:
+    character = "♖";
     literalCharacter = 'r';
     break;
   default:
