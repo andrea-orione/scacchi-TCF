@@ -212,6 +212,15 @@ Coordinate Coordinate::operator+(const Movement &movement) const
   return Coordinate(newX, newY);
 }
 
+/**
+  * Return the distance squared.
+  * 
+  * It doesn't reutrn the squareroot to increase performance.
+  * 
+  * @param[in] other the other coordinate between which the distance
+  *   has to be calculated
+  * @return the distance squared.
+  */
 int Coordinate::squaredDistance(const Coordinate &other) const
 {
   return (x-other.x)*(x-other.x) + (y-other.y)*(y-other.y);
