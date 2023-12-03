@@ -40,7 +40,7 @@ Una volta scaricata ed installata una versione di CMake superiore a 3.26, seguir
    ```bash
    make -j N
    ```
-   dove N va sostituito con il numero di cores che si vogliono utilizzare (scrivere solo ```make``` per usare un solo core).
+   dove N va sostituito con il numero di threads che si vogliono utilizzare (scrivere solo ```make``` per usare un solo thread).
 6. Eseguire l'eseguibile ottenuto:
    ```bash
    ./scacchi
