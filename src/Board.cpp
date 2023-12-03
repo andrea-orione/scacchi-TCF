@@ -1,10 +1,30 @@
 #include "Board.hh"
+#include "Piece.hh"
 
 #include <iostream>
+#include <memory>
 #include <string>
 
 using std::cout;
 using std::endl;
+
+/**
+ * The default constructor.
+ *
+ * It initializes all 64 squares to an empty state.
+ */
+Board::Board()
+{
+  squaresMap = std::map<Coordinate, std::shared_ptr<Piece>>();
+
+  for (int row = 1; row < 9; row++)
+  {
+    for (int column = 1; column < 9; column++)
+    {
+      squaresMap.insert(std::make_pair(Coordinate(column, row), nullptr));
+    }
+  }
+}
 
 /**
  * Static method for accessing the singleton instance.
@@ -16,24 +36,6 @@ Board &Board::Instance()
   static Board instance;
 
   return instance;
-}
-
-/**
- * The default constructor.
- *
- * It initializes all 64 squares to an empty state.
- */
-void Board::InitializeBoard()
-{
-  squaresMap = std::map<Coordinate, std::shared_ptr<Piece>>();
-
-  for (int row = 1; row < 9; row++)
-  {
-    for (int column = 1; column < 9; column++)
-    {
-      squaresMap.insert(std::make_pair(Coordinate(column, row), nullptr));
-    }
-  }
 }
 
 /**
@@ -76,7 +78,7 @@ void Board::printBoard(bool simplified) const
     else
       cout << "\n   " << bottom << "\n";
   }
-  cout << "     a   b   c   d   e   f   g   h\n\n";
+  cout << "     a   b   c   d   e   f   g   h\n" << endl;
 }
 
 /**
@@ -119,7 +121,7 @@ void Board::printBoardReversed(bool simplified) const
     else
       cout << "\n   " << bottom << "\n";
   }
-  cout << "     h   g   f   e   d   c   b   a\n\n";
+  cout << "     h   g   f   e   d   c   b   a\n" << endl;
 }
 
 /**
@@ -130,4 +132,14 @@ void Board::printBoardReversed(bool simplified) const
 void Board::UpdateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> square)
 {
   squaresMap[square.first] = square.second;
+}
+
+void Board::UpdateWhitePiecesVector(std::shared_ptr<Piece> newPiece)
+{
+  whitePieces.push_back(newPiece);
+}
+
+void Board::UpdateBlackPiecesVector(std::shared_ptr<Piece> newPiece)
+{
+  blackPieces.push_back(newPiece);
 }

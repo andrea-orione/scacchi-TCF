@@ -27,17 +27,17 @@ public:
   Board &operator=(const Board &) = delete;  // delete assignment operator
   Board &operator=(const Board &&) = delete; // delete move assignment operator
 
-  void InitializeBoard();
+  // void InitializeBoard();
 
   void printBoard(bool simplified = false) const;
   void printBoardReversed(bool simplified = false) const;
 
   void UpdateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> square);
-  void UpdateWhitePiecesVector();
-  void UpdateBlackPiecesVector();
+  void UpdateWhitePiecesVector(std::shared_ptr<Piece> newPiece);
+  void UpdateBlackPiecesVector(std::shared_ptr<Piece> newPiece);
 
 private:
-  Board() {}
+  Board();
 
   // Map defining the squares as {coordinate : pointer to piece}.
   std::map<Coordinate, std::shared_ptr<Piece>> squaresMap;
