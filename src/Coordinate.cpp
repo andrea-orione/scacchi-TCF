@@ -212,6 +212,11 @@ Coordinate Coordinate::operator+(const Movement &movement) const
   return Coordinate(newX, newY);
 }
 
+int Coordinate::squaredDistance(const Coordinate &other) const
+{
+  return (x-other.x)*(x-other.x) + (y-other.y)*(y-other.y);
+}
+
 /**
   * DEPRECATED, ONLY FOR TESTING. Print the coordinate in a `char``int` format to the screen.
   *

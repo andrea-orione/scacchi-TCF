@@ -37,6 +37,8 @@ public:
 
   Coordinate operator+(const Movement &movement) const;
 
+  int squaredDistance(const Coordinate &other) const;
+
   void print() const;  // DEPRECATED. USE `toString` INSTEAD
   std::string toString() const;
 

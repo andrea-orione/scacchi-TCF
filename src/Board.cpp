@@ -9,23 +9,11 @@ using std::cout;
 using std::endl;
 
 /**
- * Static method for accessing the singleton instance.
- *
- * @return The reference to the instance of the board (singleton).
- */
-Board &Board::Instance()
-{
-  static Board instance;
-
-  return instance;
-}
-
-/**
  * The default constructor.
  *
  * It initializes all 64 squares to an empty state.
  */
-void Board::InitializeBoard()
+Board::Board()
 {
   squaresMap = std::map<Coordinate, std::shared_ptr<Piece>>();
 
@@ -36,6 +24,18 @@ void Board::InitializeBoard()
       squaresMap.insert(std::make_pair(Coordinate(column, row), nullptr));
     }
   }
+}
+
+/**
+ * Static method for accessing the singleton instance.
+ *
+ * @return The reference to the instance of the board (singleton).
+ */
+Board &Board::Instance()
+{
+  static Board instance;
+
+  return instance;
 }
 
 /**
@@ -78,7 +78,7 @@ void Board::printBoard(bool simplified) const
     else
       cout << "\n   " << bottom << "\n";
   }
-  cout << "     a   b   c   d   e   f   g   h\n\n";
+  cout << "     a   b   c   d   e   f   g   h\n" << endl;
 }
 
 /**
@@ -121,7 +121,7 @@ void Board::printBoardReversed(bool simplified) const
     else
       cout << "\n   " << bottom << "\n";
   }
-  cout << "     h   g   f   e   d   c   b   a\n\n";
+  cout << "     h   g   f   e   d   c   b   a\n" << endl;
 }
 
 /**
