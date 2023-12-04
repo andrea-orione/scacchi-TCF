@@ -10,8 +10,9 @@ class King : public Piece
 {
 public:
     King(PieceColor pColor, Coordinate pPosition);
+    ~King() override = default;
 
-    virtual std::string toString(bool literal = false) const;
+    std::string toString(bool literal = false) const override;
 
-    virtual std::vector<Coordinate> listValidCoordinate() const;
+    std::vector<Coordinate> listValidCoordinate() const override;
 };

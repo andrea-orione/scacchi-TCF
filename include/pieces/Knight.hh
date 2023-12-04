@@ -10,8 +10,9 @@ class Knight : public Piece
 {
 public:
     Knight(PieceColor pColor, Coordinate pPosition);
+    ~Knight() override = default;
 
-    virtual std::string toString(bool literal = false) const;
+    std::string toString(bool literal = false) const override;
 
-    virtual std::vector<Coordinate> listValidCoordinate() const;
+    std::vector<Coordinate> listValidCoordinate() const override;
 };

@@ -10,8 +10,9 @@ class Bishop : public Piece
 {
 public:
     Bishop(PieceColor pColor, Coordinate pPosition);
+    ~Bishop() override = default;
 
-    virtual std::string toString(bool literal = false) const;
+    std::string toString(bool literal = false) const override;
 
-    virtual std::vector<Coordinate> listValidCoordinate() const;
+    std::vector<Coordinate> listValidCoordinate() const override;
 };

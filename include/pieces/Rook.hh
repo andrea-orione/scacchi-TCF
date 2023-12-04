@@ -10,8 +10,9 @@ class Rook : public Piece
 {
 public:
     Rook(PieceColor pColor, Coordinate pPosition);
+    ~Rook() override = default;
 
-    virtual std::string toString(bool literal = false) const;
+    std::string toString(bool literal = false) const override;
 
-    virtual std::vector<Coordinate> listValidCoordinate() const;
+    std::vector<Coordinate> listValidCoordinate() const override;
 };

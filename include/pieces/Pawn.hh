@@ -10,8 +10,9 @@ class Pawn : public Piece
 {
 public:
     Pawn(PieceColor pColor, Coordinate pPosition);
+    ~Pawn() override = default;
 
-    virtual std::string toString(bool literal = false) const;
+    std::string toString(bool literal = false) const override;
 
-    virtual std::vector<Coordinate> listValidCoordinate() const;
+    std::vector<Coordinate> listValidCoordinate() const override;
 };
