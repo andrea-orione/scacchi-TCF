@@ -2,16 +2,15 @@
 
 const std::string Coordinate::literalChars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
 
-
 /**
-  * The default constructor.
-  *
-  * Take two int and assignes them to the x and y
-  * after checking they respect the constrains.
-  *
-  * @param[in] newX the value between 1 and 8 (included) to assign to the x (column).
-  * @param[in] newY the value between 1 and 8 (included) to assign to the y (row).
-  */
+ * The default constructor.
+ *
+ * Take two int and assignes them to the x and y
+ * after checking they respect the constrains.
+ *
+ * @param[in] newX the value between 1 and 8 (included) to assign to the x (column).
+ * @param[in] newY the value between 1 and 8 (included) to assign to the y (row).
+ */
 Coordinate::Coordinate(int newX, int newY)
 {
   if (newX < 1 || newX > 8)
@@ -24,13 +23,13 @@ Coordinate::Coordinate(int newX, int newY)
 }
 
 /**
-  * Take a char and an int and assignes them to the x and y
-  * after checking they respect the constrains.
-  *
-  * @param[in] literalNewX the value to assign to the x (column)
-  *   valid values are chars from `a` to `h` (included) corresponding to an int from 1 to 8.
-  * @param[in] newY the value between 1 and 8 (included) to assign to the y (row).
-  */
+ * Take a char and an int and assignes them to the x and y
+ * after checking they respect the constrains.
+ *
+ * @param[in] literalNewX the value to assign to the x (column)
+ *   valid values are chars from `a` to `h` (included) corresponding to an int from 1 to 8.
+ * @param[in] newY the value between 1 and 8 (included) to assign to the y (row).
+ */
 Coordinate::Coordinate(char literalNewX, int newY)
 {
   if (newY < 1 || newY > 8)
@@ -45,13 +44,13 @@ Coordinate::Coordinate(char literalNewX, int newY)
 }
 
 /**
-  * Take a std::string and an int and assignes them to the x and y
-  * after checking they respect the constrains.
-  *
-  * @param[in] literalNewX the value to assign to the x (column)
-  *   valid values are chars from `a` to `h` (included) corresponding to an int from 1 to 8.
-  * @param[in] newY the value between 1 and 8 (included) to assign to the y (row).
-  */
+ * Take a std::string and an int and assignes them to the x and y
+ * after checking they respect the constrains.
+ *
+ * @param[in] literalNewX the value to assign to the x (column)
+ *   valid values are chars from `a` to `h` (included) corresponding to an int from 1 to 8.
+ * @param[in] newY the value between 1 and 8 (included) to assign to the y (row).
+ */
 Coordinate::Coordinate(std::string literalNewX, int newY)
 {
   if (newY < 1 || newY > 8)
@@ -68,13 +67,13 @@ Coordinate::Coordinate(std::string literalNewX, int newY)
 }
 
 /**
-  * Take a string representing the coordinate with a char and an int.
-  *
-  * @param[in] literalEspression the value to instantiate
-  *   valid values are 2 chars long string containing
-  *   a char from `a` to `h` (included) corresponding to an int from 1 to 8 for the x (column)
-  *   and an int between 1 to 8 (included) for the y (row).
-  */
+ * Take a string representing the coordinate with a char and an int.
+ *
+ * @param[in] literalEspression the value to instantiate
+ *   valid values are 2 chars long string containing
+ *   a char from `a` to `h` (included) corresponding to an int from 1 to 8 for the x (column)
+ *   and an int between 1 to 8 (included) for the y (row).
+ */
 Coordinate::Coordinate(std::string literalExpression)
 {
   if (literalExpression.length() != 2)
@@ -94,10 +93,10 @@ Coordinate::Coordinate(std::string literalExpression)
 }
 
 /**
-  * The copy constructor.
-  *
-  * @param[in] newCoordinate the Coordinate to be copied
-  */
+ * The copy constructor.
+ *
+ * @param[in] newCoordinate the Coordinate to be copied
+ */
 Coordinate::Coordinate(const Coordinate &newCoordinate)
 {
   x = newCoordinate.x;
@@ -105,21 +104,21 @@ Coordinate::Coordinate(const Coordinate &newCoordinate)
 }
 
 /**
-  * The copy operator.
-  *
-  * @param[in] newCoordinate the Coordinate to be copied.
-  */
+ * The copy operator.
+ *
+ * @param[in] newCoordinate the Coordinate to be copied.
+ */
 Coordinate Coordinate::operator=(const Coordinate &newCoordinate)
 {
   return Coordinate(newCoordinate.x, newCoordinate.y);
 }
 
 /**
-  * The x setter.
-  *
-  * @param[in] newX an int from 1 to 8 (included) to assign to the x (column).
-  * @return a reference to the object, for cascaded member function calls.
-  */
+ * The x setter.
+ *
+ * @param[in] newX an int from 1 to 8 (included) to assign to the x (column).
+ * @return a reference to the object, for cascaded member function calls.
+ */
 Coordinate &Coordinate::setX(int newX)
 {
   if (newX < 1 || newX > 8)
@@ -131,11 +130,11 @@ Coordinate &Coordinate::setX(int newX)
 }
 
 /**
-  * The y setter.
-  *
-  * @param[in] newY an int from 1 to 8 (included) to assign to the y (row).
-  * @return a reference to the object, for cascaded member function calls.
-  */
+ * The y setter.
+ *
+ * @param[in] newY an int from 1 to 8 (included) to assign to the y (row).
+ * @return a reference to the object, for cascaded member function calls.
+ */
 Coordinate &Coordinate::setY(int newY)
 {
   if (newY < 1 || newY > 8)
@@ -147,20 +146,20 @@ Coordinate &Coordinate::setY(int newY)
 }
 
 /**
-  * The x getter.
-  *
-  * @return the value of the x.
-  */
+ * The x getter.
+ *
+ * @return the value of the x.
+ */
 int Coordinate::getX() const
 {
   return x;
 }
 
 /**
-  * The y getter.
-  *
-  * @return the value of the y.
-  */
+ * The y getter.
+ *
+ * @return the value of the y.
+ */
 int Coordinate::getY() const
 {
   return y;
@@ -192,13 +191,13 @@ bool Coordinate::operator>=(const Coordinate &other) const
 }
 
 /**
-  * The sum operator, to get to new coordinates.
-  *
-  * It uses a Movement object to generate the new Coordinate, after checking that respects the constrains.
-  *
-  * @param[in] movement the indication of the movement.
-  * @return the new Coordinate.
-  */
+ * The sum operator, to get to new coordinates.
+ *
+ * It uses a Movement object to generate the new Coordinate, after checking that respects the constrains.
+ *
+ * @param[in] movement the indication of the movement.
+ * @return the new Coordinate.
+ */
 Coordinate Coordinate::operator+(const Movement &movement) const
 {
   int newX = x + movement.getX();
@@ -213,34 +212,34 @@ Coordinate Coordinate::operator+(const Movement &movement) const
 }
 
 /**
-  * Return the distance squared.
-  * 
-  * It doesn't reutrn the squareroot to increase performance.
-  * 
-  * @param[in] other the other coordinate between which the distance
-  *   has to be calculated
-  * @return the distance squared.
-  */
+ * Return the distance squared.
+ *
+ * It doesn't return the square root to increase performance.
+ *
+ * @param[in] other the other coordinate between which the distance
+ *   has to be calculated
+ * @return the distance squared.
+ */
 int Coordinate::squaredDistance(const Coordinate &other) const
 {
-  return (x-other.x)*(x-other.x) + (y-other.y)*(y-other.y);
+  return (x - other.x) * (x - other.x) + (y - other.y) * (y - other.y);
 }
 
 /**
-  * DEPRECATED, ONLY FOR TESTING. Print the coordinate in a `char``int` format to the screen.
-  *
-  * Use toString instead
-  */
+ * DEPRECATED, ONLY FOR TESTING. Print the coordinate in a `char``int` format to the screen.
+ *
+ * Use toString instead
+ */
 void Coordinate::print() const
 {
   std::cout << literalChars[x - 1] << y << std::endl;
 }
 
 /**
-  * Return the string representing the coordinate in a `char``int` format.
-  *
-  * @return the above described string.
-  */
+ * Return the string representing the coordinate in a `char``int` format.
+ *
+ * @return the above described string.
+ */
 std::string Coordinate::toString() const
 {
   return (literalChars[x - 1] + std::to_string(y));
