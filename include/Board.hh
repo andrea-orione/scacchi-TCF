@@ -32,9 +32,11 @@ public:
   void printBoard(bool simplified = false) const;
   void printBoardReversed(bool simplified = false) const;
 
-  void UpdateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> square);
-  void UpdateWhitePiecesVector(std::shared_ptr<Piece> newPiece);
-  void UpdateBlackPiecesVector(std::shared_ptr<Piece> newPiece);
+  void updateSquare(const std::pair<Coordinate, std::shared_ptr<Piece>> &square);
+  void updateWhitePiecesVector(const std::shared_ptr<Piece> &newPiece);
+  void updateBlackPiecesVector(const std::shared_ptr<Piece> &newPiece);
+
+  void clearBoard();
 
 private:
   Board();
@@ -46,4 +48,8 @@ private:
   std::vector<std::shared_ptr<Piece>> whitePieces;
   // Vector with the pointers to the black pieces on the board.
   std::vector<std::shared_ptr<Piece>> blackPieces;
+
+  // The pointer to the kings. Useful for fast checking if are in check.
+  std::shared_ptr<Piece> whiteKing;
+  std::shared_ptr<Piece> blackKing;
 };

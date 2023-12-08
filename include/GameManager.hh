@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <string>
 #include <vector>
 #include <array>
 #include <map>
@@ -26,10 +27,12 @@ public:
     GameManager() {}
     ~GameManager() {}
 
-    void createWhitePieces();
-    void createBlackPieces();
+    void createWhitePieces() const;
+    void createBlackPieces() const;
+    void loadFenPosition(const std::string &fenString) const;
 
-    std::shared_ptr<Piece> makePiece(PieceType pType, PieceColor pColor, Coordinate pPosition);
+    std::shared_ptr<Piece> makePiece(const PieceType pType, const PieceColor pColor, const Coordinate &pPosition) const;
+    std::shared_ptr<Piece> makePiece(char pieceChar, const Coordinate &pPosition) const;
 
 private:
     /**
