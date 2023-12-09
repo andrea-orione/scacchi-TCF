@@ -18,7 +18,7 @@
  */
 void GameManager::createWhitePieces() const
 {
-  PieceColor pColor = PieceColor::WHITE;
+  constexpr PieceColor pColor = PieceColor::WHITE;
   Board &boardInstance = Board::Instance();
 
   // get map of white pieces coordinates
@@ -46,7 +46,7 @@ void GameManager::createWhitePieces() const
  */
 void GameManager::createBlackPieces() const
 {
-  PieceColor pColor = PieceColor::BLACK;
+  constexpr PieceColor pColor = PieceColor::BLACK;
   Board &boardInstance = Board::Instance();
 
   // get map of black pieces coordinates
@@ -74,7 +74,40 @@ void GameManager::createBlackPieces() const
  */
 void GameManager::loadFenPosition(const std::string &fenString) const
 {
+  Board &boardInstance = Board::Instance();
+  boardInstance.clearBoard();
 
+  int analyzingPosition = 0;
+  int analyzingX = 1;
+  int analyzingY = 8;
+  while (analyzingY != 1 || analyzingX != 9) {
+    char analyzingChar = fenString[analyzingPosition];
+
+    // Check if is a `/` or if should be (if it shouldnt it will throw an erron in the last part)
+    if (analyzingX == 9 && analyzingChar != '/') throw std::invalid_argument("GameManager::loadFenPosition(string) Invalid string."); 
+    if (analyzingX == 9 && analyzingChar == '/') {
+      analyzingX = 1;
+      analyzingY--;
+      analyzingPosition++;
+      continue;
+    }
+
+    // Check if is a number
+    int numericValue = analyzingChar - '0'; // Uses numeric memory representation of char trick.
+    if (numericValue>0 && numericValue+analyzingX<10) {
+      analyzingX += numericValue;
+      analyzingPosition++;
+      continue;
+    }
+
+    // Insert the piece. makePiece should handle the errors
+    Coordinate pPosition(analyzingX, analyzingY);
+    auto piece = makePiece(analyzingChar, pPosition);
+    boardInstance.updateSquare(std::make_pair(pPosition, piece));
+    boardInstance.updateBlackPiecesVector(piece);
+    analyzingX++;
+    analyzingPosition++;
+  }
 }
 
 /**
