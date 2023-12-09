@@ -38,3 +38,4 @@
 /.cache
 compile_run.sh
 compile_commands.json
+.DS_Store
