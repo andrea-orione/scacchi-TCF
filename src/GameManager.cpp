@@ -52,12 +52,15 @@ void GameManager::loadFenPosition(std::string &&fenString) const
     Coordinate pPosition(analyzingX, analyzingY);
     auto piece = makePiece(analyzingChar, pPosition);
     boardInstance.updateSquare(std::make_pair(pPosition, piece));
-    boardInstance.updateBlackPiecesVector(piece);
+    boardInstance.updatePiecesVector(piece);
     analyzingX++;
     analyzingPosition++;
   }
 }
 
+/**
+ * Function for initializing the board at the beginning of the game.
+ */
 void GameManager::InitializeStartingBoard() const
 {
   this->loadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");

@@ -146,19 +146,12 @@ void Board::updateSquare(const std::pair<Coordinate, std::shared_ptr<Piece>> &sq
  *
  * @param[in] newPiece The pointer to the white piece to be added.
  */
-void Board::updateWhitePiecesVector(std::shared_ptr<Piece> newPiece)
+void Board::updatePiecesVector(std::shared_ptr<Piece> newPiece)
 {
-  whitePieces.push_back(newPiece);
-}
-
-/**
- * Function for adding black pieces to the `blackPieces` vector.
- *
- * @param[in] newPiece The pointer to the black piece to be added.
- */
-void Board::updateBlackPiecesVector(std::shared_ptr<Piece> newPiece)
-{
-  blackPieces.push_back(newPiece);
+  if (newPiece->getColor() == PieceColor::BLACK)
+    blackPieces.push_back(newPiece);
+  else if (newPiece->getColor() == PieceColor::WHITE)
+    whitePieces.push_back(newPiece);
 }
 
 /**
