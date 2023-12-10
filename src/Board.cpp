@@ -83,7 +83,8 @@ void Board::printBoard(bool simplified) const
     else
       cout << "\n   " << bottom << "\n";
   }
-  cout << "     a   b   c   d   e   f   g   h\n" << endl;
+  cout << "     a   b   c   d   e   f   g   h\n"
+       << endl;
 }
 
 /**
@@ -126,7 +127,8 @@ void Board::printBoardReversed(bool simplified) const
     else
       cout << "\n   " << bottom << "\n";
   }
-  cout << "     h   g   f   e   d   c   b   a\n" << endl;
+  cout << "     h   g   f   e   d   c   b   a\n"
+       << endl;
 }
 
 /**
@@ -139,16 +141,29 @@ void Board::updateSquare(const std::pair<Coordinate, std::shared_ptr<Piece>> &sq
   squaresMap[square.first] = square.second;
 }
 
-void Board::updateWhitePiecesVector(const std::shared_ptr<Piece> &newPiece)
+/**
+ * Function for adding white pieces to the `whitePieces` vector.
+ *
+ * @param[in] newPiece The pointer to the white piece to be added.
+ */
+void Board::updateWhitePiecesVector(std::shared_ptr<Piece> newPiece)
 {
   whitePieces.push_back(newPiece);
 }
 
-void Board::updateBlackPiecesVector(const std::shared_ptr<Piece> &newPiece)
+/**
+ * Function for adding black pieces to the `whitePieces` vector.
+ *
+ * @param[in] newPiece The pointer to the black piece to be added.
+ */
+void Board::updateBlackPiecesVector(std::shared_ptr<Piece> newPiece)
 {
   blackPieces.push_back(newPiece);
 }
 
+/**
+ * Function for clearing the board.
+ */
 void Board::clearBoard()
 {
   whitePieces.clear();
@@ -159,7 +174,7 @@ void Board::clearBoard()
   {
     for (int column = 1; column < 9; column++)
     {
-      squaresMap[Coordinate(column, row)] =  nullptr;
+      squaresMap[Coordinate(column, row)] = nullptr;
     }
   }
 }

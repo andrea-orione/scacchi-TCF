@@ -33,8 +33,8 @@ public:
   void printBoardReversed(bool simplified = false) const;
 
   void updateSquare(const std::pair<Coordinate, std::shared_ptr<Piece>> &square);
-  void updateWhitePiecesVector(const std::shared_ptr<Piece> &newPiece);
-  void updateBlackPiecesVector(const std::shared_ptr<Piece> &newPiece);
+  void updateWhitePiecesVector(std::shared_ptr<Piece> newPiece);
+  void updateBlackPiecesVector(std::shared_ptr<Piece> newPiece);
 
   void clearBoard();
 
