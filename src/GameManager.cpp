@@ -52,7 +52,7 @@ void GameManager::loadFenPosition(std::string &&fenString) const
     Coordinate pPosition(analyzingX, analyzingY);
     auto piece = makePiece(analyzingChar, pPosition);
     boardInstance.updateSquare(std::make_pair(pPosition, piece));
-    boardInstance.updatePiecesVector(piece);
+    boardInstance.updatePiecesVector(std::move(piece));
     analyzingX++;
     analyzingPosition++;
   }
