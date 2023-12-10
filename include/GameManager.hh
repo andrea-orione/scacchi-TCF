@@ -29,7 +29,6 @@ public:
 
     void loadFenPosition(const std::string &fenString) const;
 
-    std::shared_ptr<Piece> makePiece(const PieceType pType, const PieceColor pColor, const Coordinate &pPosition) const;
     std::shared_ptr<Piece> makePiece(char pieceChar, const Coordinate &pPosition) const;
 
 private:
