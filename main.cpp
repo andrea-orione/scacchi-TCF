@@ -12,6 +12,9 @@ int main(int argc, char *argv[])
   f->InitializeStartingBoard();
   board.printBoard();
 
+  board.printWhitePieces();
+  board.printBlackPieces();
+
   delete f;
 
   std::cin.get();

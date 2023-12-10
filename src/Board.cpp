@@ -146,7 +146,7 @@ void Board::updateSquare(const std::pair<Coordinate, std::shared_ptr<Piece>> &sq
  *
  * @param[in] newPiece The pointer to the piece to be added.
  */
-void Board::updatePiecesVector(std::shared_ptr<Piece> &&newPiece)
+void Board::updatePiecesVector(std::shared_ptr<Piece> &&newPiece) noexcept
 {
   if (newPiece->getColor() == PieceColor::BLACK)
     blackPieces.push_back(newPiece);
@@ -170,4 +170,32 @@ void Board::clearBoard()
       squaresMap[Coordinate(column, row)] = nullptr;
     }
   }
+}
+
+/**
+ * JUST FOR TESTING
+ */
+void Board::printWhitePieces() const
+{
+  cout << "WHITE PIECES\n";
+  cout << "------------\n";
+  for (auto piece : whitePieces)
+  {
+    cout << piece->toString() << " ";
+  }
+  cout << "\n";
+}
+
+/**
+ * JUST FOR TESTING
+ */
+void Board::printBlackPieces() const
+{
+  cout << "BLACK PIECES\n";
+  cout << "------------\n";
+  for (auto piece : blackPieces)
+  {
+    cout << piece->toString() << " ";
+  }
+  cout << "\n";
 }
