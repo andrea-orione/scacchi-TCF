@@ -4,6 +4,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <vector>
 
 using std::cout;
 using std::endl;
@@ -16,6 +17,10 @@ using std::endl;
 Board::Board()
 {
   squaresMap = std::map<Coordinate, std::shared_ptr<Piece>>();
+  whitePieces = std::vector<std::shared_ptr<Piece>>();
+  blackPieces = std::vector<std::shared_ptr<Piece>>();
+  whiteKing = nullptr;
+  blackKing = nullptr;
 
   for (int row = 1; row < 9; row++)
   {
@@ -129,17 +134,32 @@ void Board::printBoardReversed(bool simplified) const
  *
  * @param[in] square The `std::pair` representing the square (see `squaresMap`).
  */
-void Board::UpdateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> square)
+void Board::updateSquare(const std::pair<Coordinate, std::shared_ptr<Piece>> &square)
 {
   squaresMap[square.first] = square.second;
 }
 
-void Board::UpdateWhitePiecesVector(std::shared_ptr<Piece> newPiece)
+void Board::updateWhitePiecesVector(const std::shared_ptr<Piece> &newPiece)
 {
   whitePieces.push_back(newPiece);
 }
 
-void Board::UpdateBlackPiecesVector(std::shared_ptr<Piece> newPiece)
+void Board::updateBlackPiecesVector(const std::shared_ptr<Piece> &newPiece)
 {
   blackPieces.push_back(newPiece);
+}
+
+void Board::clearBoard()
+{
+  whitePieces.clear();
+  blackPieces.clear();
+  whiteKing = nullptr;
+  blackKing = nullptr;
+  for (int row = 1; row < 9; row++)
+  {
+    for (int column = 1; column < 9; column++)
+    {
+      squaresMap[Coordinate(column, row)] =  nullptr;
+    }
+  }
 }
