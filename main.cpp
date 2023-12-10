@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 
   GameManager *f = new GameManager();
 
-  f->loadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+  f->InitializeStartingBoard();
   board.printBoard();
 
   delete f;

@@ -27,7 +27,8 @@ public:
     GameManager() {}
     ~GameManager() {}
 
-    void loadFenPosition(const std::string &fenString) const;
+    void loadFenPosition(std::string &&fenString) const;
+    void InitializeStartingBoard() const;
 
     std::shared_ptr<Piece> makePiece(char pieceChar, const Coordinate &pPosition) const;
 

@@ -152,7 +152,7 @@ void Board::updateWhitePiecesVector(std::shared_ptr<Piece> newPiece)
 }
 
 /**
- * Function for adding black pieces to the `whitePieces` vector.
+ * Function for adding black pieces to the `blackPieces` vector.
  *
  * @param[in] newPiece The pointer to the black piece to be added.
  */

@@ -16,7 +16,7 @@
  *
  * @param[in] fenString The string containing the position to load.
  */
-void GameManager::loadFenPosition(const std::string &fenString) const
+void GameManager::loadFenPosition(std::string &&fenString) const
 {
   Board &boardInstance = Board::Instance();
   boardInstance.clearBoard();
@@ -28,7 +28,7 @@ void GameManager::loadFenPosition(const std::string &fenString) const
   {
     char analyzingChar = fenString[analyzingPosition];
 
-    // Check if is a `/` or if should be (if it shouldnt it will throw an erron in the last part)
+    // Check if is a `/` or if it should be (if it shouldn't it will throw an error in the last part)
     if (analyzingX == 9 && analyzingChar != '/')
       throw std::invalid_argument("GameManager::loadFenPosition(string) Invalid string.");
     if (analyzingX == 9 && analyzingChar == '/')
@@ -58,6 +58,11 @@ void GameManager::loadFenPosition(const std::string &fenString) const
   }
 }
 
+void GameManager::InitializeStartingBoard() const
+{
+  this->loadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+}
+
 /**
  * Function for creating the pointer to a specified piece from a string.
  *
@@ -68,6 +73,7 @@ void GameManager::loadFenPosition(const std::string &fenString) const
  */
 std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate &pPosition) const
 {
+  // determine the color of the piece
   PieceColor pColor;
   if (std::isupper(pChar))
   {
@@ -83,6 +89,7 @@ std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate &pPos
     throw std::invalid_argument("GameManager::makePiece(char, Coordinate) Invalid pieceString value.");
   }
 
+  // determine the type of the piece
   switch (pChar)
   {
   case 'P':
