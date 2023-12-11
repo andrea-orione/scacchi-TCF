@@ -32,7 +32,7 @@ public:
   void printBoard(bool simplified = false) const;
   void printBoardReversed(bool simplified = false) const;
 
-  void updateSquare(const std::pair<Coordinate, std::shared_ptr<Piece>> &square);
+  void updateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> &&square) noexcept;
   void updatePiecesVector(std::shared_ptr<Piece> &&newPiece) noexcept;
 
   void clearBoard();

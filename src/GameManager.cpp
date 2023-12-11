@@ -51,7 +51,8 @@ void GameManager::loadFenPosition(std::string &&fenString) const
     // Insert the piece. makePiece should handle the errors
     Coordinate pPosition(analyzingX, analyzingY);
     auto piece = makePiece(analyzingChar, pPosition);
-    boardInstance.updateSquare(std::make_pair(pPosition, piece));
+    std::pair<Coordinate, std::shared_ptr<Piece>> p(pPosition, piece);
+    boardInstance.updateSquare(std::move(p));
     boardInstance.updatePiecesVector(std::move(piece));
     analyzingX++;
     analyzingPosition++;

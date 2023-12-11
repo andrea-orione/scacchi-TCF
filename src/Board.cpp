@@ -136,7 +136,7 @@ void Board::printBoardReversed(bool simplified) const
  *
  * @param[in] square The `std::pair` representing the square (see `squaresMap`).
  */
-void Board::updateSquare(const std::pair<Coordinate, std::shared_ptr<Piece>> &square)
+void Board::updateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> &&square) noexcept
 {
   squaresMap[square.first] = square.second;
 }
