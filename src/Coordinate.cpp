@@ -212,6 +212,30 @@ Coordinate Coordinate::operator+(const Movement &movement) const
 }
 
 /**
+ * The increment operator, to get to new coordinates.
+ *
+ * It uses a Movement object to generate the new Coordinate, after checking that respects the constrains.
+ *
+ * @param[in] movement the indication of the movement.
+ * @return the new Coordinate.
+ */
+Coordinate &Coordinate::operator+=(const Movement &movement)
+{
+  int newX = x + movement.getX();
+  int newY = y + movement.getY();
+
+  if (newX < 1 || newX > 8)
+    throw std::out_of_range("New Coordinate's x value outside the board");
+  if (newY < 1 || newY > 8)
+    throw std::out_of_range("New Coordinate's y value outside the board");
+
+  x = newX;
+  y = newY;
+
+  return *this;
+}
+
+/**
  * Return the distance squared.
  *
  * It doesn't return the square root to increase performance.

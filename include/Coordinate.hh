@@ -36,6 +36,7 @@ public:
   bool operator>=(const Coordinate &other) const;
 
   Coordinate operator+(const Movement &movement) const;
+  Coordinate &operator+=(const Movement &movement);
 
   int squaredDistance(const Coordinate &other) const;
 
