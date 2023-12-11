@@ -2,6 +2,8 @@
 #include "Board.hh"
 #include "Coordinate.hh"
 #include "Movement.hh"
+#include "Piece.hh"
+#include <memory>
 #include <stdexcept>
 
 Rook::Rook(PieceColor pColor, Coordinate pPosition)
@@ -25,30 +27,28 @@ Rook::Rook(PieceColor pColor, Coordinate pPosition)
 
 bool Rook::isMoveValid(const Coordinate &startingPosition, const Coordinate &endingPosition) const
 {
+  // Check whether the endingPosition in the same line or column
   if ((startingPosition.getX() != endingPosition.getX()) && (startingPosition.getY() != endingPosition.getY())) return false;
 
+  // Choose direction
   Board &boardInstance = Board::Instance();
   Movement direction(0,0);
-  if (startingPosition.getX() == endingPosition.getX())
-  {
-    direction.setY(1);
-    if ((startingPosition+direction).squaredDistance(endingPosition) > startingPosition.squaredDistance(endingPosition))
-      direction.setY(-1);
-  } else if (startingPosition.getY() == endingPosition.getY()) {
-    direction.setX(1);
-    if ((startingPosition+direction).squaredDistance(endingPosition) > startingPosition.squaredDistance(endingPosition))
-      direction.setX(-1);
-  }
+  (startingPosition.getX() == endingPosition.getX()) ? direction.setY(1) : direction.setX(1);
+  if ((startingPosition+direction).squaredDistance(endingPosition) > startingPosition.squaredDistance(endingPosition))
+    direction.invertDirection();
 
-  for (int i = 1; i < 8; i++) {
-    try {
-      Coordinate newPosition = startingPosition+direction*i;
-      if (boardInstance.[newPosition]
-    } catch (std::out_of_range) {
-    
-    }
-  
+  // Check whether the endingPosition is a free square or occupied by an opponent's piece.
+  std::shared_ptr<Piece> endingPositionPiece = boardInstance.getPiece(endingPosition);
+  if (endingPositionPiece != nullptr)
+    if (endingPositionPiece->getColor() == color)
+      return false;
+
+  // Check whether there are other pieces in the way.
+  for (Coordinate newPosition = startingPosition+direction; newPosition != endingPosition; newPosition += direction) {
+    std::shared_ptr<Piece> newSquarePiece = boardInstance.getPiece(newPosition);
+    if (newSquarePiece != nullptr) return false;
   }
+  return true;
 }
 
 std::string Rook::toString(bool literal) const
