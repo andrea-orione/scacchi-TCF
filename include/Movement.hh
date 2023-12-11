@@ -18,6 +18,7 @@ public:
 
   Movement &setX(int newX);
   Movement &setY(int newY);
+  Movement &invertDirection();
   int getX() const;
   int getY() const;
 
