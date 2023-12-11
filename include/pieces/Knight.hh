@@ -13,6 +13,4 @@ public:
     ~Knight() override = default;
 
     std::string toString(bool literal = false) const override;
-
-    std::vector<Coordinate> listValidCoordinate() const override;
 };

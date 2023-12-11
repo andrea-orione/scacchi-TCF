@@ -21,11 +21,7 @@ Rook::Rook(PieceColor pColor, Coordinate pPosition)
 
 std::string Rook::toString(bool literal) const
 {
-  if (literal) return std::string(1, literalCharacter);
+  if (literal)
+    return std::string(1, literalCharacter);
   return character;
-}
-
-std::vector<Coordinate> Rook::listValidCoordinate() const
-{
-    return std::vector<Coordinate>();
 }

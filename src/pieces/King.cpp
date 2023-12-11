@@ -21,11 +21,7 @@ King::King(PieceColor pColor, Coordinate pPosition)
 
 std::string King::toString(bool literal) const
 {
-  if (literal) return std::string(1, literalCharacter);
+  if (literal)
+    return std::string(1, literalCharacter);
   return character;
-}
-
-std::vector<Coordinate> King::listValidCoordinate() const
-{
-  return std::vector<Coordinate>();
 }
