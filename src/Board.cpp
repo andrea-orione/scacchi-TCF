@@ -1,4 +1,5 @@
 #include "Board.hh"
+#include "Coordinate.hh"
 #include "Piece.hh"
 
 #include <iostream>
@@ -152,6 +153,11 @@ void Board::updatePiecesVector(std::shared_ptr<Piece> &&newPiece) noexcept
     blackPieces.push_back(newPiece);
   else if (newPiece->getColor() == PieceColor::WHITE)
     whitePieces.push_back(newPiece);
+}
+
+std::shared_ptr<Piece> Board::getPiece(const Coordinate &position) const
+{
+  return squaresMap.find(position)->second;
 }
 
 /**

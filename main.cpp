@@ -1,7 +1,9 @@
 #include "Board.hh"
+#include "Coordinate.hh"
 #include "GameManager.hh"
 #include <string>
 #include <vector>
+#include <iostream>
 
 int main(int argc, char *argv[])
 {
@@ -14,6 +16,8 @@ int main(int argc, char *argv[])
 
   board.printWhitePieces();
   board.printBlackPieces();
+
+  std::cout << board.getPiece(Coordinate(1,1))->toString();
 
   delete f;
 
