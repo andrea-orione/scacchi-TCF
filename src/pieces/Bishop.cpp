@@ -1,6 +1,10 @@
 #include "Bishop.hh"
 
+#include <memory>
+#include <stdexcept>
+
 #include "Movement.hh"
+#include "Board.hh"
 
 Bishop::Bishop(PieceColor pColor, Coordinate pPosition)
 {
@@ -38,19 +42,24 @@ bool Bishop::isMoveValid(const Coordinate &startingPosition, const Coordinate &e
     return false;
 
   // determine diagonal
-  Movement base_move;
-  if (xDistance - yDistance != 0)
+  Movement baseMove = Movement(xDistance / abs(xDistance), yDistance / abs(yDistance));
+
+  // determine if the move is valid valid
+  Board &board = Board::Instance();
+  std::shared_ptr<Piece> mainPiece = board.getPiece(startingPosition);
+
+  for (int i = 0; i < xDistance; i++)
   {
-    if (xDistance > yDistance)
-      base_move = Movement(1, -1);
-    else
-      base_move = Movement(-1, 1);
+    const Coordinate newPosition = startingPosition + baseMove * i;
+    std::shared_ptr<Piece> newPiece = board.getPiece(newPosition);
+
+    if (newPiece != nullptr)
+    {
+      if (newPosition == endingPosition && newPiece->getColor() != mainPiece->getColor())
+        return true;
+
+      return false;
+    }
   }
-  else
-  {
-    if (xDistance > 0 && yDistance > 0)
-      base_move = Movement(1, 1);
-    else
-      base_move = Movement(-1, -1);
-  }
+  return true;
 }
