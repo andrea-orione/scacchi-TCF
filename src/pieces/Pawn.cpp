@@ -19,6 +19,11 @@ Pawn::Pawn(PieceColor pColor, Coordinate pPosition)
   }
 }
 
+bool Pawn::isMoveValid(const Coordinate &startingPosition, const Coordinate &endingPosition) const
+{
+  return true;
+}
+
 std::string Pawn::toString(bool literal) const
 {
   if (literal)

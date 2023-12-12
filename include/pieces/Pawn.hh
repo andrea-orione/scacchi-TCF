@@ -13,4 +13,6 @@ public:
     ~Pawn() override = default;
 
     std::string toString(bool literal = false) const override;
+
+    bool isMoveValid(const Coordinate &startingPosition, const Coordinate &endingPosition) const override;
 };
