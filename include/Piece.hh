@@ -49,7 +49,20 @@ public:
    *
    * @return The color of the pice.
    */
-  PieceColor getColor() { return color; }
+  PieceColor getColor() const { return color; }
 
-  int sgn(const int value) const { return (0 < value) - (value < 0); }
+  /**
+   * Function for getting the position of the piece.
+   *
+   * @return The position of the piece.
+   */
+  Coordinate getPosition() const { return position; }
+
+  /**
+   *
+   * The position setter.
+   *
+   * @param[in] newPosition a coordinate object to assign to the position.
+   */
+  void setPosition(const Coordinate& newPosition) {position = newPosition;}
 };

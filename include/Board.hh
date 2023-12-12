@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <string>
 #include <vector>
 #include <memory>
 
@@ -36,6 +37,8 @@ public:
   void updatePiecesVector(std::shared_ptr<Piece> &&newPiece) noexcept;
   
   bool isSquareAttacked(const Coordinate &square, const PieceColor attackerColor) const;
+  void normalMove(const Coordinate &startingPosition, const Coordinate &endingPosition, const PieceColor movingPieceColor);
+  void castling(const Coordinate &kingStartingPosition, const Coordinate &kingEndingPosition, const Coordinate &rookStartingPosition, const Coordinate &rookEndingPosition, const PieceColor movingPieceColor);
 
   std::shared_ptr<Piece> getPiece(const Coordinate &position) const;
 
@@ -58,4 +61,13 @@ private:
   // The pointer to the kings. Useful for fast checking if are in check.
   std::shared_ptr<Piece> whiteKing;
   std::shared_ptr<Piece> blackKing;
+};
+
+
+class InvalidMoveException : public std::exception 
+{
+public:
+  std::string what() {
+    return "This move is invalid";
+  }
 };
