@@ -49,5 +49,7 @@ public:
    *
    * @return The color of the pice.
    */
-  virtual PieceColor getColor() { return color; }
+  PieceColor getColor() { return color; }
+
+  int sgn(const int value) const { return (0 < value) - (value < 0); }
 };

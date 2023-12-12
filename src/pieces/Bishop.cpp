@@ -34,31 +34,29 @@ std::string Bishop::toString(bool literal) const
 
 bool Bishop::isMoveValid(const Coordinate &endingPosition) const
 {
-  int xDistance = endingPosition.getX() - this->position.getX();
-  int yDistance = endingPosition.getY() - this->position.getY();
+  const int xDistance = endingPosition.getX() - this->position.getX();
+  const int yDistance = endingPosition.getY() - this->position.getY();
 
   // geometric check
   if (abs(xDistance) != abs(yDistance))
     return false;
 
   // determine diagonal
-  Movement baseMove = Movement(xDistance / abs(xDistance), yDistance / abs(yDistance));
+  Movement baseMove(sgn(xDistance), sgn(yDistance));
 
   // determine if the move is valid valid
   Board &board = Board::Instance();
-
-  for (int i = 0; i < xDistance; i++)
-  {
-    Coordinate newPosition = this->position + baseMove * i;
-    std::shared_ptr<Piece> newPiece = board.getPiece(newPosition);
-
-    if (newPiece != nullptr)
-    {
-      if (newPosition == endingPosition && newPiece->getColor() != this->color)
-        return true;
-
+  std::shared_ptr<Piece> endingPositionPiece = board.getPiece(endingPosition);
+  if (endingPositionPiece != nullptr)
+    if (endingPositionPiece->getColor() == this->color)
       return false;
-    }
+
+  // Check whether there are other pieces in the way.
+  for (Coordinate newPosition = this->position + baseMove; newPosition != endingPosition; newPosition += baseMove)
+  {
+    std::shared_ptr<Piece> newSquarePiece = board.getPiece(newPosition);
+    if (newSquarePiece != nullptr)
+      return false;
   }
   return true;
 }

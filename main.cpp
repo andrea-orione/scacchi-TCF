@@ -17,8 +17,6 @@ int main(int argc, char *argv[])
   board.printWhitePieces();
   board.printBlackPieces();
 
-  std::cout << board.getPiece(Coordinate(1,1))->toString();
-
   delete f;
 
   std::cin.get();

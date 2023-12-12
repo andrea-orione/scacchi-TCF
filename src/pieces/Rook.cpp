@@ -27,26 +27,29 @@ Rook::Rook(PieceColor pColor, Coordinate pPosition)
 
 bool Rook::isMoveValid(const Coordinate &endingPosition) const
 {
+  const int xDistance = endingPosition.getX() - this->position.getX();
+  const int yDistance = endingPosition.getY() - this->position.getY();
+
   // Check whether the endingPosition in the same line or column
-  if ((this->position.getX() != endingPosition.getX()) && (this->position.getY() != endingPosition.getY())) return false;
+  if (xDistance != 0 && yDistance != 0)
+    return false;
 
   // Choose direction
-  Board &boardInstance = Board::Instance();
-  Movement direction(0,0);
-  (this->position.getX() == endingPosition.getX()) ? direction.setY(1) : direction.setX(1);
-  if ((this->position+direction).squaredDistance(endingPosition) > this->position.squaredDistance(endingPosition))
-    direction.invertDirection();
+  Board &board = Board::Instance();
+  Movement baseMove(sgn(xDistance), sgn(yDistance));
 
   // Check whether the endingPosition is a free square or occupied by an opponent's piece.
-  std::shared_ptr<Piece> endingPositionPiece = boardInstance.getPiece(endingPosition);
+  std::shared_ptr<Piece> endingPositionPiece = board.getPiece(endingPosition);
   if (endingPositionPiece != nullptr)
-    if (endingPositionPiece->getColor() == color)
+    if (endingPositionPiece->getColor() == this->color)
       return false;
 
   // Check whether there are other pieces in the way.
-  for (Coordinate newPosition = this->position+direction; newPosition != endingPosition; newPosition += direction) {
-    std::shared_ptr<Piece> newSquarePiece = boardInstance.getPiece(newPosition);
-    if (newSquarePiece != nullptr) return false;
+  for (Coordinate newPosition = this->position + baseMove; newPosition != endingPosition; newPosition += baseMove)
+  {
+    std::shared_ptr<Piece> newSquarePiece = board.getPiece(newPosition);
+    if (newSquarePiece != nullptr)
+      return false;
   }
   return true;
 }
