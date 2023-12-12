@@ -33,14 +33,14 @@ bool King::isMoveValid(const Coordinate &startingPosition, const Coordinate &end
 
   // Normal move case
   Board &boardInstance = Board::Instance();
-  if (startingPosition.squaredDistance(endingPosition) == 1) {
+  if (startingPosition.squaredDistance(endingPosition) < 3) {
     std::shared_ptr<Piece> newSquarePiece = boardInstance.getPiece(endingPosition);
     if (newSquarePiece == nullptr) return true;
     return (newSquarePiece->getColor() != color);
   }
 
   // Castles
-  if (startingPosition.getY() != endingPosition.getY()) return false;
+  if (startingPosition.getY() != endingPosition.getY() || startingPosition.getX() != 5) return false;
   // Chooses direction
   Movement direction(1,0);
   int limit = 3;
