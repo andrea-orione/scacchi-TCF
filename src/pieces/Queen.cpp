@@ -30,10 +30,10 @@ std::string Queen::toString(bool literal) const
   return character;
 }
 
-bool Queen::isMoveValid(const Coordinate &startingPosition, const Coordinate &endingPosition) const
+bool Queen::isMoveValid(const Coordinate &endingPosition) const
 {
-  int xDistance = endingPosition.getX() - startingPosition.getX();
-  int yDistance = endingPosition.getY() - startingPosition.getY();
+  int xDistance = endingPosition.getX() - this->position.getX();
+  int yDistance = endingPosition.getY() - this->position.getY();
 
   // geometric check
   if (abs(xDistance) != abs(yDistance) || (xDistance != 0 && yDistance != 0))
@@ -46,16 +46,15 @@ bool Queen::isMoveValid(const Coordinate &startingPosition, const Coordinate &en
 
   // determine if the move is valid valid
   Board &board = Board::Instance();
-  std::shared_ptr<Piece> mainPiece = board.getPiece(startingPosition);
 
   for (int i = 0; i < xDistance; i++)
   {
-    const Coordinate newPosition = startingPosition + baseMove * i;
+    Coordinate newPosition = this->position + baseMove * i;
     std::shared_ptr<Piece> newPiece = board.getPiece(newPosition);
 
     if (newPiece != nullptr)
     {
-      if (newPosition == endingPosition && newPiece->getColor() != mainPiece->getColor())
+      if (newPosition == endingPosition && newPiece->getColor() != this->color)
         return true;
 
       return false;

@@ -28,21 +28,20 @@ std::string Knight::toString(bool literal) const
   return character;
 }
 
-bool Knight::isMoveValid(const Coordinate &startingPosition, const Coordinate &endingPosition) const
+bool Knight::isMoveValid(const Coordinate &endingPosition) const
 {
-  int xDistance = endingPosition.getX() - startingPosition.getX();
-  int yDistance = endingPosition.getY() - startingPosition.getY();
+  int xDistance = endingPosition.getX() - this->position.getX();
+  int yDistance = endingPosition.getY() - this->position.getY();
 
   // geometric check
-  if (startingPosition.squaredDistance(endingPosition) != 5)
+  if (this->position.squaredDistance(endingPosition) != 5)
     return false;
 
   // determine if the move is valid
   Board &board = Board::Instance();
-  std::shared_ptr<Piece> mainPiece = board.getPiece(startingPosition);
   std::shared_ptr<Piece> endingPiece = board.getPiece(endingPosition);
 
-  if (endingPiece != nullptr && endingPiece->getColor() == mainPiece->getColor())
+  if (endingPiece != nullptr && endingPiece->getColor() == this->color)
     return false;
 
   return true;
