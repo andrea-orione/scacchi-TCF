@@ -155,6 +155,15 @@ void Board::updatePiecesVector(std::shared_ptr<Piece> &&newPiece) noexcept
     whitePieces.push_back(newPiece);
 }
 
+bool Board::isSquareAttacked(const Coordinate &square, const PieceColor attackerColor) const
+{
+  const std::vector<std::shared_ptr<Piece>> &attackerVector = (attackerColor == PieceColor::WHITE) ? whitePieces : blackPieces;
+  for (auto attackingPiece : attackerVector) {
+    if (attackingPiece->isMoveValid(square)) return true;
+  }
+  return false;
+}
+
 std::shared_ptr<Piece> Board::getPiece(const Coordinate &position) const
 {
   return squaresMap.find(position)->second;

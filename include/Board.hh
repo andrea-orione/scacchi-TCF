@@ -34,6 +34,8 @@ public:
 
   void updateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> &&square) noexcept;
   void updatePiecesVector(std::shared_ptr<Piece> &&newPiece) noexcept;
+  
+  bool isSquareAttacked(const Coordinate &square, const PieceColor attackerColor) const;
 
   std::shared_ptr<Piece> getPiece(const Coordinate &position) const;
 
