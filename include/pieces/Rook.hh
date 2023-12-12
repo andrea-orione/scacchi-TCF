@@ -13,7 +13,7 @@ public:
   ~Rook() override = default;
 
   std::string toString(bool literal = false) const override;
-  bool isMoveValid(const Coordinate &startingPosition, const Coordinate &endingPosition) const override;
+  bool isMoveValid(const Coordinate &endingPosition) const override;
 
   bool getHasMoved() const;
   void setHasMoved(bool newHasMoved);
