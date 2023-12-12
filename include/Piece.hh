@@ -42,7 +42,7 @@ public:
    *
    * @return The aforementioned vector.
    */
-  virtual bool isMoveValid(const Coordinate &startingPosition, const Coordinate &endingPosition) const = 0;
+  virtual bool isMoveValid(const Coordinate &endingPosition) const = 0;
 
   /**
    * Function for getting the color of the piece.
