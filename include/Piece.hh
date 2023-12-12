@@ -51,5 +51,14 @@ public:
    */
   PieceColor getColor() { return color; }
 
+  /**
+   * Sign function.
+   *
+   * Inspired by Stack Overflow question.
+   *
+   * @param[in] value The integer value of which to take the sign.
+   *
+   * @return The sign of `value`.
+   */
   int sgn(const int value) const { return (0 < value) - (value < 0); }
 };
