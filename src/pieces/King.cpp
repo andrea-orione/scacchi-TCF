@@ -10,6 +10,7 @@
 
 King::King(PieceColor pColor, Coordinate pPosition)
 {
+  pieceType = PieceType::KING;
   color = pColor;
   position = pPosition;
   switch (color)
@@ -38,8 +39,6 @@ bool King::isMoveValid(const Coordinate &endingPosition) const
   if (this->position.squaredDistance(endingPosition) < 3)
   {
     std::shared_ptr<Piece> newSquarePiece = boardInstance.getPiece(endingPosition);
-    if (newSquarePiece == nullptr)
-      return true;
     return (newSquarePiece->getColor() != this->color);
   }
 
@@ -66,7 +65,7 @@ bool King::isMoveValid(const Coordinate &endingPosition) const
   Rook *castlingRook = dynamic_cast<Rook *>(boardInstance.getPiece(rookPosition).get());
   if (castlingRook)
     return false;
-  return !(castlingRook->getHasMoved() || hasMoved);
+  return !(castlingRook->getHasMoved() || this->hasMoved);
 }
 
 std::string King::toString(bool literal) const

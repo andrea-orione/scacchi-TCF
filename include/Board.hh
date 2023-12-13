@@ -37,8 +37,8 @@ public:
   void updatePiecesVector(std::shared_ptr<Piece> &&newPiece) noexcept;
   
   bool isSquareAttacked(const Coordinate &square, const PieceColor attackerColor) const;
-  void normalMove(const Coordinate &startingPosition, const Coordinate &endingPosition, const PieceColor movingPieceColor);
-  void castling(const Coordinate &kingStartingPosition, const Coordinate &kingEndingPosition, const Coordinate &rookStartingPosition, const Coordinate &rookEndingPosition, const PieceColor movingPieceColor);
+  void normalMove(std::shared_ptr<Piece> &movingPiece, const Coordinate &endingPosition);
+  void castling(std::shared_ptr<Piece> &king, const Coordinate &kingEndingPosition);
 
   std::shared_ptr<Piece> getPiece(const Coordinate &position) const;
 

@@ -8,16 +8,6 @@
 
 #include "Piece.hh"
 
-enum class PieceType
-{
-    PAWN,
-    ROOK,
-    KNIGHT,
-    BISHOP,
-    QUEEN,
-    KING
-};
-
 /**
  * Abstract GameManager for the creation of the pieces.
  */

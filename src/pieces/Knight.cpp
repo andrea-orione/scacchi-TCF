@@ -1,9 +1,11 @@
 #include "Knight.hh"
 
 #include "Board.hh"
+#include "Piece.hh"
 
 Knight::Knight(PieceColor pColor, Coordinate pPosition)
 {
+  pieceType = PieceType::KNIGHT;
   color = pColor;
   position = pPosition;
   switch (color)
@@ -41,7 +43,7 @@ bool Knight::isMoveValid(const Coordinate &endingPosition) const
   Board &board = Board::Instance();
   std::shared_ptr<Piece> endingPiece = board.getPiece(endingPosition);
 
-  if (endingPiece != nullptr && endingPiece->getColor() == this->color)
+  if (endingPiece->getColor() == this->color)
     return false;
 
   return true;

@@ -5,10 +5,12 @@
 
 #include "Movement.hh"
 #include "Board.hh"
+#include "Piece.hh"
 #include "Utils.hh"
 
 Bishop::Bishop(PieceColor pColor, Coordinate pPosition)
 {
+  pieceType = PieceType::BISHOP;
   color = pColor;
   position = pPosition;
   switch (color)

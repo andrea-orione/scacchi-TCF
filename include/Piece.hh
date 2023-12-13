@@ -7,7 +7,19 @@
 enum class PieceColor
 {
   BLACK,
-  WHITE
+  WHITE,
+  VOID
+};
+
+enum class PieceType
+{
+  PAWN,
+  ROOK,
+  KNIGHT,
+  BISHOP,
+  QUEEN,
+  KING,
+  VOID
 };
 
 /**
@@ -17,6 +29,7 @@ class Piece
 {
 protected:
   PieceColor color;
+  PieceType pieceType;
   std::string character;
   char literalCharacter;
   Coordinate position;
@@ -47,9 +60,16 @@ public:
   /**
    * Function for getting the color of the piece.
    *
-   * @return The color of the pice.
+   * @return The color of the piece.
    */
   PieceColor getColor() const { return color; }
+
+  /**
+   * Function for getting the type of the piece.
+   *
+   * @return The type of the piece.
+   */
+  PieceType getType() const { return pieceType; }
 
   /**
    * Function for getting the position of the piece.

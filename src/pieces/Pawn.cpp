@@ -1,7 +1,9 @@
 #include "Pawn.hh"
+#include "Piece.hh"
 
 Pawn::Pawn(PieceColor pColor, Coordinate pPosition)
 {
+  pieceType = PieceType::PAWN;
   color = pColor;
   position = pPosition;
   switch (color)

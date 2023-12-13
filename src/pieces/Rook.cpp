@@ -9,6 +9,7 @@
 
 Rook::Rook(PieceColor pColor, Coordinate pPosition)
 {
+  pieceType = PieceType::ROOK;
   color = pColor;
   position = pPosition;
   switch (color)
@@ -41,15 +42,14 @@ bool Rook::isMoveValid(const Coordinate &endingPosition) const
 
   // Check whether the endingPosition is a free square or occupied by an opponent's piece.
   std::shared_ptr<Piece> endingPositionPiece = board.getPiece(endingPosition);
-  if (endingPositionPiece != nullptr)
-    if (endingPositionPiece->getColor() == this->color)
+  if (endingPositionPiece->getColor() == this->color)
       return false;
 
   // Check whether there are other pieces in the way.
   for (Coordinate newPosition = this->position + baseMove; newPosition != endingPosition; newPosition += baseMove)
   {
     std::shared_ptr<Piece> newSquarePiece = board.getPiece(newPosition);
-    if (newSquarePiece != nullptr)
+    if (newSquarePiece->getColor() != PieceColor::VOID)
       return false;
   }
   return true;
