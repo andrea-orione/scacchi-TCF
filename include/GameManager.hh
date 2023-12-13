@@ -2,9 +2,7 @@
 
 #include <memory>
 #include <string>
-#include <vector>
-#include <array>
-#include <map>
+#include <regex>
 
 #include "Piece.hh"
 
@@ -20,7 +18,14 @@ public:
     void loadFenPosition(std::string &&fenString) const;
     void InitializeStartingBoard() const;
 
-    std::shared_ptr<Piece> makePiece(char pieceChar, const Coordinate &pPosition) const;
+    static std::shared_ptr<Piece> makePiece(char pieceChar, const Coordinate &pPosition);
+
+    void getUserMove();
 
 private:
+    static std::regex regexRuleNormal;
+    static std::regex regexRuleEnPassant;
+    static std::regex regexRulePromotion;
+
+    PieceColor activePlayerColor = PieceColor::WHITE;
 };

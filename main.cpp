@@ -9,15 +9,17 @@ int main(int argc, char *argv[])
 {
   Board &board = Board::Instance();
 
-  GameManager *f = new GameManager();
+  GameManager *gm = new GameManager();
 
-  f->InitializeStartingBoard();
+  gm->InitializeStartingBoard();
   board.printBoard();
 
   board.printWhitePieces();
   board.printBlackPieces();
 
-  delete f;
+  gm->getUserMove();
+
+  delete gm;
 
   std::cin.get();
 }
