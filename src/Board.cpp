@@ -157,47 +157,63 @@ void Board::updatePiecesVector(std::shared_ptr<Piece> &&newPiece) noexcept
     whitePieces.push_back(newPiece);
 }
 
+/**
+ *
+ */
 bool Board::isSquareAttacked(const Coordinate &square, const PieceColor attackerColor) const
 {
   const std::vector<std::shared_ptr<Piece>> &attackerVector = (attackerColor == PieceColor::WHITE) ? whitePieces : blackPieces;
-  for (auto attackingPiece : attackerVector) {
-    if (attackingPiece->isMoveValid(square)) return true;
+  for (auto attackingPiece : attackerVector)
+  {
+    if (attackingPiece->isMoveValid(square))
+      return true;
   }
   return false;
 }
 
-void Board::normalMove(std::shared_ptr<Piece> &movingPiece, const Coordinate &endingPosition)
+/**
+ *
+ */
+void Board::normalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate &endingPosition)
 {
-  if (!(movingPiece->isMoveValid(endingPosition))) throw InvalidMoveException();
+  if (!(movingPiece->isMoveValid(endingPosition)))
+    throw InvalidMoveException();
 
   const Coordinate startingPosition = movingPiece->getPosition();
   std::vector<std::shared_ptr<Piece>> &opponentPieceVector = (movingPiece->getColor() == PieceColor::WHITE) ? whitePieces : blackPieces;
   std::shared_ptr<Piece> temporaryStorageCapturedPiece = squaresMap[endingPosition];
   squaresMap[endingPosition] = movingPiece;
   squaresMap[startingPosition] = nullptr; // TODO Change
-  
-  std::shared_ptr<Piece> &friendKing = (movingPiece->getColor() == PieceColor::WHITE) ? whiteKing : blackKing; 
+
+  std::shared_ptr<Piece> &friendKing = (movingPiece->getColor() == PieceColor::WHITE) ? whiteKing : blackKing;
   opponentPieceVector.erase(std::find(opponentPieceVector.begin(), opponentPieceVector.end(), temporaryStorageCapturedPiece));
   // Valid move case
-  if (!(isSquareAttacked(friendKing->getPosition(), !(movingPiece->getColor())))) {
+  if (!(isSquareAttacked(friendKing->getPosition(), !(movingPiece->getColor()))))
+  {
     movingPiece->setPosition(endingPosition);
     return;
   }
-  
+
   // Invalid move case. Resetting the board. // TODO change
-  if(temporaryStorageCapturedPiece != nullptr) opponentPieceVector.push_back(temporaryStorageCapturedPiece);
+  if (temporaryStorageCapturedPiece != nullptr)
+    opponentPieceVector.push_back(temporaryStorageCapturedPiece);
   squaresMap[startingPosition] = movingPiece;
   squaresMap[endingPosition] = temporaryStorageCapturedPiece;
   throw InvalidMoveException();
 }
 
-void Board::castling(std::shared_ptr<Piece> &king, const Coordinate &kingEndingPosition)
+/**
+ *
+ */
+void Board::castling(std::shared_ptr<Piece> &&king, const Coordinate &kingEndingPosition)
 {
-  if (!(king->isMoveValid(kingEndingPosition))) throw InvalidMoveException();
+  if (!(king->isMoveValid(kingEndingPosition)))
+    throw InvalidMoveException();
 
-  //Preliminary control that the king isn't in check
+  // Preliminary control that the king isn't in check
   const Coordinate kingStartingPosition = king->getPosition();
-  if (isSquareAttacked(kingStartingPosition, king->getColor())) throw InvalidMoveException();
+  if (isSquareAttacked(kingStartingPosition, king->getColor()))
+    throw InvalidMoveException();
 
   const int rookY = kingStartingPosition.getY();
   const Coordinate rookStartingPosition = (kingEndingPosition.getX() == 7) ? Coordinate(8, rookY) : Coordinate(1, rookY);
@@ -213,14 +229,17 @@ void Board::castling(std::shared_ptr<Piece> &king, const Coordinate &kingEndingP
     squaresMap[rookEndingPosition]->setPosition(rookEndingPosition);
     return;
   }
-  
+
   squaresMap[kingStartingPosition] = squaresMap[kingEndingPosition];
   squaresMap[rookStartingPosition] = squaresMap[rookEndingPosition];
   squaresMap[kingEndingPosition] = nullptr;
   squaresMap[rookEndingPosition] = nullptr;
-  throw  InvalidMoveException();
+  throw InvalidMoveException();
 }
 
+/**
+ *
+ */
 std::shared_ptr<Piece> Board::getPiece(const Coordinate &position) const
 {
   return squaresMap.find(position)->second;
@@ -270,9 +289,4 @@ void Board::printBlackPieces() const
     cout << piece->toString() << " ";
   }
   cout << "\n";
-}
-
-
-std::string InvalidMoveException::what() {
-    return "This move is invalid";
 }

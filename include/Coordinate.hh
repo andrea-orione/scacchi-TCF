@@ -20,6 +20,7 @@ public:
   Coordinate(char literalNewX, int newY);
   Coordinate(std::string literalNewX, int newY);
   Coordinate(std::string literalExpression);
+  Coordinate(std::string_view literalExpression);
   Coordinate(const Coordinate &newCoordinate);
   Coordinate operator=(const Coordinate &newCoordinate);
 
@@ -40,7 +41,7 @@ public:
 
   int squaredDistance(const Coordinate &other) const;
 
-  void print() const;  // DEPRECATED. USE `toString` INSTEAD
+  void print() const; // DEPRECATED. USE `toString` INSTEAD
   std::string toString() const;
 
 private:

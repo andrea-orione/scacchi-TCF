@@ -93,6 +93,32 @@ Coordinate::Coordinate(std::string literalExpression)
 }
 
 /**
+ * Take an `std::string` representing the coordinate with a char and an int.
+ *
+ * @param[in] literalEspression the value to instantiate
+ *   valid values are 2 chars long string containing
+ *   a char from `a` to `h` (included) corresponding to an int from 1 to 8 for the x (column)
+ *   and an int between 1 to 8 (included) for the y (row).
+ */
+Coordinate::Coordinate(std::string_view literalExpression)
+{
+  if (literalExpression.length() != 2)
+    throw std::invalid_argument("Non valid literal expression");
+
+  int newY = literalExpression[1] - '0';
+  if (newY < 1 || newY > 8)
+    throw std::out_of_range("y value outside the board");
+
+  char literalNewX = literalExpression[0];
+  int xIndex = literalChars.find(literalNewX);
+  if (xIndex == std::string::npos)
+    throw std::invalid_argument("x value not valid");
+
+  x = xIndex + 1;
+  y = newY;
+}
+
+/**
  * The copy constructor.
  *
  * @param[in] newCoordinate the Coordinate to be copied

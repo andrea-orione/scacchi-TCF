@@ -6,8 +6,7 @@
 #include <string_view>
 #include <memory>
 #include <map>
-#include <regex>
-#include <array>
+#include <stdexcept>
 
 #include "Board.hh"
 #include "Bishop.hh"
@@ -17,6 +16,7 @@
 #include "Knight.hh"
 #include "King.hh"
 #include "Queen.hh"
+#include "Utils.hh"
 
 using std::cout;
 using std::endl;
@@ -133,31 +133,57 @@ std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate &pPos
   }
 }
 
+/**
+ * Function for reading moves from the user.
+ *
+ * It checks whether the input is valid, then calls the right
+ * function to execute the move.
+ */
 void GameManager::getUserMove()
 {
   std::string userMove;
   Board &board = Board::Instance();
-  while (true)
+  cout << "Write your move: ";
+  std::getline(std::cin, userMove);
+
+  if (userMove.length() == 4 && std::regex_match(userMove, regexRuleNormal))
   {
-    cout << "Write your move: ";
-    std::getline(std::cin, userMove);
-    cout << "length:" << userMove.length() << endl;
+    cout << "Mossa normale\n";
 
-    if (userMove.length() == 4 && std::regex_match(userMove, regexRuleNormal))
-    {
-      cout << "Mossa normale\n";
+    std::string_view startingSquare(userMove.c_str(), 2);
+    std::string_view endingSquare(userMove.c_str() + 2, 2);
+    cout << startingSquare << " --> " << endingSquare << "\n";
 
-      std::string_view startingSquare(userMove.c_str(), 2);
-      std::string_view endingSquare(userMove.c_str() + 2, 2);
-      cout << startingSquare << " --> " << endingSquare << "\n";
-    }
-    else if (userMove.length() == 9 && std::regex_match(userMove, regexRuleEnPassant))
-    {
-      cout << "En passant\n";
-    }
-    else if (userMove.length() == 5 && std::regex_match(userMove, regexRulePromotion))
-    {
-      cout << "Promozione\n";
-    }
+    std::shared_ptr<Piece> piece = board.getPiece(Coordinate(startingSquare));
+    cout << piece->toString() << endl;
+    board.normalMove(std::move(piece), Coordinate(endingSquare));
   }
+  else if (userMove.length() == 9 && std::regex_match(userMove, regexRuleEnPassant))
+  {
+    cout << "En passant\n";
+
+    std::string_view startingSquare(userMove.c_str(), 2);
+    std::string_view endingSquare(userMove.c_str() + 2, 2);
+    cout << startingSquare << " --> " << endingSquare << "\n";
+
+    std::shared_ptr<Piece> piece = board.getPiece(Coordinate(startingSquare));
+    cout << piece->toString() << endl;
+
+    //! @todo EN PASSANT function
+  }
+  else if (userMove.length() == 5 && std::regex_match(userMove, regexRulePromotion))
+  {
+    cout << "Promozione\n";
+
+    std::string_view startingSquare(userMove.c_str(), 2);
+    std::string_view endingSquare(userMove.c_str() + 2, 2);
+    cout << startingSquare << " --> " << endingSquare << "\n";
+
+    std::shared_ptr<Piece> piece = board.getPiece(Coordinate(startingSquare));
+    cout << piece->toString() << endl;
+
+    //! @todo PROMOTION function
+  }
+  else
+    throw InvalidNotationException();
 }
