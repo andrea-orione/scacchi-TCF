@@ -1,5 +1,14 @@
 #include "GameManager.hh"
 
+#include <iostream>
+#include <cctype>
+#include <stdexcept>
+#include <string_view>
+#include <memory>
+#include <map>
+#include <regex>
+#include <array>
+
 #include "Board.hh"
 #include "Bishop.hh"
 #include "Pawn.hh"
@@ -8,8 +17,13 @@
 #include "Knight.hh"
 #include "King.hh"
 #include "Queen.hh"
-#include <cctype>
-#include <stdexcept>
+
+using std::cout;
+using std::endl;
+
+std::regex GameManager::regexRuleNormal("[a-h]{1}[0-8]{1}[a-h]{1}[0-8]{1}");
+std::regex GameManager::regexRuleEnPassant("[a-h]{1}[0-8]{1}[a-h]{1}[0-8]{1}\\se.p.");
+std::regex GameManager::regexRulePromotion("[a-h]{1}[0-8]{1}[a-h]{1}[0-8]{1}[R,N,B,Q,r,n,b,q]{1}");
 
 /**
  * Function to Initialize the board from a FEN string
@@ -50,7 +64,7 @@ void GameManager::loadFenPosition(std::string &&fenString) const
 
     // Insert the piece. makePiece should handle the errors
     Coordinate pPosition(analyzingX, analyzingY);
-    auto piece = makePiece(analyzingChar, pPosition);
+    std::shared_ptr<Piece> piece = makePiece(analyzingChar, pPosition);
     std::pair<Coordinate, std::shared_ptr<Piece>> p(pPosition, piece);
     boardInstance.updateSquare(std::move(p));
     boardInstance.updatePiecesVector(std::move(piece));
@@ -75,7 +89,7 @@ void GameManager::InitializeStartingBoard() const
  *
  * @return The pointer to the piece that has been created created.
  */
-std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate &pPosition) const
+std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate &pPosition)
 {
   // determine the color of the piece
   PieceColor pColor;
@@ -116,5 +130,34 @@ std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate &pPos
     break;
   default:
     throw std::invalid_argument("GameManager::makePiece(char, Coordinate) Invalid pieceString value.");
+  }
+}
+
+void GameManager::getUserMove()
+{
+  std::string userMove;
+  Board &board = Board::Instance();
+  while (true)
+  {
+    cout << "Write your move: ";
+    std::getline(std::cin, userMove);
+    cout << "length:" << userMove.length() << endl;
+
+    if (userMove.length() == 4 && std::regex_match(userMove, regexRuleNormal))
+    {
+      cout << "Mossa normale\n";
+
+      std::string_view startingSquare(userMove.c_str(), 2);
+      std::string_view endingSquare(userMove.c_str() + 2, 2);
+      cout << startingSquare << " --> " << endingSquare << "\n";
+    }
+    else if (userMove.length() == 9 && std::regex_match(userMove, regexRuleEnPassant))
+    {
+      cout << "En passant\n";
+    }
+    else if (userMove.length() == 5 && std::regex_match(userMove, regexRulePromotion))
+    {
+      cout << "Promozione\n";
+    }
   }
 }
