@@ -1,7 +1,9 @@
 #include "Board.hh"
 #include "Coordinate.hh"
+#include "Utils.hh"
 #include "Piece.hh"
 
+#include <algorithm>
 #include <iostream>
 #include <memory>
 #include <string>
@@ -155,6 +157,68 @@ void Board::updatePiecesVector(std::shared_ptr<Piece> &&newPiece) noexcept
     whitePieces.push_back(newPiece);
 }
 
+bool Board::isSquareAttacked(const Coordinate &square, const PieceColor attackerColor) const
+{
+  const std::vector<std::shared_ptr<Piece>> &attackerVector = (attackerColor == PieceColor::WHITE) ? whitePieces : blackPieces;
+  for (auto attackingPiece : attackerVector) {
+    if (attackingPiece->isMoveValid(square)) return true;
+  }
+  return false;
+}
+
+void Board::normalMove(const Coordinate &startingPosition, const Coordinate &endingPosition, const PieceColor movingPieceColor)
+{
+  const std::shared_ptr<Piece> movingPiece = squaresMap[startingPosition];
+  if (!(movingPiece->isMoveValid(endingPosition))) throw InvalidMoveException();
+
+  std::vector<std::shared_ptr<Piece>> &opponentPieceVector = (movingPieceColor == PieceColor::WHITE) ? whitePieces : blackPieces;
+  std::shared_ptr<Piece> temporaryStorageCapturedPiece = squaresMap[endingPosition];
+  squaresMap[endingPosition] = movingPiece;
+  squaresMap[startingPosition] = nullptr;
+  
+  std::shared_ptr<Piece> &friendKing = (movingPieceColor == PieceColor::WHITE) ? whiteKing : blackKing; 
+  opponentPieceVector.erase(std::find(opponentPieceVector.begin(), opponentPieceVector.end(), temporaryStorageCapturedPiece));
+  // Valid move case
+  if (!(isSquareAttacked(friendKing->getPosition(), !movingPieceColor))) {
+    movingPiece->setPosition(endingPosition);
+    return;
+  }
+  
+  // Invalid move case. Resetting the board.
+  if(temporaryStorageCapturedPiece != nullptr) opponentPieceVector.push_back(temporaryStorageCapturedPiece);
+  squaresMap[startingPosition] = movingPiece;
+  squaresMap[endingPosition] = temporaryStorageCapturedPiece;
+  throw InvalidMoveException();
+}
+
+void Board::castling(const Coordinate &kingStartingPosition, const Coordinate &kingEndingPosition, const Coordinate &rookStartingPosition, const Coordinate &rookEndingPosition, const PieceColor movingPieceColor)
+{
+  const std::shared_ptr<Piece> king = squaresMap[kingStartingPosition];
+  if (!(king->isMoveValid(kingEndingPosition))) throw InvalidMoveException();
+
+  //Preliminary control that the king isn't in check
+  if (isSquareAttacked(kingStartingPosition, movingPieceColor)) throw InvalidMoveException();
+
+  squaresMap[kingEndingPosition] = squaresMap[kingStartingPosition];
+  squaresMap[rookEndingPosition] = squaresMap[rookStartingPosition];
+  squaresMap[kingStartingPosition] = nullptr;
+  squaresMap[rookStartingPosition] = nullptr;
+
+  if (!(isSquareAttacked(kingEndingPosition, movingPieceColor) && isSquareAttacked(rookEndingPosition, movingPieceColor)))
+  {
+    squaresMap[kingEndingPosition]->setPosition(kingEndingPosition);
+    squaresMap[rookEndingPosition]->setPosition(rookEndingPosition);
+    return;
+  }
+  
+  squaresMap[kingStartingPosition] = squaresMap[kingEndingPosition];
+  squaresMap[rookStartingPosition] = squaresMap[rookEndingPosition];
+  squaresMap[kingEndingPosition] = nullptr;
+  squaresMap[rookEndingPosition] = nullptr;
+  throw  InvalidMoveException();
+
+}
+
 std::shared_ptr<Piece> Board::getPiece(const Coordinate &position) const
 {
   return squaresMap.find(position)->second;
@@ -204,4 +268,9 @@ void Board::printBlackPieces() const
     cout << piece->toString() << " ";
   }
   cout << "\n";
+}
+
+
+std::string InvalidMoveException::what() {
+    return "This move is invalid";
 }

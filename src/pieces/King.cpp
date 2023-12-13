@@ -4,6 +4,7 @@
 #include "Movement.hh"
 #include "Piece.hh"
 #include "Rook.hh"
+#include "Utils.hh"
 #include <memory>
 #include <stdexcept>
 
@@ -50,7 +51,7 @@ bool King::isMoveValid(const Coordinate &endingPosition) const
     return false;
 
   // Chooses direction
-  Movement direction(sgn(xDistance), 0);
+  Movement direction(utils::sgn(xDistance), 0);
   int limit = (direction.getX() > 0) ? 3 : 4;
 
   // Checks that all square are void (check condition checked in Board function to avoid recursive calls)

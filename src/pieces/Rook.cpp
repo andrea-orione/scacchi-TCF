@@ -3,6 +3,7 @@
 #include "Coordinate.hh"
 #include "Movement.hh"
 #include "Piece.hh"
+#include "Utils.hh"
 #include <memory>
 #include <stdexcept>
 
@@ -36,7 +37,7 @@ bool Rook::isMoveValid(const Coordinate &endingPosition) const
 
   // Choose direction
   Board &board = Board::Instance();
-  Movement baseMove(sgn(xDistance), sgn(yDistance));
+  Movement baseMove(utils::sgn(xDistance), utils::sgn(yDistance));
 
   // Check whether the endingPosition is a free square or occupied by an opponent's piece.
   std::shared_ptr<Piece> endingPositionPiece = board.getPiece(endingPosition);
