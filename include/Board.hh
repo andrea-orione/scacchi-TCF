@@ -67,7 +67,5 @@ private:
 class InvalidMoveException : public std::exception 
 {
 public:
-  std::string what() {
-    return "This move is invalid";
-  }
+  std::string what();
 };

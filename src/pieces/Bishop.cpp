@@ -5,6 +5,7 @@
 
 #include "Movement.hh"
 #include "Board.hh"
+#include "Utils.hh"
 
 Bishop::Bishop(PieceColor pColor, Coordinate pPosition)
 {
@@ -42,7 +43,7 @@ bool Bishop::isMoveValid(const Coordinate &endingPosition) const
     return false;
 
   // determine diagonal
-  Movement baseMove(sgn(xDistance), sgn(yDistance));
+  Movement baseMove(utils::sgn(xDistance), utils::sgn(yDistance));
 
   // determine if the move is valid valid
   Board &board = Board::Instance();

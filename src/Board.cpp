@@ -199,6 +199,23 @@ void Board::castling(const Coordinate &kingStartingPosition, const Coordinate &k
   //Preliminary control that the king isn't in check
   if (isSquareAttacked(kingStartingPosition, movingPieceColor)) throw InvalidMoveException();
 
+  squaresMap[kingEndingPosition] = squaresMap[kingStartingPosition];
+  squaresMap[rookEndingPosition] = squaresMap[rookStartingPosition];
+  squaresMap[kingStartingPosition] = nullptr;
+  squaresMap[rookStartingPosition] = nullptr;
+
+  if (!(isSquareAttacked(kingEndingPosition, movingPieceColor) && isSquareAttacked(rookEndingPosition, movingPieceColor)))
+  {
+    squaresMap[kingEndingPosition]->setPosition(kingEndingPosition);
+    squaresMap[rookEndingPosition]->setPosition(rookEndingPosition);
+    return;
+  }
+  
+  squaresMap[kingStartingPosition] = squaresMap[kingEndingPosition];
+  squaresMap[rookStartingPosition] = squaresMap[rookEndingPosition];
+  squaresMap[kingEndingPosition] = nullptr;
+  squaresMap[rookEndingPosition] = nullptr;
+  throw  InvalidMoveException();
 
 }
 
@@ -251,4 +268,9 @@ void Board::printBlackPieces() const
     cout << piece->toString() << " ";
   }
   cout << "\n";
+}
+
+
+std::string InvalidMoveException::what() {
+    return "This move is invalid";
 }

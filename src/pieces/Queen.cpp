@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "Board.hh"
+#include "Utils.hh"
 
 Queen::Queen(PieceColor pColor, Coordinate pPosition)
 {
@@ -40,7 +41,7 @@ bool Queen::isMoveValid(const Coordinate &endingPosition) const
     return false;
 
   // determine direction
-  Movement baseMove(sgn(xDistance), sgn(yDistance));
+  Movement baseMove(utils::sgn(xDistance), utils::sgn(yDistance));
 
   // determine if the move is valid
   Board &board = Board::Instance();

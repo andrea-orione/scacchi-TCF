@@ -7,7 +7,7 @@ PieceColor operator!(const PieceColor &oldColor)
 }
 
 
-int sgn(const int value)
+int utils::sgn(const int value)
 {
   return (0 < value) - (value < 0);
 }
