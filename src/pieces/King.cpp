@@ -8,11 +8,12 @@
 #include <memory>
 #include <stdexcept>
 
-King::King(PieceColor pColor, Coordinate pPosition)
+King::King(PieceColor pColor, Coordinate pPosition, bool pHasMoved)
 {
   pieceType = PieceType::KING;
   color = pColor;
   position = pPosition;
+  hasMoved = pHasMoved;
   switch (color)
   {
   case PieceColor::WHITE:
@@ -61,11 +62,8 @@ bool King::isMoveValid(const Coordinate &endingPosition) const
   }
 
   // Checks whether there is the rook and if eaten one of them has moved
-  Coordinate rookPosition = this->position + (direction * limit);
-  Rook *castlingRook = dynamic_cast<Rook *>(boardInstance.getPiece(rookPosition).get());
-  if (castlingRook)
-    return false;
-  return !(castlingRook->getHasMoved() || this->hasMoved);
+  std::shared_ptr<Piece> castlingRook = boardInstance.getPiece(this->position + (direction * limit));
+  return (castlingRook->canCastle() || this->canCastle());
 }
 
 std::string King::toString(bool literal) const
@@ -73,4 +71,10 @@ std::string King::toString(bool literal) const
   if (literal)
     return std::string(1, literalCharacter);
   return character;
+}
+
+void King::move(const Coordinate &newPosition) 
+{
+  position = newPosition;
+  hasMoved = true;
 }

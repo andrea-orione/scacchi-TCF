@@ -80,9 +80,15 @@ public:
 
   /**
    *
-   * The position setter.
-   *
-   * @param[in] newPosition a coordinate object to assign to the position.
    */
-  void setPosition(const Coordinate& newPosition) {position = newPosition;}
+  virtual void move(const Coordinate& newPosition) {position = newPosition; }
+
+  /**
+   * Checks wether the piece can castle.
+   * 
+   * For a default piece just returns false. It will be overriden by rook and king.
+   *
+   * @return A boolean indicatin if the piece can castle.
+   */
+  virtual bool canCastle() const { return false; }
 };

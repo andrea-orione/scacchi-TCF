@@ -16,6 +16,7 @@
 #include "Knight.hh"
 #include "King.hh"
 #include "Queen.hh"
+#include "VoidPiece.hh"
 #include "Utils.hh"
 
 using std::cout;
@@ -89,8 +90,11 @@ void GameManager::InitializeStartingBoard() const
  *
  * @return The pointer to the piece that has been created created.
  */
-std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate &pPosition)
+std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate &pPosition, const bool hasMoved)
 {
+  // Check if void
+  if (pChar == 0) return std::make_shared<VoidPiece>(pPosition);
+
   // determine the color of the piece
   PieceColor pColor;
   if (std::isupper(pChar))
@@ -114,7 +118,7 @@ std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate &pPos
     return std::make_shared<Pawn>(pColor, pPosition);
     break;
   case 'R':
-    return std::make_shared<Rook>(pColor, pPosition);
+    return std::make_shared<Rook>(pColor, pPosition, hasMoved);
     break;
   case 'N':
     return std::make_shared<Knight>(pColor, pPosition);
@@ -126,7 +130,7 @@ std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate &pPos
     return std::make_shared<Queen>(pColor, pPosition);
     break;
   case 'K':
-    return std::make_shared<King>(pColor, pPosition);
+    return std::make_shared<King>(pColor, pPosition, hasMoved);
     break;
   default:
     throw std::invalid_argument("GameManager::makePiece(char, Coordinate) Invalid pieceString value.");

@@ -21,6 +21,7 @@ Knight::Knight(PieceColor pColor, Coordinate pPosition)
   default:
     break;
   }
+  std::cout << pPosition.getX() << std::endl;
 }
 
 std::string Knight::toString(bool literal) const
@@ -34,17 +35,19 @@ bool Knight::isMoveValid(const Coordinate &endingPosition) const
 {
   int xDistance = endingPosition.getX() - this->position.getX();
   int yDistance = endingPosition.getY() - this->position.getY();
+  std::cout << this->position.getX() <<std::endl;
+  std::cout << xDistance << std::endl;
+  std::cout << yDistance << std::endl;
 
   // geometric check
   if (this->position.squaredDistance(endingPosition) != 5)
-    return false;
+  {std::cout << "Q1" << std::endl;
+    return false;}
 
   // determine if the move is valid
   Board &board = Board::Instance();
   std::shared_ptr<Piece> endingPiece = board.getPiece(endingPosition);
 
-  if (endingPiece->getColor() == this->color)
-    return false;
-
-  return true;
+  std::cout << "Q2" << std::endl;
+  return !(endingPiece->getColor() == this->color);
 }

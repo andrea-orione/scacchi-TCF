@@ -9,15 +9,14 @@
 class Rook : public Piece
 {
 public:
-  Rook(PieceColor pColor, Coordinate pPosition);
+  Rook(PieceColor pColor, Coordinate pPosition, bool pHasMoved=false);
   ~Rook() override = default;
 
   std::string toString(bool literal = false) const override;
   bool isMoveValid(const Coordinate &endingPosition) const override;
 
-  bool getHasMoved() const { return hasMoved; }
-  void setHasMoved(bool newHasMoved) { hasMoved = newHasMoved; }
-
+  bool canCastle() const override { return hasMoved; }
+  void move(const Coordinate &newPosition) override; 
 private:
   bool hasMoved;
 };

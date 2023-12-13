@@ -7,11 +7,12 @@
 #include <memory>
 #include <stdexcept>
 
-Rook::Rook(PieceColor pColor, Coordinate pPosition)
+Rook::Rook(PieceColor pColor, Coordinate pPosition, bool pHasMoved)
 {
   pieceType = PieceType::ROOK;
   color = pColor;
   position = pPosition;
+  hasMoved = pHasMoved;
   switch (color)
   {
   case PieceColor::WHITE:
@@ -60,4 +61,10 @@ std::string Rook::toString(bool literal) const
   if (literal)
     return std::string(1, literalCharacter);
   return character;
+}
+
+void Rook::move(const Coordinate &newPosition) 
+{
+  position = newPosition;
+  hasMoved = true;
 }

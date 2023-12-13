@@ -1,5 +1,6 @@
 #include "Board.hh"
 #include "Coordinate.hh"
+#include "GameManager.hh"
 #include "Utils.hh"
 #include "Piece.hh"
 
@@ -29,7 +30,8 @@ Board::Board()
   {
     for (int column = 1; column < 9; column++)
     {
-      squaresMap.insert(std::make_pair(Coordinate(column, row), nullptr));
+      Coordinate position(column, row);
+      squaresMap.insert(std::make_pair(position, GameManager::makePiece(0, position)));
     }
   }
 }
@@ -69,11 +71,7 @@ void Board::printBoard(bool simplified) const
     for (int column = 1; column < 9; column++)
     {
       auto piecePtr = squaresMap.find(Coordinate(column, row))->second;
-
-      if (piecePtr == nullptr)
-        cout << " ";
-      else
-        cout << piecePtr->toString(simplified);
+      cout << piecePtr->toString(simplified);
 
       // Slightly inefficient but makes the code cleaner
       if (column != 8)
@@ -113,11 +111,7 @@ void Board::printBoardReversed(bool simplified) const
     for (int column = 8; column > 0; column--)
     {
       auto piecePtr = squaresMap.find(Coordinate(column, row))->second;
-
-      if (piecePtr == nullptr)
-        cout << " ";
-      else
-        cout << piecePtr->toString(simplified);
+      cout << piecePtr->toString(simplified);
 
       // Slightly inefficient but makes the code cleaner
       if (column != 1)
@@ -177,25 +171,27 @@ bool Board::isSquareAttacked(const Coordinate &square, const PieceColor attacker
 void Board::normalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate &endingPosition)
 {
   if (!(movingPiece->isMoveValid(endingPosition)))
-    throw InvalidMoveException();
+  { 
+    throw InvalidMoveException();}
 
   const Coordinate startingPosition = movingPiece->getPosition();
   std::vector<std::shared_ptr<Piece>> &opponentPieceVector = (movingPiece->getColor() == PieceColor::WHITE) ? whitePieces : blackPieces;
   std::shared_ptr<Piece> temporaryStorageCapturedPiece = squaresMap[endingPosition];
   squaresMap[endingPosition] = movingPiece;
-  squaresMap[startingPosition] = nullptr; // TODO Change
+  squaresMap[startingPosition] = GameManager::makePiece(0, startingPosition);
 
   std::shared_ptr<Piece> &friendKing = (movingPiece->getColor() == PieceColor::WHITE) ? whiteKing : blackKing;
-  opponentPieceVector.erase(std::find(opponentPieceVector.begin(), opponentPieceVector.end(), temporaryStorageCapturedPiece));
+  if (temporaryStorageCapturedPiece->getType() != PieceType::VOID)
+    opponentPieceVector.erase(std::find(opponentPieceVector.begin(), opponentPieceVector.end(), temporaryStorageCapturedPiece));
   // Valid move case
   if (!(isSquareAttacked(friendKing->getPosition(), !(movingPiece->getColor()))))
   {
-    movingPiece->setPosition(endingPosition);
+    movingPiece->move(endingPosition);
     return;
   }
 
   // Invalid move case. Resetting the board. // TODO change
-  if (temporaryStorageCapturedPiece != nullptr)
+  if (temporaryStorageCapturedPiece->getColor() != PieceColor::VOID)
     opponentPieceVector.push_back(temporaryStorageCapturedPiece);
   squaresMap[startingPosition] = movingPiece;
   squaresMap[endingPosition] = temporaryStorageCapturedPiece;
@@ -220,20 +216,20 @@ void Board::castling(std::shared_ptr<Piece> &&king, const Coordinate &kingEnding
   const Coordinate rookEndingPosition = (kingEndingPosition.getX() == 7) ? Coordinate(6, rookY) : Coordinate(4, rookY);
   squaresMap[kingEndingPosition] = squaresMap[kingStartingPosition];
   squaresMap[rookEndingPosition] = squaresMap[rookStartingPosition];
-  squaresMap[kingStartingPosition] = nullptr;
-  squaresMap[rookStartingPosition] = nullptr;
+  squaresMap[kingStartingPosition] = GameManager::makePiece(0, kingStartingPosition);
+  squaresMap[rookStartingPosition] = GameManager::makePiece(0, rookStartingPosition);
 
   if (!(isSquareAttacked(kingEndingPosition, king->getColor()) && isSquareAttacked(rookEndingPosition, king->getColor())))
   {
-    squaresMap[kingEndingPosition]->setPosition(kingEndingPosition);
-    squaresMap[rookEndingPosition]->setPosition(rookEndingPosition);
+    squaresMap[kingEndingPosition]->move(kingEndingPosition);
+    squaresMap[rookEndingPosition]->move(rookEndingPosition);
     return;
   }
 
   squaresMap[kingStartingPosition] = squaresMap[kingEndingPosition];
   squaresMap[rookStartingPosition] = squaresMap[rookEndingPosition];
-  squaresMap[kingEndingPosition] = nullptr;
-  squaresMap[rookEndingPosition] = nullptr;
+  squaresMap[kingEndingPosition] = GameManager::makePiece(0, kingEndingPosition);
+  squaresMap[rookEndingPosition] = GameManager::makePiece(0, rookEndingPosition);
   throw InvalidMoveException();
 }
 
@@ -258,7 +254,8 @@ void Board::clearBoard()
   {
     for (int column = 1; column < 9; column++)
     {
-      squaresMap[Coordinate(column, row)] = nullptr;
+      Coordinate position(column, row);
+      squaresMap[position] = GameManager::makePiece(0, position);
     }
   }
 }
