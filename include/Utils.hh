@@ -13,8 +13,17 @@ PieceColor operator!(const PieceColor &oldColor);
 class InvalidNotationException : public std::exception
 {
 public:
-  std::string what()
+  const char *what()
   {
-    return "The notation used does not correspond to a valid move.";
+    return "InvalidNotationException: The notation used does not correspond to a valid move.";
+  }
+};
+
+class InvalidMoveException : public std::exception
+{
+public:
+  const char *what()
+  {
+    return "InvalidMoveException: This move is invalid";
   }
 };

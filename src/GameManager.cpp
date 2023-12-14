@@ -45,7 +45,9 @@ void GameManager::loadFenPosition(std::string &&fenString) const
 
     // Check if is a `/` or if it should be (if it shouldn't it will throw an error in the last part)
     if (analyzingX == 9 && analyzingChar != '/')
+    {
       throw std::invalid_argument("GameManager::loadFenPosition(string) Invalid string.");
+    }
     if (analyzingX == 9 && analyzingChar == '/')
     {
       analyzingX = 1;
@@ -69,6 +71,7 @@ void GameManager::loadFenPosition(std::string &&fenString) const
     std::pair<Coordinate, std::shared_ptr<Piece>> p(pPosition, piece);
     boardInstance.updateSquare(std::move(p));
     boardInstance.updatePiecesVector(std::move(piece));
+
     analyzingX++;
     analyzingPosition++;
   }
@@ -79,8 +82,18 @@ void GameManager::loadFenPosition(std::string &&fenString) const
  */
 void GameManager::InitializeStartingBoard() const
 {
-  this->loadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-  
+  try
+  {
+    this->loadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    Board &board = Board::Instance();
+    board.addKings();
+  }
+  catch (const std::invalid_argument &e)
+  {
+    std::cerr << e.what() << '\n';
+    std::exit(0);
+  }
+
   Board &boardInstance = Board::Instance();
 }
 
@@ -95,7 +108,8 @@ void GameManager::InitializeStartingBoard() const
 std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate &pPosition, const bool hasMoved)
 {
   // Check if void
-  if (pChar == 0) return std::make_shared<VoidPiece>(pPosition);
+  if (pChar == 0)
+    return std::make_shared<VoidPiece>(pPosition);
 
   // determine the color of the piece
   PieceColor pColor;
@@ -118,22 +132,16 @@ std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate &pPos
   {
   case 'P':
     return std::make_shared<Pawn>(pColor, pPosition);
-    break;
   case 'R':
     return std::make_shared<Rook>(pColor, pPosition, hasMoved);
-    break;
   case 'N':
     return std::make_shared<Knight>(pColor, pPosition);
-    break;
   case 'B':
     return std::make_shared<Bishop>(pColor, pPosition);
-    break;
   case 'Q':
     return std::make_shared<Queen>(pColor, pPosition);
-    break;
   case 'K':
     return std::make_shared<King>(pColor, pPosition, hasMoved);
-    break;
   default:
     throw std::invalid_argument("GameManager::makePiece(char, Coordinate) Invalid pieceString value.");
   }
@@ -162,7 +170,14 @@ void GameManager::getUserMove()
 
     std::shared_ptr<Piece> piece = board.getPiece(Coordinate(startingSquare));
     cout << piece->toString() << endl;
-    board.normalMove(std::move(piece), Coordinate(endingSquare));
+    try
+    {
+      board.normalMove(std::move(piece), Coordinate(endingSquare));
+    }
+    catch (InvalidMoveException &e)
+    {
+      cout << e.what() << endl;
+    }
   }
   else if (userMove.length() == 9 && std::regex_match(userMove, regexRuleEnPassant))
   {

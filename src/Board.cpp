@@ -152,11 +152,20 @@ void Board::updatePiecesVector(std::shared_ptr<Piece> &&newPiece) noexcept
 }
 
 /**
+ * Function for updating the data members `whiteKing` and `blackKing`.
+ */
+void Board::addKings()
+{
+  whiteKing = getPiece(Coordinate('e', 1));
+  blackKing = getPiece(Coordinate('e', 8));
+}
+
+/**
  *
  */
 bool Board::isSquareAttacked(const Coordinate &square, const PieceColor attackerColor) const
 {
-  const std::vector<std::shared_ptr<Piece>> &attackerVector = (attackerColor == PieceColor::WHITE) ? whitePieces : blackPieces;
+  std::vector<std::shared_ptr<Piece>> attackerVector = (attackerColor == PieceColor::WHITE) ? whitePieces : blackPieces;
   for (auto attackingPiece : attackerVector)
   {
     if (attackingPiece->isMoveValid(square))
@@ -171,30 +180,27 @@ bool Board::isSquareAttacked(const Coordinate &square, const PieceColor attacker
 void Board::normalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate &endingPosition)
 {
   if (!(movingPiece->isMoveValid(endingPosition)))
-  { 
-    throw InvalidMoveException();}
+  {
+    throw InvalidMoveException();
+  }
 
   const Coordinate startingPosition = movingPiece->getPosition();
-  std::vector<std::shared_ptr<Piece>> &opponentPieceVector = (movingPiece->getColor() == PieceColor::WHITE) ? whitePieces : blackPieces;
+  std::vector<std::shared_ptr<Piece>> opponentPieceVector = (movingPiece->getColor() == PieceColor::WHITE) ? whitePieces : blackPieces;
   std::shared_ptr<Piece> temporaryStorageCapturedPiece = squaresMap[endingPosition];
   squaresMap[endingPosition] = movingPiece;
   squaresMap[startingPosition] = GameManager::makePiece(0, startingPosition);
+  std::shared_ptr<Piece> friendKing = (movingPiece->getColor() == PieceColor::WHITE) ? whiteKing : blackKing;
 
-  std::shared_ptr<Piece> &friendKing = (movingPiece->getColor() == PieceColor::WHITE) ? whiteKing : blackKing;
-  if (temporaryStorageCapturedPiece->getType() != PieceType::VOID)
-    opponentPieceVector.erase(std::find(opponentPieceVector.begin(), opponentPieceVector.end(), temporaryStorageCapturedPiece));
+  Board &board = Board::Instance();
+  board.printBoard();
+
   // Valid move case
-  std::cout << "Checkpoint 1" << std::endl;
-  !(movingPiece->getColor());
-  friendKing->getPosition();
-  std::cout << "Checkpoint 1.5" << std::endl;
-  if (!(isSquareAttacked(friendKing->getPosition(), !(movingPiece->getColor()))))
+  if (!isSquareAttacked(friendKing->getPosition(), !(movingPiece->getColor())))
   {
-    std::cout << "Checkpoint 2" << std::endl;
-    movingPiece->move(endingPosition);
+    if (temporaryStorageCapturedPiece->getType() != PieceType::VOID)
+      opponentPieceVector.erase(std::find(opponentPieceVector.begin(), opponentPieceVector.end(), temporaryStorageCapturedPiece));
     return;
   }
-  std::cout << "checkpoint 3"<< std::endl;
 
   // Invalid move case. Resetting the board. // TODO change
   if (temporaryStorageCapturedPiece->getColor() != PieceColor::VOID)

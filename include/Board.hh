@@ -36,6 +36,7 @@ public:
 
   void updateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> &&square) noexcept;
   void updatePiecesVector(std::shared_ptr<Piece> &&newPiece) noexcept;
+  void addKings();
 
   bool isSquareAttacked(const Coordinate &square, const PieceColor attackerColor) const;
   void normalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate &endingPosition);
@@ -62,13 +63,4 @@ private:
   // The pointer to the kings. Useful for fast checking if are in check.
   std::shared_ptr<Piece> whiteKing;
   std::shared_ptr<Piece> blackKing;
-};
-
-class InvalidMoveException : public std::exception
-{
-public:
-  std::string what()
-  {
-    return "This move is invalid";
-  }
 };
