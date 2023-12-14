@@ -65,7 +65,7 @@ bool King::isMoveValid(const Coordinate &endingPosition) const
     if (boardInstance.getPiece(newPosition)->getColor() != PieceColor::VOID)
       return false;
   }
-  return true;
+  throw CastlingSignal();
 }
 
 std::string King::toString(bool literal) const
