@@ -50,15 +50,13 @@ bool Bishop::isMoveValid(const Coordinate &endingPosition) const
   // determine if the move is valid valid
   Board &board = Board::Instance();
   std::shared_ptr<Piece> endingPositionPiece = board.getPiece(endingPosition);
-  if (endingPositionPiece != nullptr)
-    if (endingPositionPiece->getColor() == this->color)
-      return false;
+  if (endingPositionPiece->getColor() == this->color)
+    return false;
 
   // Check whether there are other pieces in the way.
   for (Coordinate newPosition = this->position + baseMove; newPosition != endingPosition; newPosition += baseMove)
   {
-    std::shared_ptr<Piece> newSquarePiece = board.getPiece(newPosition);
-    if (newSquarePiece != nullptr)
+    if (board.getPiece(newPosition)->getColor() != PieceColor::VOID)
       return false;
   }
   return true;

@@ -52,18 +52,20 @@ bool King::isMoveValid(const Coordinate &endingPosition) const
 
   // Chooses direction
   Movement direction(utils::sgn(xDistance), 0);
-  int limit = (direction.getX() > 0) ? 3 : 4;
+  int rookXPosition = (direction.getX() > 0) ? 8 : 1;
+  Coordinate rookPosition(rookXPosition, this->position.getY());
+  // Checks whether there is the rook and if eather one of them has moved
+  std::shared_ptr<Piece> castlingRook = boardInstance.getPiece(rookPosition);
+  if (!castlingRook->canCastle() || !this->canCastle())
+    return false;
 
   // Checks that all square are void (check condition checked in Board function to avoid recursive calls)
-  for (int i = 1; i < limit; i++)
+  for (Coordinate newPosition = this->position + direction; newPosition != rookPosition; newPosition += direction)
   {
-    if (boardInstance.getPiece(this->position + (direction * i)) != nullptr)
+    if (boardInstance.getPiece(newPosition)->getColor() != PieceColor::VOID)
       return false;
   }
-
-  // Checks whether there is the rook and if eaten one of them has moved
-  std::shared_ptr<Piece> castlingRook = boardInstance.getPiece(this->position + (direction * limit));
-  return (castlingRook->canCastle() || this->canCastle());
+  return true;
 }
 
 std::string King::toString(bool literal) const
