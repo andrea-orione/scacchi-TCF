@@ -1,7 +1,5 @@
 #pragma once
 
-// TODO Consider making the scaling factor unsigned, to remove condition checking. Consider that also 0 is not allowed.
-// TODO Consider switching the * operator whith a traditional method `Movement scale(const int multiplier) const`. Just 'cause. Idk.
 /**
  * The movement system on the board.
  *

@@ -22,8 +22,13 @@ public:
 class InvalidMoveException : public std::exception
 {
 public:
-  const char *what()
-  {
-    return "InvalidMoveException: This move is invalid";
+  InvalidMoveException(const char * msg) : message(msg) {};
+  const char *what() {
+    return message;
   }
+private:
+  const char * message;
 };
+
+class CastlingSignal : public std::exception
+{};

@@ -179,11 +179,14 @@ bool Board::isSquareAttacked(const Coordinate &square, const PieceColor attacker
  */
 void Board::normalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate &endingPosition)
 {
-  if (!(movingPiece->isMoveValid(endingPosition)))
-  {
-    throw InvalidMoveException();
+  try {
+    if (!(movingPiece->isMoveValid(endingPosition)))
+      throw InvalidMoveException("This move is not allowed. This piece cannot reach that position.");
+  } catch (const CastlingSignal) {
+    castling(std::move(movingPiece), endingPosition);
+    return;
   }
-
+ 
   const Coordinate startingPosition = movingPiece->getPosition();
   std::vector<std::shared_ptr<Piece>> opponentPieceVector = (movingPiece->getColor() == PieceColor::WHITE) ? whitePieces : blackPieces;
   std::shared_ptr<Piece> temporaryStorageCapturedPiece = squaresMap[endingPosition];
@@ -191,23 +194,21 @@ void Board::normalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate &e
   squaresMap[startingPosition] = GameManager::makePiece(0, startingPosition);
   std::shared_ptr<Piece> friendKing = (movingPiece->getColor() == PieceColor::WHITE) ? whiteKing : blackKing;
 
-  Board &board = Board::Instance();
-  board.printBoard();
-
   // Valid move case
   if (!isSquareAttacked(friendKing->getPosition(), !(movingPiece->getColor())))
   {
+    movingPiece->move(endingPosition);
     if (temporaryStorageCapturedPiece->getType() != PieceType::VOID)
       opponentPieceVector.erase(std::find(opponentPieceVector.begin(), opponentPieceVector.end(), temporaryStorageCapturedPiece));
     return;
   }
 
-  // Invalid move case. Resetting the board. // TODO change
+  // Invalid move case. Resetting the board.
   if (temporaryStorageCapturedPiece->getColor() != PieceColor::VOID)
     opponentPieceVector.push_back(temporaryStorageCapturedPiece);
   squaresMap[startingPosition] = movingPiece;
   squaresMap[endingPosition] = temporaryStorageCapturedPiece;
-  throw InvalidMoveException();
+  throw InvalidMoveException("This move is not allowed. The king would be in check.");
 }
 
 /**
@@ -215,13 +216,10 @@ void Board::normalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate &e
  */
 void Board::castling(std::shared_ptr<Piece> &&king, const Coordinate &kingEndingPosition)
 {
-  if (!(king->isMoveValid(kingEndingPosition)))
-    throw InvalidMoveException();
-
   // Preliminary control that the king isn't in check
   const Coordinate kingStartingPosition = king->getPosition();
   if (isSquareAttacked(kingStartingPosition, king->getColor()))
-    throw InvalidMoveException();
+    throw InvalidMoveException("Castling is not allowed. The king is in check.");
 
   const int rookY = kingStartingPosition.getY();
   const Coordinate rookStartingPosition = (kingEndingPosition.getX() == 7) ? Coordinate(8, rookY) : Coordinate(1, rookY);
@@ -242,7 +240,7 @@ void Board::castling(std::shared_ptr<Piece> &&king, const Coordinate &kingEnding
   squaresMap[rookStartingPosition] = squaresMap[rookEndingPosition];
   squaresMap[kingEndingPosition] = GameManager::makePiece(0, kingEndingPosition);
   squaresMap[rookEndingPosition] = GameManager::makePiece(0, rookEndingPosition);
-  throw InvalidMoveException();
+  throw InvalidMoveException("Castling is not allowed. The king cannot pass through or end in check.");
 }
 
 /**

@@ -12,13 +12,13 @@ int main(int argc, char *argv[])
   GameManager *gm = new GameManager();
 
   gm->InitializeStartingBoard();
-  board.printBoard();
 
-  board.printWhitePieces();
-  board.printBlackPieces();
-
-
-  gm->getUserMove();
+  while (true) {
+    board.printBoard();
+    board.printWhitePieces();
+    board.printBlackPieces();
+    gm->getUserMove();
+  }
 
   delete gm;
 

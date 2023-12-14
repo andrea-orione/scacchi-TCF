@@ -7,7 +7,6 @@
 #include "Movement.hh"
 
 // TODO Delete DEPRECATED methods
-// TODO Consider switching the + operator whith a traditional method `Movement add(const Movement movement) const`. Just 'cause. Idk.
 /**
  * The coordinate system on the board.
  *
