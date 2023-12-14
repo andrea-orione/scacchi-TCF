@@ -184,11 +184,17 @@ void Board::normalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate &e
   if (temporaryStorageCapturedPiece->getType() != PieceType::VOID)
     opponentPieceVector.erase(std::find(opponentPieceVector.begin(), opponentPieceVector.end(), temporaryStorageCapturedPiece));
   // Valid move case
+  std::cout << "Checkpoint 1" << std::endl;
+  !(movingPiece->getColor());
+  friendKing->getPosition();
+  std::cout << "Checkpoint 1.5" << std::endl;
   if (!(isSquareAttacked(friendKing->getPosition(), !(movingPiece->getColor()))))
   {
+    std::cout << "Checkpoint 2" << std::endl;
     movingPiece->move(endingPosition);
     return;
   }
+  std::cout << "checkpoint 3"<< std::endl;
 
   // Invalid move case. Resetting the board. // TODO change
   if (temporaryStorageCapturedPiece->getColor() != PieceColor::VOID)

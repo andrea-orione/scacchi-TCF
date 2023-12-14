@@ -80,6 +80,8 @@ void GameManager::loadFenPosition(std::string &&fenString) const
 void GameManager::InitializeStartingBoard() const
 {
   this->loadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+  
+  Board &boardInstance = Board::Instance();
 }
 
 /**

@@ -124,7 +124,7 @@ Coordinate::Coordinate(std::string_view literalExpression)
  * @param[in] newCoordinate the Coordinate to be copied
  */
 Coordinate::Coordinate(const Coordinate &newCoordinate)
-{
+{ 
   x = newCoordinate.x;
   y = newCoordinate.y;
 }
@@ -136,7 +136,13 @@ Coordinate::Coordinate(const Coordinate &newCoordinate)
  */
 Coordinate Coordinate::operator=(const Coordinate &newCoordinate)
 {
-  return Coordinate(newCoordinate.x, newCoordinate.y);
+  // Check for self assignment 
+  if(this != &newCoordinate) 
+  {
+    this->x = newCoordinate.x;
+    this->y = newCoordinate.y;
+  }
+  return *this; 
 }
 
 /**
