@@ -14,7 +14,7 @@ class Movement
 public:
   Movement(int newX = 0, int newY = 0);
   Movement(const Movement &newMovement);
-  Movement operator=(const Movement &newMovement);
+  Movement &operator=(const Movement &newMovement);
 
   Movement &setX(int newX);
   Movement &setY(int newY);

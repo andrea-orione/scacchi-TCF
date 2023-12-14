@@ -22,7 +22,7 @@ public:
   Coordinate(std::string literalExpression);
   Coordinate(std::string_view literalExpression);
   Coordinate(const Coordinate &newCoordinate);
-  Coordinate operator=(const Coordinate &newCoordinate);
+  Coordinate &operator=(const Coordinate &newCoordinate);
 
   Coordinate &setX(int newX);
   Coordinate &setY(int newY);

@@ -37,9 +37,15 @@ Movement::Movement(const Movement &newMovement)
  *
  * @param[in] newMovement the Movement to be copied.
  */
-Movement Movement::operator=(const Movement &newMovement)
+Movement &Movement::operator=(const Movement &newMovement)
 {
-  return Movement(newMovement.x, newMovement.y);
+  // Check for self assignment 
+  if(this != &newMovement) 
+  {
+    this->x = newMovement.x;
+    this->y = newMovement.y;
+  }
+  return *this; 
 }
 
 /**

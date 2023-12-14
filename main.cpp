@@ -20,8 +20,6 @@ int main(int argc, char *argv[])
 
   gm->getUserMove();
 
-  std::cout << "CheckPoint";
-
   delete gm;
 
   std::cin.get();

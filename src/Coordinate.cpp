@@ -134,7 +134,7 @@ Coordinate::Coordinate(const Coordinate &newCoordinate)
  *
  * @param[in] newCoordinate the Coordinate to be copied.
  */
-Coordinate Coordinate::operator=(const Coordinate &newCoordinate)
+Coordinate &Coordinate::operator=(const Coordinate &newCoordinate)
 {
   // Check for self assignment 
   if(this != &newCoordinate) 
