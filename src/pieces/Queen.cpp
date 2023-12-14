@@ -39,7 +39,7 @@ bool Queen::isMoveValid(const Coordinate &endingPosition) const
   const int yDistance = endingPosition.getY() - this->position.getY();
 
   // geometric check
-  if (abs(xDistance) != abs(yDistance) || (xDistance != 0 && yDistance != 0))
+  if (abs(xDistance) != abs(yDistance) && (xDistance != 0 && yDistance != 0))
     return false;
 
   // determine direction
@@ -60,6 +60,5 @@ bool Queen::isMoveValid(const Coordinate &endingPosition) const
     if (newSquarePiece->getColor() != PieceColor::VOID)
       return false;
   }
-
   return true;
 }
