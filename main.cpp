@@ -14,9 +14,9 @@ int main(int argc, char *argv[])
   gm->InitializeStartingBoard();
 
   while (true) {
-    board.printBoard();
-    board.printWhitePieces();
-    board.printBlackPieces();
+    board.printWhiteInterface();
+    board.printBlackInterface();
+    board.printDoubleInterface();
     gm->getUserMove();
   }
 
