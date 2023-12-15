@@ -4,6 +4,11 @@
 #include <string>
 #include <vector>
 
+/**
+ * Enumeration representing the color of the piece.
+ *
+ * Can take three values: `BLACK`, `WHITE` and `VOID`.
+ */
 enum class PieceColor
 {
   BLACK,
@@ -11,6 +16,11 @@ enum class PieceColor
   VOID
 };
 
+/**
+ * Enumeration representing the type of the piece.
+ *
+ * Can take six values: `PAWN`, `ROOK`, `KNIGHT`, `BISHOP`, `QUEEN` and `KING`.
+ */
 enum class PieceType
 {
   PAWN,
@@ -45,15 +55,15 @@ public:
   virtual std::string toString(bool literal = false) const = 0;
 
   /**
-   * Return the vector with valid coordinates.
+   * Function for determining whether a move is valid or not.
    *
-   * It creates a vector containing all the coordinates that are reachable
-   * by the piece from the square it's in.
-   * It take in consideration the limits of the board and the other pieces.
-   * Squares with friend pieces cannot be occupied while squares with opponent's
-   * pieces can be occupied (capture) but not passed through.
+   * It controls if the move indicated by the player is compatible
+   * with the possible moves of the piece and if there are no other
+   * pieces in the way.
    *
-   * @return The aforementioned vector.
+   * @param[in] endingPosition The square where the piece should move to.
+   *
+   * @return `true` if the move is valid, `false` if it's not.
    */
   virtual bool isMoveValid(const Coordinate &endingPosition) const = 0;
 
@@ -79,16 +89,19 @@ public:
   Coordinate getPosition() const { return position; }
 
   /**
+   * Function for moving the piece to anew square.
    *
+   * @param[in] newPosition The square where to move the piece to.
    */
-  virtual void move(const Coordinate& newPosition) {position = newPosition; }
+  virtual void move(const Coordinate &newPosition) { position = newPosition; }
 
   /**
-   * Checks wether the piece can castle.
-   * 
-   * For a default piece just returns false. It will be overriden by rook and king.
+   * Checks whether the piece can castle or not.
    *
-   * @return A boolean indicatin if the piece can castle.
+   * For a default piece just returns false.
+   * It will be overridden by rook and king.
+   *
+   * @return `true` if the piece can castle, `false` if it can't.
    */
   virtual bool canCastle() const { return false; }
 };

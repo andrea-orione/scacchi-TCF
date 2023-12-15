@@ -6,6 +6,10 @@
 #include "Piece.hh"
 #include "Coordinate.hh"
 
+/**
+ * The class representing the knights.
+ * It inherits from the `Piece` class.
+ */
 class Knight : public Piece
 {
 public:

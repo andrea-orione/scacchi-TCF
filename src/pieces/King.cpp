@@ -60,7 +60,7 @@ bool King::isMoveValid(const Coordinate &endingPosition) const
     return false;
 
   // Checks that all square are void (check condition checked in Board function to avoid recursive calls)
-  for (Coordinate newPosition = this->position + direction; newPosition != rookPosition; newPosition += direction)
+  for (Coordinate newPosition = this->getPosition() + direction; newPosition != rookPosition; newPosition += direction)
   {
     if (boardInstance.getPiece(newPosition)->getColor() != PieceColor::VOID)
       return false;
@@ -75,7 +75,7 @@ std::string King::toString(bool literal) const
   return character;
 }
 
-void King::move(const Coordinate &newPosition) 
+void King::move(const Coordinate &newPosition)
 {
   position = newPosition;
   hasMoved = true;

@@ -47,14 +47,14 @@ bool Bishop::isMoveValid(const Coordinate &endingPosition) const
   // determine diagonal
   Movement baseMove(utils::sgn(xDistance), utils::sgn(yDistance));
 
-  // determine if the move is valid valid
+  // determine if the move is valid
   Board &board = Board::Instance();
   std::shared_ptr<Piece> endingPositionPiece = board.getPiece(endingPosition);
   if (endingPositionPiece->getColor() == this->color)
     return false;
 
   // Check whether there are other pieces in the way.
-  for (Coordinate newPosition = this->position + baseMove; newPosition != endingPosition; newPosition += baseMove)
+  for (Coordinate newPosition = this->getPosition() + baseMove; newPosition != endingPosition; newPosition += baseMove)
   {
     if (board.getPiece(newPosition)->getColor() != PieceColor::VOID)
       return false;

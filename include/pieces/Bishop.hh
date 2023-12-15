@@ -6,6 +6,10 @@
 #include "Piece.hh"
 #include "Coordinate.hh"
 
+/**
+ * The class representing the bishops.
+ * It inherits from the `Piece` class.
+ */
 class Bishop : public Piece
 {
 public:

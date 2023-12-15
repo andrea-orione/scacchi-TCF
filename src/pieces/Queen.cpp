@@ -51,10 +51,10 @@ bool Queen::isMoveValid(const Coordinate &endingPosition) const
   // check final square
   std::shared_ptr<Piece> endingPositionPiece = board.getPiece(endingPosition);
   if (endingPositionPiece->getColor() == this->color)
-      return false;
+    return false;
 
   // Check whether there are other pieces in the way.
-  for (Coordinate newPosition = this->position + baseMove; newPosition != endingPosition; newPosition += baseMove)
+  for (Coordinate newPosition = this->getPosition() + baseMove; newPosition != endingPosition; newPosition += baseMove)
   {
     std::shared_ptr<Piece> newSquarePiece = board.getPiece(newPosition);
     if (newSquarePiece->getColor() != PieceColor::VOID)

@@ -27,9 +27,9 @@ std::regex GameManager::regexRuleEnPassant("[a-h]{1}[0-8]{1}[a-h]{1}[0-8]{1}\\se
 std::regex GameManager::regexRulePromotion("[a-h]{1}[0-8]{1}[a-h]{1}[0-8]{1}[R,N,B,Q,r,n,b,q]{1}");
 
 /**
- * Function to Initialize the board from a FEN string
+ * Function to initialize the board from a FEN string.
  *
- * @param[in] fenString The string containing the position to load.
+ * @param[in] fenString The string containing the configuration to load.
  */
 void GameManager::loadFenPosition(std::string &&fenString) const
 {
@@ -46,7 +46,7 @@ void GameManager::loadFenPosition(std::string &&fenString) const
     // Check if is a `/` or if it should be (if it shouldn't it will throw an error in the last part)
     if (analyzingX == 9 && analyzingChar != '/')
     {
-      throw std::invalid_argument("GameManager::loadFenPosition(string) Invalid string.");
+      throw std::invalid_argument("GameManager::loadFenPosition(string) Invalid string formatting.");
     }
     if (analyzingX == 9 && analyzingChar == '/')
     {
@@ -66,11 +66,18 @@ void GameManager::loadFenPosition(std::string &&fenString) const
     }
 
     // Insert the piece. makePiece should handle the errors
-    Coordinate pPosition(analyzingX, analyzingY);
-    std::shared_ptr<Piece> piece = makePiece(analyzingChar, pPosition);
-    std::pair<Coordinate, std::shared_ptr<Piece>> p(pPosition, piece);
-    boardInstance.updateSquare(std::move(p));
-    boardInstance.updatePiecesVector(std::move(piece));
+    try
+    {
+      Coordinate pPosition(analyzingX, analyzingY);
+      std::shared_ptr<Piece> piece = makePiece(analyzingChar, pPosition);
+      std::pair<Coordinate, std::shared_ptr<Piece>> p(pPosition, piece);
+      boardInstance.updateSquare(std::move(p));
+      boardInstance.updatePiecesVector(std::move(piece));
+    }
+    catch (const std::invalid_argument &e)
+    {
+      throw std::invalid_argument("GameManager::loadFenPosition(string) Invalid naming in FEN string.");
+    }
 
     analyzingX++;
     analyzingPosition++;
@@ -84,7 +91,7 @@ void GameManager::InitializeStartingBoard() const
 {
   try
   {
-    //this->loadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    // this->loadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
     this->loadFenPosition("rnbqkbnr/8/8/8/8/8/8/RNBQKBNR w KQkq - 0 1");
     Board &board = Board::Instance();
     board.addKings();
@@ -92,17 +99,16 @@ void GameManager::InitializeStartingBoard() const
   catch (const std::invalid_argument &e)
   {
     std::cerr << e.what() << '\n';
-    std::exit(0);
+    throw std::runtime_error("Impossible to load the FEN string.");
   }
-
-  Board &boardInstance = Board::Instance();
 }
 
 /**
- * Function for creating the pointer to a specified piece from a string.
+ * Function for creating the pointer to a specified piece from.
  *
- * @param[in] pChar The Character representing the piece.
+ * @param[in] pChar The `char` representing the piece.
  * @param[in] pPosition The position of the piece.
+ * @param[in] hasMoved For king and rook, `false` by default.
  *
  * @return The pointer to the piece that has been created created.
  */
@@ -125,7 +131,7 @@ std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate &pPos
   }
   else
   {
-    throw std::invalid_argument("GameManager::makePiece(char, Coordinate) Invalid pieceString value.");
+    throw std::invalid_argument("GameManager::makePiece(char, Coordinate) Invalid value for char representing piece.");
   }
 
   // determine the type of the piece
@@ -144,23 +150,28 @@ std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate &pPos
   case 'K':
     return std::make_shared<King>(pColor, pPosition, hasMoved);
   default:
-    throw std::invalid_argument("GameManager::makePiece(char, Coordinate) Invalid pieceString value.");
+    throw std::invalid_argument("GameManager::makePiece(char, Coordinate) Invalid value for char representing piece.");
   }
 }
 
 /**
  * Function for reading moves from the user.
  *
- * It checks whether the input is valid, then calls the right
+ * It checks if the input is valid, then calls the right
  * function to execute the move.
+ *
+ * @return `true` if the move has been performed, `false` if it hasn't.
+ *
+ * @todo Remove all the cout after testing.
  */
-void GameManager::getUserMove()
+bool GameManager::getUserMove() const
 {
   std::string userMove;
   Board &board = Board::Instance();
   cout << "Write your move: ";
   std::getline(std::cin, userMove);
 
+  // Normal move
   if (userMove.length() == 4 && std::regex_match(userMove, regexRuleNormal))
   {
     cout << "Mossa normale\n";
@@ -169,17 +180,19 @@ void GameManager::getUserMove()
     std::string_view endingSquare(userMove.c_str() + 2, 2);
     cout << startingSquare << " --> " << endingSquare << "\n";
 
-    std::shared_ptr<Piece> piece = board.getPiece(Coordinate(startingSquare));
-    cout << piece->toString() << endl;
+    std::shared_ptr<Piece> pieceToMove = board.getPiece(Coordinate(startingSquare));
+    cout << pieceToMove->toString() << endl;
     try
     {
-      board.normalMove(std::move(piece), Coordinate(endingSquare));
+      board.normalMove(std::move(pieceToMove), Coordinate(endingSquare));
     }
     catch (InvalidMoveException &e)
     {
       cout << e.what() << endl;
+      return false;
     }
   }
+  // En passant
   else if (userMove.length() == 9 && std::regex_match(userMove, regexRuleEnPassant))
   {
     cout << "En passant\n";
@@ -188,11 +201,12 @@ void GameManager::getUserMove()
     std::string_view endingSquare(userMove.c_str() + 2, 2);
     cout << startingSquare << " --> " << endingSquare << "\n";
 
-    std::shared_ptr<Piece> piece = board.getPiece(Coordinate(startingSquare));
-    cout << piece->toString() << endl;
+    std::shared_ptr<Piece> pieceToMove = board.getPiece(Coordinate(startingSquare));
+    cout << pieceToMove->toString() << endl;
 
     //! @todo EN PASSANT function
   }
+  // Promotion
   else if (userMove.length() == 5 && std::regex_match(userMove, regexRulePromotion))
   {
     cout << "Promozione\n";
@@ -201,11 +215,13 @@ void GameManager::getUserMove()
     std::string_view endingSquare(userMove.c_str() + 2, 2);
     cout << startingSquare << " --> " << endingSquare << "\n";
 
-    std::shared_ptr<Piece> piece = board.getPiece(Coordinate(startingSquare));
-    cout << piece->toString() << endl;
+    std::shared_ptr<Piece> pieceToMove = board.getPiece(Coordinate(startingSquare));
+    cout << pieceToMove->toString() << endl;
 
     //! @todo PROMOTION function
   }
   else
     throw InvalidNotationException();
+
+  return true;
 }

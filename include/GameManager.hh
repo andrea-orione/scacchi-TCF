@@ -7,7 +7,8 @@
 #include "Piece.hh"
 
 /**
- * Abstract GameManager for the creation of the pieces.
+ * A class for managing the creation of the pieces,
+ * the board and the user IO.
  */
 class GameManager
 {
@@ -18,9 +19,9 @@ public:
     void loadFenPosition(std::string &&fenString) const;
     void InitializeStartingBoard() const;
 
-    static std::shared_ptr<Piece> makePiece(char pieceChar, const Coordinate &pPosition, const bool hasMoved=false);
+    static std::shared_ptr<Piece> makePiece(char pieceChar, const Coordinate &pPosition, const bool hasMoved = false);
 
-    void getUserMove();
+    bool getUserMove() const;
 
 private:
     static std::regex regexRuleNormal;

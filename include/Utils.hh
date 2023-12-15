@@ -5,7 +5,7 @@
 #include "Piece.hh"
 namespace utils
 {
-  int sgn(const int value);
+  inline int sgn(const int value) { return (0 < value) - (value < 0); }
 }
 
 PieceColor operator!(const PieceColor &oldColor);
@@ -22,13 +22,16 @@ public:
 class InvalidMoveException : public std::exception
 {
 public:
-  InvalidMoveException(const char * msg) : message(msg) {};
-  const char *what() {
+  InvalidMoveException(const char *msg) : message(msg){};
+  const char *what()
+  {
     return message;
   }
+
 private:
-  const char * message;
+  const char *message;
 };
 
 class CastlingSignal : public std::exception
-{};
+{
+};

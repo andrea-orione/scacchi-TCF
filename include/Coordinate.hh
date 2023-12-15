@@ -17,16 +17,16 @@ class Coordinate
 public:
   Coordinate(int newX = 1, int newY = 1);
   Coordinate(char literalNewX, int newY);
-  Coordinate(std::string literalNewX, int newY);
-  Coordinate(std::string literalExpression);
   Coordinate(std::string_view literalExpression);
   Coordinate(const Coordinate &newCoordinate);
-  Coordinate &operator=(const Coordinate &newCoordinate);
+  // Coordinate(std::string literalNewX, int newY);
+  // Coordinate(std::string literalExpression);
+  // Coordinate &operator=(const Coordinate &newCoordinate);
 
   Coordinate &setX(int newX);
   Coordinate &setY(int newY);
-  int getX() const;
-  int getY() const;
+  int getX() const { return x; }
+  int getY() const { return y; }
 
   // Used in containers, such as maps. (< and == should have been enough but you never know)
   bool operator<(const Coordinate &other) const;
@@ -35,12 +35,11 @@ public:
   bool operator<=(const Coordinate &other) const;
   bool operator>=(const Coordinate &other) const;
 
-  Coordinate operator+(const Movement &movement) const;
+  Coordinate &operator+(const Movement &movement);
   Coordinate &operator+=(const Movement &movement);
 
   int squaredDistance(const Coordinate &other) const;
 
-  void print() const; // DEPRECATED. USE `toString` INSTEAD
   std::string toString() const;
 
 private:

@@ -55,7 +55,7 @@ public:
   void printBlackPieces() const;
 
 private:
-  Board();
+  Board(); // private constructor
   void castling(std::shared_ptr<Piece> &&king, const Coordinate &kingEndingPosition);
 
   // Map defining the squares as {coordinate : pointer to piece}.
@@ -65,11 +65,13 @@ private:
   std::vector<std::shared_ptr<Piece>> whitePieces;
   // Vector with the pointers to the black pieces on the board.
   std::vector<std::shared_ptr<Piece>> blackPieces;
-
+  // Vector with the pointers to the white pieces captured.
   std::vector<std::shared_ptr<Piece>> whiteCapturedPieces;
+  // Vector with the pointers to the black pieces captured.
   std::vector<std::shared_ptr<Piece>> blackCapturedPieces;
 
-  // The pointer to the kings. Useful for fast checking if are in check.
+  // Pointer to the white king.
   std::shared_ptr<Piece> whiteKing;
+  // Pointer to the black king.
   std::shared_ptr<Piece> blackKing;
 };

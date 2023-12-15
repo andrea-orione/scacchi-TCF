@@ -6,6 +6,10 @@
 #include "Piece.hh"
 #include "Coordinate.hh"
 
+/**
+ * The class representing empty squares.
+ * It inherits from the `Piece` class.
+ */
 class VoidPiece : public Piece
 {
 public:

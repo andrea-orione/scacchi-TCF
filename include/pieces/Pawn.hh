@@ -6,6 +6,10 @@
 #include "Piece.hh"
 #include "Coordinate.hh"
 
+/**
+ * The class representing the pawns.
+ * It inherits from the `Piece` class.
+ */
 class Pawn : public Piece
 {
 public:
