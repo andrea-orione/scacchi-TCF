@@ -21,7 +21,9 @@ public:
 
     static std::shared_ptr<Piece> makePiece(char pieceChar, const Coordinate &pPosition, const bool hasMoved = false);
 
-    bool getUserMove() const;
+    void getUserMove() const;
+    void gameLoop();
+    void killGame() const;
 
 private:
     static std::regex regexRuleNormal;
@@ -29,4 +31,5 @@ private:
     static std::regex regexRulePromotion;
 
     PieceColor activePlayerColor = PieceColor::WHITE;
+    bool gameFinished = false;
 };

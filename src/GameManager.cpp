@@ -19,6 +19,7 @@
 #include "VoidPiece.hh"
 #include "Utils.hh"
 
+using std::cin;
 using std::cout;
 using std::endl;
 
@@ -160,16 +161,24 @@ std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate &pPos
  * It checks if the input is valid, then calls the right
  * function to execute the move.
  *
- * @return `true` if the move has been performed, `false` if it hasn't.
- *
  * @todo Remove all the cout after testing.
  */
-bool GameManager::getUserMove() const
+void GameManager::getUserMove() const
 {
   std::string userMove;
   Board &board = Board::Instance();
   cout << "Write your move: ";
   std::getline(std::cin, userMove);
+
+  if (userMove == "exit" || userMove == "EXIT")
+  {
+    char exitChar;
+    cout << "Are you sure you want to exit? (y/n)\n";
+    cin >> exitChar;
+
+    if (exitChar == 'y' || exitChar == 'Y')
+      throw std::runtime_error("Exiting the game.");
+  }
 
   // Normal move
   if (userMove.length() == 4 && std::regex_match(userMove, regexRuleNormal))
@@ -182,15 +191,8 @@ bool GameManager::getUserMove() const
 
     std::shared_ptr<Piece> pieceToMove = board.getPiece(Coordinate(startingSquare));
     cout << pieceToMove->toString() << endl;
-    try
-    {
-      board.normalMove(std::move(pieceToMove), Coordinate(endingSquare));
-    }
-    catch (InvalidMoveException &e)
-    {
-      cout << e.what() << endl;
-      return false;
-    }
+
+    board.normalMove(std::move(pieceToMove), Coordinate(endingSquare));
   }
   // En passant
   else if (userMove.length() == 9 && std::regex_match(userMove, regexRuleEnPassant))
@@ -222,6 +224,40 @@ bool GameManager::getUserMove() const
   }
   else
     throw InvalidNotationException();
+}
 
-  return true;
+void GameManager::gameLoop()
+{
+  Board &board = Board::Instance();
+
+  while (!gameFinished)
+  {
+    (activePlayerColor == PieceColor::WHITE) ? board.printWhiteInterface() : board.printBlackInterface();
+    try
+    {
+      getUserMove();
+    }
+    catch (InvalidMoveException &e)
+    {
+      std::cerr << e.what() << '\n';
+      continue;
+    }
+    catch (InvalidNotationException &e)
+    {
+      std::cerr << e.what() << '\n';
+      continue;
+    }
+    catch (std::runtime_error &e)
+    {
+      std::cerr << e.what() << '\n';
+      killGame();
+    }
+
+    activePlayerColor = !activePlayerColor;
+  }
+}
+
+void GameManager::killGame() const
+{
+  std::exit(0);
 }
