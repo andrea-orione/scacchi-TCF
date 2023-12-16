@@ -129,9 +129,9 @@ bool Movement::operator>=(const Movement &other) const
 }
 
 /**
- * The multiplier operator.
+ * Operator `*` overloading.
  *
- * Return the movement scaled by the multiplier factor, if the result stays in the constrains.
+ * Return the movement scaled by the multiplier factor, if the result respects the constraints.
  *
  * @param[in] multiplier the positive factor by which the movement will be scaled.
  * @return the scaled movement.

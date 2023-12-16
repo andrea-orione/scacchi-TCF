@@ -28,7 +28,6 @@ public:
   int getX() const { return x; }
   int getY() const { return y; }
 
-  // Used in containers, such as maps. (< and == should have been enough but you never know)
   bool operator<(const Coordinate &other) const;
   bool operator>(const Coordinate &other) const;
   bool operator==(const Coordinate &other) const;

@@ -12,7 +12,7 @@ class Movement
 public:
   Movement(int newX = 0, int newY = 0);
   Movement(const Movement &newMovement);
-  // Movement &operator=(const Movement &newMovement);
+  Movement &operator=(const Movement &newMovement);
 
   Movement &setX(int newX);
   Movement &setY(int newY);
@@ -20,7 +20,6 @@ public:
   int getY() const { return y; }
   // Movement &invertDirection();
 
-  // Used in containers, such as vectors. (< and == should have been enough but you never know)
   bool operator<(const Movement &other) const;
   bool operator>(const Movement &other) const;
   bool operator==(const Movement &other) const;
