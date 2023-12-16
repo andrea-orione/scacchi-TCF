@@ -19,9 +19,9 @@ public:
   Coordinate(char literalNewX, int newY);
   Coordinate(std::string_view literalExpression);
   Coordinate(const Coordinate &newCoordinate);
+  Coordinate &operator=(const Coordinate &newCoordinate);
   // Coordinate(std::string literalNewX, int newY);
   // Coordinate(std::string literalExpression);
-  // Coordinate &operator=(const Coordinate &newCoordinate);
 
   Coordinate &setX(int newX);
   Coordinate &setY(int newY);
@@ -32,6 +32,7 @@ public:
   bool operator<(const Coordinate &other) const;
   bool operator>(const Coordinate &other) const;
   bool operator==(const Coordinate &other) const;
+  bool operator!=(const Coordinate &other) const;
   bool operator<=(const Coordinate &other) const;
   bool operator>=(const Coordinate &other) const;
 

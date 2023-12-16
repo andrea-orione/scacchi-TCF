@@ -83,6 +83,23 @@ Coordinate::Coordinate(const Coordinate &newCoordinate)
 }
 
 /**
+ * The copy operator.
+ *
+ * @param[in] newCoordinate the Coordinate to be copied.
+ */
+Coordinate &Coordinate::operator=(const Coordinate &newCoordinate)
+{
+  // Check for self assignment
+  if (this != &newCoordinate)
+  {
+    this->x = newCoordinate.x;
+    this->y = newCoordinate.y;
+  }
+
+  return *this;
+}
+
+/**
  * The x setter.
  *
  * @param[in] newX an int from 1 to 8 (included) to assign to the x (column).
@@ -137,6 +154,13 @@ bool Coordinate::operator>(const Coordinate &other) const
 bool Coordinate::operator==(const Coordinate &other) const
 {
   return (x == other.x && y == other.y);
+}
+/**
+ * Operator `!=` overloading.
+ */
+bool Coordinate::operator!=(const Coordinate &other) const
+{
+  return !(x == other.x && y == other.y);
 }
 
 /**
@@ -278,20 +302,4 @@ std::string Coordinate::toString() const
 
 //   x = xIndex + 1;
 //   y = newY;
-// }
-
-/**
- * The copy operator.
- *
- * @param[in] newCoordinate the Coordinate to be copied.
- */
-// Coordinate &Coordinate::operator=(const Coordinate &newCoordinate)
-// {
-//   // Check for self assignment
-//   if (this != &newCoordinate)
-//   {
-//     this->x = newCoordinate.x;
-//     this->y = newCoordinate.y;
-//   }
-//   return *this;
 // }

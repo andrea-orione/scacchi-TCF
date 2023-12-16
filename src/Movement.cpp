@@ -4,8 +4,8 @@
 /**
  * The default constructor.
  *
- * Take two int and assignes them to the x and y
- * after checking they respect the constrains.
+ * Takes two int and assigns them to the x and y coordinates,
+ * after checking if they respect the constraints.
  *
  * @param[in] newX the value between -7 and +7 (included) to assign to the x (column) movement.
  * @param[in] newY the value between -7 and +7 (included) to assign to the y (row) movement.
@@ -17,8 +17,8 @@ Movement::Movement(int newX, int newY)
   if (newY < -7 || newY > 7)
     throw std::out_of_range("y value not valid");
 
-  x = newX;
-  y = newY;
+  this->x = newX;
+  this->y = newY;
 }
 
 /**
@@ -28,8 +28,8 @@ Movement::Movement(int newX, int newY)
  */
 Movement::Movement(const Movement &newMovement)
 {
-  x = newMovement.x;
-  y = newMovement.y;
+  this->x = newMovement.x;
+  this->y = newMovement.y;
 }
 
 /**
@@ -39,13 +39,13 @@ Movement::Movement(const Movement &newMovement)
  */
 Movement &Movement::operator=(const Movement &newMovement)
 {
-  // Check for self assignment 
-  if(this != &newMovement) 
+  // Check for self assignment
+  if (this != &newMovement)
   {
     this->x = newMovement.x;
     this->y = newMovement.y;
   }
-  return *this; 
+  return *this;
 }
 
 /**
@@ -81,59 +81,48 @@ Movement &Movement::setY(int newY)
 }
 
 /**
- * The direction inverter.
- *
- * It multiplies both the x and y component by -1 inverting the direction of the movement.
- *
- * @return a reference to the object, for cascaded member function calls.
+ * Operator `<` overloading.
  */
-Movement &Movement::invertDirection()
-{
-  x*=-1;
-  y*=-1;
-  return *this;
-}
-
-/**
- * The x getter.
- *
- * @return the value of the x.
- */
-int Movement::getX() const
-{
-  return x;
-}
-
-/**
- * The y getter.
- *
- * @return the value of the y.
- */
-int Movement::getY() const
-{
-  return y;
-}
-
 bool Movement::operator<(const Movement &other) const
 {
   return (y < other.y) || ((y == other.y) && (x < other.x));
 }
 
+/**
+ * Operator `>` overloading.
+ */
 bool Movement::operator>(const Movement &other) const
 {
   return (y > other.y) || ((y == other.y) && (x > other.x));
 }
 
+/**
+ * Operator `==` overloading.
+ */
 bool Movement::operator==(const Movement &other) const
 {
   return (x == other.x && y == other.y);
 }
 
+/**
+ * Operator `!=` overloading.
+ */
+bool Movement::operator!=(const Movement &other) const
+{
+  return !(x == other.x && y == other.y);
+}
+
+/**
+ * Operator `<=` overloading.
+ */
 bool Movement::operator<=(const Movement &other) const
 {
   return !((y > other.y) || ((y == other.y) && (x > other.x)));
 }
 
+/**
+ * Operator `>=` overloading.
+ */
 bool Movement::operator>=(const Movement &other) const
 {
   return !((y < other.y) || ((y == other.y) && (x < other.x)));
@@ -162,3 +151,17 @@ Movement Movement::operator*(int multiplier) const
 
   return Movement(newX, newY);
 }
+
+/**
+ * The direction inverter.
+ *
+ * It multiplies both the x and y component by -1 inverting the direction of the movement.
+ *
+ * @return a reference to the object, for cascaded member function calls.
+ */
+// Movement &Movement::invertDirection()
+// {
+//   x*=-1;
+//   y*=-1;
+//   return *this;
+// }
