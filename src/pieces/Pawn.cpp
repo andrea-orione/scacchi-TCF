@@ -91,7 +91,7 @@ bool Pawn::isBlackMoveValid(const Coordinate& endingbPosition) const
 
     if (this->position.getY() == 7)
     {
-        if (yDistance < -2 && yDistance > -1 && xDistance > 1)
+        if (yDistance < -2 || yDistance > -1 && xDistance > 1)
             return false;
     }
     if (this->position.getY() != 7)
