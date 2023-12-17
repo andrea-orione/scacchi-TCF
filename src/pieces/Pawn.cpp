@@ -107,6 +107,9 @@ bool Pawn::isBlackMoveValid(const Coordinate& endingbPosition) const
     // Check if landing square is free
 
     std::shared_ptr<Piece> endingPositionPiece = board.getPiece(endingbPosition);
+    if (Pawn::isWhiteMoveDiag(endingbPosition))
+        if (endingPositionPiece->getColor() != PieceColor::WHITE)
+            return false;
     if (endingPositionPiece != nullptr)
         if (endingPositionPiece->getColor() == this->color)
             return false;
