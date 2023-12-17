@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 
   while (true)
   {
-    board.printWhiteInterface();
+    board.printWhiteInterface(true);
     // board.printBlackInterface();
     // board.printDoubleInterface();
     gm->getUserMove();
