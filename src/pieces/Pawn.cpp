@@ -24,7 +24,7 @@ Pawn::Pawn(PieceColor pColor, Coordinate pPosition)
 
 // Checks if the pawn move is diagonal; if false, the move is forward
 
-bool Pawn::isBlackMoveDiag(const Coordinate& endingPosition)
+bool Pawn::isBlackMoveDiag(const Coordinate& endingPosition) const
 {
     const int xDistance = endingPosition.getX() - this->position.getX();
     const int yDistance = endingPosition.getY() - this->position.getY();
@@ -35,7 +35,7 @@ bool Pawn::isBlackMoveDiag(const Coordinate& endingPosition)
     return false;
 }
 
-bool Pawn::isWhiteMoveDiag(const Coordinate& endingPosition)
+bool Pawn::isWhiteMoveDiag(const Coordinate& endingPosition) const
 {
     const int xDistance = endingPosition.getX() - this->position.getX();
     const int yDistance = endingPosition.getY() - this->position.getY();
@@ -53,12 +53,12 @@ bool Pawn::isWhiteMoveValid(const Coordinate& endingwPosition) const
     const int xDistance = endingwPosition.getX() - this->position.getX();
     const int yDistance = endingwPosition.getY() - this->position.getY();
 
-    if (this->position.getX() == 2)
+    if (this->position.getY() == 2)
     {
         if (yDistance > 2 || yDistance < 1 || xDistance > 1)
             return false;
     }
-    if (this->position.getX() != 2)
+    if (this->position.getY() != 2)
     {
         if (yDistance != 1 || xDistance > 1)
             return false;
@@ -73,7 +73,7 @@ bool Pawn::isWhiteMoveValid(const Coordinate& endingwPosition) const
 
     std::shared_ptr<Piece> endingPositionPiece = board.getPiece(endingwPosition);
     
-    if (Pawn::isWhiteMoveDiag(endingwPosition) == true)
+    if (Pawn::isWhiteMoveDiag(endingwPosition))
         if (endingPositionPiece->getColor() != PieceColor::BLACK)
             return false;
     if (endingPositionPiece != nullptr)
@@ -89,12 +89,12 @@ bool Pawn::isBlackMoveValid(const Coordinate& endingbPosition) const
     const int xDistance = endingbPosition.getX() - this->position.getX();
     const int yDistance = endingbPosition.getY() - this->position.getY();
 
-    if (this->position.getX() == 7)
+    if (this->position.getY() == 7)
     {
         if (yDistance < -2 && yDistance > -1 && xDistance > 1)
             return false;
     }
-    if (this->position.getX() != 7)
+    if (this->position.getY() != 7)
     {
         if (yDistance != -1 || xDistance > 1)
             return false;

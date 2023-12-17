@@ -23,8 +23,8 @@ public:
     bool isBlackMoveValid(const Coordinate& endingbPosition) const;
     bool isWhiteMoveValid(const Coordinate& endingwPosition) const;
 
-    bool isBlackMoveDiag(const Coordinate& endingPosition);
-    bool isWhiteMoveDiag(const Coordinate& endingPosition);
+    bool isBlackMoveDiag(const Coordinate& endingPosition) const;
+    bool isWhiteMoveDiag(const Coordinate& endingPosition) const;
 
 
 };
