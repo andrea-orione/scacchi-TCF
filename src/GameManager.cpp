@@ -231,7 +231,7 @@ void GameManager::gameLoop()
 
   while (!gameFinished)
   {
-    (activePlayerColor == PieceColor::WHITE) ? board.printWhiteInterface() : board.printBlackInterface();
+    (activePlayerColor == PieceColor::WHITE) ? board.printWhiteInterface(true) : board.printBlackInterface(true);
     try
     {
       getUserMove();

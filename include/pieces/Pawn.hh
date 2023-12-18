@@ -13,16 +13,16 @@
 class Pawn : public Piece
 {
 public:
-    Pawn(PieceColor pColor, Coordinate pPosition);
+    Pawn(PieceColor pColor, Coordinate pPosition, bool pHasMoved = false);
     ~Pawn() override = default;
 
     std::string toString(bool literal = false) const override;
 
     bool isMoveValid(const Coordinate &endingPosition) const override;
+    void move(const Coordinate& newPosition) override;
 
-    bool isBlackMoveValid(const Coordinate &endingbPosition) const;
-    bool isWhiteMoveValid(const Coordinate &endingwPosition) const;
+private:
 
-    bool isBlackMoveDiag(const Coordinate &endingPosition) const;
-    bool isWhiteMoveDiag(const Coordinate &endingPosition) const;
+    bool hasMoved;
+
 };
