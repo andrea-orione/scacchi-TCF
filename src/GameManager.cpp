@@ -27,6 +27,7 @@ std::regex GameManager::regexRuleNormal("[a-h]{1}[0-8]{1}[a-h]{1}[0-8]{1}");
 std::regex GameManager::regexRulePromotion("[a-h]{1}[0-8]{1}[a-h]{1}[0-8]{1}[R,N,B,Q,r,n,b,q]{1}");
 
 GameManager::GameManager() : activePlayerColor(PieceColor::WHITE), gameFinished(false) {}
+
 /**
  * Function to initialize the board from a FEN string.
  *
@@ -155,6 +156,67 @@ std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate pPosi
 }
 
 /**
+ *
+ */
+void GameManager::startGame()
+{
+  welcomeFile.open("../utils/welcome.txt", std::ios::in);
+
+  if (!welcomeFile.is_open())
+    throw std::runtime_error("Error opening welcome.txt");
+
+  std::string line;
+  while (std::getline(welcomeFile, line))
+    cout << line << "\n";
+  welcomeFile.close();
+
+  std::string choice;
+  while (true)
+  {
+    printf("Choice: ");
+    std::getline(cin, choice);
+    if (choice == "s" || choice == "S")
+    {
+      break;
+    }
+    else if (choice == "h" || choice == "H")
+    {
+      helpUser();
+      break;
+    }
+    else if (choice == "e" || choice == "E")
+      killGame();
+    else
+      continue;
+  }
+
+  Board &board = Board::Instance();
+  InitializeStartingBoard();
+}
+
+/**
+ *
+ */
+void GameManager::helpUser()
+{
+  helpFile.open("../utils/help.txt", std::ios::in);
+
+  if (!helpFile.is_open())
+    throw std::runtime_error("Error opening help.txt");
+
+  std::string line;
+  while (std::getline(helpFile, line))
+    cout << line << "\n";
+  welcomeFile.close();
+
+  printf("Type 'e' or 'E' to exit, any other character to continue: ");
+  std::string choice;
+  std::getline(cin, choice);
+  if (choice == "e" || choice == "E")
+    killGame();
+}
+
+/**
  * Function for reading moves from the user.
  *
  * It checks if the input is valid, then calls the right
@@ -165,10 +227,10 @@ std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate pPosi
 void GameManager::getUserMove() const
 {
   std::string userMove;
-  Board &board = Board::Instance();
   cout << "Write your move: ";
   std::getline(std::cin, userMove);
 
+  Board &board = Board::Instance();
   if (userMove == "exit" || userMove == "EXIT")
   {
     char exitChar;

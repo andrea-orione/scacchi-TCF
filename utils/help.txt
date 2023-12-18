@@ -1,0 +1,18 @@
+***************************************************************
+************             USER'S GUIDE              ************
+***************************************************************
+
+Provided that the user is familiar with the rules of chess, the
+following   is   a  guide     on   how  to    play “CHESS-TCF”.
+
+MOVES
+-----
+The program will display a board divided into 64 chess squares,
+each  one  identified by a pair of values: the first indicating
+the column with a letter from   'a'  to  'h', while  the second
+indicating  the row with a  number from 1 to 8   (e.g., a1, c4,
+f8,...).
+
+
+To make move, it is mandatory to use the following notation:
+- <starting_square><ending_square> (e.g., a1a2) for regular moves
