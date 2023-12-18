@@ -21,7 +21,7 @@ std::string VoidPiece::toString(bool literal) const
   return character;
 }
 
-bool VoidPiece::isMoveValid(const Coordinate &endingPosition) const
+bool VoidPiece::isMoveValid(const Coordinate endingPosition) const
 {
   return false;
 }

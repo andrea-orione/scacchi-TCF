@@ -235,7 +235,7 @@ Coordinate &Coordinate::operator+=(const Movement &movement)
  * @param[in] other The other `Coordinate`.
  * @return The distance squared.
  */
-int Coordinate::squaredDistance(const Coordinate &other) const
+int Coordinate::squaredDistance(const Coordinate other) const
 {
   return (x - other.x) * (x - other.x) + (y - other.y) * (y - other.y);
 }
@@ -249,54 +249,3 @@ std::string Coordinate::toString() const
 {
   return (literalChars[x - 1] + std::to_string(y));
 }
-
-// PROBABLY USELESS
-// ********************************************************************************************
-/**
- * Take a std::string and an int and assignes them to the x and y
- * after checking they respect the constrains.
- *
- * @param[in] literalNewX the value to assign to the x (column)
- *   valid values are chars from `a` to `h` (included) corresponding to an int from 1 to 8.
- * @param[in] newY the value between 1 and 8 (included) to assign to the y (row).
- */
-// Coordinate::Coordinate(std::string literalNewX, int newY)
-// {
-//   if (newY < 1 || newY > 8)
-//     throw std::out_of_range("y value outside the board");
-//   if (literalNewX.length() != 1)
-//     throw std::invalid_argument("x value not valid");
-
-//   int xIndex = literalChars.find(literalNewX);
-//   if (xIndex == std::string::npos)
-//     throw std::invalid_argument("x value not valid");
-
-//   x = xIndex + 1;
-//   y = newY;
-// }
-
-/**
- * Take a string representing the coordinate with a char and an int.
- *
- * @param[in] literalEspression the value to instantiate
- *   valid values are 2 chars long string containing
- *   a char from `a` to `h` (included) corresponding to an int from 1 to 8 for the x (column)
- *   and an int between 1 to 8 (included) for the y (row).
- */
-// Coordinate::Coordinate(std::string literalExpression)
-// {
-//   if (literalExpression.length() != 2)
-//     throw std::invalid_argument("Non valid literal expression");
-
-//   int newY = std::stoi(literalExpression.substr(1, 1));
-//   if (newY < 1 || newY > 8)
-//     throw std::out_of_range("y value outside the board");
-
-//   char literalNewX = literalExpression[0];
-//   int xIndex = literalChars.find(literalNewX);
-//   if (xIndex == std::string::npos)
-//     throw std::invalid_argument("x value not valid");
-
-//   x = xIndex + 1;
-//   y = newY;
-// }

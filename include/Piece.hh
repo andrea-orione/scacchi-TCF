@@ -65,7 +65,7 @@ public:
    *
    * @return `true` if the move is valid, `false` if it's not.
    */
-  virtual bool isMoveValid(const Coordinate &endingPosition) const = 0;
+  virtual bool isMoveValid(const Coordinate endingPosition) const = 0;
 
   /**
    * Function for getting the color of the piece.
@@ -93,7 +93,7 @@ public:
    *
    * @param[in] newPosition The square where to move the piece to.
    */
-  virtual void move(const Coordinate &newPosition) { position = newPosition; }
+  virtual void move(const Coordinate newPosition) { position = newPosition; }
 
   /**
    * Checks whether the piece can castle or not.

@@ -35,7 +35,7 @@ std::string Bishop::toString(bool literal) const
   return character;
 }
 
-bool Bishop::isMoveValid(const Coordinate &endingPosition) const
+bool Bishop::isMoveValid(const Coordinate endingPosition) const
 {
   const int xDistance = endingPosition.getX() - this->position.getX();
   const int yDistance = endingPosition.getY() - this->position.getY();

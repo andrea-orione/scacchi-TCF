@@ -1,0 +1,39 @@
+***************************************************************
+************             USER'S GUIDE              ************
+***************************************************************
+
+Provided that the user is familiar with the rules of chess, the
+following   is   a  guide     on   how  to    play “CHESS-TCF”.
+
+INTRODUCTION
+------------
+The program will display a board divided into 64 chess squares,
+each  one  identified by a pair of values: the first indicating
+the column with a letter from   'a'  to  'h', while  the second
+indicating  the row with a  number from 1 to 8   (e.g., a1, c4,
+f8,...). 
+The chess  pieces are shown as their respective ASCII character.
+If  the  terminal  used  doesn't support  this  feature, it  is 
+instead shown:
+- p for the pawns;
+- r for the rooks;
+- n for the knights;
+- b for the bishops;
+- q for the queens;
+- k for the kings;
+with uppercase letters for black  pieces and  lowercase letters 
+for the white ones.
+
+
+MOVES
+-----
+To make    move, it is  mandatory to use the following notation:
+-  for  regular moves, the  square where  the  piece  is located
+followed  by the one  where  the piece is to be  moved to (e.g.,
+a1a2);
+- for pawn promotion, the piece to which to promote  the pawn is
+to  be written  as  one of the following characters: r, R, n, N,
+b, B, q, Q (e.g., a7a8Q).
+
+Note  that  castling  and  en-passant captures are automatically 
+detected by the program, so they need not be specified.

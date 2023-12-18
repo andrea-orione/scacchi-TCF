@@ -20,8 +20,6 @@ public:
   Coordinate(std::string_view literalExpression);
   Coordinate(const Coordinate &newCoordinate);
   Coordinate &operator=(const Coordinate &newCoordinate);
-  // Coordinate(std::string literalNewX, int newY);
-  // Coordinate(std::string literalExpression);
 
   Coordinate &setX(int newX);
   Coordinate &setY(int newY);
@@ -38,7 +36,7 @@ public:
   Coordinate operator+(const Movement &movement) const;
   Coordinate &operator+=(const Movement &movement);
 
-  int squaredDistance(const Coordinate &other) const;
+  int squaredDistance(const Coordinate other) const;
 
   std::string toString() const;
 

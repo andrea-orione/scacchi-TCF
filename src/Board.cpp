@@ -174,7 +174,7 @@ void Board::addKings()
 /**
  *
  */
-bool Board::isSquareAttacked(const Coordinate &square, const PieceColor attackerColor) const
+bool Board::isSquareAttacked(const Coordinate square, const PieceColor attackerColor) const
 {
   const std::vector<std::shared_ptr<Piece>> &attackerVector = (attackerColor == PieceColor::WHITE) ? whitePieces : blackPieces;
   for (auto attackingPiece : attackerVector)
@@ -188,7 +188,7 @@ bool Board::isSquareAttacked(const Coordinate &square, const PieceColor attacker
 /**
  *
  */
-void Board::normalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate &endingPosition)
+void Board::normalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate endingPosition)
 {
   try
   {
@@ -233,7 +233,7 @@ void Board::normalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate &e
 /**
  *
  */
-void Board::castling(std::shared_ptr<Piece> &&king, const Coordinate &kingEndingPosition)
+void Board::castling(std::shared_ptr<Piece> &&king, const Coordinate kingEndingPosition)
 {
   // Preliminary control that the king isn't in check
   const Coordinate kingStartingPosition = king->getPosition();
@@ -299,7 +299,7 @@ void Board::enPassant(std::shared_ptr<Piece> &&pawn, const Coordinate pawnEnding
 /**
  *
  */
-std::shared_ptr<Piece> Board::getPiece(const Coordinate &position) const
+std::shared_ptr<Piece> Board::getPiece(const Coordinate position) const
 {
   return squaresMap.find(position)->second;
 }

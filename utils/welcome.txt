@@ -1,0 +1,10 @@
+
+**************************************
+*****    WELCOME TO CHESS-TCF    *****
+**************************************
+
+Type:
+- 's' or 'S' to start a new game
+- 'h' or 'H' to open the game guide
+- 'e' or 'E' to exit
+

@@ -3,16 +3,22 @@
 #include "GameManager.hh"
 #include <string>
 #include <vector>
-#include <iostream>
 
 int main(int argc, char *argv[])
 {
-  GameManager *gm = new GameManager();
+  try
+  {
+    GameManager *gm = new GameManager();
 
-  gm->InitializeStartingBoard();
-  gm->gameLoop();
+    gm->startGame();
+    gm->gameLoop();
 
-  delete gm;
+    delete gm;
+  }
+  catch (...)
+  {
+    printf("Some error occurred.\n");
+  }
 
   std::cin.get();
 }

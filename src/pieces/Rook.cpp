@@ -28,7 +28,7 @@ Rook::Rook(PieceColor pColor, Coordinate pPosition, bool pHasMoved)
   }
 }
 
-bool Rook::isMoveValid(const Coordinate &endingPosition) const
+bool Rook::isMoveValid(const Coordinate endingPosition) const
 {
   const int xDistance = endingPosition.getX() - this->position.getX();
   const int yDistance = endingPosition.getY() - this->position.getY();
@@ -63,7 +63,7 @@ std::string Rook::toString(bool literal) const
   return character;
 }
 
-void Rook::move(const Coordinate &newPosition)
+void Rook::move(const Coordinate newPosition)
 {
   position = newPosition;
   hasMoved = true;

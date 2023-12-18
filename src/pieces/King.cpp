@@ -29,7 +29,7 @@ King::King(PieceColor pColor, Coordinate pPosition, bool pHasMoved)
   }
 }
 
-bool King::isMoveValid(const Coordinate &endingPosition) const
+bool King::isMoveValid(const Coordinate endingPosition) const
 {
   // Too far case
   if (this->position.squaredDistance(endingPosition) > 4)
@@ -75,7 +75,7 @@ std::string King::toString(bool literal) const
   return character;
 }
 
-void King::move(const Coordinate &newPosition)
+void King::move(const Coordinate newPosition)
 {
   position = newPosition;
   hasMoved = true;
