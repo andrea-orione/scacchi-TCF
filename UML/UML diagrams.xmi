@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uml="http://schema.omg.org/spec/UML/2.1">
-  <xmi:Documentation exporter="umbrello uml modeller 2.38.3 (Applications 23.08.3) http://umbrello.kde.org" exporterVersion="2.0.4"/>
+  <xmi:Documentation exporter="umbrello uml modeller 2.38.4 (Applications 23.08.4) http://umbrello.kde.org" exporterVersion="2.0.4"/>
   <uml:Model xmi:id="m1" name="UML Model">
     <packagedElement xmi:type="uml:Stereotype" xmi:id="folder" name="folder"/>
     <packagedElement xmi:type="uml:Stereotype" xmi:id="dataType" name="dataType"/>
@@ -386,7 +386,7 @@
     <packagedElement xmi:type="uml:Model" xmi:id="Entity_Relationship_Model" name="Entity Relationship Model"/>
   </uml:Model>
   <xmi:Extension extender="umbrello">
-    <docsettings viewid="uinaS35Gy65TT" documentation="" uniqueid="upxnFOdNkebS6"/>
+    <docsettings viewid="uinaS35Gy65TT" documentation="" uniqueid="u3Wfbg7deikVx"/>
     <listview>
       <listitem id="Views" type="800" open="1">
         <listitem id="Component_View" type="821" open="1"/>
@@ -394,12 +394,10 @@
         <listitem id="Entity_Relationship_Model" type="836" open="1"/>
         <listitem id="Logical_View" type="801" open="1">
           <listitem id="uD5yzheShsZHe" type="807" label="class diagram" open="0"/>
-          <listitem id="Datatypes" type="830" open="0">
+          <listitem id="Datatypes" type="830" open="1">
             <listitem id="umZZmCXBEQWHw" type="829" open="0"/>
-            <listitem id="u0IYoN6jBCYQ9" type="829" open="0"/>
             <listitem id="uhplZdzxZ0hhx" type="829" open="0"/>
             <listitem id="un1BqWzgSKfVu" type="829" open="0"/>
-            <listitem id="uzuQ3SQi1RE2a" type="829" open="0"/>
             <listitem id="ugujO3FvpADGV" type="829" open="0"/>
             <listitem id="u6kwuqmIT1OFc" type="829" open="0"/>
             <listitem id="uiJHxg3mu3Fdj" type="829" open="0"/>
