@@ -30,7 +30,7 @@ std::string Knight::toString(bool literal) const
   return character;
 }
 
-bool Knight::isMoveValid(const Coordinate &endingPosition) const
+bool Knight::isMoveValid(const Coordinate endingPosition) const
 {
   int xDistance = endingPosition.getX() - this->position.getX();
   int yDistance = endingPosition.getY() - this->position.getY();

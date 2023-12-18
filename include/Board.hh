@@ -38,10 +38,10 @@ public:
   void updatePiecesVector(std::shared_ptr<Piece> &&newPiece) noexcept;
   void addKings();
 
-  bool isSquareAttacked(const Coordinate &square, const PieceColor attackerColor) const;
-  void normalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate &endingPosition);
+  bool isSquareAttacked(const Coordinate square, const PieceColor attackerColor) const;
+  void normalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate endingPosition);
 
-  std::shared_ptr<Piece> getPiece(const Coordinate &position) const;
+  std::shared_ptr<Piece> getPiece(const Coordinate position) const;
 
   void clearBoard();
 
@@ -53,7 +53,7 @@ public:
 
 private:
   Board(); // private constructor
-  void castling(std::shared_ptr<Piece> &&king, const Coordinate &kingEndingPosition);
+  void castling(std::shared_ptr<Piece> &&king, const Coordinate kingEndingPosition);
 
   // Map defining the squares as {coordinate : pointer to piece}.
   std::map<Coordinate, std::shared_ptr<Piece>> squaresMap;

@@ -18,7 +18,6 @@ public:
   Movement &setY(int newY);
   int getX() const { return x; }
   int getY() const { return y; }
-  // Movement &invertDirection();
 
   bool operator<(const Movement &other) const;
   bool operator>(const Movement &other) const;

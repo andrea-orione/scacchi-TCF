@@ -19,7 +19,7 @@ public:
     void loadFenPosition(std::string &&fenString) const;
     void InitializeStartingBoard() const;
 
-    static std::shared_ptr<Piece> makePiece(char pieceChar, const Coordinate &pPosition, const bool hasMoved = false);
+    static std::shared_ptr<Piece> makePiece(char pieceChar, const Coordinate pPosition, const bool hasMoved = false);
 
     void getUserMove() const;
     void gameLoop();

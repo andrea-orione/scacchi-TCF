@@ -33,7 +33,7 @@ std::string Queen::toString(bool literal) const
   return character;
 }
 
-bool Queen::isMoveValid(const Coordinate &endingPosition) const
+bool Queen::isMoveValid(const Coordinate endingPosition) const
 {
   const int xDistance = endingPosition.getX() - this->position.getX();
   const int yDistance = endingPosition.getY() - this->position.getY();

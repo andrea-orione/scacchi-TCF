@@ -17,10 +17,10 @@ public:
   ~Rook() override = default;
 
   std::string toString(bool literal = false) const override;
-  bool isMoveValid(const Coordinate &endingPosition) const override;
+  bool isMoveValid(const Coordinate endingPosition) const override;
 
   bool canCastle() const override { return !hasMoved; }
-  void move(const Coordinate &newPosition) override;
+  void move(const Coordinate newPosition) override;
 
 private:
   bool hasMoved;

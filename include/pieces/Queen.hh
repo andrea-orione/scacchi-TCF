@@ -18,5 +18,5 @@ public:
 
     std::string toString(bool literal = false) const override;
 
-    bool isMoveValid(const Coordinate &endingPosition) const override;
+    bool isMoveValid(const Coordinate endingPosition) const override;
 };

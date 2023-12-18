@@ -112,7 +112,7 @@ void GameManager::InitializeStartingBoard() const
  *
  * @return The pointer to the piece that has been created created.
  */
-std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate &pPosition, const bool hasMoved)
+std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate pPosition, const bool hasMoved)
 {
   // Check if void
   if (pChar == 0)

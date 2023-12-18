@@ -151,17 +151,3 @@ Movement Movement::operator*(int multiplier) const
 
   return Movement(newX, newY);
 }
-
-/**
- * The direction inverter.
- *
- * It multiplies both the x and y component by -1 inverting the direction of the movement.
- *
- * @return a reference to the object, for cascaded member function calls.
- */
-// Movement &Movement::invertDirection()
-// {
-//   x*=-1;
-//   y*=-1;
-//   return *this;
-// }
