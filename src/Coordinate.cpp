@@ -188,7 +188,7 @@ bool Coordinate::operator>=(const Coordinate &other) const
  * @param[in] movement The movement to perform.
  * @return the new Coordinate.
  */
-Coordinate &Coordinate::operator+(const Movement &movement)
+Coordinate Coordinate::operator+(const Movement &movement) const
 {
   int newX = x + movement.getX();
   int newY = y + movement.getY();
@@ -198,10 +198,7 @@ Coordinate &Coordinate::operator+(const Movement &movement)
   if (newY < 1 || newY > 8)
     throw std::out_of_range("New Coordinate's y value outside the board");
 
-  this->x = newX;
-  this->y = newY;
-
-  return *this;
+  return Coordinate(newX, newY);
 }
 
 /**
