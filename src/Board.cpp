@@ -1,6 +1,7 @@
 #include "Board.hh"
 #include "Coordinate.hh"
 #include "GameManager.hh"
+#include "Movement.hh"
 #include "Utils.hh"
 #include "Piece.hh"
 
@@ -193,11 +194,13 @@ void Board::normalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate &e
   {
     if (!(movingPiece->isMoveValid(endingPosition)))
       throw InvalidMoveException("This move is not allowed. This piece cannot reach that position.");
-  }
-  catch (const CastlingSignal)
+  } catch (const CastlingSignal)
   {
     castling(std::move(movingPiece), endingPosition);
     return;
+  } catch (const EnPassantSignal)
+  {
+    enPassant(std::move(movingPiece), endingPosition);
   }
 
   const Coordinate startingPosition = movingPiece->getPosition();
@@ -257,6 +260,40 @@ void Board::castling(std::shared_ptr<Piece> &&king, const Coordinate &kingEnding
   squaresMap[kingEndingPosition] = GameManager::makePiece(0, kingEndingPosition);
   squaresMap[rookEndingPosition] = GameManager::makePiece(0, rookEndingPosition);
   throw InvalidMoveException("Castling is not allowed. The king cannot pass through or end in check.");
+}
+
+void Board::enPassant(std::shared_ptr<Piece> &&pawn, const Coordinate pawnEndingPosition)
+{
+  const Coordinate pawnStartingPosition = pawn->getPosition();
+  const Movement capturingMovement = (pawn->getColor() == PieceColor::WHITE) ? Movement(0, -1) : Movement(0, 1);
+  const Coordinate capturedPawnPosition = pawnEndingPosition + capturingMovement;
+
+  std::shared_ptr<Piece> capturedPawn = squaresMap[capturedPawnPosition];
+
+  std::vector<std::shared_ptr<Piece>> &opponentPieceVector = (pawn->getColor() == PieceColor::WHITE) ? blackPieces : whitePieces;
+  std::vector<std::shared_ptr<Piece>> &opponentCapturedPieceVector = (pawn->getColor() == PieceColor::WHITE) ? blackCapturedPieces : whiteCapturedPieces;
+
+  squaresMap[pawnEndingPosition] = pawn;
+  squaresMap[pawnStartingPosition] = GameManager::makePiece(0, pawnStartingPosition);
+  squaresMap[capturedPawnPosition] = GameManager::makePiece(0, capturedPawnPosition);
+
+  std::shared_ptr<Piece> &friendKing = (pawn->getColor() == PieceColor::WHITE) ? whiteKing : blackKing;
+  opponentPieceVector.erase(std::find(opponentPieceVector.begin(), opponentPieceVector.end(), capturedPawn));
+
+  // Valid move case
+  if (!isSquareAttacked(friendKing->getPosition(), !(pawn->getColor())))
+  {
+    pawn->move(pawnEndingPosition);
+    opponentCapturedPieceVector.push_back(capturedPawn);
+    return;
+  }
+
+  // Invalid move case. Resetting the board.
+  opponentPieceVector.push_back(capturedPawn);
+  squaresMap[pawnStartingPosition] = pawn;
+  squaresMap[pawnEndingPosition] = GameManager::makePiece(0, pawnEndingPosition);
+  squaresMap[capturedPawnPosition] = capturedPawn;
+  throw InvalidMoveException("This move is not allowed. The king would be in check.");
 }
 
 /**

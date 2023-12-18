@@ -44,6 +44,8 @@ public:
   std::shared_ptr<Piece> getPiece(const Coordinate &position) const;
 
   void clearBoard();
+  void resetMoveNumber() {moveNumber = 0;}
+  void incrementMoveNumber() {moveNumber++;}
 
   std::string getWhiteCapturedPieces() const;
   std::string getBlackCapturedPieces() const;
@@ -54,6 +56,7 @@ public:
 private:
   Board(); // private constructor
   void castling(std::shared_ptr<Piece> &&king, const Coordinate &kingEndingPosition);
+  void enPassant(std::shared_ptr<Piece> &&pawn, const Coordinate pawnEndingPosition);
 
   // Map defining the squares as {coordinate : pointer to piece}.
   std::map<Coordinate, std::shared_ptr<Piece>> squaresMap;
@@ -66,6 +69,9 @@ private:
   std::vector<std::shared_ptr<Piece>> whiteCapturedPieces;
   // Vector with the pointers to the black pieces captured.
   std::vector<std::shared_ptr<Piece>> blackCapturedPieces;
+
+  // The number of moves done.
+  int moveNumber;
 
   // Pointer to the white king.
   std::shared_ptr<Piece> whiteKing;

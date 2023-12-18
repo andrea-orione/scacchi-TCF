@@ -50,3 +50,7 @@ private:
 class CastlingSignal : public std::exception
 {
 };
+
+class EnPassantSignal : public std::exception
+{
+};
