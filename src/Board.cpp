@@ -154,21 +154,24 @@ void Board::updateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> &&square)
  *
  * @param[in] newPiece The pointer to the piece to be added.
  */
-void Board::updatePiecesVector(std::shared_ptr<Piece> &&newPiece) noexcept
+void Board::updatePiecesVector()
 {
-  if (newPiece->getColor() == PieceColor::BLACK)
-    blackPieces.push_back(newPiece);
-  else if (newPiece->getColor() == PieceColor::WHITE)
-    whitePieces.push_back(newPiece);
+  for (auto iterator = squaresMap.begin(); iterator != squaresMap.end(); iterator++) 
+  {
+    if (iterator->second->getColor() == PieceColor::BLACK)
+      blackPieces.push_back(iterator->second);
+    else if (iterator->second->getColor() == PieceColor::WHITE)
+      whitePieces.push_back(iterator->second);
+  }
 }
 
 /**
  * Function for updating the data members `whiteKing` and `blackKing`.
  */
-void Board::addKings()
+void Board::addKings(const Coordinate whiteKingPosition, const Coordinate blackKingPosition)
 {
-  whiteKing = getPiece(Coordinate('e', 1));
-  blackKing = getPiece(Coordinate('e', 8));
+  whiteKing = getPiece(whiteKingPosition);
+  blackKing = getPiece(blackKingPosition);
 }
 
 /**
