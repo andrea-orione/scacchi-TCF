@@ -181,6 +181,7 @@ void GameManager::startGame()
     }
     else if (choice == "h" || choice == "H")
     {
+      printf("\n");
       helpUser();
       break;
     }
@@ -209,7 +210,7 @@ void GameManager::helpUser()
     cout << line << "\n";
   welcomeFile.close();
 
-  printf("Type 'e' or 'E' to exit, any other character to continue: ");
+  printf("\nType 'e' or 'E' to exit, any other character to continue: ");
   std::string choice;
   std::getline(cin, choice);
   if (choice == "e" || choice == "E")
