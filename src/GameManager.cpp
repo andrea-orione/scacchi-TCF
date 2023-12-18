@@ -93,7 +93,6 @@ void GameManager::InitializeStartingBoard() const
   try
   {
     this->loadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-    //this->loadFenPosition("rnbqkbnr/8/8/8/8/8/8/RNBQKBNR w KQkq - 0 1");
     Board &board = Board::Instance();
     board.addKings();
   }

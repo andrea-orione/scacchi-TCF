@@ -4,27 +4,27 @@
 
 Pawn::Pawn(PieceColor pColor, Coordinate pPosition)
 {
-  pieceType = PieceType::PAWN;
-  color = pColor;
-  position = pPosition;
-  switch (color)
-  {
-  case PieceColor::WHITE:
-    character = "♟︎";
-    literalCharacter = 'P';
-    break;
-  case PieceColor::BLACK:
-    character = "♙";
-    literalCharacter = 'p';
-    break;
-  default:
-    break;
-  }
+    pieceType = PieceType::PAWN;
+    color = pColor;
+    position = pPosition;
+    switch (color)
+    {
+    case PieceColor::WHITE:
+        character = "♟︎";
+        literalCharacter = 'P';
+        break;
+    case PieceColor::BLACK:
+        character = "♙";
+        literalCharacter = 'p';
+        break;
+    default:
+        break;
+    }
 }
 
 // Checks if the pawn move is diagonal; if false, the move is forward
 
-bool Pawn::isBlackMoveDiag(const Coordinate& endingPosition) const
+bool Pawn::isBlackMoveDiag(const Coordinate &endingPosition) const
 {
     const int xDistance = endingPosition.getX() - this->position.getX();
     const int yDistance = endingPosition.getY() - this->position.getY();
@@ -35,7 +35,7 @@ bool Pawn::isBlackMoveDiag(const Coordinate& endingPosition) const
     return false;
 }
 
-bool Pawn::isWhiteMoveDiag(const Coordinate& endingPosition) const
+bool Pawn::isWhiteMoveDiag(const Coordinate &endingPosition) const
 {
     const int xDistance = endingPosition.getX() - this->position.getX();
     const int yDistance = endingPosition.getY() - this->position.getY();
@@ -48,7 +48,7 @@ bool Pawn::isWhiteMoveDiag(const Coordinate& endingPosition) const
 
 // Checks if the pawn move is valid
 
-bool Pawn::isWhiteMoveValid(const Coordinate& endingwPosition) const
+bool Pawn::isWhiteMoveValid(const Coordinate &endingwPosition) const
 {
     const int xDistance = endingwPosition.getX() - this->position.getX();
     const int yDistance = endingwPosition.getY() - this->position.getY();
@@ -63,16 +63,15 @@ bool Pawn::isWhiteMoveValid(const Coordinate& endingwPosition) const
         if (yDistance != 1 || xDistance > 1)
             return false;
     }
-    
 
     // Crea una scacchiera
 
-    Board& board = Board::Instance();
+    Board &board = Board::Instance();
 
     // Check if landing square is free
 
     std::shared_ptr<Piece> endingPositionPiece = board.getPiece(endingwPosition);
-    
+
     if (Pawn::isWhiteMoveDiag(endingwPosition))
         if (endingPositionPiece->getColor() != PieceColor::BLACK)
             return false;
@@ -80,11 +79,10 @@ bool Pawn::isWhiteMoveValid(const Coordinate& endingwPosition) const
         if (endingPositionPiece->getColor() == this->color)
             return false;
 
-
     return true;
 }
 
-bool Pawn::isBlackMoveValid(const Coordinate& endingbPosition) const
+bool Pawn::isBlackMoveValid(const Coordinate &endingbPosition) const
 {
     const int xDistance = endingbPosition.getX() - this->position.getX();
     const int yDistance = endingbPosition.getY() - this->position.getY();
@@ -102,7 +100,7 @@ bool Pawn::isBlackMoveValid(const Coordinate& endingbPosition) const
 
     // mossa
 
-    Board& board = Board::Instance();
+    Board &board = Board::Instance();
 
     // Check if landing square is free
 
@@ -117,7 +115,7 @@ bool Pawn::isBlackMoveValid(const Coordinate& endingbPosition) const
     return true;
 }
 
-bool Pawn::isMoveValid(const Coordinate& endingposition) const
+bool Pawn::isMoveValid(const Coordinate &endingposition) const
 {
     if (color == PieceColor::BLACK)
     {
@@ -126,10 +124,9 @@ bool Pawn::isMoveValid(const Coordinate& endingposition) const
     return Pawn::isWhiteMoveValid(endingposition);
 }
 
-
 std::string Pawn::toString(bool literal) const
 {
-  if (literal)
-    return std::string(1, literalCharacter);
-  return character;
+    if (literal)
+        return std::string(1, literalCharacter);
+    return character;
 }

@@ -20,11 +20,9 @@ public:
 
     bool isMoveValid(const Coordinate &endingPosition) const override;
 
-    bool isBlackMoveValid(const Coordinate& endingbPosition) const;
-    bool isWhiteMoveValid(const Coordinate& endingwPosition) const;
+    bool isBlackMoveValid(const Coordinate &endingbPosition) const;
+    bool isWhiteMoveValid(const Coordinate &endingwPosition) const;
 
-    bool isBlackMoveDiag(const Coordinate& endingPosition) const;
-    bool isWhiteMoveDiag(const Coordinate& endingPosition) const;
-
-
+    bool isBlackMoveDiag(const Coordinate &endingPosition) const;
+    bool isWhiteMoveDiag(const Coordinate &endingPosition) const;
 };
