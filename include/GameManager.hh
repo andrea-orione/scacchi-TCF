@@ -13,8 +13,8 @@
 class GameManager
 {
 public:
-    GameManager() {}
-    ~GameManager() {}
+    GameManager();
+    ~GameManager() = default;
 
     void loadFenPosition(std::string &&fenString) const;
     void InitializeStartingBoard() const;
@@ -27,9 +27,8 @@ public:
 
 private:
     static std::regex regexRuleNormal;
-    static std::regex regexRuleEnPassant;
     static std::regex regexRulePromotion;
 
-    PieceColor activePlayerColor = PieceColor::WHITE;
-    bool gameFinished = false;
+    PieceColor activePlayerColor;
+    bool gameFinished;
 };

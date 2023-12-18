@@ -24,9 +24,9 @@ using std::cout;
 using std::endl;
 
 std::regex GameManager::regexRuleNormal("[a-h]{1}[0-8]{1}[a-h]{1}[0-8]{1}");
-std::regex GameManager::regexRuleEnPassant("[a-h]{1}[0-8]{1}[a-h]{1}[0-8]{1}\\se.p.");
 std::regex GameManager::regexRulePromotion("[a-h]{1}[0-8]{1}[a-h]{1}[0-8]{1}[R,N,B,Q,r,n,b,q]{1}");
 
+GameManager::GameManager() : activePlayerColor(PieceColor::WHITE), gameFinished(false) {}
 /**
  * Function to initialize the board from a FEN string.
  *
@@ -193,20 +193,6 @@ void GameManager::getUserMove() const
 
     board.normalMove(std::move(pieceToMove), Coordinate(endingSquare));
   }
-  // En passant
-  else if (userMove.length() == 9 && std::regex_match(userMove, regexRuleEnPassant))
-  {
-    cout << "En passant\n";
-
-    std::string_view startingSquare(userMove.c_str(), 2);
-    std::string_view endingSquare(userMove.c_str() + 2, 2);
-    cout << startingSquare << " --> " << endingSquare << "\n";
-
-    std::shared_ptr<Piece> pieceToMove = board.getPiece(Coordinate(startingSquare));
-    cout << pieceToMove->toString() << endl;
-
-    //! @todo EN PASSANT function
-  }
   // Promotion
   else if (userMove.length() == 5 && std::regex_match(userMove, regexRulePromotion))
   {
@@ -231,7 +217,7 @@ void GameManager::gameLoop()
 
   while (!gameFinished)
   {
-    (activePlayerColor == PieceColor::WHITE) ? board.printWhiteInterface() : board.printBlackInterface();
+    (activePlayerColor == PieceColor::WHITE) ? board.printWhiteBoard() : board.printBlackBoard();
     try
     {
       getUserMove();

@@ -29,7 +29,7 @@ fontfamily=Monospaced
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>220</x>
+      <x>200</x>
       <y>70</y>
       <w>460</w>
       <h>220</h>
@@ -38,13 +38,13 @@ fontfamily=Monospaced
 -
 # color : PieceColor
 # pieceType : Piecetype
-# character : std::string
+# character : string
 # literalCharacter : char
 # position : Coordinate
 -
 + ~Piece()
-+ {virtual} toString(literal : bool) = 0 : std::string
-+ {virtual} isMoveValid(endigPosition : Coordinate) = 0 : bool
++ {abstract} toString(literal : bool = false) : string
++ {abstract} isMoveValid(endigPosition : Coordinate) : bool
 + getColor() : PieceColor
 + getType() : PieceType
 + getPosition() : Coordinate
@@ -58,7 +58,7 @@ fontfamily=Monospaced
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>70</x>
+      <x>50</x>
       <y>70</y>
       <w>100</w>
       <h>90</h>
@@ -75,7 +75,7 @@ VOID
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>70</x>
+      <x>50</x>
       <y>170</y>
       <w>100</w>
       <h>130</h>
@@ -89,6 +89,42 @@ KNIGHT
 BISHOP
 QUEEN
 KING
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>200</x>
+      <y>330</y>
+      <w>560</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>Board
+&lt;&lt;singleton&gt;&gt;
+-
+- squaresMap : map
+- whitePieces : vector
+- blackPieces : vector
+- whiteCapturedPieces : vector
+- blackCapturedPieces : vector
+- whiteKing : shared_ptr
+- blackKing : shared_ptr
+-
+- Board()
+- castling(king : shared_ptr, kingEndingPosition : Coordinate) : void
+_+ Instance() : Board&amp;_
++ printWhiteBoard(literal : bool = false) : void 
++ printBlackBoard(literal : bool = false) : void 
++ updateSquare(square : pair) : void
++ updatePiecesVector(newPiece : shared_ptr) : void
++ addKings() : void
++ isSquareAttacked(square : Coordinate, attackerColor : PieceColor) : bool
++ normalMove(movingPiece : shared_ptr, endingPosition : Coordinate) : void
++ getPiece(position : Coordinate) : shared_ptr
++ clearBoard() : void
++ getWhiteCapturedPieces() : string
++ getBlackCapturedPieces() : string
 </panel_attributes>
     <additional_attributes/>
   </element>

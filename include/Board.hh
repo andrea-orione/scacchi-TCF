@@ -31,11 +31,8 @@ public:
 
   // void InitializeBoard();
 
-  void printBoard(bool simplified = false) const;
-  void printWhiteInterface(bool simplified = false) const;
-  void printBoardReversed(bool simplified = false) const;
-  void printBlackInterface(bool simplified = false) const;
-  void printDoubleInterface(bool simplified = false) const;
+  void printWhiteBoard(bool simplified = false) const;
+  void printBlackBoard(bool simplified = false) const;
 
   void updateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> &&square) noexcept;
   void updatePiecesVector(std::shared_ptr<Piece> &&newPiece) noexcept;

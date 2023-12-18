@@ -16,7 +16,7 @@ using std::endl;
 /**
  * The default constructor.
  *
- * It initializes all 64 squares to an empty state.
+ * It creates the 64 squares.
  */
 Board::Board()
 {
@@ -51,46 +51,6 @@ Board &Board::Instance()
 }
 
 /**
- * Print the state of the board from the white perspective.
- *
- * It displays visually to the screen the board using UNICODE characters
- *
- * @param[in] simplified wether to use simplified chars to print
- *  (useful if terminal doesn't support special chars)
- */
-void Board::printBoard(bool simplified) const
-{
-  std::string top = (simplified) ? "---------------------------------" : "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗";
-  std::string middle = (simplified) ? "|---|---|---|---|---|---|---|---|" : "╟───┼───┼───┼───┼───┼───┼───┼───╢";
-  std::string bottom = (simplified) ? "---------------------------------" : "╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝";
-  std::string border = (simplified) ? "|" : "║";
-  std::string separator = (simplified) ? "|" : "│";
-
-  cout << "\n   " << top << "\n";
-  for (int row = 8; row > 0; row--)
-  {
-    cout << " " << row << " " << border << " ";
-    for (int column = 1; column < 9; column++)
-    {
-      auto piecePtr = squaresMap.find(Coordinate(column, row))->second;
-      cout << piecePtr->toString(simplified);
-
-      // Slightly inefficient but makes the code cleaner
-      if (column != 8)
-        cout << " " << separator << " ";
-      else
-        cout << " " << border;
-    }
-    if (row != 1)
-      cout << "\n   " << middle << "\n";
-    else
-      cout << "\n   " << bottom << "\n";
-  }
-  cout << "     a   b   c   d   e   f   g   h\n"
-       << endl;
-}
-
-/**
  * Print the state of the board and the captured pieces from the white perspective.
  *
  * It displays visually to the screen the board using UNICODE characters
@@ -98,7 +58,7 @@ void Board::printBoard(bool simplified) const
  * @param[in] simplified wether to use simplified chars to print
  *  (useful if terminal doesn't support special chars)
  */
-void Board::printWhiteInterface(bool simplified) const
+void Board::printWhiteBoard(bool simplified) const
 {
   std::string top = (simplified) ? "---------------------------------" : "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗";
   std::string middle = (simplified) ? "|---|---|---|---|---|---|---|---|" : "╟───┼───┼───┼───┼───┼───┼───┼───╢";
@@ -135,46 +95,6 @@ void Board::printWhiteInterface(bool simplified) const
 }
 
 /**
- * Print the state of the board from the black perspective.
- *
- * It displays visually to the screen the board using UNICODE characters
- *
- * @param[in] simplified wether to use simplified chars to print
- *  (useful if terminal doesn't support special chars)
- */
-void Board::printBoardReversed(bool simplified) const
-{
-  std::string top = (simplified) ? "---------------------------------" : "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗";
-  std::string middle = (simplified) ? "|---|---|---|---|---|---|---|---|" : "╟───┼───┼───┼───┼───┼───┼───┼───╢";
-  std::string bottom = (simplified) ? "---------------------------------" : "╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝";
-  std::string border = (simplified) ? "|" : "║";
-  std::string separator = (simplified) ? "|" : "│";
-
-  cout << "\n   " << top << "\n";
-  for (int row = 1; row < 9; row++)
-  {
-    cout << " " << row << " " << border << " ";
-    for (int column = 8; column > 0; column--)
-    {
-      auto piecePtr = squaresMap.find(Coordinate(column, row))->second;
-      cout << piecePtr->toString(simplified);
-
-      // Slightly inefficient but makes the code cleaner
-      if (column != 1)
-        cout << " " << separator << " ";
-      else
-        cout << " " << border;
-    }
-    if (row != 8)
-      cout << "\n   " << middle << "\n";
-    else
-      cout << "\n   " << bottom << "\n";
-  }
-  cout << "     h   g   f   e   d   c   b   a\n"
-       << endl;
-}
-
-/**
  * Print the state of the board and the captured pieces from the black perspective.
  *
  * It displays visually to the screen the board using UNICODE characters
@@ -182,7 +102,7 @@ void Board::printBoardReversed(bool simplified) const
  * @param[in] simplified wether to use simplified chars to print
  *  (useful if terminal doesn't support special chars)
  */
-void Board::printBlackInterface(bool simplified) const
+void Board::printBlackBoard(bool simplified) const
 {
   std::string top = (simplified) ? "---------------------------------" : "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗";
   std::string middle = (simplified) ? "|---|---|---|---|---|---|---|---|" : "╟───┼───┼───┼───┼───┼───┼───┼───╢";
@@ -217,63 +137,6 @@ void Board::printBlackInterface(bool simplified) const
   cout << "     h   g   f   e   d   c   b   a\n"
        << endl;
 }
-
-/**
- * Print the state of the board and the captured pieces from both perspectives.
- *
- * It displays visually to the screen the board using UNICODE characters
- *
- * @param[in] simplified wether to use simplified chars to print
- *  (useful if terminal doesn't support special chars)
- */
-void Board::printDoubleInterface(bool simplified) const
-{
-  std::string top = (simplified) ? "---------------------------------" : "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗";
-  std::string middle = (simplified) ? "|---|---|---|---|---|---|---|---|" : "╟───┼───┼───┼───┼───┼───┼───┼───╢";
-  std::string bottom = (simplified) ? "---------------------------------" : "╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝";
-  std::string border = (simplified) ? "|" : "║";
-  std::string separator = (simplified) ? "|" : "│";
-
-  cout << "\n   " << top << "  " << separator << "    " << top << "\n";
-  for (int row = 8; row > 0; row--)
-  {
-    cout << " " << row << " " << border << " ";
-    for (int column = 1; column < 9; column++)
-    {
-      auto piecePtr = squaresMap.find(Coordinate(column, row))->second;
-      cout << piecePtr->toString(simplified);
-
-      // Slightly inefficient but makes the code cleaner
-      if (column != 8)
-        cout << " " << separator << " ";
-      else
-        cout << " " << border;
-    }
-    cout << "  " << separator << "  " << 9-row << " " << border << " ";
-    for (int column = 8; column > 0; column--)
-    {
-      auto piecePtr = squaresMap.find(Coordinate(column, 9 - row))->second;
-      cout << piecePtr->toString(simplified);
-
-      // Slightly inefficient but makes the code cleaner
-      if (column != 1)
-        cout << " " << separator << " ";
-      else
-        cout << " " << border;
-    }
-    if (row == 8)
-      cout << "   BLACK CAPTURED PIECES: " << getBlackCapturedPieces();
-    if (row == 7)
-      cout << "   WHITE CAPTURED PIECES: " << getWhiteCapturedPieces();
-    if (row != 1)
-      cout << "\n   " << middle << "  " << separator << "    " << middle << "\n";
-    else
-      cout << "\n   " << bottom << "  " << separator << "    " << bottom << "\n";
-  }
-  cout << "     a   b   c   d   e   f   g   h    " << separator << "      h   g   f   e   d   c   b   a\n"
-       << endl;
-}
-
 
 /**
  * Function for updating the `squaresMap`.
@@ -326,14 +189,17 @@ bool Board::isSquareAttacked(const Coordinate &square, const PieceColor attacker
  */
 void Board::normalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate &endingPosition)
 {
-  try {
+  try
+  {
     if (!(movingPiece->isMoveValid(endingPosition)))
       throw InvalidMoveException("This move is not allowed. This piece cannot reach that position.");
-  } catch (const CastlingSignal) {
+  }
+  catch (const CastlingSignal)
+  {
     castling(std::move(movingPiece), endingPosition);
     return;
   }
- 
+
   const Coordinate startingPosition = movingPiece->getPosition();
   std::vector<std::shared_ptr<Piece>> &opponentPieceVector = (movingPiece->getColor() == PieceColor::WHITE) ? blackPieces : whitePieces;
   std::vector<std::shared_ptr<Piece>> &opponentCapturedPieceVector = (movingPiece->getColor() == PieceColor::WHITE) ? blackCapturedPieces : whiteCapturedPieces;
