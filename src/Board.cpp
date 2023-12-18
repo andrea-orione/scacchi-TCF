@@ -216,6 +216,7 @@ void Board::normalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate en
   // Valid move case
   if (!isSquareAttacked(friendKing->getPosition(), !(movingPiece->getColor())))
   {
+    this->incrementMoveNumber();
     movingPiece->move(endingPosition);
     if (temporaryStorageCapturedPiece->getType() != PieceType::VOID)
       opponentCapturedPieceVector.push_back(temporaryStorageCapturedPiece);
@@ -250,6 +251,7 @@ void Board::castling(std::shared_ptr<Piece> &&king, const Coordinate kingEndingP
 
   if (!(isSquareAttacked(kingEndingPosition, king->getColor()) && isSquareAttacked(rookEndingPosition, king->getColor())))
   {
+    this->incrementMoveNumber();
     squaresMap[kingEndingPosition]->move(kingEndingPosition);
     squaresMap[rookEndingPosition]->move(rookEndingPosition);
     return;
@@ -283,6 +285,7 @@ void Board::enPassant(std::shared_ptr<Piece> &&pawn, const Coordinate pawnEnding
   // Valid move case
   if (!isSquareAttacked(friendKing->getPosition(), !(pawn->getColor())))
   {
+    this->incrementMoveNumber();
     pawn->move(pawnEndingPosition);
     opponentCapturedPieceVector.push_back(capturedPawn);
     return;
@@ -315,6 +318,7 @@ void Board::clearBoard()
   blackCapturedPieces.clear();
   whiteKing = nullptr;
   blackKing = nullptr;
+  this->resetMoveNumber();
   for (int row = 1; row < 9; row++)
   {
     for (int column = 1; column < 9; column++)

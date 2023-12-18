@@ -44,8 +44,9 @@ public:
   std::shared_ptr<Piece> getPiece(const Coordinate position) const;
 
   void clearBoard();
-  void resetMoveNumber() {moveNumber = 0;}
-  void incrementMoveNumber() {moveNumber++;}
+  void resetMoveNumber() { moveNumber = 0; }
+  void incrementMoveNumber() { moveNumber++; }
+  int getMoveNumber() const { return moveNumber; }
 
   std::string getWhiteCapturedPieces() const;
   std::string getBlackCapturedPieces() const;
