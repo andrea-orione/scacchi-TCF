@@ -7,19 +7,10 @@
 
 int main(int argc, char *argv[])
 {
-  Board &board = Board::Instance();
-
   GameManager *gm = new GameManager();
 
   gm->InitializeStartingBoard();
-
-  while (true)
-  {
-    board.printWhiteInterface(true);
-    // board.printBlackInterface();
-    // board.printDoubleInterface();
-    gm->getUserMove();
-  }
+  gm->gameLoop();
 
   delete gm;
 
