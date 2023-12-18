@@ -25,14 +25,14 @@ fontfamily=Monospaced
 
 
 // This text will be stored with each diagram;  use it for notes.</help_text>
-  <zoom_level>10</zoom_level>
+  <zoom_level>8</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>200</x>
-      <y>70</y>
-      <w>460</w>
-      <h>220</h>
+      <y>72</y>
+      <w>368</w>
+      <h>176</h>
     </coordinates>
     <panel_attributes>/Piece/
 -
@@ -58,10 +58,10 @@ fontfamily=Monospaced
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>50</x>
-      <y>70</y>
-      <w>100</w>
-      <h>90</h>
+      <x>80</x>
+      <y>72</y>
+      <w>80</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>PieceColor
 «enumeration»
@@ -75,10 +75,10 @@ VOID
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>50</x>
-      <y>170</y>
-      <w>100</w>
-      <h>130</h>
+      <x>80</x>
+      <y>152</y>
+      <w>80</w>
+      <h>104</h>
     </coordinates>
     <panel_attributes>PieceType
 «enumeration»
@@ -96,9 +96,9 @@ KING
     <id>UMLClass</id>
     <coordinates>
       <x>200</x>
-      <y>330</y>
-      <w>560</w>
-      <h>360</h>
+      <y>264</y>
+      <w>448</w>
+      <h>280</h>
     </coordinates>
     <panel_attributes>Board
 &lt;&lt;singleton&gt;&gt;
@@ -125,6 +125,22 @@ _+ Instance() : Board&amp;_
 + clearBoard() : void
 + getWhiteCapturedPieces() : string
 + getBlackCapturedPieces() : string
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>200</x>
+      <y>584</y>
+      <w>448</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>GameManager
+-
+_- regexRuleNormal : regex_
+_- regexRulePromotion : regex_
+- activePlayerColor : PieceColor
 </panel_attributes>
     <additional_attributes/>
   </element>
