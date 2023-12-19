@@ -163,7 +163,7 @@ void GameManager::loadFenPosition(std::string &&fenString) const
   // moveNumber 
   analyzingPosition++;
   boardInstance.incrementMoveNumber((std::stoi(fenString.substr(analyzingPosition))-1)*2);
-  if (hasEnPassant) ; // Insert boardInstance.getPiece(enPassantPawnPosition)->move(enPassantPawnPosition); after Paolo implemented it. 
+  if (hasEnPassant) boardInstance.getPiece(enPassantPawnPosition)->move(enPassantPawnPosition); 
 
   // Updating PiecesVector
   boardInstance.updatePiecesVector();
