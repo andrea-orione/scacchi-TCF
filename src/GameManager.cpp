@@ -149,10 +149,8 @@ void GameManager::loadFenPosition(std::string &&fenString) const
 
   // En passant Square
   analyzingPosition++;
-  if (fenString.at(analyzingPosition) != '-')
-  {
-    // Still to decide
-  }
+  const bool hasEnPassant = fenString.at(analyzingPosition) != '-';
+  const Coordinate enPassantPawnPosition = (hasEnPassant) ? Coordinate(fenString.substr(analyzingPosition, 2)) : Coordinate();
 
   // Half move number (useless)
   analyzingPosition += 2;
@@ -165,6 +163,7 @@ void GameManager::loadFenPosition(std::string &&fenString) const
   // moveNumber 
   analyzingPosition++;
   boardInstance.incrementMoveNumber((std::stoi(fenString.substr(analyzingPosition))-1)*2);
+  if (hasEnPassant) ; // Insert boardInstance.getPiece(enPassantPawnPosition)->move(enPassantPawnPosition); after Paolo implemented it. 
 
   // Updating PiecesVector
   boardInstance.updatePiecesVector();
