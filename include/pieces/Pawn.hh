@@ -23,4 +23,5 @@ public:
 
 private:
     bool hasMoved;
+    int doubleAdvancementMoveNumber;
 };
