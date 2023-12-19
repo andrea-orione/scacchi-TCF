@@ -1,0 +1,15 @@
+*************************************************************
+*************             SETTINGS              *************
+*************************************************************
+
+The following things can be changed:
+1. The type of characters used for displaying the chess board. 
+   If the terminal used doesn't support the  ASCII  characters 
+   used by default, it is possible to disable this feature.
+   
+   If you can correctly see ♕ (black queen), there is no  need 
+   to proceed.  If  your terminal doesn't properly display the 
+   queen, type: 'simplified'.
+
+   To revert to the default characters, type: 'no simplified'.
+

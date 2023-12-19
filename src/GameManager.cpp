@@ -21,14 +21,10 @@
 #include "VoidPiece.hh"
 #include "Utils.hh"
 
-using std::cin;
-using std::cout;
-using std::endl;
-
 std::regex GameManager::regexRuleNormal("[a-h]{1}[0-8]{1}[a-h]{1}[0-8]{1}");
 std::regex GameManager::regexRulePromotion("[a-h]{1}[0-8]{1}[a-h]{1}[0-8]{1}[R,N,B,Q,r,n,b,q]{1}");
 
-GameManager::GameManager() : activePlayerColor(PieceColor::WHITE), gameFinished(false) {}
+GameManager::GameManager() : activePlayerColor(PieceColor::WHITE), gameFinished(false), simplified(false) {}
 
 /**
  * Function to initialize the board from a FEN string.
@@ -42,8 +38,8 @@ void GameManager::loadFenPosition(std::string &&fenString) const
 
   bool hasWhiteKing = false;
   bool hasBlackKing = false;
-  Coordinate whiteKingCoordinate(1,1);
-  Coordinate blackKingCoordinate(1,1);
+  Coordinate whiteKingCoordinate(1, 1);
+  Coordinate blackKingCoordinate(1, 1);
   int analyzingPosition = 0;
   int analyzingX = 1;
   int analyzingY = 8;
@@ -77,10 +73,11 @@ void GameManager::loadFenPosition(std::string &&fenString) const
     {
       Coordinate pPosition(analyzingX, analyzingY);
       std::shared_ptr<Piece> piece = makePiece(analyzingChar, pPosition);
-      if (piece->getType() == PieceType::KING) 
+      if (piece->getType() == PieceType::KING)
       {
         bool &hasKingColor = (piece->getColor() == PieceColor::WHITE) ? hasWhiteKing : hasBlackKing;
-        if (hasKingColor) throw std::invalid_argument("Too many kings");
+        if (hasKingColor)
+          throw std::invalid_argument("Too many kings");
         Coordinate &kingCoordinateColor = (piece->getColor() == PieceColor::WHITE) ? whiteKingCoordinate : blackKingCoordinate;
         hasKingColor = true;
         kingCoordinateColor = pPosition;
@@ -96,13 +93,14 @@ void GameManager::loadFenPosition(std::string &&fenString) const
     analyzingX++;
     analyzingPosition++;
   }
-  if (!(hasBlackKing && hasWhiteKing)) throw std::invalid_argument("GameManager::loadFenPosition(string) Not enough kings.");
+  if (!(hasBlackKing && hasWhiteKing))
+    throw std::invalid_argument("GameManager::loadFenPosition(string) Not enough kings.");
   boardInstance.addKings(whiteKingCoordinate, blackKingCoordinate);
 
   // ActivePiece
   analyzingPosition++;
   analyzingChar = fenString.at(analyzingPosition);
-  switch (analyzingChar) 
+  switch (analyzingChar)
   {
   case 'w':
     break;
@@ -112,33 +110,36 @@ void GameManager::loadFenPosition(std::string &&fenString) const
   default:
     throw std::invalid_argument("GameManager::loadFenPosition(string) Invalid active color");
   }
-  
+
   // Castling availability
   analyzingPosition += 2;
-  if (fenString.at(analyzingPosition) == '-') analyzingPosition++;
+  if (fenString.at(analyzingPosition) == '-')
+    analyzingPosition++;
   analyzingChar = fenString.at(analyzingPosition);
-  while (analyzingChar != ' ') {
-    Coordinate rookPosition; 
+  while (analyzingChar != ' ')
+  {
+    Coordinate rookPosition;
     switch (analyzingChar)
     {
     case 'K':
-      rookPosition = Coordinate(8,1);
+      rookPosition = Coordinate(8, 1);
       break;
     case 'Q':
-      rookPosition = Coordinate(1,1);
+      rookPosition = Coordinate(1, 1);
       break;
     case 'k':
-      rookPosition = Coordinate(8,8);
+      rookPosition = Coordinate(8, 8);
       break;
     case 'q':
-      rookPosition = Coordinate(1,8);
+      rookPosition = Coordinate(1, 8);
       break;
     default:
-      throw std::invalid_argument("GameManager::loadFendPosition() Invalid castling section"); 
+      throw std::invalid_argument("GameManager::loadFendPosition() Invalid castling section");
       break;
     }
     std::shared_ptr<Piece> rook = boardInstance.getPiece(rookPosition);
-    if (rook->getType() != PieceType::ROOK) throw std::invalid_argument("GameManager::loadFendPosition() Invalid castling section"); 
+    if (rook->getType() != PieceType::ROOK)
+      throw std::invalid_argument("GameManager::loadFendPosition() Invalid castling section");
     char rookChar = (rook->getColor() == PieceColor::WHITE) ? 'R' : 'r';
     std::shared_ptr<Piece> newRook = makePiece(rookChar, rookPosition, false);
     std::pair<Coordinate, std::shared_ptr<Piece>> p(rookPosition, newRook);
@@ -155,15 +156,17 @@ void GameManager::loadFenPosition(std::string &&fenString) const
   // Half move number (useless)
   analyzingPosition += 2;
   analyzingChar = fenString.at(analyzingPosition);
-  while (analyzingChar != ' ') {
+  while (analyzingChar != ' ')
+  {
     analyzingPosition++;
     analyzingChar = fenString.at(analyzingPosition);
   }
 
-  // moveNumber 
+  // moveNumber
   analyzingPosition++;
-  boardInstance.incrementMoveNumber((std::stoi(fenString.substr(analyzingPosition))-1)*2);
-  if (hasEnPassant) boardInstance.getPiece(enPassantPawnPosition)->move(enPassantPawnPosition); 
+  boardInstance.incrementMoveNumber((std::stoi(fenString.substr(analyzingPosition)) - 1) * 2);
+  if (hasEnPassant)
+    boardInstance.getPiece(enPassantPawnPosition)->move(enPassantPawnPosition);
 
   // Updating PiecesVector
   boardInstance.updatePiecesVector();
@@ -237,26 +240,30 @@ std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate pPosi
 }
 
 /**
- *
+ * Function for initializing the game.
  */
 void GameManager::startGame()
 {
+  // open file with welcome text
   welcomeFile.open("../utils/welcome.txt", std::ios::in);
 
   if (!welcomeFile.is_open())
     throw std::runtime_error("Error opening welcome.txt");
 
+  // read from file
+  utils::clear();
   std::string line;
   while (std::getline(welcomeFile, line))
-    cout << line << "\n";
+    printf("%s\n", line.c_str());
   welcomeFile.close();
 
+  // user option
   std::string choice;
   while (true)
   {
-    printf("Choice: ");
-    std::getline(cin, choice);
-    if (choice == "s" || choice == "S")
+    printf("Option: ");
+    std::getline(std::cin, choice);
+    if (choice == "g" || choice == "G")
     {
       InitializeStartingBoard();
       gameLoop();
@@ -264,8 +271,14 @@ void GameManager::startGame()
     }
     else if (choice == "h" || choice == "H")
     {
-      printf("\n");
+      utils::clear();
       helpUser();
+      break;
+    }
+    else if (choice == "s" || choice == "S")
+    {
+      utils::clear();
+      userSettings();
       break;
     }
     else if (choice == "e" || choice == "E")
@@ -274,12 +287,11 @@ void GameManager::startGame()
       continue;
   }
 
-  Board &board = Board::Instance();
   InitializeStartingBoard();
 }
 
 /**
- *
+ * Function for opening the user's guide.
  */
 void GameManager::helpUser()
 {
@@ -290,14 +302,49 @@ void GameManager::helpUser()
 
   std::string line;
   while (std::getline(helpFile, line))
-    cout << line << "\n";
-  welcomeFile.close();
+    printf("%s\n", line.c_str());
+  helpFile.close();
 
-  printf("\nType 'e' or 'E' to exit, any other character to continue: ");
+  printf("\nType 'e' or 'E' to exit, any other character to start the game: ");
   std::string choice;
-  std::getline(cin, choice);
+  std::getline(std::cin, choice);
   if (choice == "e" || choice == "E")
     killGame();
+}
+
+/**
+ * Function for opening the game settings.
+ */
+void GameManager::userSettings()
+{
+  settingsFile.open("../utils/settings.txt", std::ios::in);
+
+  if (!settingsFile.is_open())
+    throw std::runtime_error("Error opening settings.txt");
+
+  std::string line;
+  while (std::getline(settingsFile, line))
+    printf("%s\n", line.c_str());
+  settingsFile.close();
+
+  std::string choice;
+  while (true)
+  {
+    printf("Option: ");
+    std::getline(std::cin, choice);
+    if (choice == "simplified")
+    {
+      this->simplified = true;
+      break;
+    }
+    else if (choice == "no simplified")
+    {
+      this->simplified = false;
+      break;
+    }
+    else
+      continue;
+  }
 }
 
 /**
@@ -306,50 +353,53 @@ void GameManager::helpUser()
  * It checks if the input is valid, then calls the right
  * function to execute the move.
  *
- * @todo Remove all the cout after testing.
  */
-void GameManager::getUserMove() const
+void GameManager::getUserMove()
 {
   std::string userMove;
-  cout << "Write your move: ";
+  printf("Write your move: ");
   std::getline(std::cin, userMove);
 
   Board &board = Board::Instance();
   if (userMove == "exit" || userMove == "EXIT")
   {
     char exitChar;
-    cout << "Are you sure you want to exit? (y/n)\n";
-    cin >> exitChar;
+    printf("Are you sure you want to exit? (y/n) ");
+    std::cin >> exitChar;
 
     if (exitChar == 'y' || exitChar == 'Y')
       throw std::runtime_error("Exiting the game.");
+  }
+  else if (userMove == "guide" || userMove == "GUIDE")
+  {
+    utils::clear();
+    helpUser();
+    throw GuideSignal();
+  }
+  else if (userMove == "settings" || userMove == "SETTINGS")
+  {
+    utils::clear();
+    userSettings();
+    throw SettingsSignal();
   }
 
   // Normal move
   if (userMove.length() == 4 && std::regex_match(userMove, regexRuleNormal))
   {
-    cout << "Mossa normale\n";
-
     std::string_view startingSquare(userMove.c_str(), 2);
     std::string_view endingSquare(userMove.c_str() + 2, 2);
-    cout << startingSquare << " --> " << endingSquare << "\n";
 
     std::shared_ptr<Piece> pieceToMove = board.getPiece(Coordinate(startingSquare));
-    cout << pieceToMove->toString() << endl;
 
     board.normalMove(std::move(pieceToMove), Coordinate(endingSquare));
   }
   // Promotion
   else if (userMove.length() == 5 && std::regex_match(userMove, regexRulePromotion))
   {
-    cout << "Promozione\n";
-
     std::string_view startingSquare(userMove.c_str(), 2);
     std::string_view endingSquare(userMove.c_str() + 2, 2);
-    cout << startingSquare << " --> " << endingSquare << "\n";
 
     std::shared_ptr<Piece> pieceToMove = board.getPiece(Coordinate(startingSquare));
-    cout << pieceToMove->toString() << endl;
 
     //! @todo PROMOTION function
   }
@@ -357,6 +407,15 @@ void GameManager::getUserMove() const
     throw InvalidNotationException();
 }
 
+/**
+ * The most important function of the `GameManager`.
+ *
+ * It creates the game loop, thereby allowing the users to
+ * play continuously until the game is finished.
+ *
+ * It is responsible of printing the updated board at
+ * the beginning of each player's turn.
+ */
 void GameManager::gameLoop()
 {
   Board &board = Board::Instance();
@@ -364,11 +423,21 @@ void GameManager::gameLoop()
 
   while (!gameFinished)
   {
-    (activePlayerColor == PieceColor::WHITE) ? board.printWhiteBoard() : board.printBlackBoard();
+    (activePlayerColor == PieceColor::WHITE) ? board.printWhiteBoard(simplified) : board.printBlackBoard(simplified);
     try
     {
       getUserMove();
       utils::clear();
+    }
+    catch (GuideSignal)
+    {
+      utils::clear();
+      continue;
+    }
+    catch (SettingsSignal)
+    {
+      utils::clear();
+      continue;
     }
     catch (InvalidMoveException &e)
     {
@@ -382,7 +451,7 @@ void GameManager::gameLoop()
       std::cerr << e.what() << '\n';
       continue;
     }
-    catch (std::runtime_error &e)
+    catch (const std::runtime_error &e)
     {
       utils::clear();
       std::cerr << e.what() << '\n';
@@ -393,7 +462,11 @@ void GameManager::gameLoop()
   }
 }
 
+/**
+ * Function for exiting from the game.
+ */
 void GameManager::killGame() const
 {
+  printf("Goodbye. \n");
   std::exit(0);
 }

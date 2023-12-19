@@ -24,7 +24,8 @@ public:
 
     void startGame();
     void helpUser();
-    void getUserMove() const;
+    void userSettings();
+    void getUserMove();
     void gameLoop();
     void killGame() const;
 
@@ -34,7 +35,9 @@ private:
 
     PieceColor activePlayerColor;
     bool gameFinished;
+    bool simplified;
 
     std::fstream welcomeFile;
     std::fstream helpFile;
+    std::fstream settingsFile;
 };

@@ -31,8 +31,8 @@ public:
 
   // void InitializeBoard();
 
-  void printWhiteBoard(bool simplified = false) const;
-  void printBlackBoard(bool simplified = false) const;
+  void printWhiteBoard(bool simplified) const;
+  void printBlackBoard(bool simplified) const;
 
   void updateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> &&square) noexcept;
   void updatePiecesVector();
@@ -45,7 +45,7 @@ public:
 
   void clearBoard();
   void resetMoveNumber() { moveNumber = 0; }
-  void incrementMoveNumber(const int increment=1) { moveNumber+=increment; }
+  void incrementMoveNumber(const int increment = 1) { moveNumber += increment; }
   int getMoveNumber() const { return moveNumber; }
 
   std::string getWhiteCapturedPieces() const;
@@ -59,7 +59,6 @@ private:
 
   void castling(std::shared_ptr<Piece> &&king, const Coordinate kingEndingPosition);
   void enPassant(std::shared_ptr<Piece> &&pawn, const Coordinate pawnEndingPosition);
-
 
   // Map defining the squares as {coordinate : pointer to piece}.
   std::map<Coordinate, std::shared_ptr<Piece>> squaresMap;

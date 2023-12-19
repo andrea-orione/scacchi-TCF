@@ -4,7 +4,8 @@
 **************************************
 
 Type:
-- 's' or 'S' to start a new game
+- 'g' or 'G' to start a new game
 - 'h' or 'H' to open the game guide
+- 's' or 'S' to open the settings
 - 'e' or 'E' to exit
 

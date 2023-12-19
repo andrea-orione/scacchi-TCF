@@ -15,9 +15,13 @@ int main(int argc, char *argv[])
 
     delete gm;
   }
+  catch (const std::runtime_error &e)
+  {
+    std::cerr << e.what() << '\n';
+  }
   catch (...)
   {
-    printf("Some error occurred.\n");
+    printf("Some error occurred. \n");
   }
 
   std::cin.get();
