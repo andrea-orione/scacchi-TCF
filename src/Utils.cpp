@@ -1,5 +1,6 @@
 #include "Utils.hh"
 #include "Piece.hh"
+#include <iostream>
 
 /**
  * Helper function to mimic the overloading of the `!` operator.
@@ -14,4 +15,9 @@ PieceColor operator!(const PieceColor &oldColor)
     return (oldColor == PieceColor::WHITE) ? PieceColor::BLACK : PieceColor::WHITE;
 
   return PieceColor::VOID;
+}
+
+void utils::clear()
+{
+  printf("\033c");
 }

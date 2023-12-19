@@ -13,6 +13,7 @@ namespace utils
    * @return See sgn(x) definition.
    */
   inline int sgn(const int value) { return (0 < value) - (value < 0); }
+  void clear();
 }
 
 PieceColor operator!(const PieceColor &oldColor);

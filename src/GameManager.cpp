@@ -360,6 +360,7 @@ void GameManager::getUserMove() const
 void GameManager::gameLoop()
 {
   Board &board = Board::Instance();
+  utils::clear();
 
   while (!gameFinished)
   {
@@ -367,19 +368,23 @@ void GameManager::gameLoop()
     try
     {
       getUserMove();
+      utils::clear();
     }
     catch (InvalidMoveException &e)
     {
+      utils::clear();
       std::cerr << e.what() << '\n';
       continue;
     }
     catch (InvalidNotationException &e)
     {
+      utils::clear();
       std::cerr << e.what() << '\n';
       continue;
     }
     catch (std::runtime_error &e)
     {
+      utils::clear();
       std::cerr << e.what() << '\n';
       killGame();
     }
