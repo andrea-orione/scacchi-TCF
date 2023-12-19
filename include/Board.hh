@@ -35,8 +35,8 @@ public:
   void printBlackBoard(bool simplified = false) const;
 
   void updateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> &&square) noexcept;
-  void updatePiecesVector(std::shared_ptr<Piece> &&newPiece) noexcept;
-  void addKings();
+  void updatePiecesVector();
+  void addKings(const Coordinate whiteKingPosition, const Coordinate blackKingPosition);
 
   bool isSquareAttacked(const Coordinate square, const PieceColor attackerColor) const;
   void normalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate endingPosition);
@@ -45,7 +45,7 @@ public:
 
   void clearBoard();
   void resetMoveNumber() { moveNumber = 0; }
-  void incrementMoveNumber() { moveNumber++; }
+  void incrementMoveNumber(const int increment=1) { moveNumber+=increment; }
   int getMoveNumber() const { return moveNumber; }
 
   std::string getWhiteCapturedPieces() const;

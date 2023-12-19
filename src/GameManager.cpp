@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cctype>
 #include <stdexcept>
+#include <string>
 #include <string_view>
 #include <memory>
 #include <map>
@@ -10,6 +11,7 @@
 
 #include "Board.hh"
 #include "Bishop.hh"
+#include "Coordinate.hh"
 #include "Pawn.hh"
 #include "Piece.hh"
 #include "Rook.hh"
@@ -38,18 +40,21 @@ void GameManager::loadFenPosition(std::string &&fenString) const
   Board &boardInstance = Board::Instance();
   boardInstance.clearBoard();
 
+  bool hasWhiteKing = false;
+  bool hasBlackKing = false;
+  Coordinate whiteKingCoordinate(1,1);
+  Coordinate blackKingCoordinate(1,1);
   int analyzingPosition = 0;
   int analyzingX = 1;
   int analyzingY = 8;
+  char analyzingChar;
   while (analyzingY != 1 || analyzingX != 9)
   {
-    char analyzingChar = fenString[analyzingPosition];
+    analyzingChar = fenString.at(analyzingPosition);
 
     // Check if is a `/` or if it should be (if it shouldn't it will throw an error in the last part)
     if (analyzingX == 9 && analyzingChar != '/')
-    {
       throw std::invalid_argument("GameManager::loadFenPosition(string) Invalid string formatting.");
-    }
     if (analyzingX == 9 && analyzingChar == '/')
     {
       analyzingX = 1;
@@ -72,9 +77,16 @@ void GameManager::loadFenPosition(std::string &&fenString) const
     {
       Coordinate pPosition(analyzingX, analyzingY);
       std::shared_ptr<Piece> piece = makePiece(analyzingChar, pPosition);
+      if (piece->getType() == PieceType::KING) 
+      {
+        bool &hasKingColor = (piece->getColor() == PieceColor::WHITE) ? hasWhiteKing : hasBlackKing;
+        if (hasKingColor) throw std::invalid_argument("Too many kings");
+        Coordinate &kingCoordinateColor = (piece->getColor() == PieceColor::WHITE) ? whiteKingCoordinate : blackKingCoordinate;
+        hasKingColor = true;
+        kingCoordinateColor = pPosition;
+      }
       std::pair<Coordinate, std::shared_ptr<Piece>> p(pPosition, piece);
       boardInstance.updateSquare(std::move(p));
-      boardInstance.updatePiecesVector(std::move(piece));
     }
     catch (const std::invalid_argument &e)
     {
@@ -84,6 +96,77 @@ void GameManager::loadFenPosition(std::string &&fenString) const
     analyzingX++;
     analyzingPosition++;
   }
+  if (!(hasBlackKing && hasWhiteKing)) throw std::invalid_argument("GameManager::loadFenPosition(string) Not enough kings.");
+  boardInstance.addKings(whiteKingCoordinate, blackKingCoordinate);
+
+  // ActivePiece
+  analyzingPosition++;
+  analyzingChar = fenString.at(analyzingPosition);
+  switch (analyzingChar) 
+  {
+  case 'w':
+    break;
+  case 'b':
+    boardInstance.incrementMoveNumber();
+    break;
+  default:
+    throw std::invalid_argument("GameManager::loadFenPosition(string) Invalid active color");
+  }
+  
+  // Castling availability
+  analyzingPosition += 2;
+  if (fenString.at(analyzingPosition) == '-') analyzingPosition++;
+  analyzingChar = fenString.at(analyzingPosition);
+  while (analyzingChar != ' ') {
+    Coordinate rookPosition; 
+    switch (analyzingChar)
+    {
+    case 'K':
+      rookPosition = Coordinate(8,1);
+      break;
+    case 'Q':
+      rookPosition = Coordinate(1,1);
+      break;
+    case 'k':
+      rookPosition = Coordinate(8,8);
+      break;
+    case 'q':
+      rookPosition = Coordinate(1,8);
+      break;
+    default:
+      throw std::invalid_argument("GameManager::loadFendPosition() Invalid castling section"); 
+      break;
+    }
+    std::shared_ptr<Piece> rook = boardInstance.getPiece(rookPosition);
+    if (rook->getType() != PieceType::ROOK) throw std::invalid_argument("GameManager::loadFendPosition() Invalid castling section"); 
+    char rookChar = (rook->getColor() == PieceColor::WHITE) ? 'R' : 'r';
+    std::shared_ptr<Piece> newRook = makePiece(rookChar, rookPosition, false);
+    std::pair<Coordinate, std::shared_ptr<Piece>> p(rookPosition, newRook);
+    boardInstance.updateSquare(std::move(p));
+    analyzingPosition++;
+    analyzingChar = fenString.at(analyzingPosition);
+  }
+
+  // En passant Square
+  analyzingPosition++;
+  const bool hasEnPassant = fenString.at(analyzingPosition) != '-';
+  const Coordinate enPassantPawnPosition = (hasEnPassant) ? Coordinate(fenString.substr(analyzingPosition, 2)) : Coordinate();
+
+  // Half move number (useless)
+  analyzingPosition += 2;
+  analyzingChar = fenString.at(analyzingPosition);
+  while (analyzingChar != ' ') {
+    analyzingPosition++;
+    analyzingChar = fenString.at(analyzingPosition);
+  }
+
+  // moveNumber 
+  analyzingPosition++;
+  boardInstance.incrementMoveNumber((std::stoi(fenString.substr(analyzingPosition))-1)*2);
+  if (hasEnPassant) boardInstance.getPiece(enPassantPawnPosition)->move(enPassantPawnPosition); 
+
+  // Updating PiecesVector
+  boardInstance.updatePiecesVector();
 }
 
 /**
@@ -94,8 +177,6 @@ void GameManager::InitializeStartingBoard() const
   try
   {
     this->loadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-    Board &board = Board::Instance();
-    board.addKings();
   }
   catch (const std::invalid_argument &e)
   {
@@ -113,7 +194,7 @@ void GameManager::InitializeStartingBoard() const
  *
  * @return The pointer to the piece that has been created created.
  */
-std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate pPosition, const bool hasMoved)
+std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate pPosition, const bool hasRookMoved)
 {
   // Check if void
   if (pChar == 0)
@@ -141,7 +222,7 @@ std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate pPosi
   case 'P':
     return std::make_shared<Pawn>(pColor, pPosition);
   case 'R':
-    return std::make_shared<Rook>(pColor, pPosition, hasMoved);
+    return std::make_shared<Rook>(pColor, pPosition, hasRookMoved);
   case 'N':
     return std::make_shared<Knight>(pColor, pPosition);
   case 'B':
@@ -149,7 +230,7 @@ std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate pPosi
   case 'Q':
     return std::make_shared<Queen>(pColor, pPosition);
   case 'K':
-    return std::make_shared<King>(pColor, pPosition, hasMoved);
+    return std::make_shared<King>(pColor, pPosition, false);
   default:
     throw std::invalid_argument("GameManager::makePiece(char, Coordinate) Invalid value for char representing piece.");
   }
@@ -177,6 +258,8 @@ void GameManager::startGame()
     std::getline(cin, choice);
     if (choice == "s" || choice == "S")
     {
+      InitializeStartingBoard();
+      gameLoop();
       break;
     }
     else if (choice == "h" || choice == "H")

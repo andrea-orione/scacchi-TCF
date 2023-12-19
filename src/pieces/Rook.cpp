@@ -9,6 +9,7 @@
 
 Rook::Rook(PieceColor pColor, Coordinate pPosition, bool pHasMoved)
 {
+  if (pColor == PieceColor::VOID) throw std::invalid_argument("Rook constructor: VOID is invalid Color for a rook.");
   pieceType = PieceType::ROOK;
   color = pColor;
   position = pPosition;
