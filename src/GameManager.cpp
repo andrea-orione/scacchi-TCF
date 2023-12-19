@@ -99,7 +99,6 @@ void GameManager::loadFenPosition(std::string &&fenString) const
   if (!(hasBlackKing && hasWhiteKing)) throw std::invalid_argument("GameManager::loadFenPosition(string) Not enough kings.");
   boardInstance.addKings(whiteKingCoordinate, blackKingCoordinate);
 
-  std::cout << "Checkpoint 1" << std::endl;
   // ActivePiece
   analyzingPosition++;
   analyzingChar = fenString.at(analyzingPosition);
@@ -114,8 +113,6 @@ void GameManager::loadFenPosition(std::string &&fenString) const
     throw std::invalid_argument("GameManager::loadFenPosition(string) Invalid active color");
   }
   
-  std::cout << "Chekpoint 2" << std::endl;
-
   // Castling availability
   analyzingPosition += 2;
   if (fenString.at(analyzingPosition) == '-') analyzingPosition++;
@@ -150,8 +147,6 @@ void GameManager::loadFenPosition(std::string &&fenString) const
     analyzingChar = fenString.at(analyzingPosition);
   }
 
-  std::cout << "Checkpoint 3" << std::endl;
-
   // En passant Square
   analyzingPosition++;
   if (fenString.at(analyzingPosition) != '-')
@@ -159,8 +154,16 @@ void GameManager::loadFenPosition(std::string &&fenString) const
     // Still to decide
   }
 
+  // Half move number (useless)
+  analyzingPosition += 2;
+  analyzingChar = fenString.at(analyzingPosition);
+  while (analyzingChar != ' ') {
+    analyzingPosition++;
+    analyzingChar = fenString.at(analyzingPosition);
+  }
+
   // moveNumber 
-  analyzingPosition += 4;
+  analyzingPosition++;
   boardInstance.incrementMoveNumber((std::stoi(fenString.substr(analyzingPosition))-1)*2);
 
   // Updating PiecesVector
@@ -174,8 +177,7 @@ void GameManager::InitializeStartingBoard() const
 {
   try
   {
-    // this->loadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-    this->loadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w Qkq - 0 1");
+    this->loadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
   }
   catch (const std::invalid_argument &e)
   {
