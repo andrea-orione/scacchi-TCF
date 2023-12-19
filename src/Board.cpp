@@ -83,9 +83,9 @@ void Board::printWhiteBoard(bool simplified) const
         cout << " " << border;
     }
     if (row == 8)
-      cout << "   BLACK CAPTURED PIECES: " << getBlackCapturedPieces();
+      cout << "   BLACK CAPTURED PIECES: " << getBlackCapturedPieces(simplified);
     if (row == 7)
-      cout << "   WHITE CAPTURED PIECES: " << getWhiteCapturedPieces();
+      cout << "   WHITE CAPTURED PIECES: " << getWhiteCapturedPieces(simplified);
     if (row != 1)
       cout << "\n   " << middle << "\n";
     else
@@ -127,9 +127,9 @@ void Board::printBlackBoard(bool simplified) const
         cout << " " << border;
     }
     if (row == 1)
-      cout << "   BLACK CAPTURED PIECES: " << getBlackCapturedPieces();
+      cout << "   BLACK CAPTURED PIECES: " << getBlackCapturedPieces(simplified);
     if (row == 2)
-      cout << "   WHITE CAPTURED PIECES: " << getWhiteCapturedPieces();
+      cout << "   WHITE CAPTURED PIECES: " << getWhiteCapturedPieces(simplified);
     if (row != 8)
       cout << "\n   " << middle << "\n";
     else
@@ -219,10 +219,10 @@ void Board::normalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate en
   // Valid move case
   if (!isSquareAttacked(friendKing->getPosition(), !(movingPiece->getColor())))
   {
-    this->incrementMoveNumber();
     movingPiece->move(endingPosition);
     if (temporaryStorageCapturedPiece->getType() != PieceType::VOID)
       opponentCapturedPieceVector.push_back(temporaryStorageCapturedPiece);
+    this->incrementMoveNumber();
     return;
   }
 
@@ -254,9 +254,9 @@ void Board::castling(std::shared_ptr<Piece> &&king, const Coordinate kingEndingP
 
   if (!(isSquareAttacked(kingEndingPosition, king->getColor()) && isSquareAttacked(rookEndingPosition, king->getColor())))
   {
-    this->incrementMoveNumber();
     squaresMap[kingEndingPosition]->move(kingEndingPosition);
     squaresMap[rookEndingPosition]->move(rookEndingPosition);
+    this->incrementMoveNumber();
     return;
   }
 
@@ -288,9 +288,9 @@ void Board::enPassant(std::shared_ptr<Piece> &&pawn, const Coordinate pawnEnding
   // Valid move case
   if (!isSquareAttacked(friendKing->getPosition(), !(pawn->getColor())))
   {
-    this->incrementMoveNumber();
     pawn->move(pawnEndingPosition);
     opponentCapturedPieceVector.push_back(capturedPawn);
+    this->incrementMoveNumber();
     return;
   }
 
@@ -360,22 +360,22 @@ void Board::printBlackPieces() const
   cout << "\n";
 }
 
-std::string Board::getWhiteCapturedPieces() const
+std::string Board::getWhiteCapturedPieces(const bool literal) const
 {
   std::string piecesString;
   for (auto piece : whiteCapturedPieces)
   {
-    piecesString += (piece->toString() + " ");
+    piecesString += (piece->toString(literal) + " ");
   }
   return piecesString;
 }
 
-std::string Board::getBlackCapturedPieces() const
+std::string Board::getBlackCapturedPieces(const bool literal) const
 {
   std::string piecesString;
   for (auto piece : blackCapturedPieces)
   {
-    piecesString += (piece->toString() + " ");
+    piecesString += (piece->toString(literal) + " ");
   }
   return piecesString;
 }

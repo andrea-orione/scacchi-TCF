@@ -48,8 +48,8 @@ public:
   void incrementMoveNumber(const int increment = 1) { moveNumber += increment; }
   int getMoveNumber() const { return moveNumber; }
 
-  std::string getWhiteCapturedPieces() const;
-  std::string getBlackCapturedPieces() const;
+  std::string getWhiteCapturedPieces(const bool literal = false) const;
+  std::string getBlackCapturedPieces(const bool literal = false) const;
 
   void printWhitePieces() const;
   void printBlackPieces() const;

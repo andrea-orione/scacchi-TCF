@@ -1,6 +1,8 @@
-***************************************************************
-************             USER'S GUIDE              ************
-***************************************************************
+ _   _ ____  _____ ____  _ ____     ____ _   _ ___ ____  _____ 
+| | | / ___|| ____|  _ \( ) ___|   / ___| | | |_ _|  _ \| ____|
+| | | \___ \|  _| | |_) |/\___ \  | |  _| | | || || | | |  _|  
+| |_| |___) | |___|  _ <   ___) | | |_| | |_| || || |_| | |___ 
+ \___/|____/|_____|_| \_\ |____/   \____|\___/|___|____/|_____|
 
 Provided that the user is familiar with the rules of chess, the
 following   is   a  guide     on   how  to    play “CHESS-TCF”.
@@ -21,8 +23,8 @@ instead shown:
 - b for the bishops;
 - q for the queens;
 - k for the kings;
-with uppercase letters for black  pieces and  lowercase letters 
-for the white ones.
+with uppercase letters for white  pieces and  lowercase letters 
+for the black ones.
 
 
 MOVES
