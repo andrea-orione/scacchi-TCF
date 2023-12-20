@@ -15,3 +15,4 @@ The following things can be changed:
 
    To revert to the default characters, type: 'no simplified'.
 
+Type 'exit' or press Enter to exit.

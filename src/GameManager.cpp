@@ -330,7 +330,7 @@ void GameManager::userSettings()
   std::string choice;
   while (true)
   {
-    printf("Option: ");
+    printf("\nOption: ");
     std::getline(std::cin, choice);
     if (choice == "simplified")
     {
@@ -342,6 +342,8 @@ void GameManager::userSettings()
       this->simplified = false;
       break;
     }
+    else if (choice.length() == 0 || choice == "exit")
+      break;
     else
       continue;
   }
@@ -391,6 +393,9 @@ void GameManager::getUserMove()
 
     std::shared_ptr<Piece> pieceToMove = board.getPiece(Coordinate(startingSquare));
 
+    if (pieceToMove->getColor() != activePlayerColor)
+      throw InvalidMoveException("The piece you want to move doesn't belong to you.");
+
     board.normalMove(std::move(pieceToMove), Coordinate(endingSquare));
   }
   // Promotion
@@ -400,6 +405,9 @@ void GameManager::getUserMove()
     std::string_view endingSquare(userMove.c_str() + 2, 2);
 
     std::shared_ptr<Piece> pieceToMove = board.getPiece(Coordinate(startingSquare));
+
+    if (pieceToMove->getColor() != activePlayerColor)
+      throw InvalidMoveException("The piece you want to move doesn't belong to you.");
 
     //! @todo PROMOTION function
   }
