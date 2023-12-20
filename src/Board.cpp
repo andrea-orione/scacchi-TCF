@@ -222,7 +222,6 @@ void Board::normalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate en
     movingPiece->move(endingPosition);
     if (temporaryStorageCapturedPiece->getType() != PieceType::VOID)
       opponentCapturedPieceVector.push_back(temporaryStorageCapturedPiece);
-    this->incrementMoveNumber();
     return;
   }
 
@@ -256,7 +255,6 @@ void Board::castling(std::shared_ptr<Piece> &&king, const Coordinate kingEndingP
   {
     squaresMap[kingEndingPosition]->move(kingEndingPosition);
     squaresMap[rookEndingPosition]->move(rookEndingPosition);
-    this->incrementMoveNumber();
     return;
   }
 
@@ -290,7 +288,6 @@ void Board::enPassant(std::shared_ptr<Piece> &&pawn, const Coordinate pawnEnding
   {
     pawn->move(pawnEndingPosition);
     opponentCapturedPieceVector.push_back(capturedPawn);
-    this->incrementMoveNumber();
     return;
   }
 

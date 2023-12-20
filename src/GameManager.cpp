@@ -245,7 +245,7 @@ std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate pPosi
 void GameManager::startGame()
 {
   // open file with welcome text
-  welcomeFile.open("../utils/welcome.txt", std::ios::in);
+  welcomeFile.open(welcomeFilePath, std::ios::in);
 
   if (!welcomeFile.is_open())
     throw std::runtime_error("Error opening welcome.txt");
@@ -295,7 +295,7 @@ void GameManager::startGame()
  */
 void GameManager::helpUser()
 {
-  helpFile.open("../utils/help.txt", std::ios::in);
+  helpFile.open(helpFilePath, std::ios::in);
 
   if (!helpFile.is_open())
     throw std::runtime_error("Error opening help.txt");
@@ -317,7 +317,7 @@ void GameManager::helpUser()
  */
 void GameManager::userSettings()
 {
-  settingsFile.open("../utils/settings.txt", std::ios::in);
+  settingsFile.open(settingsFilePath, std::ios::in);
 
   if (!settingsFile.is_open())
     throw std::runtime_error("Error opening settings.txt");
@@ -419,7 +419,9 @@ void GameManager::getUserMove()
 void GameManager::gameLoop()
 {
   Board &board = Board::Instance();
+  activePlayerColor = (board.getMoveNumber() % 2) ? PieceColor::BLACK : PieceColor::WHITE;
   utils::clear();
+  std::cout << std::endl;
 
   while (!gameFinished)
   {
@@ -427,7 +429,9 @@ void GameManager::gameLoop()
     try
     {
       getUserMove();
+      board.incrementMoveNumber();
       utils::clear();
+      std::cout << std::endl;
     }
     catch (GuideSignal)
     {

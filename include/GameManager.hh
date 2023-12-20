@@ -40,4 +40,14 @@ private:
     std::fstream welcomeFile;
     std::fstream helpFile;
     std::fstream settingsFile;
+
+    #ifdef _WIN32
+    const std::string welcomeFilePath = "..\utils\welcome.txt";
+    const std::string helpFilePath = "..\utils\help.txt";
+    const std::string settingsFilePath = "..\utils\settings.txt";
+    #else
+    const std::string welcomeFilePath = "../utils/welcome.txt";
+    const std::string helpFilePath = "../utils/help.txt";
+    const std::string settingsFilePath = "../utils/settings.txt";
+    #endif
 };
