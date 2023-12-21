@@ -37,6 +37,7 @@ public:
 
   int squaredDistance(const Coordinate other) const;
 
+  //! @todo Serve??
   std::string toString() const;
 
 private:
