@@ -14,40 +14,46 @@
 class GameManager
 {
 public:
-    GameManager();
-    ~GameManager() = default;
+  GameManager();
+  ~GameManager() = default;
 
-    void loadFenPosition(std::string &&fenString) const;
-    void InitializeStartingBoard() const;
+  void loadFenPosition(std::string &&fenString) const;
+  void InitializeStartingBoard() const;
 
-    static std::shared_ptr<Piece> makePiece(char pieceChar, const Coordinate pPosition, const bool hasRookMoved = true);
+  static std::shared_ptr<Piece> makePiece(char pieceChar, const Coordinate pPosition, const bool hasRookMoved = true);
 
-    void startGame();
-    void helpUser();
-    void userSettings();
-    void getUserMove();
-    void gameLoop();
-    void killGame() const;
+  void startGame();
+  void helpUser();
+  void userSettings();
+  void getUserMove();
+  void gameLoop();
+  void killGame() const;
 
 private:
-    static std::regex regexRuleNormal;
-    static std::regex regexRulePromotion;
+  static std::regex regexRuleNormal;
+  static std::regex regexRulePromotion;
 
-    PieceColor activePlayerColor;
-    bool gameFinished;
-    bool simplified;
+  PieceColor activePlayerColor;
+  bool gameFinished;
+  bool simplified;
 
-    std::fstream welcomeFile;
-    std::fstream helpFile;
-    std::fstream settingsFile;
+  std::fstream welcomeFile;
+  std::fstream helpFile;
+  std::fstream settingsFile;
 
 #ifdef _WIN32
-    const char *welcomeFilePath = "..\\utils\\welcome.txt";
-    const char *helpFilePath = "..\\utils\\help.txt";
-    const char *settingsFilePath = "..\\utils\\settings.txt";
+  const std::string welcomeFilePath = "..\\utils\\welcome.txt";
+  const std::string helpFilePath = "..\\utils\\help.txt";
+  const std::string settingsFilePath = "..\\utils\\settings.txt";
+  const char *welcomeFilePath = "..\\utils\\welcome.txt";
+  const char *helpFilePath = "..\\utils\\help.txt";
+  const char *settingsFilePath = "..\\utils\\settings.txt";
 #else
-    const char *welcomeFilePath = "../utils/welcome.txt";
-    const char *helpFilePath = "../utils/help.txt";
-    const char *settingsFilePath = "../utils/settings.txt";
+  const std::string welcomeFilePath = "../utils/welcome.txt";
+  const std::string helpFilePath = "../utils/help.txt";
+  const std::string settingsFilePath = "../utils/settings.txt";
+  const char *welcomeFilePath = "../utils/welcome.txt";
+  const char *helpFilePath = "../utils/help.txt";
+  const char *settingsFilePath = "../utils/settings.txt";
 #endif
 };

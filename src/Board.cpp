@@ -47,7 +47,6 @@ Board::Board()
 Board &Board::Instance()
 {
   static Board instance;
-
   return instance;
 }
 
@@ -175,7 +174,12 @@ void Board::addKings(const Coordinate whiteKingPosition, const Coordinate blackK
 }
 
 /**
+ * Function for determining whether a square is attacked (reachable) by the pieces of one color.
+ * 
+ * @param[in] square The coordinate to the square to be checked.
+ * @param[in] attackerColor The color of the pieces that must be checke if can attack the square.
  *
+ * @return true if the square is reachable, false otherwise.
  */
 bool Board::isSquareAttacked(const Coordinate square, const PieceColor attackerColor) const
 {
@@ -189,7 +193,19 @@ bool Board::isSquareAttacked(const Coordinate square, const PieceColor attackerC
 }
 
 /**
+ * Function for checking if a move is valid and in that case updating the board and the piece internal position.
  *
+ * The funcion first checks whether the piece can reach the endingPosition.
+ * Then updates temporarly the board storing the eventual captured piece in a temporary variable.
+ * It checks if in the new position the king of the movingColor is under check.
+ * In that case the move is invalid, so the preavious position is restored and an error is thrown.
+ * Otherwise the move is valid, so the internal position of the moving piece is updated,
+ * and the eventual captured piece is stored into the capturedPieces vector of the opposing team.
+ * If the move is a castle or en-passant, an exeption is trown by the `isMoveValid` method of the moving piece.
+ * In that case the exception is caught and the validity check is delegated to the proper methods.
+ *
+ * @param[in] movingPiece A pointer to the piece that should move.
+ * @param[in] endingPosition The coordinate to the square that should be reached.
  */
 void Board::normalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate endingPosition)
 {
@@ -204,6 +220,7 @@ void Board::normalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate en
   } catch (const EnPassantSignal)
   {
     enPassant(std::move(movingPiece), endingPosition);
+    return;
   }
 
   const Coordinate startingPosition = movingPiece->getPosition();
@@ -234,7 +251,13 @@ void Board::normalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate en
 }
 
 /**
+ * Function for checking if a castling move is valid and in that case updating the board and the piece internal position.
  *
+ * The funcion first checks whether if the king is in check or if he should pass through a check. In this case the move is invalid
+ * Otherwise the move is valid, so the internal position of the moving piece is updated, and the rook is also moved.
+ *
+ * @param[in] king A pointer to the king that should move.
+ * @param[in] kingEndingPosition The coordinate to the square that should be reached.
  */
 void Board::castling(std::shared_ptr<Piece> &&king, const Coordinate kingEndingPosition)
 {
@@ -265,6 +288,20 @@ void Board::castling(std::shared_ptr<Piece> &&king, const Coordinate kingEndingP
   throw InvalidMoveException("Castling is not allowed. The king cannot pass through or end in check.");
 }
 
+/**
+ * Function for checking if an en-passant move is valid and in that case updating the board and the piece internal position.
+ *
+ * The funcion updates temporarly the board storing the captured piece in a temporary variable.
+ * It checks if in the new position the king of the movingColor is under check.
+ * In that case the move is invalid, so the preavious position is restored and an error is thrown.
+ * Otherwise the move is valid, so the internal position of the moving piece is updated,
+ * and the eventual captured piece is stored into the capturedPieces vector of the opposing team.
+ * If the move is a castle or en-passant, an exeption is trown by the `isMoveValid` method of the moving piece.
+ * In that case the exception is caught and the validity check is delegated to the proper methods.
+ *
+ * @param[in] pawn A pointer to the pawn that should move.
+ * @param[in] pawnEndingPosition The coordinate to the square that should be reached.
+ */
 void Board::enPassant(std::shared_ptr<Piece> &&pawn, const Coordinate pawnEndingPosition)
 {
   const Coordinate pawnStartingPosition = pawn->getPosition();
@@ -300,7 +337,11 @@ void Board::enPassant(std::shared_ptr<Piece> &&pawn, const Coordinate pawnEnding
 }
 
 /**
+ * The function for getting the piece in a given position.
  *
+ * @param[in] position The coordinate to the square.
+ *
+ * @return A pointer to the piece in the square
  */
 std::shared_ptr<Piece> Board::getPiece(const Coordinate position) const
 {
@@ -357,6 +398,13 @@ void Board::printBlackPieces() const
   cout << "\n";
 }
 
+/**
+ * A function for getting a string containing the white captured pieces.
+ *
+ * @param[in] literal A bool indicating if the pieces should be returned as letter (instead of UNICODE chars).
+ *
+ * @retun The aforementioned string
+ */
 std::string Board::getWhiteCapturedPieces(const bool literal) const
 {
   std::string piecesString;
@@ -367,6 +415,13 @@ std::string Board::getWhiteCapturedPieces(const bool literal) const
   return piecesString;
 }
 
+/**
+ * A function for getting a string containing the black captured pieces.
+ *
+ * @param[in] literal A bool indicating if the pieces should be returned as letter (instead of UNICODE chars).
+ *
+ * @retun The aforementioned string
+ */
 std::string Board::getBlackCapturedPieces(const bool literal) const
 {
   std::string piecesString;

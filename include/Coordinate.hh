@@ -6,7 +6,6 @@
 
 #include "Movement.hh"
 
-// TODO Delete DEPRECATED methods
 /**
  * The coordinate system on the board.
  *
