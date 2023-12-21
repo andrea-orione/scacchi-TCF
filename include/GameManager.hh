@@ -42,12 +42,12 @@ private:
     std::fstream settingsFile;
 
 #ifdef _WIN32
-    const std::string welcomeFilePath = "..\\utils\\welcome.txt";
-    const std::string helpFilePath = "..\\utils\\help.txt";
-    const std::string settingsFilePath = "..\\utils\\settings.txt";
+    const char *welcomeFilePath = "..\\utils\\welcome.txt";
+    const char *helpFilePath = "..\\utils\\help.txt";
+    const char *settingsFilePath = "..\\utils\\settings.txt";
 #else
-    const std::string welcomeFilePath = "../utils/welcome.txt";
-    const std::string helpFilePath = "../utils/help.txt";
-    const std::string settingsFilePath = "../utils/settings.txt";
+    const char *welcomeFilePath = "../utils/welcome.txt";
+    const char *helpFilePath = "../utils/help.txt";
+    const char *settingsFilePath = "../utils/settings.txt";
 #endif
 };

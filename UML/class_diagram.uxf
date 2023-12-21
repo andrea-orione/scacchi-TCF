@@ -29,8 +29,8 @@ fontfamily=Monospaced
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>200</x>
-      <y>72</y>
+      <x>120</x>
+      <y>80</y>
       <w>368</w>
       <h>176</h>
     </coordinates>
@@ -58,8 +58,8 @@ fontfamily=Monospaced
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>80</x>
-      <y>72</y>
+      <x>0</x>
+      <y>80</y>
       <w>80</w>
       <h>72</h>
     </coordinates>
@@ -75,8 +75,8 @@ VOID
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>80</x>
-      <y>152</y>
+      <x>0</x>
+      <y>160</y>
       <w>80</w>
       <h>104</h>
     </coordinates>
@@ -95,8 +95,8 @@ KING
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>200</x>
-      <y>264</y>
+      <x>120</x>
+      <y>272</y>
       <w>448</w>
       <h>280</h>
     </coordinates>
@@ -114,8 +114,8 @@ KING
 - Board()
 - castling(king : shared_ptr, kingEndingPosition : Coordinate) : void
 _+ Instance() : Board&amp;_
-+ printWhiteBoard(literal : bool = false) : void 
-+ printBlackBoard(literal : bool = false) : void 
++ printWhiteBoard(simplified : bool = false) : void 
++ printBlackBoard(simplified : bool = false) : void 
 + updateSquare(square : pair) : void
 + updatePiecesVector(newPiece : shared_ptr) : void
 + addKings() : void
@@ -131,16 +131,50 @@ _+ Instance() : Board&amp;_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>200</x>
-      <y>584</y>
-      <w>448</w>
-      <h>240</h>
+      <x>120</x>
+      <y>592</y>
+      <w>552</w>
+      <h>256</h>
     </coordinates>
     <panel_attributes>GameManager
 -
 _- regexRuleNormal : regex_
 _- regexRulePromotion : regex_
 - activePlayerColor : PieceColor
+- gameFinished : bool
+- simplified : bool
+- welcomeFile : fstream
+- helpFile : fstream
+- settingsFile : fstream
+- welcomeFilePath : const char*
+- helpFilePath : const char*
+- settingsFilePath : const char*
+-
+- helpUser() : void
+- userSettings() : void
+- getUserMove() : void
+- killGame() : void
+- loadFenPosition(fenString : string) : void
+- InitializeStartingBoard() : void
+_# makePiece(pieceChar : char, pPosition : Coordinate, hasRookMoved : bool = true) : shared_ptr_
++ startGame() : void
++ gameLoop() : void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>880</x>
+      <y>80</y>
+      <w>392</w>
+      <h>216</h>
+    </coordinates>
+    <panel_attributes>Coordinate
+-
+_- literalChars : string_
+- x : int
+- y :int
+-
 </panel_attributes>
     <additional_attributes/>
   </element>
