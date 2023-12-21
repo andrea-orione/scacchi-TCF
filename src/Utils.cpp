@@ -16,8 +16,3 @@ PieceColor operator!(const PieceColor &oldColor)
 
   return PieceColor::VOID;
 }
-
-void utils::clear()
-{
-  printf("\033c");
-}

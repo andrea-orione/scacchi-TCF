@@ -9,6 +9,7 @@
 #include "Coordinate.hh"
 #include "Piece.hh"
 
+//TODO Delete testing functions (printWhitePieces() and printBlackPieces())
 /**
  * The most important class in the program.
  *

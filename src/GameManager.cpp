@@ -29,6 +29,8 @@ GameManager::GameManager() : activePlayerColor(PieceColor::WHITE), gameFinished(
 /**
  * Function to initialize the board from a FEN string.
  *
+ * It first analyzes the first part of the string containing the position of all the pieces and updates the board
+ *
  * @param[in] fenString The string containing the configuration to load.
  */
 void GameManager::loadFenPosition(std::string &&fenString) const
@@ -49,8 +51,10 @@ void GameManager::loadFenPosition(std::string &&fenString) const
     analyzingChar = fenString.at(analyzingPosition);
 
     // Check if is a `/` or if it should be (if it shouldn't it will throw an error in the last part)
-    if (analyzingX == 9 && analyzingChar != '/')
+    if (analyzingX == 9 && analyzingChar != '/') {
+      boardInstance.clearBoard();
       throw std::invalid_argument("GameManager::loadFenPosition(string) Invalid string formatting.");
+    }
     if (analyzingX == 9 && analyzingChar == '/')
     {
       analyzingX = 1;
@@ -87,14 +91,17 @@ void GameManager::loadFenPosition(std::string &&fenString) const
     }
     catch (const std::invalid_argument &e)
     {
+      boardInstance.clearBoard();
       throw std::invalid_argument("GameManager::loadFenPosition(string) Invalid naming in FEN string.");
     }
 
     analyzingX++;
     analyzingPosition++;
   }
-  if (!(hasBlackKing && hasWhiteKing))
+  if (!(hasBlackKing && hasWhiteKing)) {
+    boardInstance.clearBoard();
     throw std::invalid_argument("GameManager::loadFenPosition(string) Not enough kings.");
+  }
   boardInstance.addKings(whiteKingCoordinate, blackKingCoordinate);
 
   // ActivePiece
@@ -108,6 +115,7 @@ void GameManager::loadFenPosition(std::string &&fenString) const
     boardInstance.incrementMoveNumber();
     break;
   default:
+    boardInstance.clearBoard();
     throw std::invalid_argument("GameManager::loadFenPosition(string) Invalid active color");
   }
 
@@ -134,12 +142,15 @@ void GameManager::loadFenPosition(std::string &&fenString) const
       rookPosition = Coordinate(1, 8);
       break;
     default:
+      boardInstance.clearBoard();
       throw std::invalid_argument("GameManager::loadFendPosition() Invalid castling section");
       break;
     }
     std::shared_ptr<Piece> rook = boardInstance.getPiece(rookPosition);
-    if (rook->getType() != PieceType::ROOK)
+    if (rook->getType() != PieceType::ROOK) {
+      boardInstance.clearBoard();
       throw std::invalid_argument("GameManager::loadFendPosition() Invalid castling section");
+    }
     char rookChar = (rook->getColor() == PieceColor::WHITE) ? 'R' : 'r';
     std::shared_ptr<Piece> newRook = makePiece(rookChar, rookPosition, false);
     std::pair<Coordinate, std::shared_ptr<Piece>> p(rookPosition, newRook);
@@ -148,10 +159,10 @@ void GameManager::loadFenPosition(std::string &&fenString) const
     analyzingChar = fenString.at(analyzingPosition);
   }
 
-  // En passant Square
+  // En passant Substring
   analyzingPosition++;
   const bool hasEnPassant = fenString.at(analyzingPosition) != '-';
-  const Coordinate enPassantPawnPosition = (hasEnPassant) ? Coordinate(fenString.substr(analyzingPosition, 2)) : Coordinate();
+  const std::string enPassantSubstring = (hasEnPassant) ? fenString.substr(analyzingPosition, 2) : "";
 
   // Half move number (useless)
   analyzingPosition += 2;
@@ -165,8 +176,18 @@ void GameManager::loadFenPosition(std::string &&fenString) const
   // moveNumber
   analyzingPosition++;
   boardInstance.incrementMoveNumber((std::stoi(fenString.substr(analyzingPosition)) - 1) * 2);
+
+  // enPassant
   if (hasEnPassant)
-    boardInstance.getPiece(enPassantPawnPosition)->move(enPassantPawnPosition);
+  {
+    try {
+      const Coordinate enPassantPawnPosition = Coordinate(enPassantSubstring);
+      boardInstance.getPiece(enPassantPawnPosition)->move(enPassantPawnPosition);
+    } catch (std::invalid_argument) {
+      boardInstance.clearBoard();
+      throw std::invalid_argument("GameManager::loadFendPosition() Invalid en-passant section");
+    }
+  }
 
   // Updating PiecesVector
   boardInstance.updatePiecesVector();
