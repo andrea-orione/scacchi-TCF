@@ -17,17 +17,10 @@ public:
   GameManager();
   ~GameManager() = default;
 
-  void loadFenPosition(std::string &&fenString) const;
-  void InitializeStartingBoard() const;
-
   static std::shared_ptr<Piece> makePiece(char pieceChar, const Coordinate pPosition, const bool hasRookMoved = true);
 
   void startGame();
-  void helpUser();
-  void userSettings();
-  void getUserMove();
   void gameLoop();
-  void killGame() const;
 
 private:
   static std::regex regexRuleNormal;
@@ -40,6 +33,13 @@ private:
   std::fstream welcomeFile;
   std::fstream helpFile;
   std::fstream settingsFile;
+
+  void loadFenPosition(std::string &&fenString) const;
+  void InitializeStartingBoard() const;
+  void helpUser();
+  void userSettings();
+  void getUserMove();
+  void killGame() const;
 
 #ifdef _WIN32
   const char *welcomeFilePath = "..\\utils\\welcome.txt";
