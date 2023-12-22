@@ -53,9 +53,9 @@ bool Pawn::isMoveValid(const Coordinate endingPosition) const
   return !(abs(xDistance) == 1 && endingPositionPiece->getColor() != !this->getColor());
 }
 
-std::string Pawn::toString(bool literal) const
+std::string Pawn::toString(bool simplified) const
 {
-  if (literal)
+  if (simplified)
     return std::string(1, literalCharacter);
   return character;
 }

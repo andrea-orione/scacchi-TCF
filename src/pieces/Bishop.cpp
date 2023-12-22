@@ -28,9 +28,9 @@ Bishop::Bishop(PieceColor pColor, Coordinate pPosition)
   }
 }
 
-std::string Bishop::toString(bool literal) const
+std::string Bishop::toString(bool simplified) const
 {
-  if (literal)
+  if (simplified)
     return std::string(1, literalCharacter);
   return character;
 }

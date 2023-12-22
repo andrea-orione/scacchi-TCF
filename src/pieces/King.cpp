@@ -68,9 +68,9 @@ bool King::isMoveValid(const Coordinate endingPosition) const
   throw CastlingSignal();
 }
 
-std::string King::toString(bool literal) const
+std::string King::toString(bool simplified) const
 {
-  if (literal)
+  if (simplified)
     return std::string(1, literalCharacter);
   return character;
 }

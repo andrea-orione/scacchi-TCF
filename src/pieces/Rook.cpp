@@ -9,7 +9,8 @@
 
 Rook::Rook(PieceColor pColor, Coordinate pPosition, bool pHasMoved)
 {
-  if (pColor == PieceColor::VOID) throw std::invalid_argument("Rook constructor: VOID is invalid Color for a rook.");
+  if (pColor == PieceColor::VOID)
+    throw std::invalid_argument("Rook constructor: VOID is invalid Color for a rook.");
   pieceType = PieceType::ROOK;
   color = pColor;
   position = pPosition;
@@ -57,9 +58,9 @@ bool Rook::isMoveValid(const Coordinate endingPosition) const
   return true;
 }
 
-std::string Rook::toString(bool literal) const
+std::string Rook::toString(bool simplified) const
 {
-  if (literal)
+  if (simplified)
     return std::string(1, literalCharacter);
   return character;
 }

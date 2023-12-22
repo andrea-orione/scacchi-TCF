@@ -10,15 +10,12 @@ VoidPiece::VoidPiece(Coordinate pPosition)
   pieceType = PieceType::VOID;
   color = PieceColor::VOID;
   position = pPosition;
-  character = " ";
   literalCharacter = ' ';
 }
 
-std::string VoidPiece::toString(bool literal) const
+std::string VoidPiece::toString(bool simplified) const
 {
-  if (literal)
-    return std::string(1, literalCharacter);
-  return character;
+  return std::string(1, literalCharacter);
 }
 
 bool VoidPiece::isMoveValid(const Coordinate endingPosition) const

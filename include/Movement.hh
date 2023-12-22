@@ -11,6 +11,8 @@ class Movement
 {
 public:
   Movement(int newX = 0, int newY = 0);
+  ~Movement() = default;
+
   Movement(const Movement &newMovement);
   Movement &operator=(const Movement &newMovement);
 

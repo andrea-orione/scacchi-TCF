@@ -26,9 +26,9 @@ Queen::Queen(PieceColor pColor, Coordinate pPosition)
   }
 }
 
-std::string Queen::toString(bool literal) const
+std::string Queen::toString(bool simplified) const
 {
-  if (literal)
+  if (simplified)
     return std::string(1, literalCharacter);
   return character;
 }
