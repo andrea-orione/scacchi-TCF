@@ -230,11 +230,12 @@ void Board::normalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate en
   squaresMap[endingPosition] = movingPiece;
   squaresMap[startingPosition] = GameManager::makePiece(0, startingPosition);
   std::shared_ptr<Piece> &friendKing = (movingPiece->getColor() == PieceColor::WHITE) ? whiteKing : blackKing;
+  const Coordinate friendKingPosition = (friendKing == movingPiece) ? endingPosition : friendKing->getPosition();
   if (temporaryStorageCapturedPiece->getColor() != PieceColor::VOID)
     opponentPieceVector.erase(std::find(opponentPieceVector.begin(), opponentPieceVector.end(), temporaryStorageCapturedPiece));
 
   // Valid move case
-  if (!isSquareAttacked(friendKing->getPosition(), !(movingPiece->getColor())))
+  if (!isSquareAttacked(friendKingPosition, !(movingPiece->getColor())))
   {
     movingPiece->move(endingPosition);
     if (temporaryStorageCapturedPiece->getType() != PieceType::VOID)
