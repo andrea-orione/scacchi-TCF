@@ -2,7 +2,6 @@
 
 #include "Coordinate.hh"
 #include <string>
-#include <vector>
 
 /**
  * Enumeration representing the color of the piece.

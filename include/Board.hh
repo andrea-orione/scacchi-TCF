@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <exception>
 
 #include "Coordinate.hh"
 #include "Piece.hh"
