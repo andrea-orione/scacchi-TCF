@@ -42,12 +42,12 @@ private:
   void killGame() const;
 
 #ifdef _WIN32
-  const char *welcomeFilePath = "..\\utils\\welcome.txt";
-  const char *helpFilePath = "..\\utils\\help.txt";
-  const char *settingsFilePath = "..\\utils\\settings.txt";
+  constexpr static char welcomeFilePath[] = "..\\utils\\welcome.txt";
+  constexpr static char helpFilePath[] = "..\\utils\\help.txt";
+  constexpr static char settingsFilePath[] = "..\\utils\\settings.txt";
 #else
-  const char *welcomeFilePath = "../utils/welcome.txt";
-  const char *helpFilePath = "../utils/help.txt";
-  const char *settingsFilePath = "../utils/settings.txt";
+  constexpr static char welcomeFilePath[] = "../utils/welcome.txt";
+  constexpr static char helpFilePath[] = "../utils/help.txt";
+  constexpr static char settingsFilePath[] = "../utils/settings.txt";
 #endif
 };
