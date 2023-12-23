@@ -30,7 +30,7 @@ Rook::Rook(PieceColor pColor, Coordinate pPosition, bool pHasMoved)
   }
 }
 
-bool Rook::isMoveValid(const Coordinate endingPosition) const
+bool Rook::IsMoveValid(const Coordinate endingPosition) const
 {
   const int xDistance = endingPosition.getX() - this->position.getX();
   const int yDistance = endingPosition.getY() - this->position.getY();
@@ -44,28 +44,28 @@ bool Rook::isMoveValid(const Coordinate endingPosition) const
   Movement baseMove(utils::sgn(xDistance), utils::sgn(yDistance));
 
   // Check whether the endingPosition is a free square or occupied by an opponent's piece.
-  std::shared_ptr<Piece> endingPositionPiece = board.getPiece(endingPosition);
-  if (endingPositionPiece->getColor() == this->color)
+  std::shared_ptr<Piece> endingPositionPiece = board.GetPiece(endingPosition);
+  if (endingPositionPiece->GetColor() == this->color)
     return false;
 
   // Check whether there are other pieces in the way.
-  for (Coordinate newPosition = this->getPosition() + baseMove; newPosition != endingPosition; newPosition += baseMove)
+  for (Coordinate newPosition = this->GetPosition() + baseMove; newPosition != endingPosition; newPosition += baseMove)
   {
-    std::shared_ptr<Piece> newSquarePiece = board.getPiece(newPosition);
-    if (newSquarePiece->getColor() != PieceColor::VOID)
+    std::shared_ptr<Piece> newSquarePiece = board.GetPiece(newPosition);
+    if (newSquarePiece->GetColor() != PieceColor::VOID)
       return false;
   }
   return true;
 }
 
-std::string Rook::toString(bool simplified) const
+std::string Rook::ToString(bool simplified) const
 {
   if (simplified)
     return std::string(1, literalCharacter);
   return character;
 }
 
-void Rook::move(const Coordinate newPosition)
+void Rook::Move(const Coordinate newPosition)
 {
   position = newPosition;
   hasMoved = true;

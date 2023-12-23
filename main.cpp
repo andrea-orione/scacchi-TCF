@@ -10,8 +10,8 @@ int main(int argc, char *argv[])
   {
     GameManager *gm = new GameManager();
 
-    gm->startGame();
-    gm->gameLoop();
+    gm->StartGame();
+    gm->GameLoop();
 
     delete gm;
   }

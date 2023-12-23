@@ -16,6 +16,6 @@ public:
   VoidPiece(Coordinate pPosition);
   ~VoidPiece() override = default;
 
-  std::string toString(bool simplified = true) const override;
-  bool isMoveValid(const Coordinate endingPosition) const override;
+  std::string ToString(bool simplified = true) const override;
+  bool IsMoveValid(const Coordinate endingPosition) const override;
 };

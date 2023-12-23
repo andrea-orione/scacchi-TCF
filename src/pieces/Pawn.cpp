@@ -25,12 +25,12 @@ Pawn::Pawn(PieceColor pColor, Coordinate pPosition, bool pHasMoved)
   }
 }
 
-bool Pawn::isMoveValid(const Coordinate endingPosition) const
+bool Pawn::IsMoveValid(const Coordinate endingPosition) const
 {
   const int xDistance = endingPosition.getX() - this->position.getX();
   const int yDistance = endingPosition.getY() - this->position.getY();
 
-  const int yDirection = (this->getColor() == PieceColor::WHITE) ? 1 : -1;
+  const int yDirection = (this->GetColor() == PieceColor::WHITE) ? 1 : -1;
 
   if (abs(xDistance) > 1)
     return false;
@@ -47,23 +47,23 @@ bool Pawn::isMoveValid(const Coordinate endingPosition) const
 
   // Check if landing square is free
 
-  std::shared_ptr<Piece> endingPositionPiece = board.getPiece(endingPosition);
-  if (xDistance == 0 && endingPositionPiece->getColor() != PieceColor::VOID)
+  std::shared_ptr<Piece> endingPositionPiece = board.GetPiece(endingPosition);
+  if (xDistance == 0 && endingPositionPiece->GetColor() != PieceColor::VOID)
     return false;
-  return !(abs(xDistance) == 1 && endingPositionPiece->getColor() != !this->getColor());
+  return !(abs(xDistance) == 1 && endingPositionPiece->GetColor() != !this->GetColor());
 }
 
-std::string Pawn::toString(bool simplified) const
+std::string Pawn::ToString(bool simplified) const
 {
   if (simplified)
     return std::string(1, literalCharacter);
   return character;
 }
 
-void Pawn::move(const Coordinate newPosition)
+void Pawn::Move(const Coordinate newPosition)
 {
   Board &boardInstance = Board::Instance();
-  doubleAdvancementMoveNumber = boardInstance.getMoveNumber();
+  doubleAdvancementMoveNumber = boardInstance.GetMoveNumber();
   position = newPosition;
   hasMoved = true;
 }

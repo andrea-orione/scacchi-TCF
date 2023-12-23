@@ -29,7 +29,7 @@ King::King(PieceColor pColor, Coordinate pPosition, bool pHasMoved)
   }
 }
 
-bool King::isMoveValid(const Coordinate endingPosition) const
+bool King::IsMoveValid(const Coordinate endingPosition) const
 {
   // Too far case
   if (this->position.squaredDistance(endingPosition) > 4)
@@ -39,8 +39,8 @@ bool King::isMoveValid(const Coordinate endingPosition) const
   Board &boardInstance = Board::Instance();
   if (this->position.squaredDistance(endingPosition) < 3)
   {
-    std::shared_ptr<Piece> newSquarePiece = boardInstance.getPiece(endingPosition);
-    return (newSquarePiece->getColor() != this->color);
+    std::shared_ptr<Piece> newSquarePiece = boardInstance.GetPiece(endingPosition);
+    return (newSquarePiece->GetColor() != this->color);
   }
 
   // Castles
@@ -55,27 +55,27 @@ bool King::isMoveValid(const Coordinate endingPosition) const
   int rookXPosition = (direction.getX() > 0) ? 8 : 1;
   Coordinate rookPosition(rookXPosition, this->position.getY());
   // Checks whether there is the rook and if eather one of them has moved
-  std::shared_ptr<Piece> castlingRook = boardInstance.getPiece(rookPosition);
-  if (!castlingRook->canCastle() || !this->canCastle())
+  std::shared_ptr<Piece> castlingRook = boardInstance.GetPiece(rookPosition);
+  if (!castlingRook->CanCastle() || !this->CanCastle())
     return false;
 
   // Checks that all square are void (check condition checked in Board function to avoid recursive calls)
-  for (Coordinate newPosition = this->getPosition() + direction; newPosition != rookPosition; newPosition += direction)
+  for (Coordinate newPosition = this->GetPosition() + direction; newPosition != rookPosition; newPosition += direction)
   {
-    if (boardInstance.getPiece(newPosition)->getColor() != PieceColor::VOID)
+    if (boardInstance.GetPiece(newPosition)->GetColor() != PieceColor::VOID)
       return false;
   }
   throw CastlingSignal();
 }
 
-std::string King::toString(bool simplified) const
+std::string King::ToString(bool simplified) const
 {
   if (simplified)
     return std::string(1, literalCharacter);
   return character;
 }
 
-void King::move(const Coordinate newPosition)
+void King::Move(const Coordinate newPosition)
 {
   position = newPosition;
   hasMoved = true;

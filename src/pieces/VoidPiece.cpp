@@ -13,12 +13,12 @@ VoidPiece::VoidPiece(Coordinate pPosition)
   literalCharacter = ' ';
 }
 
-std::string VoidPiece::toString(bool simplified) const
+std::string VoidPiece::ToString(bool simplified) const
 {
   return std::string(1, literalCharacter);
 }
 
-bool VoidPiece::isMoveValid(const Coordinate endingPosition) const
+bool VoidPiece::IsMoveValid(const Coordinate endingPosition) const
 {
   return false;
 }

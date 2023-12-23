@@ -16,7 +16,7 @@ public:
     Queen(PieceColor pColor, Coordinate pPosition);
     ~Queen() override = default;
 
-    std::string toString(bool simplified = false) const override;
+    std::string ToString(bool simplified = false) const override;
 
-    bool isMoveValid(const Coordinate endingPosition) const override;
+    bool IsMoveValid(const Coordinate endingPosition) const override;
 };

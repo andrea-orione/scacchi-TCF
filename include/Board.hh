@@ -9,7 +9,7 @@
 #include "Coordinate.hh"
 #include "Piece.hh"
 
-//TODO Delete testing functions (printWhitePieces() and printBlackPieces())
+// TODO Delete testing functions (printWhitePieces() and printBlackPieces())
 /**
  * The most important class in the program.
  *
@@ -32,25 +32,25 @@ public:
 
   // void InitializeBoard();
 
-  void printWhiteBoard(bool simplified) const;
-  void printBlackBoard(bool simplified) const;
+  void PrintWhiteBoard(bool simplified) const;
+  void PrintBlackBoard(bool simplified) const;
 
-  void updateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> &&square) noexcept;
-  void updatePiecesVector();
-  void addKings(const Coordinate whiteKingPosition, const Coordinate blackKingPosition);
+  void UpdateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> &&square) noexcept;
+  void UpdatePiecesVector();
+  void AddKings(const Coordinate whiteKingPosition, const Coordinate blackKingPosition);
 
-  bool isSquareAttacked(const Coordinate square, const PieceColor attackerColor) const;
-  void normalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate endingPosition);
+  bool IsSquareAttacked(const Coordinate square, const PieceColor attackerColor) const;
+  void NormalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate endingPosition);
 
-  std::shared_ptr<Piece> getPiece(const Coordinate position) const;
+  std::shared_ptr<Piece> GetPiece(const Coordinate position) const;
 
-  void clearBoard();
-  void resetMoveNumber() { moveNumber = 0; }
-  void incrementMoveNumber(const int increment = 1) { moveNumber += increment; }
-  int getMoveNumber() const { return moveNumber; }
+  void ClearBoard();
+  void ResetMoveNumber() { moveNumber = 0; }
+  void IncrementMoveNumber(const int increment = 1) { moveNumber += increment; }
+  int GetMoveNumber() const { return moveNumber; }
 
-  std::string getWhiteCapturedPieces(const bool literal = false) const;
-  std::string getBlackCapturedPieces(const bool literal = false) const;
+  std::string GetWhiteCapturedPieces(const bool literal = false) const;
+  std::string GetBlackCapturedPieces(const bool literal = false) const;
 
   void printWhitePieces() const;
   void printBlackPieces() const;
@@ -58,8 +58,8 @@ public:
 private:
   Board(); // private constructor
 
-  void castling(std::shared_ptr<Piece> &&king, const Coordinate kingEndingPosition);
-  void enPassant(std::shared_ptr<Piece> &&pawn, const Coordinate pawnEndingPosition);
+  void Castling(std::shared_ptr<Piece> &&king, const Coordinate kingEndingPosition);
+  void EnPassant(std::shared_ptr<Piece> &&pawn, const Coordinate pawnEndingPosition);
 
   // Map defining the squares as {coordinate : pointer to piece}.
   std::map<Coordinate, std::shared_ptr<Piece>> squaresMap;

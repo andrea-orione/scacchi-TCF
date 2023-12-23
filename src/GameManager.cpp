@@ -33,10 +33,10 @@ GameManager::GameManager() : activePlayerColor(PieceColor::WHITE), gameFinished(
  *
  * @param[in] fenString The string containing the configuration to load.
  */
-void GameManager::loadFenPosition(std::string &&fenString) const
+void GameManager::LoadFenPosition(std::string &&fenString) const
 {
   Board &boardInstance = Board::Instance();
-  boardInstance.clearBoard();
+  boardInstance.ClearBoard();
 
   bool hasWhiteKing = false;
   bool hasBlackKing = false;
@@ -51,8 +51,9 @@ void GameManager::loadFenPosition(std::string &&fenString) const
     analyzingChar = fenString.at(analyzingPosition);
 
     // Check if is a `/` or if it should be (if it shouldn't it will throw an error in the last part)
-    if (analyzingX == 9 && analyzingChar != '/') {
-      boardInstance.clearBoard();
+    if (analyzingX == 9 && analyzingChar != '/')
+    {
+      boardInstance.ClearBoard();
       throw std::invalid_argument("GameManager::loadFenPosition(string) Invalid string formatting.");
     }
     if (analyzingX == 9 && analyzingChar == '/')
@@ -76,33 +77,34 @@ void GameManager::loadFenPosition(std::string &&fenString) const
     try
     {
       Coordinate pPosition(analyzingX, analyzingY);
-      std::shared_ptr<Piece> piece = makePiece(analyzingChar, pPosition);
-      if (piece->getType() == PieceType::KING)
+      std::shared_ptr<Piece> piece = MakePiece(analyzingChar, pPosition);
+      if (piece->GetType() == PieceType::KING)
       {
-        bool &hasKingColor = (piece->getColor() == PieceColor::WHITE) ? hasWhiteKing : hasBlackKing;
+        bool &hasKingColor = (piece->GetColor() == PieceColor::WHITE) ? hasWhiteKing : hasBlackKing;
         if (hasKingColor)
           throw std::invalid_argument("Too many kings");
-        Coordinate &kingCoordinateColor = (piece->getColor() == PieceColor::WHITE) ? whiteKingCoordinate : blackKingCoordinate;
+        Coordinate &kingCoordinateColor = (piece->GetColor() == PieceColor::WHITE) ? whiteKingCoordinate : blackKingCoordinate;
         hasKingColor = true;
         kingCoordinateColor = pPosition;
       }
       std::pair<Coordinate, std::shared_ptr<Piece>> p(pPosition, piece);
-      boardInstance.updateSquare(std::move(p));
+      boardInstance.UpdateSquare(std::move(p));
     }
     catch (const std::invalid_argument &e)
     {
-      boardInstance.clearBoard();
+      boardInstance.ClearBoard();
       throw std::invalid_argument("GameManager::loadFenPosition(string) Invalid naming in FEN string.");
     }
 
     analyzingX++;
     analyzingPosition++;
   }
-  if (!(hasBlackKing && hasWhiteKing)) {
-    boardInstance.clearBoard();
+  if (!(hasBlackKing && hasWhiteKing))
+  {
+    boardInstance.ClearBoard();
     throw std::invalid_argument("GameManager::loadFenPosition(string) Not enough kings.");
   }
-  boardInstance.addKings(whiteKingCoordinate, blackKingCoordinate);
+  boardInstance.AddKings(whiteKingCoordinate, blackKingCoordinate);
 
   // ActivePiece
   analyzingPosition++;
@@ -112,10 +114,10 @@ void GameManager::loadFenPosition(std::string &&fenString) const
   case 'w':
     break;
   case 'b':
-    boardInstance.incrementMoveNumber();
+    boardInstance.IncrementMoveNumber();
     break;
   default:
-    boardInstance.clearBoard();
+    boardInstance.ClearBoard();
     throw std::invalid_argument("GameManager::loadFenPosition(string) Invalid active color");
   }
 
@@ -142,19 +144,20 @@ void GameManager::loadFenPosition(std::string &&fenString) const
       rookPosition = Coordinate(1, 8);
       break;
     default:
-      boardInstance.clearBoard();
+      boardInstance.ClearBoard();
       throw std::invalid_argument("GameManager::loadFendPosition() Invalid castling section");
       break;
     }
-    std::shared_ptr<Piece> rook = boardInstance.getPiece(rookPosition);
-    if (rook->getType() != PieceType::ROOK) {
-      boardInstance.clearBoard();
+    std::shared_ptr<Piece> rook = boardInstance.GetPiece(rookPosition);
+    if (rook->GetType() != PieceType::ROOK)
+    {
+      boardInstance.ClearBoard();
       throw std::invalid_argument("GameManager::loadFendPosition() Invalid castling section");
     }
-    char rookChar = (rook->getColor() == PieceColor::WHITE) ? 'R' : 'r';
-    std::shared_ptr<Piece> newRook = makePiece(rookChar, rookPosition, false);
+    char rookChar = (rook->GetColor() == PieceColor::WHITE) ? 'R' : 'r';
+    std::shared_ptr<Piece> newRook = MakePiece(rookChar, rookPosition, false);
     std::pair<Coordinate, std::shared_ptr<Piece>> p(rookPosition, newRook);
-    boardInstance.updateSquare(std::move(p));
+    boardInstance.UpdateSquare(std::move(p));
     analyzingPosition++;
     analyzingChar = fenString.at(analyzingPosition);
   }
@@ -175,22 +178,25 @@ void GameManager::loadFenPosition(std::string &&fenString) const
 
   // moveNumber
   analyzingPosition++;
-  boardInstance.incrementMoveNumber((std::stoi(fenString.substr(analyzingPosition)) - 1) * 2);
+  boardInstance.IncrementMoveNumber((std::stoi(fenString.substr(analyzingPosition)) - 1) * 2);
 
   // enPassant
   if (hasEnPassant)
   {
-    try {
+    try
+    {
       const Coordinate enPassantPawnPosition = Coordinate(enPassantSubstring);
-      boardInstance.getPiece(enPassantPawnPosition)->move(enPassantPawnPosition);
-    } catch (std::invalid_argument) {
-      boardInstance.clearBoard();
+      boardInstance.GetPiece(enPassantPawnPosition)->Move(enPassantPawnPosition);
+    }
+    catch (std::invalid_argument)
+    {
+      boardInstance.ClearBoard();
       throw std::invalid_argument("GameManager::loadFendPosition() Invalid en-passant section");
     }
   }
 
   // Updating PiecesVector
-  boardInstance.updatePiecesVector();
+  boardInstance.UpdatePiecesVector();
 }
 
 /**
@@ -201,7 +207,7 @@ void GameManager::InitializeStartingBoard() const
   try
   {
     // this->loadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-    this->loadFenPosition("rnbqkbnr/ppp2ppp/8/3pp3/3PP3/8/PPP2PPP/RNBQKBNR w KQkq - 0 1");
+    this->LoadFenPosition("rnbqkbnr/ppp2ppp/8/3pp3/3PP3/8/PPP2PPP/RNBQKBNR w KQkq - 0 1");
   }
   catch (const std::invalid_argument &e)
   {
@@ -219,7 +225,7 @@ void GameManager::InitializeStartingBoard() const
  *
  * @return The pointer to the piece that has been created created.
  */
-std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate pPosition, const bool hasRookMoved)
+std::shared_ptr<Piece> GameManager::MakePiece(char pChar, const Coordinate pPosition, const bool hasRookMoved)
 {
   // Check if void
   if (pChar == 0)
@@ -264,7 +270,7 @@ std::shared_ptr<Piece> GameManager::makePiece(char pChar, const Coordinate pPosi
 /**
  * Function for initializing the game.
  */
-void GameManager::startGame()
+void GameManager::StartGame()
 {
   // open file with welcome text
   welcomeFile.open(welcomeFilePath, std::ios::in);
@@ -288,23 +294,23 @@ void GameManager::startGame()
     if (choice == "g" || choice == "G")
     {
       InitializeStartingBoard();
-      gameLoop();
+      GameLoop();
       break;
     }
     else if (choice == "h" || choice == "H")
     {
       utils::clear();
-      helpUser();
+      HelpUser();
       break;
     }
     else if (choice == "s" || choice == "S")
     {
       utils::clear();
-      userSettings();
+      UserSettings();
       break;
     }
     else if (choice == "e" || choice == "E")
-      killGame();
+      KillGame();
     else
       continue;
   }
@@ -315,7 +321,7 @@ void GameManager::startGame()
 /**
  * Function for opening the user's guide.
  */
-void GameManager::helpUser()
+void GameManager::HelpUser()
 {
   helpFile.open(helpFilePath, std::ios::in);
 
@@ -331,13 +337,13 @@ void GameManager::helpUser()
   std::string choice;
   std::getline(std::cin, choice);
   if (choice == "e" || choice == "E")
-    killGame();
+    KillGame();
 }
 
 /**
  * Function for opening the game settings.
  */
-void GameManager::userSettings()
+void GameManager::UserSettings()
 {
   settingsFile.open(settingsFilePath, std::ios::in);
 
@@ -378,7 +384,7 @@ void GameManager::userSettings()
  * function to execute the move.
  *
  */
-void GameManager::getUserMove()
+void GameManager::GetUserMove()
 {
   std::string userMove;
   printf("Write your move: ");
@@ -397,13 +403,13 @@ void GameManager::getUserMove()
   else if (userMove == "guide" || userMove == "GUIDE")
   {
     utils::clear();
-    helpUser();
+    HelpUser();
     throw GuideSignal();
   }
   else if (userMove == "settings" || userMove == "SETTINGS")
   {
     utils::clear();
-    userSettings();
+    UserSettings();
     throw SettingsSignal();
   }
 
@@ -413,12 +419,12 @@ void GameManager::getUserMove()
     std::string_view startingSquare(userMove.c_str(), 2);
     std::string_view endingSquare(userMove.c_str() + 2, 2);
 
-    std::shared_ptr<Piece> pieceToMove = board.getPiece(Coordinate(startingSquare));
+    std::shared_ptr<Piece> pieceToMove = board.GetPiece(Coordinate(startingSquare));
 
-    if (pieceToMove->getColor() != activePlayerColor)
+    if (pieceToMove->GetColor() != activePlayerColor)
       throw InvalidMoveException("The piece you want to move doesn't belong to you.");
 
-    board.normalMove(std::move(pieceToMove), Coordinate(endingSquare));
+    board.NormalMove(std::move(pieceToMove), Coordinate(endingSquare));
   }
   // Promotion
   else if (userMove.length() == 5 && std::regex_match(userMove, regexRulePromotion))
@@ -426,9 +432,9 @@ void GameManager::getUserMove()
     std::string_view startingSquare(userMove.c_str(), 2);
     std::string_view endingSquare(userMove.c_str() + 2, 2);
 
-    std::shared_ptr<Piece> pieceToMove = board.getPiece(Coordinate(startingSquare));
+    std::shared_ptr<Piece> pieceToMove = board.GetPiece(Coordinate(startingSquare));
 
-    if (pieceToMove->getColor() != activePlayerColor)
+    if (pieceToMove->GetColor() != activePlayerColor)
       throw InvalidMoveException("The piece you want to move doesn't belong to you.");
 
     //! @todo PROMOTION function
@@ -446,20 +452,20 @@ void GameManager::getUserMove()
  * It is responsible of printing the updated board at
  * the beginning of each player's turn.
  */
-void GameManager::gameLoop()
+void GameManager::GameLoop()
 {
   Board &board = Board::Instance();
-  activePlayerColor = (board.getMoveNumber() % 2) ? PieceColor::BLACK : PieceColor::WHITE;
+  activePlayerColor = (board.GetMoveNumber() % 2) ? PieceColor::BLACK : PieceColor::WHITE;
   utils::clear();
   std::cout << std::endl;
 
   while (!gameFinished)
   {
-    (activePlayerColor == PieceColor::WHITE) ? board.printWhiteBoard(simplified) : board.printBlackBoard(simplified);
+    (activePlayerColor == PieceColor::WHITE) ? board.PrintWhiteBoard(simplified) : board.PrintBlackBoard(simplified);
     try
     {
-      getUserMove();
-      board.incrementMoveNumber();
+      GetUserMove();
+      board.IncrementMoveNumber();
       utils::clear();
       std::cout << std::endl;
     }
@@ -489,7 +495,7 @@ void GameManager::gameLoop()
     {
       utils::clear();
       std::cerr << e.what() << '\n';
-      killGame();
+      KillGame();
     }
 
     activePlayerColor = !activePlayerColor;
@@ -499,7 +505,7 @@ void GameManager::gameLoop()
 /**
  * Function for exiting from the game.
  */
-void GameManager::killGame() const
+void GameManager::KillGame() const
 {
   printf("Goodbye. \n");
   std::exit(0);
