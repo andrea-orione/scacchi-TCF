@@ -2,7 +2,6 @@
 
 #include "Coordinate.hh"
 #include <string>
-#include <vector>
 
 /**
  * Enumeration representing the color of the piece.
@@ -52,7 +51,7 @@ public:
    *
    * @return The aforementioned string.
    */
-  virtual std::string toString(bool literal = false) const = 0;
+  virtual std::string ToString(bool literal = false) const = 0;
 
   /**
    * Function for determining whether a move is valid or not.
@@ -65,35 +64,35 @@ public:
    *
    * @return `true` if the move is valid, `false` if it's not.
    */
-  virtual bool isMoveValid(const Coordinate endingPosition) const = 0;
+  virtual bool IsMoveValid(const Coordinate endingPosition) const = 0;
 
   /**
    * Function for getting the color of the piece.
    *
    * @return The color of the piece.
    */
-  PieceColor getColor() const { return color; }
+  PieceColor GetColor() const { return color; }
 
   /**
    * Function for getting the type of the piece.
    *
    * @return The type of the piece.
    */
-  PieceType getType() const { return pieceType; }
+  PieceType GetType() const { return pieceType; }
 
   /**
    * Function for getting the position of the piece.
    *
    * @return The position of the piece.
    */
-  Coordinate getPosition() const { return position; }
+  Coordinate GetPosition() const { return position; }
 
   /**
    * Function for moving the piece to anew square.
    *
    * @param[in] newPosition The square where to move the piece to.
    */
-  virtual void move(const Coordinate newPosition) { position = newPosition; }
+  virtual void Move(const Coordinate newPosition) { position = newPosition; }
 
   /**
    * Checks whether the piece can castle or not.
@@ -103,5 +102,5 @@ public:
    *
    * @return `true` if the piece can castle, `false` if it can't.
    */
-  virtual bool canCastle() const { return false; }
+  virtual bool CanCastle() const { return false; }
 };

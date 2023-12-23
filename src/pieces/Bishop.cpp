@@ -28,14 +28,14 @@ Bishop::Bishop(PieceColor pColor, Coordinate pPosition)
   }
 }
 
-std::string Bishop::toString(bool simplified) const
+std::string Bishop::ToString(bool simplified) const
 {
   if (simplified)
     return std::string(1, literalCharacter);
   return character;
 }
 
-bool Bishop::isMoveValid(const Coordinate endingPosition) const
+bool Bishop::IsMoveValid(const Coordinate endingPosition) const
 {
   const int xDistance = endingPosition.getX() - this->position.getX();
   const int yDistance = endingPosition.getY() - this->position.getY();
@@ -49,14 +49,14 @@ bool Bishop::isMoveValid(const Coordinate endingPosition) const
 
   // determine if the move is valid
   Board &board = Board::Instance();
-  std::shared_ptr<Piece> endingPositionPiece = board.getPiece(endingPosition);
-  if (endingPositionPiece->getColor() == this->color)
+  std::shared_ptr<Piece> endingPositionPiece = board.GetPiece(endingPosition);
+  if (endingPositionPiece->GetColor() == this->color)
     return false;
 
   // Check whether there are other pieces in the way.
-  for (Coordinate newPosition = this->getPosition() + baseMove; newPosition != endingPosition; newPosition += baseMove)
+  for (Coordinate newPosition = this->GetPosition() + baseMove; newPosition != endingPosition; newPosition += baseMove)
   {
-    if (board.getPiece(newPosition)->getColor() != PieceColor::VOID)
+    if (board.GetPiece(newPosition)->GetColor() != PieceColor::VOID)
       return false;
   }
   return true;

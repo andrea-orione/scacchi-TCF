@@ -16,11 +16,11 @@ public:
   King(PieceColor pColor, Coordinate pPosition, bool pHasMoved = false);
   ~King() override = default;
 
-  std::string toString(bool simplified = false) const override;
-  bool isMoveValid(const Coordinate endingPosition) const override;
+  std::string ToString(bool simplified = false) const override;
+  bool IsMoveValid(const Coordinate endingPosition) const override;
 
-  bool canCastle() const override { return !hasMoved; }
-  void move(const Coordinate newPosition) override;
+  bool CanCastle() const override { return !hasMoved; }
+  void Move(const Coordinate newPosition) override;
 
 private:
   bool hasMoved;

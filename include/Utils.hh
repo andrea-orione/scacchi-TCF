@@ -1,6 +1,7 @@
 #pragma once
 
 #include <exception>
+#include <iostream>
 
 #include "Piece.hh"
 
@@ -22,7 +23,7 @@ namespace utils
    * (valid for most of the terminal emulators).
    */
   inline void clear() { std::cout << "\033c" << std::flush; }
-}
+} // namespace utils
 
 PieceColor operator!(const PieceColor &oldColor);
 
@@ -33,7 +34,11 @@ PieceColor operator!(const PieceColor &oldColor);
 class InvalidNotationException : public std::exception
 {
 public:
-  const char *what() { return "InvalidNotationException: The notation used does not correspond to a valid move."; }
+  const char *what()
+  {
+    return "InvalidNotationException: The notation used does not correspond to "
+           "a valid move.";
+  }
 };
 
 /**
@@ -50,10 +55,18 @@ private:
   const char *message;
 };
 
-class CastlingSignal : public std::exception {};
+class CastlingSignal : public std::exception
+{
+};
 
-class EnPassantSignal : public std::exception {};
+class EnPassantSignal : public std::exception
+{
+};
 
-class GuideSignal : public std::exception {};
+class GuideSignal : public std::exception
+{
+};
 
-class SettingsSignal : public std::exception {};
+class SettingsSignal : public std::exception
+{
+};

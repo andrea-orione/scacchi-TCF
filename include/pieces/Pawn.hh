@@ -16,10 +16,10 @@ public:
     Pawn(PieceColor pColor, Coordinate pPosition, bool pHasMoved = false);
     ~Pawn() override = default;
 
-    std::string toString(bool simplified = false) const override;
+    std::string ToString(bool simplified = false) const override;
 
-    bool isMoveValid(const Coordinate endingPosition) const override;
-    void move(const Coordinate newPosition) override;
+    bool IsMoveValid(const Coordinate endingPosition) const override;
+    void Move(const Coordinate newPosition) override;
 
 private:
     bool hasMoved;

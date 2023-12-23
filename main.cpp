@@ -1,8 +1,8 @@
 #include "Board.hh"
 #include "Coordinate.hh"
 #include "GameManager.hh"
-#include <string>
-#include <vector>
+
+#include <iostream>
 
 int main(int argc, char *argv[])
 {
@@ -10,8 +10,8 @@ int main(int argc, char *argv[])
   {
     GameManager *gm = new GameManager();
 
-    gm->startGame();
-    gm->gameLoop();
+    gm->StartGame();
+    gm->GameLoop();
 
     delete gm;
   }

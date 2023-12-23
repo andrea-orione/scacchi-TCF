@@ -1,8 +1,6 @@
 #pragma once
 
 #include <string>
-#include <iostream>
-#include <stdexcept>
 
 #include "Movement.hh"
 
