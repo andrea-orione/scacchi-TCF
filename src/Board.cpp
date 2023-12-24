@@ -269,9 +269,9 @@ void Board::Castling(std::shared_ptr<Piece> &&king, const Coordinate kingEndingP
   if (IsSquareAttacked(kingStartingPosition, king->GetColor()))
     throw InvalidMoveException("Castling is not allowed. The king is in check.");
 
-  const int rookY = kingStartingPosition.getY();
-  const Coordinate rookStartingPosition = (kingEndingPosition.getX() == 7) ? Coordinate(8, rookY) : Coordinate(1, rookY);
-  const Coordinate rookEndingPosition = (kingEndingPosition.getX() == 7) ? Coordinate(6, rookY) : Coordinate(4, rookY);
+  const int rookY = kingStartingPosition.GetY();
+  const Coordinate rookStartingPosition = (kingEndingPosition.GetX() == 7) ? Coordinate(8, rookY) : Coordinate(1, rookY);
+  const Coordinate rookEndingPosition = (kingEndingPosition.GetX() == 7) ? Coordinate(6, rookY) : Coordinate(4, rookY);
   squaresMap[kingEndingPosition] = squaresMap[kingStartingPosition];
   squaresMap[rookEndingPosition] = squaresMap[rookStartingPosition];
   squaresMap[kingStartingPosition] = GameManager::MakePiece(0, kingStartingPosition);

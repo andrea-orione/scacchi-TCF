@@ -32,11 +32,11 @@ std::string Knight::ToString(bool simplified) const
 
 bool Knight::IsMoveValid(const Coordinate endingPosition) const
 {
-  int xDistance = endingPosition.getX() - this->position.getX();
-  int yDistance = endingPosition.getY() - this->position.getY();
+  int xDistance = endingPosition.GetX() - this->position.GetX();
+  int yDistance = endingPosition.GetY() - this->position.GetY();
 
   // geometric check
-  if (this->position.squaredDistance(endingPosition) != 5)
+  if (this->position.SquaredDistance(endingPosition) != 5)
     return false;
 
   // determine if the move is valid

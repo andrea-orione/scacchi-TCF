@@ -54,7 +54,7 @@ Movement &Movement::operator=(const Movement &newMovement)
  * @param[in] newX an int from -7 to 7 (included) to assign to the x (column) movement.
  * @return a reference to the object, for cascaded member function calls.
  */
-Movement &Movement::setX(int newX)
+Movement &Movement::SetX(int newX)
 {
   if (newX < -7 || newX > 7)
     throw std::out_of_range("x value not valid");
@@ -70,7 +70,7 @@ Movement &Movement::setX(int newX)
  * @param[in] newY an int from -7 to +7 (included) to assign to the y (row) movement.
  * @return a reference to the object, for cascaded member function calls.
  */
-Movement &Movement::setY(int newY)
+Movement &Movement::SetY(int newY)
 {
   if (newY < -7 || newY > 7)
     throw std::out_of_range("y value not valid");

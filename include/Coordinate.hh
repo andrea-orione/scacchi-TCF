@@ -20,10 +20,10 @@ public:
   Coordinate(const Coordinate &newCoordinate);
   Coordinate &operator=(const Coordinate &newCoordinate);
 
-  Coordinate &setX(int newX);
-  Coordinate &setY(int newY);
-  int getX() const { return x; }
-  int getY() const { return y; }
+  Coordinate &SetX(int newX);
+  Coordinate &SetY(int newY);
+  int GetX() const { return x; }
+  int GetY() const { return y; }
 
   bool operator<(const Coordinate &other) const;
   bool operator>(const Coordinate &other) const;
@@ -35,10 +35,10 @@ public:
   Coordinate operator+(const Movement &movement) const;
   Coordinate &operator+=(const Movement &movement);
 
-  int squaredDistance(const Coordinate other) const;
+  int SquaredDistance(const Coordinate other) const;
 
   //! @todo Serve??
-  std::string toString() const;
+  std::string ToString() const;
 
 private:
   static const std::string literalChars;

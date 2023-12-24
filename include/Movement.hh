@@ -16,10 +16,10 @@ public:
   Movement(const Movement &newMovement);
   Movement &operator=(const Movement &newMovement);
 
-  Movement &setX(int newX);
-  Movement &setY(int newY);
-  int getX() const { return x; }
-  int getY() const { return y; }
+  Movement &SetX(int newX);
+  Movement &SetY(int newY);
+  int GetX() const { return x; }
+  int GetY() const { return y; }
 
   bool operator<(const Movement &other) const;
   bool operator>(const Movement &other) const;

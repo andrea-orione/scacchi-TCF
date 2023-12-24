@@ -106,7 +106,7 @@ Coordinate &Coordinate::operator=(const Coordinate &newCoordinate)
  *
  * @return a reference to the object, for cascaded member function calls.
  */
-Coordinate &Coordinate::setX(int newX)
+Coordinate &Coordinate::SetX(int newX)
 {
   if (newX < 1 || newX > 8)
     throw std::out_of_range("x value outside the board");
@@ -122,7 +122,7 @@ Coordinate &Coordinate::setX(int newX)
  * @param[in] newY an int from 1 to 8 (included) to assign to the y (row).
  * @return a reference to the object, for cascaded member function calls.
  */
-Coordinate &Coordinate::setY(int newY)
+Coordinate &Coordinate::SetY(int newY)
 {
   if (newY < 1 || newY > 8)
     throw std::out_of_range("y value outside the board");
@@ -190,8 +190,8 @@ bool Coordinate::operator>=(const Coordinate &other) const
  */
 Coordinate Coordinate::operator+(const Movement &movement) const
 {
-  int newX = x + movement.getX();
-  int newY = y + movement.getY();
+  int newX = x + movement.GetX();
+  int newY = y + movement.GetY();
 
   if (newX < 1 || newX > 8)
     throw std::out_of_range("New Coordinate's x value outside the board");
@@ -212,8 +212,8 @@ Coordinate Coordinate::operator+(const Movement &movement) const
  */
 Coordinate &Coordinate::operator+=(const Movement &movement)
 {
-  int newX = x + movement.getX();
-  int newY = y + movement.getY();
+  int newX = x + movement.GetX();
+  int newY = y + movement.GetY();
 
   if (newX < 1 || newX > 8)
     throw std::out_of_range("New Coordinate's x value outside the board");
@@ -235,7 +235,7 @@ Coordinate &Coordinate::operator+=(const Movement &movement)
  * @param[in] other The other `Coordinate`.
  * @return The distance squared.
  */
-int Coordinate::squaredDistance(const Coordinate other) const
+int Coordinate::SquaredDistance(const Coordinate other) const
 {
   return (x - other.x) * (x - other.x) + (y - other.y) * (y - other.y);
 }
@@ -245,7 +245,7 @@ int Coordinate::squaredDistance(const Coordinate other) const
  *
  * @return the above described string.
  */
-std::string Coordinate::toString() const
+std::string Coordinate::ToString() const
 {
   return (literalChars[x - 1] + std::to_string(y));
 }

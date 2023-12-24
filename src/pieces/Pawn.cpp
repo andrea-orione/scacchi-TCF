@@ -27,8 +27,8 @@ Pawn::Pawn(PieceColor pColor, Coordinate pPosition, bool pHasMoved)
 
 bool Pawn::IsMoveValid(const Coordinate endingPosition) const
 {
-  const int xDistance = endingPosition.getX() - this->position.getX();
-  const int yDistance = endingPosition.getY() - this->position.getY();
+  const int xDistance = endingPosition.GetX() - this->position.GetX();
+  const int yDistance = endingPosition.GetY() - this->position.GetY();
 
   const int yDirection = (this->GetColor() == PieceColor::WHITE) ? 1 : -1;
 

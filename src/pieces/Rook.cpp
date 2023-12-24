@@ -32,8 +32,8 @@ Rook::Rook(PieceColor pColor, Coordinate pPosition, bool pHasMoved)
 
 bool Rook::IsMoveValid(const Coordinate endingPosition) const
 {
-  const int xDistance = endingPosition.getX() - this->position.getX();
-  const int yDistance = endingPosition.getY() - this->position.getY();
+  const int xDistance = endingPosition.GetX() - this->position.GetX();
+  const int yDistance = endingPosition.GetY() - this->position.GetY();
 
   // Check whether the endingPosition in the same line or column
   if (xDistance != 0 && yDistance != 0)
