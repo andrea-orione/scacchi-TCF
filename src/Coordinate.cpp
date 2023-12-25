@@ -1,4 +1,5 @@
 #include "Coordinate.hh"
+#include <stdexcept>
 
 const std::string Coordinate::literalChars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
 
