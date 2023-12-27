@@ -24,7 +24,7 @@
 std::regex GameManager::regexRuleNormal("[a-h]{1}[0-8]{1}[a-h]{1}[0-8]{1}");
 std::regex GameManager::regexRulePromotion("[a-h]{1}[0-8]{1}[a-h]{1}[0-8]{1}[R,N,B,Q,r,n,b,q]{1}");
 
-GameManager::GameManager() : activePlayerColor(PieceColor::WHITE), gameFinished(false), simplified(false) {}
+GameManager::GameManager() : activePlayerColor(PieceColor::WHITE), gameStatus(GameStatus::PLAYING), simplified(false) {}
 
 /**
  * Function to initialize the board from a FEN string.
@@ -206,8 +206,8 @@ void GameManager::InitializeStartingBoard() const
 {
   try
   {
-    // this->loadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-    this->LoadFenPosition("rnbqkbnr/ppp2ppp/8/3pp3/3PP3/8/PPP2PPP/RNBQKBNR w KQkq - 0 1");
+    //this->LoadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    this->LoadFenPosition("4k3/8/8/8/8/8/4p3/4K3 w - - 0 1"); // Position to test stalemate
   }
   catch (const std::invalid_argument &e)
   {
@@ -390,7 +390,6 @@ void GameManager::GetUserMove()
   printf("Write your move: ");
   std::getline(std::cin, userMove);
 
-  Board &board = Board::Instance();
   if (userMove == "exit" || userMove == "EXIT")
   {
     char exitChar;
@@ -414,6 +413,7 @@ void GameManager::GetUserMove()
   }
 
   // Normal move
+  Board &board = Board::Instance();
   if (userMove.length() == 4 && std::regex_match(userMove, regexRuleNormal))
   {
     std::string_view startingSquare(userMove.c_str(), 2);
@@ -425,6 +425,7 @@ void GameManager::GetUserMove()
       throw InvalidMoveException("The piece you want to move doesn't belong to you.");
 
     board.NormalMove(std::move(pieceToMove), Coordinate(endingSquare));
+    UpdateGameStatus();
   }
   // Promotion
   else if (userMove.length() == 5 && std::regex_match(userMove, regexRulePromotion))
@@ -438,9 +439,34 @@ void GameManager::GetUserMove()
       throw InvalidMoveException("The piece you want to move doesn't belong to you.");
 
     //! @todo PROMOTION function
+    UpdateGameStatus();
   }
   else
     throw InvalidNotationException();
+}
+
+/**
+ * Function to evaluate if the game status.
+ * 
+ * It checks if there are enough pieces, if is checkmate or stalemate or if it is draw by repetition.
+ * Based on that it updates the gameStatus variable.
+ */
+void GameManager::UpdateGameStatus() {
+  Board &board = Board::Instance();
+  if (!board.HasValidMoves(!activePlayerColor)) {
+    if (board.IsKingInCheck(!activePlayerColor)) {
+      gameStatus = GameStatus::CHECKMATE;
+      return;
+    }
+    gameStatus = GameStatus::STALEMATE;
+    return;
+  }
+
+  if (board.IsMaterialLacking())
+  {
+    gameStatus = GameStatus::MATERIAL_LACK;
+    return;
+  }
 }
 
 /**
@@ -459,7 +485,7 @@ void GameManager::GameLoop()
   utils::clear();
   std::cout << std::endl;
 
-  while (!gameFinished)
+  while (gameStatus == GameStatus::PLAYING)
   {
     (activePlayerColor == PieceColor::WHITE) ? board.PrintWhiteBoard(simplified) : board.PrintBlackBoard(simplified);
     try

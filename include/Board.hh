@@ -7,6 +7,7 @@
 
 #include "Coordinate.hh"
 #include "Piece.hh"
+#include "Utils.hh"
 
 //! @todo Delete testing functions (printWhitePieces() and printBlackPieces())
 /**
@@ -38,7 +39,9 @@ public:
   void UpdatePiecesVector();
   void AddKings(const Coordinate whiteKingPosition, const Coordinate blackKingPosition);
 
-  bool IsSquareAttacked(const Coordinate square, const PieceColor attackerColor) const;
+  bool IsKingInCheck(const PieceColor kingColor) const;
+  bool HasValidMoves(const PieceColor playerColor);
+  bool IsMaterialLacking() const;
   void NormalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate endingPosition);
 
   std::shared_ptr<Piece> GetPiece(const Coordinate position) const;
@@ -59,6 +62,8 @@ private:
 
   void Castling(std::shared_ptr<Piece> &&king, const Coordinate kingEndingPosition);
   void EnPassant(std::shared_ptr<Piece> &&pawn, const Coordinate pawnEndingPosition);
+
+  bool IsSquareAttacked(const Coordinate square, const PieceColor attackerColor) const;
 
   // Map defining the squares as {coordinate : pointer to piece}.
   std::map<Coordinate, std::shared_ptr<Piece>> squaresMap;

@@ -8,6 +8,20 @@
 #include "Piece.hh"
 
 /**
+ * Enumeration representing the Possible states of the game.
+ *
+ * Can take five values: `PLAYING`, `CHECKMATE`, `STALEMATE`, `MATERIAL_LACK` and `REPETITION`.
+ */
+enum class GameStatus
+{
+  PLAYING,
+  CHECKMATE,
+  STALEMATE,
+  MATERIAL_LACK,
+  REPETITION
+};
+
+/**
  * A class for managing the creation of the pieces,
  * the board and the user IO.
  */
@@ -27,7 +41,7 @@ private:
   static std::regex regexRulePromotion;
 
   PieceColor activePlayerColor;
-  bool gameFinished;
+  GameStatus gameStatus;
   bool simplified;
 
   std::fstream welcomeFile;
@@ -40,6 +54,7 @@ private:
   void UserSettings();
   void GetUserMove();
   void KillGame() const;
+  void UpdateGameStatus();
 
 #ifdef _WIN32
   constexpr static char welcomeFilePath[] = "..\\utils\\welcome.txt";
