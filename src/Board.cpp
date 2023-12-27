@@ -172,6 +172,63 @@ void Board::AddKings(const Coordinate whiteKingPosition, const Coordinate blackK
 }
 
 /**
+ * Function for determining if the king of the given color is in check.
+ *
+ * @param[in] kingColor the color of the king.
+ *
+ * @return true if the king is in check, false otherwise.
+ */
+bool Board::IsKingInCheck(const PieceColor kingColor) const
+{
+  const Coordinate kingPosition = (kingColor == PieceColor::WHITE) ? this->whiteKing->GetPosition() : this->blackKing->GetPosition();
+  return this->IsSquareAttacked(kingPosition, !kingColor);
+}
+
+/**
+ * Function for determining if one player has valid moves.
+ * Checks if any friend piece can move in any square so that the friend king isn't in check.
+ *
+ * @param[in] playerColor The color of the color of the player to be checked.
+ *
+ * @return true if the player has valid moves, false otherwise.
+ */
+bool Board::HasValidMoves(const PieceColor playerColor) {
+  std::vector<std::shared_ptr<Piece>> &playerPieces = (playerColor == PieceColor::WHITE) ? whitePieces : blackPieces;
+  std::vector<std::shared_ptr<Piece>> &opponentPieces = (playerColor == PieceColor::WHITE) ? blackPieces : whitePieces;
+  std::shared_ptr<Piece> &friendKing = (playerColor == PieceColor::WHITE) ? whiteKing : blackKing;
+  for (auto [coordinate, occupyingPiece] : this->squaresMap) {
+    if (occupyingPiece->GetColor() == playerColor)
+      continue;
+    for (auto piece : playerPieces) {
+      if (!piece->IsMoveValid(coordinate))
+        continue;
+
+      // Setting up the position to be tested
+      const Coordinate startingPosition = piece->GetPosition();
+      std::shared_ptr<Piece> temporaryStorageCapturedPiece = occupyingPiece; 
+      squaresMap[coordinate] = piece;
+      squaresMap[startingPosition] = GameManager::MakePiece(0, startingPosition);
+      const Coordinate friendKingPosition = (friendKing == piece) ? coordinate : friendKing->GetPosition();
+      if (temporaryStorageCapturedPiece->GetColor() != PieceColor::VOID)
+        opponentPieces.erase(std::find(opponentPieces.begin(), opponentPieces.end(), temporaryStorageCapturedPiece));
+
+      // Checking if the position is valid
+      const bool isCheck = IsSquareAttacked(friendKingPosition, !playerColor);
+
+      // Resetting the board.
+      if (temporaryStorageCapturedPiece->GetColor() != PieceColor::VOID)
+        opponentPieces.push_back(temporaryStorageCapturedPiece);
+      squaresMap[startingPosition] = piece;
+      squaresMap[coordinate] = temporaryStorageCapturedPiece;
+
+      if (!isCheck)
+        return true;
+    }
+  }
+  return false;
+}
+
+/**
  * Function for determining whether a square is attacked (reachable) by the pieces of one color.
  *
  * @param[in] square The coordinate to the square to be checked.
@@ -339,6 +396,32 @@ void Board::EnPassant(std::shared_ptr<Piece> &&pawn, const Coordinate pawnEnding
   squaresMap[pawnEndingPosition] = GameManager::MakePiece(0, pawnEndingPosition);
   squaresMap[capturedPawnPosition] = capturedPawn;
   throw InvalidMoveException("This move is not allowed. The king would be in check.");
+}
+
+/**
+ * Function for determining if there is enough material to continue the game.
+ * 
+ * If only the kings are left on the board, no player can checkmate the other, so the game is in stale.
+ * This function checks if this is the case.
+ * If just a knight (other than the kings) is left a checkmate is not possible eather.
+ *
+ * @return true if the position is a stale by lack of material, false otherwise.
+ */
+bool Board::IsMaterialLacking() const {
+  int knightCounter = 0;
+  for (auto piece : whitePieces) {
+    if (piece->GetType() == PieceType::KNIGHT)
+      knightCounter++;
+    if ((piece->GetType() != PieceType::KNIGHT && piece->GetType() != PieceType::KING) || knightCounter > 1)
+      return false;
+  }
+  for (auto piece : blackPieces) {
+    if (piece->GetType() == PieceType::KNIGHT)
+      knightCounter++;
+    if ((piece->GetType() != PieceType::KNIGHT && piece->GetType() != PieceType::KING) || knightCounter > 1)
+      return false;
+  }
+  return true;
 }
 
 /**
