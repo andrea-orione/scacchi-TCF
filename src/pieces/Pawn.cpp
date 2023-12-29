@@ -1,15 +1,16 @@
 #include "Pawn.hh"
+
 #include "Piece.hh"
 #include "Board.hh"
 #include "Utils.hh"
 
-Pawn::Pawn(PieceColor pColor, Coordinate pPosition, bool pHasMoved)
+Pawn::Pawn(PieceColor pColor, Coordinate pPosition, bool pHasMoved) : hasMoved(pHasMoved),
+                                                                      doubleAdvancementMoveNumber(-2)
 {
   pieceType = PieceType::PAWN;
   color = pColor;
   position = pPosition;
-  hasMoved = pHasMoved;
-  doubleAdvancementMoveNumber = -2;
+
   switch (color)
   {
   case PieceColor::WHITE:
@@ -27,6 +28,7 @@ Pawn::Pawn(PieceColor pColor, Coordinate pPosition, bool pHasMoved)
 
 bool Pawn::IsMoveValid(const Coordinate endingPosition) const
 {
+  // geometric check
   const int xDistance = endingPosition.GetX() - this->position.GetX();
   const int yDistance = endingPosition.GetY() - this->position.GetY();
 
@@ -41,15 +43,18 @@ bool Pawn::IsMoveValid(const Coordinate endingPosition) const
   if (yDistance * yDirection == 2 && xDistance != 0)
     return false;
 
-  // mossa
-
+  // move
   Board &board = Board::Instance();
 
-  // Check if landing square is free
-
+  // check if landing square is free
   std::shared_ptr<Piece> endingPositionPiece = board.GetPiece(endingPosition);
   if (xDistance == 0 && endingPositionPiece->GetColor() != PieceColor::VOID)
     return false;
+
+  // check en passant
+  // if (doubleAdvancementMoveNumber - board.GetMoveNumber() < 2)
+  //   throw EnPassantSignal();
+
   return !(abs(xDistance) == 1 && endingPositionPiece->GetColor() != !this->GetColor());
 }
 

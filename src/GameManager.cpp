@@ -23,6 +23,9 @@
 
 std::regex GameManager::regexRuleNormal("[a-h]{1}[0-8]{1}[a-h]{1}[0-8]{1}");
 std::regex GameManager::regexRulePromotion("[a-h]{1}[0-8]{1}[a-h]{1}[0-8]{1}[R,N,B,Q,r,n,b,q]{1}");
+auto GameManager::welcomeFilePath = std::filesystem::path("../utils/welcome.txt");
+auto GameManager::helpFilePath = std::filesystem::path("../utils/help.txt");
+auto GameManager::settingsFilePath = std::filesystem::path("../utils/settings.txt");
 
 GameManager::GameManager() : activePlayerColor(PieceColor::WHITE), gameStatus(GameStatus::PLAYING), simplified(false) {}
 
@@ -206,8 +209,8 @@ void GameManager::InitializeStartingBoard() const
 {
   try
   {
-    //this->LoadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-    this->LoadFenPosition("4k3/8/8/8/8/8/4p3/4K3 w - - 0 1"); // Position to test stalemate
+    this->LoadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    // this->LoadFenPosition("4k3/8/8/8/8/8/4p3/4K3 w - - 0 1"); // Position to test stalemate
   }
   catch (const std::invalid_argument &e)
   {
@@ -447,14 +450,17 @@ void GameManager::GetUserMove()
 
 /**
  * Function to evaluate if the game status.
- * 
+ *
  * It checks if there are enough pieces, if is checkmate or stalemate or if it is draw by repetition.
  * Based on that it updates the gameStatus variable.
  */
-void GameManager::UpdateGameStatus() {
+void GameManager::UpdateGameStatus()
+{
   Board &board = Board::Instance();
-  if (!board.HasValidMoves(!activePlayerColor)) {
-    if (board.IsKingInCheck(!activePlayerColor)) {
+  if (!board.HasValidMoves(!activePlayerColor))
+  {
+    if (board.IsKingInCheck(!activePlayerColor))
+    {
       gameStatus = GameStatus::CHECKMATE;
       return;
     }
