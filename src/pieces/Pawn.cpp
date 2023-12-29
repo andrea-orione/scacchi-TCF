@@ -63,7 +63,9 @@ std::string Pawn::ToString(bool simplified) const
 void Pawn::Move(const Coordinate newPosition)
 {
   Board &boardInstance = Board::Instance();
-  doubleAdvancementMoveNumber = boardInstance.GetMoveNumber();
+  int distanceSquared = this->position.SquaredDistance(newPosition);
+  if (distanceSquared == 0 || distanceSquared == 4)
+    doubleAdvancementMoveNumber = boardInstance.GetMoveNumber();
   position = newPosition;
   hasMoved = true;
 }
