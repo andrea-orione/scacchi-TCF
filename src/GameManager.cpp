@@ -1,5 +1,6 @@
 #include "GameManager.hh"
 
+#include <filesystem>
 #include <iostream>
 #include <cctype>
 #include <stdexcept>
@@ -23,9 +24,9 @@
 
 std::regex GameManager::regexRuleNormal("[a-h]{1}[0-8]{1}[a-h]{1}[0-8]{1}");
 std::regex GameManager::regexRulePromotion("[a-h]{1}[0-8]{1}[a-h]{1}[0-8]{1}[R,N,B,Q,r,n,b,q]{1}");
-auto GameManager::welcomeFilePath = std::filesystem::path("../utils/welcome.txt");
-auto GameManager::helpFilePath = std::filesystem::path("../utils/help.txt");
-auto GameManager::settingsFilePath = std::filesystem::path("../utils/settings.txt");
+std::filesystem::path GameManager::welcomeFilePath("../utils/welcome.txt");
+std::filesystem::path GameManager::helpFilePath("../utils/help.txt");
+std::filesystem::path GameManager::settingsFilePath("../utils/settings.txt");
 
 GameManager::GameManager() : activePlayerColor(PieceColor::WHITE), gameStatus(GameStatus::PLAYING), simplified(false) {}
 
