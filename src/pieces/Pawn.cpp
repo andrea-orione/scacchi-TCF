@@ -2,6 +2,7 @@
 #include "Piece.hh"
 #include "Board.hh"
 #include "Utils.hh"
+#include <exception>
 
 Pawn::Pawn(PieceColor pColor, Coordinate pPosition, bool pHasMoved)
 {
@@ -50,6 +51,11 @@ bool Pawn::IsMoveValid(const Coordinate endingPosition) const
   std::shared_ptr<Piece> endingPositionPiece = board.GetPiece(endingPosition);
   if (xDistance == 0 && endingPositionPiece->GetColor() != PieceColor::VOID)
     return false;
+
+  if (doubleAdvancementMoveNumber - board.GetMoveNumber() <= 1)
+      throw EnPassantSignal();
+
+
   return !(abs(xDistance) == 1 && endingPositionPiece->GetColor() != !this->GetColor());
 }
 
