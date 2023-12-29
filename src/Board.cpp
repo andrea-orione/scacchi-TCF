@@ -19,16 +19,14 @@ using std::endl;
  *
  * It creates the 64 squares.
  */
-Board::Board()
+Board::Board() : squaresMap({}),
+                 whitePieces({}),
+                 blackPieces({}),
+                 whiteCapturedPieces({}),
+                 blackCapturedPieces({}),
+                 whiteKing(nullptr),
+                 blackKing(nullptr)
 {
-  squaresMap = std::map<Coordinate, std::shared_ptr<Piece>>();
-  whitePieces = std::vector<std::shared_ptr<Piece>>();
-  blackPieces = std::vector<std::shared_ptr<Piece>>();
-  whiteCapturedPieces = std::vector<std::shared_ptr<Piece>>();
-  blackCapturedPieces = std::vector<std::shared_ptr<Piece>>();
-  whiteKing = nullptr;
-  blackKing = nullptr;
-
   for (int row = 1; row < 9; row++)
   {
     for (int column = 1; column < 9; column++)
@@ -192,20 +190,23 @@ bool Board::IsKingInCheck(const PieceColor kingColor) const
  *
  * @return true if the player has valid moves, false otherwise.
  */
-bool Board::HasValidMoves(const PieceColor playerColor) {
+bool Board::HasValidMoves(const PieceColor playerColor)
+{
   std::vector<std::shared_ptr<Piece>> &playerPieces = (playerColor == PieceColor::WHITE) ? whitePieces : blackPieces;
   std::vector<std::shared_ptr<Piece>> &opponentPieces = (playerColor == PieceColor::WHITE) ? blackPieces : whitePieces;
   std::shared_ptr<Piece> &friendKing = (playerColor == PieceColor::WHITE) ? whiteKing : blackKing;
-  for (auto [coordinate, occupyingPiece] : this->squaresMap) {
+  for (auto [coordinate, occupyingPiece] : this->squaresMap)
+  {
     if (occupyingPiece->GetColor() == playerColor)
       continue;
-    for (auto piece : playerPieces) {
+    for (auto piece : playerPieces)
+    {
       if (!piece->IsMoveValid(coordinate))
         continue;
 
       // Setting up the position to be tested
       const Coordinate startingPosition = piece->GetPosition();
-      std::shared_ptr<Piece> temporaryStorageCapturedPiece = occupyingPiece; 
+      std::shared_ptr<Piece> temporaryStorageCapturedPiece = occupyingPiece;
       squaresMap[coordinate] = piece;
       squaresMap[startingPosition] = GameManager::MakePiece(0, startingPosition);
       const Coordinate friendKingPosition = (friendKing == piece) ? coordinate : friendKing->GetPosition();
@@ -400,22 +401,25 @@ void Board::EnPassant(std::shared_ptr<Piece> &&pawn, const Coordinate pawnEnding
 
 /**
  * Function for determining if there is enough material to continue the game.
- * 
+ *
  * If only the kings are left on the board, no player can checkmate the other, so the game is in stale.
  * This function checks if this is the case.
  * If just a knight (other than the kings) is left a checkmate is not possible eather.
  *
  * @return true if the position is a stale by lack of material, false otherwise.
  */
-bool Board::IsMaterialLacking() const {
+bool Board::IsMaterialLacking() const
+{
   int knightCounter = 0;
-  for (auto piece : whitePieces) {
+  for (auto piece : whitePieces)
+  {
     if (piece->GetType() == PieceType::KNIGHT)
       knightCounter++;
     if ((piece->GetType() != PieceType::KNIGHT && piece->GetType() != PieceType::KING) || knightCounter > 1)
       return false;
   }
-  for (auto piece : blackPieces) {
+  for (auto piece : blackPieces)
+  {
     if (piece->GetType() == PieceType::KNIGHT)
       knightCounter++;
     if ((piece->GetType() != PieceType::KNIGHT && piece->GetType() != PieceType::KING) || knightCounter > 1)
