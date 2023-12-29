@@ -4,6 +4,7 @@
 #include <string>
 #include <regex>
 #include <fstream>
+#include <filesystem>
 
 #include "Piece.hh"
 
@@ -56,13 +57,18 @@ private:
   void KillGame() const;
   void UpdateGameStatus();
 
-#ifdef _WIN32
-  constexpr static char welcomeFilePath[] = "..\\utils\\welcome.txt";
-  constexpr static char helpFilePath[] = "..\\utils\\help.txt";
-  constexpr static char settingsFilePath[] = "..\\utils\\settings.txt";
-#else
-  constexpr static char welcomeFilePath[] = "../utils/welcome.txt";
-  constexpr static char helpFilePath[] = "../utils/help.txt";
-  constexpr static char settingsFilePath[] = "../utils/settings.txt";
-#endif
+  // #ifdef _WIN32
+  //   constexpr static char welcomeFilePath[] = "..\\utils\\welcome.txt";
+  //   constexpr static char helpFilePath[] = "..\\utils\\help.txt";
+  //   constexpr static char settingsFilePath[] = "..\\utils\\settings.txt";
+  // #else
+  //   constexpr static char welcomeFilePath[] = "../utils/welcome.txt";
+  //   constexpr static char helpFilePath[] = "../utils/help.txt";
+  //   constexpr static char settingsFilePath[] = "../utils/settings.txt";
+  // #endif
+
+  // platform independent
+  static std::filesystem::path welcomeFilePath;  // path of welcome file
+  static std::filesystem::path helpFilePath;     // path of user's guide file
+  static std::filesystem::path settingsFilePath; // path of settings file
 };
