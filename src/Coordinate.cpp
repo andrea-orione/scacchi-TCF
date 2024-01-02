@@ -1,7 +1,8 @@
 #include "Coordinate.hh"
 #include <stdexcept>
+#include <string_view>
 
-const std::string Coordinate::literalChars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
+constexpr std::string_view literalChars{"abcdefgh"};
 
 /**
  * The default constructor.
@@ -12,7 +13,7 @@ const std::string Coordinate::literalChars = {'a', 'b', 'c', 'd', 'e', 'f', 'g',
  * @param[in] newX the value between 1 and 8 (included) to assign to the x (column).
  * @param[in] newY the value between 1 and 8 (included) to assign to the y (row).
  */
-Coordinate::Coordinate(int newX, int newY)
+Coordinate::Coordinate(const int newX, const int newY)
 {
   if (newX < 1 || newX > 8)
     throw std::out_of_range("x value outside the board");
@@ -33,12 +34,12 @@ Coordinate::Coordinate(int newX, int newY)
  *   valid values are chars from `a` to `h` (included) corresponding to an int from 1 to 8.
  * @param[in] newY the value between 1 and 8 (included) to assign to the y (row).
  */
-Coordinate::Coordinate(char literalNewX, int newY)
+Coordinate::Coordinate(const char literalNewX, const int newY)
 {
   if (newY < 1 || newY > 8)
     throw std::out_of_range("y value outside the board");
 
-  int xIndex = literalChars.find(literalNewX);
+  const int xIndex = literalChars.find(literalNewX);
   if (xIndex == std::string::npos)
     throw std::invalid_argument("x value not valid");
 
@@ -54,17 +55,16 @@ Coordinate::Coordinate(char literalNewX, int newY)
  *
  * @param[in] literalExpression The aforementioned `string_view`.
  */
-Coordinate::Coordinate(std::string_view literalExpression)
+Coordinate::Coordinate(const std::string_view literalExpression)
 {
   if (literalExpression.length() != 2)
     throw std::invalid_argument("Non valid literal expression");
 
-  int newY = literalExpression[1] - '0';
+  const int newY = literalExpression.at(1) - '0';
   if (newY < 1 || newY > 8)
     throw std::out_of_range("y value outside the board");
 
-  char literalNewX = literalExpression[0];
-  int xIndex = literalChars.find(literalNewX);
+  const int xIndex = literalChars.find(literalExpression.at(0));
   if (xIndex == std::string::npos)
     throw std::invalid_argument("x value not valid");
 
@@ -107,7 +107,7 @@ Coordinate &Coordinate::operator=(const Coordinate &newCoordinate)
  *
  * @return a reference to the object, for cascaded member function calls.
  */
-Coordinate &Coordinate::SetX(int newX)
+Coordinate &Coordinate::SetX(const int newX)
 {
   if (newX < 1 || newX > 8)
     throw std::out_of_range("x value outside the board");
@@ -123,7 +123,7 @@ Coordinate &Coordinate::SetX(int newX)
  * @param[in] newY an int from 1 to 8 (included) to assign to the y (row).
  * @return a reference to the object, for cascaded member function calls.
  */
-Coordinate &Coordinate::SetY(int newY)
+Coordinate &Coordinate::SetY(const int newY)
 {
   if (newY < 1 || newY > 8)
     throw std::out_of_range("y value outside the board");
@@ -191,8 +191,8 @@ bool Coordinate::operator>=(const Coordinate &other) const
  */
 Coordinate Coordinate::operator+(const Movement &movement) const
 {
-  int newX = x + movement.GetX();
-  int newY = y + movement.GetY();
+  const int newX = x + movement.GetX();
+  const int newY = y + movement.GetY();
 
   if (newX < 1 || newX > 8)
     throw std::out_of_range("New Coordinate's x value outside the board");
@@ -213,8 +213,8 @@ Coordinate Coordinate::operator+(const Movement &movement) const
  */
 Coordinate &Coordinate::operator+=(const Movement &movement)
 {
-  int newX = x + movement.GetX();
-  int newY = y + movement.GetY();
+  const int newX = x + movement.GetX();
+  const int newY = y + movement.GetY();
 
   if (newX < 1 || newX > 8)
     throw std::out_of_range("New Coordinate's x value outside the board");
@@ -248,5 +248,5 @@ int Coordinate::SquaredDistance(const Coordinate other) const
  */
 std::string Coordinate::ToString() const
 {
-  return (literalChars[x - 1] + std::to_string(y));
+  return (literalChars.at(x - 1) + std::to_string(y));
 }

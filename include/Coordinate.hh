@@ -35,13 +35,12 @@ public:
   Coordinate operator+(const Movement &movement) const;
   Coordinate &operator+=(const Movement &movement);
 
-  int SquaredDistance(const Coordinate other) const;
+  int SquaredDistance(Coordinate other) const;
 
   //! @todo Serve??
   std::string ToString() const;
 
 private:
-  static const std::string literalChars;
   int x;
   int y;
 };

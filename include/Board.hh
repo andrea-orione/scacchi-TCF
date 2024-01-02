@@ -37,22 +37,22 @@ public:
 
   void UpdateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> &&square) noexcept;
   void UpdatePiecesVector();
-  void AddKings(const Coordinate whiteKingPosition, const Coordinate blackKingPosition);
+  void AddKings(Coordinate whiteKingPosition, Coordinate blackKingPosition);
 
-  bool IsKingInCheck(const PieceColor kingColor) const;
-  bool HasValidMoves(const PieceColor playerColor);
+  bool IsKingInCheck(PieceColor kingColor) const;
+  bool HasValidMoves(PieceColor playerColor);
   bool IsMaterialLacking() const;
-  void NormalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate endingPosition);
+  void NormalMove(std::shared_ptr<Piece> &&movingPiece, Coordinate endingPosition);
 
-  std::shared_ptr<Piece> GetPiece(const Coordinate position) const;
+  std::shared_ptr<Piece> GetPiece(Coordinate position) const;
 
   void ClearBoard();
   void ResetMoveNumber() { moveNumber = 0; }
-  void IncrementMoveNumber(const int increment = 1) { moveNumber += increment; }
+  void IncrementMoveNumber(int increment = 1) { moveNumber += increment; }
   int GetMoveNumber() const { return moveNumber; }
 
-  std::string GetWhiteCapturedPieces(const bool literal = false) const;
-  std::string GetBlackCapturedPieces(const bool literal = false) const;
+  std::string GetWhiteCapturedPieces(bool literal = false) const;
+  std::string GetBlackCapturedPieces(bool literal = false) const;
 
   void printWhitePieces() const;
   void printBlackPieces() const;
@@ -60,10 +60,10 @@ public:
 private:
   Board(); // private constructor
 
-  void Castling(std::shared_ptr<Piece> &&king, const Coordinate kingEndingPosition);
-  void EnPassant(std::shared_ptr<Piece> &&pawn, const Coordinate pawnEndingPosition);
+  void Castling(std::shared_ptr<Piece> &&king, Coordinate kingEndingPosition);
+  void EnPassant(std::shared_ptr<Piece> &&pawn, Coordinate pawnEndingPosition);
 
-  bool IsSquareAttacked(const Coordinate square, const PieceColor attackerColor) const;
+  bool IsSquareAttacked(Coordinate square, PieceColor attackerColor) const;
 
   // Map defining the squares as {coordinate : pointer to piece}.
   std::map<Coordinate, std::shared_ptr<Piece>> squaresMap;

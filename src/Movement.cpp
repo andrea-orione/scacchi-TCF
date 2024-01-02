@@ -10,7 +10,7 @@
  * @param[in] newX the value between -7 and +7 (included) to assign to the x (column) movement.
  * @param[in] newY the value between -7 and +7 (included) to assign to the y (row) movement.
  */
-Movement::Movement(int newX, int newY)
+Movement::Movement(const int newX, const int newY)
 {
   if (newX < -7 || newX > 7)
     throw std::out_of_range("x value not valid");
@@ -54,12 +54,12 @@ Movement &Movement::operator=(const Movement &newMovement)
  * @param[in] newX an int from -7 to 7 (included) to assign to the x (column) movement.
  * @return a reference to the object, for cascaded member function calls.
  */
-Movement &Movement::SetX(int newX)
+Movement &Movement::SetX(const int newX)
 {
   if (newX < -7 || newX > 7)
     throw std::out_of_range("x value not valid");
 
-  x = newX;
+  this->x = newX;
 
   return *this;
 }
@@ -70,12 +70,12 @@ Movement &Movement::SetX(int newX)
  * @param[in] newY an int from -7 to +7 (included) to assign to the y (row) movement.
  * @return a reference to the object, for cascaded member function calls.
  */
-Movement &Movement::SetY(int newY)
+Movement &Movement::SetY(const int newY)
 {
   if (newY < -7 || newY > 7)
     throw std::out_of_range("y value not valid");
 
-  y = newY;
+  this->y = newY;
 
   return *this;
 }
@@ -136,13 +136,13 @@ bool Movement::operator>=(const Movement &other) const
  * @param[in] multiplier the positive factor by which the movement will be scaled.
  * @return the scaled movement.
  */
-Movement Movement::operator*(int multiplier) const
+Movement Movement::operator*(const int multiplier) const
 {
   if (multiplier < 1 || multiplier > 7)
     throw std::out_of_range("Multiplier out of range");
 
-  int newX = x * multiplier;
-  int newY = y * multiplier;
+  const int newX = x * multiplier;
+  const int newY = y * multiplier;
 
   if (newX < -7 || newX > 7)
     throw std::out_of_range("New Movement's x value not valid");

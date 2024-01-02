@@ -9,6 +9,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <string_view>
 #include <vector>
 
 using std::cout;
@@ -31,7 +32,7 @@ Board::Board() : squaresMap({}),
   {
     for (int column = 1; column < 9; column++)
     {
-      Coordinate position(column, row);
+      const Coordinate position(column, row);
       squaresMap.insert(std::make_pair(position, GameManager::MakePiece(0, position)));
     }
   }
@@ -55,13 +56,13 @@ Board &Board::Instance()
  *
  * @param[in] simplified Whether to use simplified chars or not. `false` by default.
  */
-void Board::PrintWhiteBoard(bool simplified) const
+void Board::PrintWhiteBoard(const bool simplified) const
 {
-  std::string top = (simplified) ? "---------------------------------" : "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗";
-  std::string middle = (simplified) ? "|---|---|---|---|---|---|---|---|" : "╟───┼───┼───┼───┼───┼───┼───┼───╢";
-  std::string bottom = (simplified) ? "---------------------------------" : "╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝";
-  std::string border = (simplified) ? "|" : "║";
-  std::string separator = (simplified) ? "|" : "│";
+  const std::string_view top = (simplified) ? "---------------------------------" : "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗";
+  const std::string_view middle = (simplified) ? "|---|---|---|---|---|---|---|---|" : "╟───┼───┼───┼───┼───┼───┼───┼───╢";
+  const std::string_view bottom = (simplified) ? "---------------------------------" : "╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝";
+  const std::string_view border = (simplified) ? "|" : "║";
+  const std::string_view separator = (simplified) ? "|" : "│";
 
   cout << "\n   " << top << "\n";
   for (int row = 8; row > 0; row--)
@@ -69,7 +70,7 @@ void Board::PrintWhiteBoard(bool simplified) const
     cout << " " << row << " " << border << " ";
     for (int column = 1; column < 9; column++)
     {
-      auto piecePtr = squaresMap.find(Coordinate(column, row))->second;
+      const auto piecePtr = squaresMap.find(Coordinate(column, row))->second;
       cout << piecePtr->ToString(simplified);
 
       // Slightly inefficient but makes the code cleaner
@@ -98,13 +99,13 @@ void Board::PrintWhiteBoard(bool simplified) const
  *
  * @param[in] simplified Whether to use simplified chars or not. `false` by default.
  */
-void Board::PrintBlackBoard(bool simplified) const
+void Board::PrintBlackBoard(const bool simplified) const
 {
-  std::string top = (simplified) ? "---------------------------------" : "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗";
-  std::string middle = (simplified) ? "|---|---|---|---|---|---|---|---|" : "╟───┼───┼───┼───┼───┼───┼───┼───╢";
-  std::string bottom = (simplified) ? "---------------------------------" : "╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝";
-  std::string border = (simplified) ? "|" : "║";
-  std::string separator = (simplified) ? "|" : "│";
+  const std::string_view top = (simplified) ? "---------------------------------" : "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗";
+  const std::string_view middle = (simplified) ? "|---|---|---|---|---|---|---|---|" : "╟───┼───┼───┼───┼───┼───┼───┼───╢";
+  const std::string_view bottom = (simplified) ? "---------------------------------" : "╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝";
+  const std::string_view border = (simplified) ? "|" : "║";
+  const std::string_view separator = (simplified) ? "|" : "│";
 
   cout << "\n   " << top << "\n";
   for (int row = 1; row < 9; row++)
@@ -112,7 +113,7 @@ void Board::PrintBlackBoard(bool simplified) const
     cout << " " << row << " " << border << " ";
     for (int column = 8; column > 0; column--)
     {
-      auto piecePtr = squaresMap.find(Coordinate(column, row))->second;
+      const auto piecePtr = squaresMap.find(Coordinate(column, row))->second;
       cout << piecePtr->ToString(simplified);
 
       // Slightly inefficient but makes the code cleaner
@@ -141,7 +142,7 @@ void Board::PrintBlackBoard(bool simplified) const
  */
 void Board::UpdateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> &&square) noexcept
 {
-  squaresMap[square.first] = square.second;
+  this->squaresMap.at(square.first) = square.second;
 }
 
 /**
@@ -151,12 +152,14 @@ void Board::UpdateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> &&square)
  */
 void Board::UpdatePiecesVector()
 {
-  for (auto iterator = squaresMap.begin(); iterator != squaresMap.end(); iterator++)
+  this->whitePieces.clear();
+  this->blackPieces.clear();
+  for (const auto [coordinate, piece] : this->squaresMap)
   {
-    if (iterator->second->GetColor() == PieceColor::BLACK)
-      blackPieces.push_back(iterator->second);
-    else if (iterator->second->GetColor() == PieceColor::WHITE)
-      whitePieces.push_back(iterator->second);
+    if (piece->GetColor() == PieceColor::BLACK)
+      this->blackPieces.push_back(piece);
+    else if (piece->GetColor() == PieceColor::WHITE)
+      this->whitePieces.push_back(piece);
   }
 }
 
@@ -165,8 +168,8 @@ void Board::UpdatePiecesVector()
  */
 void Board::AddKings(const Coordinate whiteKingPosition, const Coordinate blackKingPosition)
 {
-  whiteKing = GetPiece(whiteKingPosition);
-  blackKing = GetPiece(blackKingPosition);
+  this->whiteKing = GetPiece(whiteKingPosition);
+  this->blackKing = GetPiece(blackKingPosition);
 }
 
 /**
@@ -192,10 +195,10 @@ bool Board::IsKingInCheck(const PieceColor kingColor) const
  */
 bool Board::HasValidMoves(const PieceColor playerColor)
 {
-  std::vector<std::shared_ptr<Piece>> &playerPieces = (playerColor == PieceColor::WHITE) ? whitePieces : blackPieces;
-  std::vector<std::shared_ptr<Piece>> &opponentPieces = (playerColor == PieceColor::WHITE) ? blackPieces : whitePieces;
-  std::shared_ptr<Piece> &friendKing = (playerColor == PieceColor::WHITE) ? whiteKing : blackKing;
-  for (auto [coordinate, occupyingPiece] : this->squaresMap)
+  auto &playerPieces = (playerColor == PieceColor::WHITE) ? this->whitePieces : this->blackPieces;
+  auto &opponentPieces = (playerColor == PieceColor::WHITE) ? this->blackPieces : this->whitePieces;
+  const auto &friendKing = (playerColor == PieceColor::WHITE) ? this->whiteKing : this->blackKing;
+  for (const auto [coordinate, occupyingPiece] : this->squaresMap)
   {
     if (occupyingPiece->GetColor() == playerColor)
       continue;
@@ -207,8 +210,8 @@ bool Board::HasValidMoves(const PieceColor playerColor)
       // Setting up the position to be tested
       const Coordinate startingPosition = piece->GetPosition();
       std::shared_ptr<Piece> temporaryStorageCapturedPiece = occupyingPiece;
-      squaresMap[coordinate] = piece;
-      squaresMap[startingPosition] = GameManager::MakePiece(0, startingPosition);
+      squaresMap.at(coordinate) = piece;
+      squaresMap.at(startingPosition) = GameManager::MakePiece(0, startingPosition);
       const Coordinate friendKingPosition = (friendKing == piece) ? coordinate : friendKing->GetPosition();
       if (temporaryStorageCapturedPiece->GetColor() != PieceColor::VOID)
         opponentPieces.erase(std::find(opponentPieces.begin(), opponentPieces.end(), temporaryStorageCapturedPiece));
@@ -219,8 +222,8 @@ bool Board::HasValidMoves(const PieceColor playerColor)
       // Resetting the board.
       if (temporaryStorageCapturedPiece->GetColor() != PieceColor::VOID)
         opponentPieces.push_back(temporaryStorageCapturedPiece);
-      squaresMap[startingPosition] = piece;
-      squaresMap[coordinate] = temporaryStorageCapturedPiece;
+      squaresMap.at(startingPosition) = piece;
+      squaresMap.at(coordinate) = temporaryStorageCapturedPiece;
 
       if (!isCheck)
         return true;
@@ -239,7 +242,7 @@ bool Board::HasValidMoves(const PieceColor playerColor)
  */
 bool Board::IsSquareAttacked(const Coordinate square, const PieceColor attackerColor) const
 {
-  const std::vector<std::shared_ptr<Piece>> &attackerVector = (attackerColor == PieceColor::WHITE) ? whitePieces : blackPieces;
+  const auto &attackerVector = (attackerColor == PieceColor::WHITE) ? this->whitePieces : this->blackPieces;
   for (auto attackingPiece : attackerVector)
   {
     if (attackingPiece->IsMoveValid(square))
@@ -284,13 +287,13 @@ void Board::NormalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate en
   }
 
   const Coordinate startingPosition = movingPiece->GetPosition();
-  std::vector<std::shared_ptr<Piece>> &opponentPieceVector = (movingPiece->GetColor() == PieceColor::WHITE) ? blackPieces : whitePieces;
-  std::vector<std::shared_ptr<Piece>> &opponentCapturedPieceVector = (movingPiece->GetColor() == PieceColor::WHITE) ? blackCapturedPieces : whiteCapturedPieces;
+  auto &opponentPieceVector = (movingPiece->GetColor() == PieceColor::WHITE) ? blackPieces : whitePieces;
+  auto &opponentCapturedPieceVector = (movingPiece->GetColor() == PieceColor::WHITE) ? blackCapturedPieces : whiteCapturedPieces;
   std::shared_ptr<Piece> temporaryStorageCapturedPiece = squaresMap[endingPosition];
-  squaresMap[endingPosition] = movingPiece;
-  squaresMap[startingPosition] = GameManager::MakePiece(0, startingPosition);
+  squaresMap.at(endingPosition) = movingPiece;
+  squaresMap.at(startingPosition) = GameManager::MakePiece(0, startingPosition);
   std::shared_ptr<Piece> &friendKing = (movingPiece->GetColor() == PieceColor::WHITE) ? whiteKing : blackKing;
-  const Coordinate friendKingPosition = (friendKing == movingPiece) ? endingPosition : friendKing->GetPosition();
+  const Coordinate &friendKingPosition = (friendKing == movingPiece) ? endingPosition : friendKing->GetPosition();
   if (temporaryStorageCapturedPiece->GetColor() != PieceColor::VOID)
     opponentPieceVector.erase(std::find(opponentPieceVector.begin(), opponentPieceVector.end(), temporaryStorageCapturedPiece));
 
@@ -306,8 +309,8 @@ void Board::NormalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate en
   // Invalid move case. Resetting the board.
   if (temporaryStorageCapturedPiece->GetColor() != PieceColor::VOID)
     opponentPieceVector.push_back(temporaryStorageCapturedPiece);
-  squaresMap[startingPosition] = movingPiece;
-  squaresMap[endingPosition] = temporaryStorageCapturedPiece;
+  squaresMap.at(startingPosition) = movingPiece;
+  squaresMap.at(endingPosition) = temporaryStorageCapturedPiece;
   throw InvalidMoveException("This move is not allowed. The king would be in check.");
 }
 
@@ -324,28 +327,28 @@ void Board::Castling(std::shared_ptr<Piece> &&king, const Coordinate kingEndingP
 {
   // Preliminary control that the king isn't in check
   const Coordinate kingStartingPosition = king->GetPosition();
-  if (IsSquareAttacked(kingStartingPosition, king->GetColor()))
+  if (IsSquareAttacked(kingStartingPosition, !(king->GetColor())))
     throw InvalidMoveException("Castling is not allowed. The king is in check.");
 
   const int rookY = kingStartingPosition.GetY();
   const Coordinate rookStartingPosition = (kingEndingPosition.GetX() == 7) ? Coordinate(8, rookY) : Coordinate(1, rookY);
   const Coordinate rookEndingPosition = (kingEndingPosition.GetX() == 7) ? Coordinate(6, rookY) : Coordinate(4, rookY);
-  squaresMap[kingEndingPosition] = squaresMap[kingStartingPosition];
-  squaresMap[rookEndingPosition] = squaresMap[rookStartingPosition];
-  squaresMap[kingStartingPosition] = GameManager::MakePiece(0, kingStartingPosition);
-  squaresMap[rookStartingPosition] = GameManager::MakePiece(0, rookStartingPosition);
+  squaresMap.at(kingEndingPosition) = squaresMap.at(kingStartingPosition);
+  squaresMap.at(rookEndingPosition) = squaresMap.at(rookStartingPosition);
+  squaresMap.at(kingStartingPosition) = GameManager::MakePiece(0, kingStartingPosition);
+  squaresMap.at(rookStartingPosition) = GameManager::MakePiece(0, rookStartingPosition);
 
-  if (!(IsSquareAttacked(kingEndingPosition, king->GetColor()) && IsSquareAttacked(rookEndingPosition, king->GetColor())))
+  if (!(IsSquareAttacked(kingEndingPosition, !(king->GetColor())) || IsSquareAttacked(rookEndingPosition, !(king->GetColor()))))
   {
-    squaresMap[kingEndingPosition]->Move(kingEndingPosition);
-    squaresMap[rookEndingPosition]->Move(rookEndingPosition);
+    squaresMap.at(kingEndingPosition)->Move(kingEndingPosition);
+    squaresMap.at(rookEndingPosition)->Move(rookEndingPosition);
     return;
   }
 
-  squaresMap[kingStartingPosition] = squaresMap[kingEndingPosition];
-  squaresMap[rookStartingPosition] = squaresMap[rookEndingPosition];
-  squaresMap[kingEndingPosition] = GameManager::MakePiece(0, kingEndingPosition);
-  squaresMap[rookEndingPosition] = GameManager::MakePiece(0, rookEndingPosition);
+  squaresMap.at(kingStartingPosition) = squaresMap.at(kingEndingPosition);
+  squaresMap.at(rookStartingPosition) = squaresMap.at(rookEndingPosition);
+  squaresMap.at(kingEndingPosition) = GameManager::MakePiece(0, kingEndingPosition);
+  squaresMap.at(rookEndingPosition) = GameManager::MakePiece(0, rookEndingPosition);
   throw InvalidMoveException("Castling is not allowed. The king cannot pass through or end in check.");
 }
 
@@ -373,14 +376,14 @@ void Board::EnPassant(std::shared_ptr<Piece> &&pawn, const Coordinate pawnEnding
 
   std::shared_ptr<Piece> capturedPawn = squaresMap[capturedPawnPosition];
 
-  std::vector<std::shared_ptr<Piece>> &opponentPieceVector = (pawn->GetColor() == PieceColor::WHITE) ? blackPieces : whitePieces;
-  std::vector<std::shared_ptr<Piece>> &opponentCapturedPieceVector = (pawn->GetColor() == PieceColor::WHITE) ? blackCapturedPieces : whiteCapturedPieces;
+  auto &opponentPieceVector = (pawn->GetColor() == PieceColor::WHITE) ? blackPieces : whitePieces;
+  auto &opponentCapturedPieceVector = (pawn->GetColor() == PieceColor::WHITE) ? blackCapturedPieces : whiteCapturedPieces;
 
-  squaresMap[pawnEndingPosition] = pawn;
-  squaresMap[pawnStartingPosition] = GameManager::MakePiece(0, pawnStartingPosition);
-  squaresMap[capturedPawnPosition] = GameManager::MakePiece(0, capturedPawnPosition);
+  squaresMap.at(pawnEndingPosition) = pawn;
+  squaresMap.at(pawnStartingPosition) = GameManager::MakePiece(0, pawnStartingPosition);
+  squaresMap.at(capturedPawnPosition) = GameManager::MakePiece(0, capturedPawnPosition);
 
-  std::shared_ptr<Piece> &friendKing = (pawn->GetColor() == PieceColor::WHITE) ? whiteKing : blackKing;
+  const std::shared_ptr<Piece> &friendKing = (pawn->GetColor() == PieceColor::WHITE) ? whiteKing : blackKing;
   opponentPieceVector.erase(std::find(opponentPieceVector.begin(), opponentPieceVector.end(), capturedPawn));
 
   // Valid move case
@@ -393,9 +396,9 @@ void Board::EnPassant(std::shared_ptr<Piece> &&pawn, const Coordinate pawnEnding
 
   // Invalid move case. Resetting the board.
   opponentPieceVector.push_back(capturedPawn);
-  squaresMap[pawnStartingPosition] = pawn;
-  squaresMap[pawnEndingPosition] = GameManager::MakePiece(0, pawnEndingPosition);
-  squaresMap[capturedPawnPosition] = capturedPawn;
+  squaresMap.at(pawnStartingPosition) = pawn;
+  squaresMap.at(pawnEndingPosition) = GameManager::MakePiece(0, pawnEndingPosition);
+  squaresMap.at(capturedPawnPosition) = capturedPawn;
   throw InvalidMoveException("This move is not allowed. The king would be in check.");
 }
 

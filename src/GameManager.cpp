@@ -22,11 +22,11 @@
 #include "VoidPiece.hh"
 #include "Utils.hh"
 
-std::regex GameManager::regexRuleNormal("[a-h][1-8][a-h][1-8]");
-std::regex GameManager::regexRulePromotion("[a-h][0-8][a-h][0-8][R,N,B,Q,r,n,b,q]");
-std::filesystem::path GameManager::welcomeFilePath("../utils/welcome.txt");
-std::filesystem::path GameManager::helpFilePath("../utils/help.txt");
-std::filesystem::path GameManager::settingsFilePath("../utils/settings.txt");
+const std::regex regexRuleNormal{"[a-h][1-8][a-h][1-8]"};
+const std::regex regexRulePromotion{"[a-h][0-8][a-h][0-8][R,N,B,Q,r,n,b,q]"};
+const std::filesystem::path welcomeFilePath{"../utils/welcome.txt"};
+const std::filesystem::path helpFilePath{"../utils/help.txt"};
+const std::filesystem::path settingsFilePath{"../utils/settings.txt"};
 
 GameManager::GameManager() : activePlayerColor(PieceColor::WHITE), gameStatus(GameStatus::PLAYING), simplified(false) {}
 
@@ -211,7 +211,6 @@ void GameManager::InitializeStartingBoard() const
   try
   {
     this->LoadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-    // this->LoadFenPosition("4k3/8/8/8/8/8/4p3/4K3 w - - 0 1"); // Position to test stalemate
   }
   catch (const std::invalid_argument &e)
   {

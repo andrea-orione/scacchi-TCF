@@ -1,7 +1,6 @@
-#include "Board.hh"
-#include "Coordinate.hh"
 #include "GameManager.hh"
 
+#include <iostream>
 #include <memory>
 
 // TRACK MEMORY ALLOCATIONS (for testing)

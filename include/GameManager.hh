@@ -32,15 +32,12 @@ public:
   GameManager();
   ~GameManager() = default;
 
-  static std::shared_ptr<Piece> MakePiece(char pieceChar, const Coordinate pPosition, const bool hasRookMoved = true);
+  static std::shared_ptr<Piece> MakePiece(char pieceChar, Coordinate pPosition, bool hasRookMoved = true);
 
   void StartGame();
   void GameLoop();
 
 private:
-  static std::regex regexRuleNormal;
-  static std::regex regexRulePromotion;
-
   PieceColor activePlayerColor;
   GameStatus gameStatus;
   bool simplified;
@@ -56,19 +53,4 @@ private:
   void GetUserMove();
   void KillGame() const;
   void UpdateGameStatus();
-
-  // #ifdef _WIN32
-  //   constexpr static char welcomeFilePath[] = "..\\utils\\welcome.txt";
-  //   constexpr static char helpFilePath[] = "..\\utils\\help.txt";
-  //   constexpr static char settingsFilePath[] = "..\\utils\\settings.txt";
-  // #else
-  //   constexpr static char welcomeFilePath[] = "../utils/welcome.txt";
-  //   constexpr static char helpFilePath[] = "../utils/help.txt";
-  //   constexpr static char settingsFilePath[] = "../utils/settings.txt";
-  // #endif
-
-  // platform independent
-  static std::filesystem::path welcomeFilePath;  // path of welcome file
-  static std::filesystem::path helpFilePath;     // path of user's guide file
-  static std::filesystem::path settingsFilePath; // path of settings file
 };
