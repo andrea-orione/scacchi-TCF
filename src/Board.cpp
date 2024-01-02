@@ -203,7 +203,7 @@ bool Board::HasValidMoves(const PieceColor playerColor)
   {
     if (occupyingPiece->GetColor() == playerColor)
       continue;
-    for (auto piece : playerPieces)
+    for (const auto piece : playerPieces)
     {
       if (!piece->IsMoveValid(coordinate))
         continue;

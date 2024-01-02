@@ -68,6 +68,7 @@ void Pawn::Move(const Coordinate newPosition)
 {
   Board &boardInstance = Board::Instance();
   int distanceSquared = this->position.SquaredDistance(newPosition);
+  // the distanceSquared == 0 case is used when the FEN position is loaded (for loading the last movement for the en passant)
   if (distanceSquared == 0 || distanceSquared == 4)
     doubleAdvancementMoveNumber = boardInstance.GetMoveNumber();
   position = newPosition;
