@@ -4,8 +4,7 @@
 #include "Board.hh"
 #include "Utils.hh"
 
-Pawn::Pawn(PieceColor pColor, Coordinate pPosition, bool pHasMoved) : hasMoved(pHasMoved),
-                                                                      doubleAdvancementMoveNumber(-2)
+Pawn::Pawn(PieceColor pColor, Coordinate pPosition, bool pHasMoved) : hasMoved(pHasMoved), doubleAdvancementMoveNumber(-2)
 {
   pieceType = PieceType::PAWN;
   color = pColor;

@@ -16,15 +16,13 @@
 using std::cout;
 using std::endl;
 
-constexpr std::tuple<std::string_view, std::string_view, std::string_view, std::string_view, std::string_view> simplifiedBoardStrings {
-  "---------------------------------", "|---|---|---|---|---|---|---|---|",
-  "---------------------------------", "|", "|"
-};
+constexpr std::tuple<std::string_view, std::string_view, std::string_view, std::string_view, std::string_view> simplifiedBoardStrings{
+    "---------------------------------", "|---|---|---|---|---|---|---|---|",
+    "---------------------------------", "|", "|"};
 
-constexpr std::tuple<std::string_view, std::string_view, std::string_view, std::string_view, std::string_view> completeBoardStrings {
-  "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗", "╟───┼───┼───┼───┼───┼───┼───┼───╢",
-  "╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝", "║", "│"
-};
+constexpr std::tuple<std::string_view, std::string_view, std::string_view, std::string_view, std::string_view> completeBoardStrings{
+    "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗", "╟───┼───┼───┼───┼───┼───┼───┼───╢",
+    "╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝", "║", "│"};
 
 /**
  * The default constructor.
@@ -69,7 +67,7 @@ Board &Board::Instance()
  */
 void Board::PrintWhiteBoard(const bool simplified) const
 {
-  const auto& [top, middle, bottom, border, separator] = (simplified) ? simplifiedBoardStrings : completeBoardStrings;
+  const auto &[top, middle, bottom, border, separator] = (simplified) ? simplifiedBoardStrings : completeBoardStrings;
 
   cout << "\n   " << top << "\n";
   for (int row = 8; row > 0; row--)
@@ -108,7 +106,7 @@ void Board::PrintWhiteBoard(const bool simplified) const
  */
 void Board::PrintBlackBoard(const bool simplified) const
 {
-  const auto& [top, middle, bottom, border, separator] = (simplified) ? simplifiedBoardStrings : completeBoardStrings;
+  const auto &[top, middle, bottom, border, separator] = (simplified) ? simplifiedBoardStrings : completeBoardStrings;
 
   cout << "\n   " << top << "\n";
   for (int row = 1; row < 9; row++)
