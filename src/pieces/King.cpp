@@ -3,10 +3,8 @@
 #include "Coordinate.hh"
 #include "Movement.hh"
 #include "Piece.hh"
-#include "Rook.hh"
 #include "Utils.hh"
 #include <memory>
-#include <stdexcept>
 
 King::King(PieceColor pColor, Coordinate pPosition, bool pHasMoved)
 {

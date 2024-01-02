@@ -1,26 +1,24 @@
 #include "GameManager.hh"
 
+#include <cctype>
 #include <filesystem>
 #include <iostream>
-#include <cctype>
+#include <memory>
 #include <stdexcept>
 #include <string>
 #include <string_view>
-#include <memory>
-#include <map>
-#include <stdexcept>
 
-#include "Board.hh"
 #include "Bishop.hh"
+#include "Board.hh"
 #include "Coordinate.hh"
+#include "King.hh"
+#include "Knight.hh"
 #include "Pawn.hh"
 #include "Piece.hh"
-#include "Rook.hh"
-#include "Knight.hh"
-#include "King.hh"
 #include "Queen.hh"
-#include "VoidPiece.hh"
+#include "Rook.hh"
 #include "Utils.hh"
+#include "VoidPiece.hh"
 
 std::regex GameManager::regexRuleNormal("[a-h][1-8][a-h][1-8]");
 std::regex GameManager::regexRulePromotion("[a-h][0-8][a-h][0-8][R,N,B,Q,r,n,b,q]");
@@ -33,7 +31,8 @@ GameManager::GameManager() : activePlayerColor(PieceColor::WHITE), gameStatus(Ga
 /**
  * Function to initialize the board from a FEN string.
  *
- * It first analyzes the first part of the string containing the position of all the pieces and updates the board
+ * It first analyzes the first part of the string containing the position of all
+ * the pieces and updates the board
  *
  * @param[in] fenString The string containing the configuration to load.
  */
@@ -452,8 +451,8 @@ void GameManager::GetUserMove()
 /**
  * Function to evaluate if the game status.
  *
- * It checks if there are enough pieces, if is checkmate or stalemate or if it is draw by repetition.
- * Based on that it updates the gameStatus variable.
+ * It checks if there are enough pieces, if is checkmate or stalemate or if it
+ * is draw by repetition. Based on that it updates the gameStatus variable.
  */
 void GameManager::UpdateGameStatus()
 {

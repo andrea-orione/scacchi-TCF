@@ -1,9 +1,6 @@
 #include "VoidPiece.hh"
 
-#include "Movement.hh"
-#include "Board.hh"
 #include "Piece.hh"
-#include "Utils.hh"
 
 VoidPiece::VoidPiece(Coordinate pPosition)
 {
