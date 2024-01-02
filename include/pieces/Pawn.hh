@@ -1,10 +1,9 @@
 #pragma once
 
 #include <string>
-#include <vector>
 
-#include "Piece.hh"
 #include "Coordinate.hh"
+#include "Piece.hh"
 
 /**
  * The class representing the pawns.
@@ -13,15 +12,15 @@
 class Pawn : public Piece
 {
 public:
-    Pawn(PieceColor pColor, Coordinate pPosition, bool pHasMoved = false);
-    ~Pawn() override = default;
+  Pawn(PieceColor pColor, Coordinate pPosition, bool pHasMoved = false);
+  ~Pawn() override = default;
 
-    std::string ToString(bool simplified = false) const override;
+  std::string ToString(bool simplified = false) const override;
 
-    bool IsMoveValid(const Coordinate endingPosition) const override;
-    void Move(const Coordinate newPosition) override;
+  bool IsMoveValid(const Coordinate endingPosition) const override;
+  void Move(const Coordinate newPosition) override;
 
 private:
-    bool hasMoved;
-    int doubleAdvancementMoveNumber;
+  bool hasMoved;
+  int doubleAdvancementMoveNumber;
 };

@@ -1,10 +1,9 @@
 #pragma once
 
 #include <string>
-#include <vector>
 
-#include "Piece.hh"
 #include "Coordinate.hh"
+#include "Piece.hh"
 
 /**
  * The class representing the rooks.

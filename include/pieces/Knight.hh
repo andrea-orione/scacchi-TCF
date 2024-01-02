@@ -1,10 +1,9 @@
 #pragma once
 
 #include <string>
-#include <vector>
 
-#include "Piece.hh"
 #include "Coordinate.hh"
+#include "Piece.hh"
 
 /**
  * The class representing the knights.
@@ -13,10 +12,10 @@
 class Knight : public Piece
 {
 public:
-    Knight(PieceColor pColor, Coordinate pPosition);
-    ~Knight() override = default;
+  Knight(PieceColor pColor, Coordinate pPosition);
+  ~Knight() override = default;
 
-    std::string ToString(bool simplified = false) const override;
+  std::string ToString(bool simplified = false) const override;
 
-    bool IsMoveValid(const Coordinate endingPosition) const override;
+  bool IsMoveValid(const Coordinate endingPosition) const override;
 };

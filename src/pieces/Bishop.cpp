@@ -1,7 +1,6 @@
 #include "Bishop.hh"
 
 #include <memory>
-#include <stdexcept>
 
 #include "Movement.hh"
 #include "Board.hh"

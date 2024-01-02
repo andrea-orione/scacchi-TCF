@@ -1,13 +1,12 @@
 #pragma once
 
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
 
 #include "Coordinate.hh"
 #include "Piece.hh"
-#include "Utils.hh"
 
 //! @todo Delete testing functions (printWhitePieces() and printBlackPieces())
 /**
@@ -35,14 +34,17 @@ public:
   void PrintWhiteBoard(bool simplified) const;
   void PrintBlackBoard(bool simplified) const;
 
-  void UpdateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> &&square) noexcept;
+  void
+  UpdateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> &&square) noexcept;
   void UpdatePiecesVector();
-  void AddKings(Coordinate whiteKingPosition, Coordinate blackKingPosition);
+  void AddKings(const Coordinate whiteKingPosition,
+                const Coordinate blackKingPosition);
 
   bool IsKingInCheck(PieceColor kingColor) const;
   bool HasValidMoves(PieceColor playerColor);
   bool IsMaterialLacking() const;
-  void NormalMove(std::shared_ptr<Piece> &&movingPiece, Coordinate endingPosition);
+  void NormalMove(std::shared_ptr<Piece> &&movingPiece,
+                  const Coordinate endingPosition);
 
   std::shared_ptr<Piece> GetPiece(Coordinate position) const;
 
@@ -60,10 +62,13 @@ public:
 private:
   Board(); // private constructor
 
-  void Castling(std::shared_ptr<Piece> &&king, Coordinate kingEndingPosition);
-  void EnPassant(std::shared_ptr<Piece> &&pawn, Coordinate pawnEndingPosition);
+  void Castling(std::shared_ptr<Piece> &&king,
+                const Coordinate kingEndingPosition);
+  void EnPassant(std::shared_ptr<Piece> &&pawn,
+                 const Coordinate pawnEndingPosition);
 
-  bool IsSquareAttacked(Coordinate square, PieceColor attackerColor) const;
+  bool IsSquareAttacked(const Coordinate square,
+                        const PieceColor attackerColor) const;
 
   // Map defining the squares as {coordinate : pointer to piece}.
   std::map<Coordinate, std::shared_ptr<Piece>> squaresMap;
