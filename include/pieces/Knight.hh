@@ -16,6 +16,5 @@ public:
   ~Knight() override = default;
 
   std::string ToString(bool simplified = false) const override;
-
   bool IsMoveValid(const Coordinate endingPosition) const override;
 };

@@ -16,10 +16,9 @@ public:
   ~Pawn() override = default;
 
   std::string ToString(bool simplified = false) const override;
-
   bool IsMoveValid(const Coordinate endingPosition) const override;
-  void Move(const Coordinate newPosition) override;
 
+  void Move(const Coordinate newPosition) override;
   int GetDoubleAdvancementMoveNumber() const override { return doubleAdvancementMoveNumber; }
 
 private:
