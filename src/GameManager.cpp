@@ -22,9 +22,9 @@
 
 const std::regex regexRuleNormal{"[a-h][1-8][a-h][1-8]"};
 const std::regex regexRulePromotion{"[a-h][0-8][a-h][0-8][R,N,B,Q,r,n,b,q]"};
-const std::filesystem::path welcomeFilePath{"C:/dev/scacchi-TCF/utils/welcome.txt"};
-const std::filesystem::path helpFilePath{"C:/dev/scacchi-TCF/utils/help.txt"};
-const std::filesystem::path settingsFilePath{"C:/dev/scacchi-TCF/utils/settings.txt"};
+const std::filesystem::path welcomeFilePath{"../utils/welcome.txt"};
+const std::filesystem::path helpFilePath{"../utils/help.txt"};
+const std::filesystem::path settingsFilePath{"../utils/settings.txt"};
 
 GameManager::GameManager() : activePlayerColor(PieceColor::WHITE), gameStatus(GameStatus::PLAYING), simplified(false) {}
 
