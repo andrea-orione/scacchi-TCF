@@ -34,7 +34,7 @@ bool Pawn::IsMoveValid(const Coordinate endingPosition) const
 
   const int yDirection = (this->GetColor() == PieceColor::WHITE) ? 1 : -1;
 
-  //generally non allowed movements (under any circumstances)
+  // generally non allowed movements (under any circumstances)
   if (abs(xDistance) > 1)
     return false;
   if (yDistance * yDirection > 2 || yDistance * yDirection < 1)
@@ -49,39 +49,37 @@ bool Pawn::IsMoveValid(const Coordinate endingPosition) const
 
   // check if landing square is free and the square in front is free (for double advancement moves alsso)
   std::shared_ptr<Piece> endingPositionPiece = board.GetPiece(endingPosition);
-  const Movement forwardMovement = Movement(0, yDirection);
-  const Coordinate infrontPosition = this->GetPosition() + forwardMovement;
-  std::shared_ptr<Piece> infrontPiece = board.GetPiece(infrontPosition);
 
-  if (abs(xDistance) == 0 && infrontPiece->GetColor() != PieceColor::VOID && endingPositionPiece->GetColor() != PieceColor::VOID)
+  if (abs(yDistance) == 2)
+  {
+    const Movement forwardMovement(0, yDirection);
+    const Coordinate inFrontPosition = this->GetPosition() + forwardMovement;
+    printf("position: %s\n", inFrontPosition.ToString().c_str());
+    std::shared_ptr<Piece> inFrontPiece = board.GetPiece(inFrontPosition);
+    printf("piece: %s\n", inFrontPiece->ToString().c_str());
+
+    if (inFrontPiece->GetColor() != PieceColor::VOID)
       return false;
+  }
 
   // check en passant
+  if (abs(xDistance) == 1 && endingPositionPiece->GetColor() == PieceColor::VOID)
+  {
 
-  if (abs(xDistance) == 1 && endingPositionPiece->GetColor() == PieceColor::VOID) {
+    const Coordinate pawnStartingPosition = this->GetPosition();
+    const Movement capturingMovement = (this->GetColor() == PieceColor::WHITE) ? Movement(0, -1) : Movement(0, 1);
+    const Coordinate capturedPawnPosition = endingPosition + capturingMovement;
 
+    std::shared_ptr<Piece> capturedPawn = board.GetPiece(capturedPawnPosition);
 
+    if (!capturedPawn->GetDoubleAdvancementMoveNumber())
+      return false;
 
-      const Coordinate pawnStartingPosition = this->GetPosition();
-      const Movement capturingMovement = (this->GetColor() == PieceColor::WHITE) ? Movement(0, -1) : Movement(0, 1);
-      const Coordinate capturedPawnPosition = endingPosition + capturingMovement;
-
-
-      std::shared_ptr<Piece> capturedPawn = board.GetPiece(capturedPawnPosition);
-
-      if (!capturedPawn->GetDoubleAdvancementMoveNumber())
-          return false;
-
-      //printf("%i\n", capturedPawn->GetDoubleAdvancementMoveNumber());
-
-      if (capturedPawn->GetDoubleAdvancementMoveNumber() - board.GetMoveNumber() < 2)
-      {
-          throw EnPassantSignal();
-      }
-      
-      //if (capturedPawn->GetColor() == PieceColor::VOID)
-       //   return false;
-   }
+    if (capturedPawn->GetDoubleAdvancementMoveNumber() - board.GetMoveNumber() < 2)
+    {
+      throw EnPassantSignal();
+    }
+  }
 
   return !(abs(xDistance) == 1 && endingPositionPiece->GetColor() != !this->GetColor());
 }
