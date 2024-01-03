@@ -45,6 +45,9 @@ Una volta scaricata ed installata una versione di CMake superiore a 3.26, seguir
    ```bash
    ./scacchi
    ```
+<br/>
 
-
+## Diagrammi UML
+Per vedere il Class Diagram ed il Use Case Diagram in versione originale, scaricare UMLet ed aprire i file *.uxf* con tale applicazione.
+In alternativa, una versione in formato ... è disponibile nella cartella **UML**.
 
