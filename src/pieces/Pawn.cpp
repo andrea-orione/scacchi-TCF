@@ -34,6 +34,7 @@ bool Pawn::IsMoveValid(const Coordinate endingPosition) const
 
   const int yDirection = (this->GetColor() == PieceColor::WHITE) ? 1 : -1;
 
+  //generally non allowed movements (under any circumstances)
   if (abs(xDistance) > 1)
     return false;
   if (yDistance * yDirection > 2 || yDistance * yDirection < 1)
@@ -43,13 +44,17 @@ bool Pawn::IsMoveValid(const Coordinate endingPosition) const
   if (yDistance * yDirection == 2 && xDistance != 0)
     return false;
 
-  // move
+  // board instance
   Board &board = Board::Instance();
 
-  // check if landing square is free
+  // check if landing square is free and the square in front is free (for double advancement moves alsso)
   std::shared_ptr<Piece> endingPositionPiece = board.GetPiece(endingPosition);
-  if (xDistance == 0 && endingPositionPiece->GetColor() != PieceColor::VOID)
-    return false;
+  const Movement forwardMovement = Movement(0, yDirection);
+  const Coordinate infrontPosition = this->GetPosition() + forwardMovement;
+  std::shared_ptr<Piece> infrontPiece = board.GetPiece(infrontPosition);
+
+  if (abs(xDistance) == 0 && infrontPiece->GetColor() != PieceColor::VOID && endingPositionPiece->GetColor() != PieceColor::VOID)
+      return false;
 
   // check en passant
 
