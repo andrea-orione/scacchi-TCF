@@ -1,8 +1,10 @@
 #include "Pawn.hh"
-
+#include "GameManager.hh"
+#include "Movement.hh"
 #include "Piece.hh"
 #include "Board.hh"
 #include "Utils.hh"
+
 
 Pawn::Pawn(PieceColor pColor, Coordinate pPosition, bool pHasMoved) : hasMoved(pHasMoved),
                                                                       doubleAdvancementMoveNumber(-2)
@@ -52,8 +54,23 @@ bool Pawn::IsMoveValid(const Coordinate endingPosition) const
     return false;
 
   // check en passant
-  // if (doubleAdvancementMoveNumber - board.GetMoveNumber() < 2)
-  //   throw EnPassantSignal();
+
+  if (abs(xDistance) == 1 && endingPositionPiece->GetColor() == PieceColor::VOID) {
+
+      if (doubleAdvancementMoveNumber - board.GetMoveNumber() < 2)
+      {
+          throw EnPassantSignal();
+      }
+
+      const Coordinate pawnStartingPosition = this->GetPosition();
+      const Movement capturingMovement = (this->GetColor() == PieceColor::WHITE) ? Movement(0, -1) : Movement(0, 1);
+      const Coordinate capturedPawnPosition = endingPosition + capturingMovement;
+
+
+      std::shared_ptr<Piece> capturedPawn = board.GetPiece(capturedPawnPosition);
+      if (capturedPawn->GetColor() == PieceColor::VOID)
+          return false;
+   }
 
   return !(abs(xDistance) == 1 && endingPositionPiece->GetColor() != !this->GetColor());
 }
