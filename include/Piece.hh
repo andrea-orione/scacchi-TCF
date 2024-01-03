@@ -103,4 +103,6 @@ public:
    * @return `true` if the piece can castle, `false` if it can't.
    */
   virtual bool CanCastle() const { return false; }
+
+  virtual int GetDoubleAdvancementMoveNumber() const { return 0; }
 };

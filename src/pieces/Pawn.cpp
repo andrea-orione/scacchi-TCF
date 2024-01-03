@@ -57,10 +57,7 @@ bool Pawn::IsMoveValid(const Coordinate endingPosition) const
 
   if (abs(xDistance) == 1 && endingPositionPiece->GetColor() == PieceColor::VOID) {
 
-      if (doubleAdvancementMoveNumber - board.GetMoveNumber() < 2)
-      {
-          throw EnPassantSignal();
-      }
+
 
       const Coordinate pawnStartingPosition = this->GetPosition();
       const Movement capturingMovement = (this->GetColor() == PieceColor::WHITE) ? Movement(0, -1) : Movement(0, 1);
@@ -68,8 +65,19 @@ bool Pawn::IsMoveValid(const Coordinate endingPosition) const
 
 
       std::shared_ptr<Piece> capturedPawn = board.GetPiece(capturedPawnPosition);
-      if (capturedPawn->GetColor() == PieceColor::VOID)
+
+      if (!capturedPawn->GetDoubleAdvancementMoveNumber())
           return false;
+
+      //printf("%i\n", capturedPawn->GetDoubleAdvancementMoveNumber());
+
+      if (capturedPawn->GetDoubleAdvancementMoveNumber() - board.GetMoveNumber() < 2)
+      {
+          throw EnPassantSignal();
+      }
+      
+      //if (capturedPawn->GetColor() == PieceColor::VOID)
+       //   return false;
    }
 
   return !(abs(xDistance) == 1 && endingPositionPiece->GetColor() != !this->GetColor());
