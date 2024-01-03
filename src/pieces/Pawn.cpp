@@ -5,9 +5,7 @@
 #include "Board.hh"
 #include "Utils.hh"
 
-
-Pawn::Pawn(PieceColor pColor, Coordinate pPosition, bool pHasMoved) : hasMoved(pHasMoved),
-                                                                      doubleAdvancementMoveNumber(-2)
+Pawn::Pawn(PieceColor pColor, Coordinate pPosition, bool pHasMoved) : hasMoved(pHasMoved), doubleAdvancementMoveNumber(-2)
 {
   pieceType = PieceType::PAWN;
   color = pColor;
@@ -94,6 +92,7 @@ void Pawn::Move(const Coordinate newPosition)
 {
   Board &boardInstance = Board::Instance();
   int distanceSquared = this->position.SquaredDistance(newPosition);
+  // the distanceSquared == 0 case is used when the FEN position is loaded (for loading the last movement for the en passant)
   if (distanceSquared == 0 || distanceSquared == 4)
     doubleAdvancementMoveNumber = boardInstance.GetMoveNumber();
   position = newPosition;

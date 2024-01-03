@@ -10,21 +10,30 @@
 #include <memory>
 #include <string>
 #include <string_view>
+#include <tuple>
 #include <vector>
 
 using std::cout;
 using std::endl;
+
+constexpr std::tuple<std::string_view, std::string_view, std::string_view, std::string_view, std::string_view> simplifiedBoardStrings{
+    "---------------------------------", "|---|---|---|---|---|---|---|---|",
+    "---------------------------------", "|", "|"};
+
+constexpr std::tuple<std::string_view, std::string_view, std::string_view, std::string_view, std::string_view> completeBoardStrings{
+    "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗", "╟───┼───┼───┼───┼───┼───┼───┼───╢",
+    "╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝", "║", "│"};
 
 /**
  * The default constructor.
  *
  * It creates the 64 squares.
  */
-Board::Board() : squaresMap({}),
-                 whitePieces({}),
-                 blackPieces({}),
-                 whiteCapturedPieces({}),
-                 blackCapturedPieces({}),
+Board::Board() : squaresMap{},
+                 whitePieces{},
+                 blackPieces{},
+                 whiteCapturedPieces{},
+                 blackCapturedPieces{},
                  whiteKing(nullptr),
                  blackKing(nullptr)
 {
@@ -58,11 +67,7 @@ Board &Board::Instance()
  */
 void Board::PrintWhiteBoard(const bool simplified) const
 {
-  const std::string_view top = (simplified) ? "---------------------------------" : "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗";
-  const std::string_view middle = (simplified) ? "|---|---|---|---|---|---|---|---|" : "╟───┼───┼───┼───┼───┼───┼───┼───╢";
-  const std::string_view bottom = (simplified) ? "---------------------------------" : "╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝";
-  const std::string_view border = (simplified) ? "|" : "║";
-  const std::string_view separator = (simplified) ? "|" : "│";
+  const auto &[top, middle, bottom, border, separator] = (simplified) ? simplifiedBoardStrings : completeBoardStrings;
 
   cout << "\n   " << top << "\n";
   for (int row = 8; row > 0; row--)
@@ -101,11 +106,7 @@ void Board::PrintWhiteBoard(const bool simplified) const
  */
 void Board::PrintBlackBoard(const bool simplified) const
 {
-  const std::string_view top = (simplified) ? "---------------------------------" : "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗";
-  const std::string_view middle = (simplified) ? "|---|---|---|---|---|---|---|---|" : "╟───┼───┼───┼───┼───┼───┼───┼───╢";
-  const std::string_view bottom = (simplified) ? "---------------------------------" : "╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝";
-  const std::string_view border = (simplified) ? "|" : "║";
-  const std::string_view separator = (simplified) ? "|" : "│";
+  const auto &[top, middle, bottom, border, separator] = (simplified) ? simplifiedBoardStrings : completeBoardStrings;
 
   cout << "\n   " << top << "\n";
   for (int row = 1; row < 9; row++)
@@ -202,7 +203,7 @@ bool Board::HasValidMoves(const PieceColor playerColor)
   {
     if (occupyingPiece->GetColor() == playerColor)
       continue;
-    for (auto piece : playerPieces)
+    for (const auto piece : playerPieces)
     {
       if (!piece->IsMoveValid(coordinate))
         continue;
