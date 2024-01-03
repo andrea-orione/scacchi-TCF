@@ -42,6 +42,7 @@ public:
   bool HasValidMoves(PieceColor playerColor);
   bool IsMaterialLacking() const;
   void NormalMove(std::shared_ptr<Piece> &&movingPiece, Coordinate endingPosition);
+  void Promotion(std::shared_ptr<Piece> &&pawn, char promotionPiece, Coordinate endingPosition);
 
   std::shared_ptr<Piece> GetPiece(Coordinate position) const;
 

@@ -1,9 +1,4 @@
 #include "Board.hh"
-#include "Coordinate.hh"
-#include "GameManager.hh"
-#include "Movement.hh"
-#include "Utils.hh"
-#include "Piece.hh"
 
 #include <algorithm>
 #include <iostream>
@@ -12,6 +7,12 @@
 #include <string_view>
 #include <tuple>
 #include <vector>
+
+#include "Coordinate.hh"
+#include "GameManager.hh"
+#include "Movement.hh"
+#include "Utils.hh"
+#include "Piece.hh"
 
 using std::cout;
 using std::endl;
@@ -312,6 +313,34 @@ void Board::NormalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate en
     opponentPieceVector.push_back(temporaryStorageCapturedPiece);
   squaresMap.at(startingPosition) = movingPiece;
   squaresMap.at(endingPosition) = temporaryStorageCapturedPiece;
+  throw InvalidMoveException("This move is not allowed. The king would be in check.");
+}
+
+/**
+ * Function for promoting a pawn.
+ */
+void Board::Promotion(std::shared_ptr<Piece> &&pawn, char promotionPiece, const Coordinate endingPosition)
+{
+  if (!pawn->IsMoveValid(endingPosition))
+    throw InvalidMoveException("This move is not allowed. This piece cannot reach that position.");
+
+  std::shared_ptr<Piece> newPiece = GameManager::MakePiece(promotionPiece, endingPosition);
+
+  const Coordinate startingPosition = pawn->GetPosition();
+  auto &opponentPieceVector = (pawn->GetColor() == PieceColor::WHITE) ? blackPieces : whitePieces;
+  std::shared_ptr<Piece> endingPiece = squaresMap[endingPosition];
+  squaresMap.at(endingPosition) = newPiece;
+  squaresMap.at(startingPosition) = GameManager::MakePiece(0, startingPosition);
+  std::shared_ptr<Piece> &friendKing = (pawn->GetColor() == PieceColor::WHITE) ? whiteKing : blackKing;
+  const Coordinate friendKingPosition = friendKing->GetPosition();
+
+  // Valid move case
+  if (!IsSquareAttacked(friendKingPosition, !(pawn->GetColor())))
+    return;
+
+  // Invalid move case. Resetting the board.
+  squaresMap.at(startingPosition) = pawn;
+  squaresMap.at(endingPosition) = endingPiece;
   throw InvalidMoveException("This move is not allowed. The king would be in check.");
 }
 

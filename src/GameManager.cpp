@@ -21,7 +21,7 @@
 #include "VoidPiece.hh"
 
 const std::regex regexRuleNormal{"[a-h][1-8][a-h][1-8]"};
-const std::regex regexRulePromotion{"[a-h][0-8][a-h][0-8][R,N,B,Q,r,n,b,q]"};
+const std::regex regexRulePromotion{"[a-h][2,7][a-h][1,8][R,N,B,Q,r,n,b,q]"};
 const std::filesystem::path welcomeFilePath{"../utils/welcome.txt"};
 const std::filesystem::path helpFilePath{"../utils/help.txt"};
 const std::filesystem::path settingsFilePath{"../utils/settings.txt"};
@@ -209,7 +209,8 @@ void GameManager::InitializeStartingBoard() const
 {
   try
   {
-    this->LoadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    // this->LoadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    this->LoadFenPosition("r1bqkbnr/pPpppppp/8/8/8/8/P1PPPPPP/RNBQKBNR w KQkq - 0 1");
   }
   catch (const std::invalid_argument &e)
   {
@@ -434,13 +435,17 @@ void GameManager::GetUserMove()
   {
     std::string_view startingSquare(userMove.c_str(), 2);
     std::string_view endingSquare(userMove.c_str() + 2, 2);
+    char promotionPiece = userMove[4];
 
     std::shared_ptr<Piece> pieceToMove = board.GetPiece(Coordinate(startingSquare));
 
     if (pieceToMove->GetColor() != activePlayerColor)
       throw InvalidMoveException("The piece you want to move doesn't belong to you.");
 
-    //! @todo PROMOTION function
+    if (!pieceToMove->GetDoubleAdvancementMoveNumber())
+      throw InvalidMoveException("You cannot promote a piece which is not a pawn.");
+
+    board.Promotion(std::move(pieceToMove), promotionPiece, Coordinate(endingSquare));
     UpdateGameStatus();
   }
   else
