@@ -20,6 +20,8 @@ public:
   bool IsMoveValid(const Coordinate endingPosition) const override;
   void Move(const Coordinate newPosition) override;
 
+  int GetDoubleAdvancementMoveNumber() const override { return doubleAdvancementMoveNumber; }
+
 private:
   bool hasMoved;
   int doubleAdvancementMoveNumber;
