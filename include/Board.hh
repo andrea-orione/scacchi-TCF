@@ -51,8 +51,7 @@ public:
   void IncrementMoveNumber(int increment = 1) { moveNumber += increment; }
   int GetMoveNumber() const { return moveNumber; }
 
-  std::string GetWhiteCapturedPieces(bool literal = false) const;
-  std::string GetBlackCapturedPieces(bool literal = false) const;
+  std::string GetCapturedPieces(PieceColor pColor, bool literal = false) const;
 
   void printWhitePieces() const;
   void printBlackPieces() const;

@@ -89,9 +89,9 @@ void Board::PrintWhiteBoard(const bool simplified) const
         cout << " " << border;
     }
     if (row == 8)
-      cout << "   BLACK CAPTURED PIECES: " << GetBlackCapturedPieces(simplified);
+      cout << "   BLACK CAPTURED PIECES: " << GetCapturedPieces(PieceColor::BLACK, simplified);
     if (row == 7)
-      cout << "   WHITE CAPTURED PIECES: " << GetWhiteCapturedPieces(simplified);
+      cout << "   WHITE CAPTURED PIECES: " << GetCapturedPieces(PieceColor::WHITE, simplified);
     if (row != 1)
       cout << "\n   " << middle << "\n";
     else
@@ -128,9 +128,9 @@ void Board::PrintBlackBoard(const bool simplified) const
         cout << " " << border;
     }
     if (row == 1)
-      cout << "   BLACK CAPTURED PIECES: " << GetBlackCapturedPieces(simplified);
+      cout << "   BLACK CAPTURED PIECES: " << GetCapturedPieces(PieceColor::BLACK, simplified);
     if (row == 2)
-      cout << "   WHITE CAPTURED PIECES: " << GetWhiteCapturedPieces(simplified);
+      cout << "   WHITE CAPTURED PIECES: " << GetCapturedPieces(PieceColor::WHITE, simplified);
     if (row != 8)
       cout << "\n   " << middle << "\n";
     else
@@ -152,8 +152,6 @@ void Board::UpdateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> square)
 
 /**
  * Function for adding pieces to the `whitePieces` and `blackPieces` vectors.
- *
- * @param[in] newPiece The pointer to the piece to be added.
  */
 void Board::UpdatePiecesVector()
 {
@@ -203,10 +201,12 @@ bool Board::HasValidMoves(const PieceColor playerColor)
   auto &playerPieces = (playerColor == PieceColor::WHITE) ? this->whitePieces : this->blackPieces;
   auto &opponentPieces = (playerColor == PieceColor::WHITE) ? this->blackPieces : this->whitePieces;
   const auto &friendKing = (playerColor == PieceColor::WHITE) ? this->whiteKing : this->blackKing;
+
   for (const auto [coordinate, occupyingPiece] : this->squaresMap)
   {
     if (occupyingPiece->GetColor() == playerColor)
       continue;
+
     for (const auto piece : playerPieces)
     {
       if (!piece->IsMoveValid(coordinate))
@@ -248,7 +248,7 @@ bool Board::HasValidMoves(const PieceColor playerColor)
 bool Board::IsSquareAttacked(const Coordinate square, const PieceColor attackerColor) const
 {
   const auto &attackerVector = (attackerColor == PieceColor::WHITE) ? this->whitePieces : this->blackPieces;
-  for (auto attackingPiece : attackerVector)
+  for (const auto attackingPiece : attackerVector)
   {
     if (attackingPiece->IsMoveValid(square))
       return true;
@@ -331,23 +331,21 @@ void Board::Promotion(std::shared_ptr<Piece> &&pawn, const char promotionPiece, 
   char newPieceChar{};
   if (pawn->GetColor() == PieceColor::WHITE)
   {
-    size_t found = promotionBlackPieces.find(promotionPiece);
+    const size_t found = promotionBlackPieces.find(promotionPiece);
     newPieceChar = (found == std::string_view::npos) ? promotionPiece : promotionWhitePieces[found];
   }
   else
   {
-    size_t found = promotionWhitePieces.find(promotionPiece);
+    const size_t found = promotionWhitePieces.find(promotionPiece);
     newPieceChar = (found == std::string_view::npos) ? promotionPiece : promotionBlackPieces[found];
   }
   std::shared_ptr<Piece> newPiece = GameManager::MakePiece(newPieceChar, endingPosition);
 
   const Coordinate startingPosition = pawn->GetPosition();
-  auto &opponentPieceVector = (pawn->GetColor() == PieceColor::WHITE) ? blackPieces : whitePieces;
   std::shared_ptr<Piece> endingPiece = squaresMap[endingPosition];
   squaresMap.at(endingPosition) = newPiece;
   squaresMap.at(startingPosition) = GameManager::MakePiece(0, startingPosition);
-  std::shared_ptr<Piece> &friendKing = (pawn->GetColor() == PieceColor::WHITE) ? whiteKing : blackKing;
-  const Coordinate friendKingPosition = friendKing->GetPosition();
+  const Coordinate friendKingPosition = (pawn->GetColor() == PieceColor::WHITE) ? whiteKing->GetPosition() : blackKing->GetPosition();
 
   // Valid move case
   if (!IsSquareAttacked(friendKingPosition, !(pawn->GetColor())))
@@ -459,14 +457,14 @@ void Board::EnPassant(std::shared_ptr<Piece> &&pawn, const Coordinate pawnEnding
 bool Board::IsMaterialLacking() const
 {
   int knightCounter = 0;
-  for (auto piece : whitePieces)
+  for (const auto piece : whitePieces)
   {
     if (piece->GetType() == PieceType::KNIGHT)
       knightCounter++;
     if ((piece->GetType() != PieceType::KNIGHT && piece->GetType() != PieceType::KING) || knightCounter > 1)
       return false;
   }
-  for (auto piece : blackPieces)
+  for (const auto piece : blackPieces)
   {
     if (piece->GetType() == PieceType::KNIGHT)
       knightCounter++;
@@ -500,6 +498,7 @@ void Board::ClearBoard()
   whiteKing = nullptr;
   blackKing = nullptr;
   this->ResetMoveNumber();
+
   for (int row = 1; row < 9; row++)
   {
     for (int column = 1; column < 9; column++)
@@ -511,33 +510,20 @@ void Board::ClearBoard()
 }
 
 /**
- * Function for getting a string containing the white captured pieces.
+ * Function for getting a string containing the white/black captured pieces.
  *
  * @param[in] literal A bool indicating if the pieces should be returned as letter (instead of UNICODE chars).
  *
  * @return The aforementioned string
  */
-std::string Board::GetWhiteCapturedPieces(const bool literal) const
+std::string Board::GetCapturedPieces(PieceColor pColor, const bool literal) const
 {
-  std::string piecesString;
-  for (auto piece : whiteCapturedPieces)
-  {
-    piecesString += (piece->ToString(literal) + " ");
-  }
-  return piecesString;
-}
+  if (pColor == PieceColor::VOID)
+    throw std::invalid_argument("Board::GetCapturedPieces() : The captured pieces must be either white or black.");
 
-/**
- * Function for getting a string containing the black captured pieces.
- *
- * @param[in] literal A bool indicating if the pieces should be returned as letter (instead of UNICODE chars).
- *
- * @return The aforementioned string
- */
-std::string Board::GetBlackCapturedPieces(const bool literal) const
-{
-  std::string piecesString;
-  for (auto piece : blackCapturedPieces)
+  std::string piecesString{};
+  const auto &capturedPiecesVector = (pColor == PieceColor::WHITE) ? whiteCapturedPieces : blackCapturedPieces;
+  for (const auto piece : capturedPiecesVector)
   {
     piecesString += (piece->ToString(literal) + " ");
   }
