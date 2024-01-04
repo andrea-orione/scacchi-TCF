@@ -46,7 +46,7 @@ private:
   std::fstream helpFile;
   std::fstream settingsFile;
 
-  void LoadFenPosition(std::string &&fenString) const;
+  void LoadFenPosition(std::string_view fenString) const;
   void InitializeStartingBoard() const;
   void HelpUser();
   void UserSettings();

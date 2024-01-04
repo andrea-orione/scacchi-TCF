@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <string>
 #include <string_view>
+#include <charconv>
 
 #include "Bishop.hh"
 #include "Board.hh"
@@ -36,7 +37,7 @@ GameManager::GameManager() : activePlayerColor(PieceColor::WHITE), gameStatus(Ga
  *
  * @param[in] fenString The string containing the configuration to load.
  */
-void GameManager::LoadFenPosition(std::string &&fenString) const
+void GameManager::LoadFenPosition(std::string_view fenString) const
 {
   Board &boardInstance = Board::Instance();
   boardInstance.ClearBoard();
@@ -168,7 +169,7 @@ void GameManager::LoadFenPosition(std::string &&fenString) const
   // En passant Substring
   analyzingPosition++;
   const bool hasEnPassant = fenString.at(analyzingPosition) != '-';
-  const std::string enPassantSubstring = (hasEnPassant) ? fenString.substr(analyzingPosition, 2) : "";
+  const std::string_view enPassantSubstring = (hasEnPassant) ? fenString.substr(analyzingPosition, 2) : "";
 
   // Half move number (useless)
   analyzingPosition += 2;
@@ -181,7 +182,10 @@ void GameManager::LoadFenPosition(std::string &&fenString) const
 
   // moveNumber
   analyzingPosition++;
-  boardInstance.IncrementMoveNumber((std::stoi(fenString.substr(analyzingPosition)) - 1) * 2);
+  std::string_view sMoveNumber = fenString.substr(analyzingPosition);
+  int iMoveNumber;
+  std::from_chars(sMoveNumber.data(), sMoveNumber.data() + sMoveNumber.size(), iMoveNumber);
+  boardInstance.IncrementMoveNumber((iMoveNumber - 1) * 2);
 
   // enPassant
   if (hasEnPassant)
