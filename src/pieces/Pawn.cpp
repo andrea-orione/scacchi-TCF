@@ -54,9 +54,7 @@ bool Pawn::IsMoveValid(const Coordinate endingPosition) const
   {
     const Movement forwardMovement(0, yDirection);
     const Coordinate inFrontPosition = this->GetPosition() + forwardMovement;
-    printf("position: %s\n", inFrontPosition.ToString().c_str());
     std::shared_ptr<Piece> inFrontPiece = board.GetPiece(inFrontPosition);
-    printf("piece: %s\n", inFrontPiece->ToString().c_str());
 
     if (inFrontPiece->GetColor() != PieceColor::VOID)
       return false;

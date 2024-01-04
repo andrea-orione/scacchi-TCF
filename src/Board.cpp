@@ -25,6 +25,9 @@ constexpr std::tuple<std::string_view, std::string_view, std::string_view, std::
     "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗", "╟───┼───┼───┼───┼───┼───┼───┼───╢",
     "╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝", "║", "│"};
 
+constexpr std::string_view promotionWhitePieces{"RNBQ"};
+constexpr std::string_view promotionBlackPieces{"rnbq"};
+
 /**
  * The default constructor.
  *
@@ -319,12 +322,24 @@ void Board::NormalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate en
 /**
  * Function for promoting a pawn.
  */
-void Board::Promotion(std::shared_ptr<Piece> &&pawn, char promotionPiece, const Coordinate endingPosition)
+void Board::Promotion(std::shared_ptr<Piece> &&pawn, const char promotionPiece, const Coordinate endingPosition)
 {
   if (!pawn->IsMoveValid(endingPosition))
     throw InvalidMoveException("This move is not allowed. This piece cannot reach that position.");
 
-  std::shared_ptr<Piece> newPiece = GameManager::MakePiece(promotionPiece, endingPosition);
+  // promote to the right color
+  char newPieceChar{};
+  if (pawn->GetColor() == PieceColor::WHITE)
+  {
+    size_t found = promotionBlackPieces.find(promotionPiece);
+    newPieceChar = (found == std::string_view::npos) ? promotionPiece : promotionWhitePieces[found];
+  }
+  else
+  {
+    size_t found = promotionWhitePieces.find(promotionPiece);
+    newPieceChar = (found == std::string_view::npos) ? promotionPiece : promotionBlackPieces[found];
+  }
+  std::shared_ptr<Piece> newPiece = GameManager::MakePiece(newPieceChar, endingPosition);
 
   const Coordinate startingPosition = pawn->GetPosition();
   auto &opponentPieceVector = (pawn->GetColor() == PieceColor::WHITE) ? blackPieces : whitePieces;
