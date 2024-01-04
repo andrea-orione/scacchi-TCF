@@ -104,5 +104,14 @@ public:
    */
   virtual bool CanCastle() const { return false; }
 
+  /**
+   * Function for getting the number of the move when the pawn moved by two.
+   *
+   * Gets overridden only by the `Pawn` class, so it is also useful for
+   * checking whether a piece is a pawn or not.
+   *
+   * @return 0 if the piece is not a pawn, the `doubleAdvancementMoveNumber` data
+   * member if the piece is a pawn
+   */
   virtual int GetDoubleAdvancementMoveNumber() const { return 0; }
 };
