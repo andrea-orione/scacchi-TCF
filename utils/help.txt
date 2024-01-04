@@ -35,7 +35,9 @@ followed  by the one  where  the piece is to be  moved to (e.g.,
 a1a2);
 - for pawn promotion, the piece to which to promote  the pawn is
 to  be written  as  one of the following characters: r, R, n, N,
-b, B, q, Q (e.g., a7a8Q).
+b, B, q, Q (e.g., a7a8Q).  The program automatically detects the
+right color to which to promote the pawn to, so the user doesn't
+have to worry about using lowercase or uppercase letters.   
 
 Note  that  castling  and  en-passant captures are automatically 
 detected by the program, so they need not be specified.
