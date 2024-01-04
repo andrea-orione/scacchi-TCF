@@ -92,7 +92,7 @@ void GameManager::LoadFenPosition(std::string_view fenString) const
         kingCoordinateColor = pPosition;
       }
       std::pair<Coordinate, std::shared_ptr<Piece>> p(pPosition, piece);
-      boardInstance.UpdateSquare(std::move(p));
+      boardInstance.UpdateSquare(p);
     }
     catch (const std::invalid_argument &e)
     {
@@ -161,7 +161,7 @@ void GameManager::LoadFenPosition(std::string_view fenString) const
     char rookChar = (rook->GetColor() == PieceColor::WHITE) ? 'R' : 'r';
     std::shared_ptr<Piece> newRook = MakePiece(rookChar, rookPosition, false);
     std::pair<Coordinate, std::shared_ptr<Piece>> p(rookPosition, newRook);
-    boardInstance.UpdateSquare(std::move(p));
+    boardInstance.UpdateSquare(p);
     analyzingPosition++;
     analyzingChar = fenString.at(analyzingPosition);
   }

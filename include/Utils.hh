@@ -36,8 +36,7 @@ class InvalidNotationException : public std::exception
 public:
   const char *what()
   {
-    return "InvalidNotationException: The notation used does not correspond to "
-           "a valid move.";
+    return "InvalidNotationException: The notation used does not correspond to a valid move.";
   }
 };
 

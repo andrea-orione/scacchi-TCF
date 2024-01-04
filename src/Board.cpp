@@ -145,7 +145,7 @@ void Board::PrintBlackBoard(const bool simplified) const
  *
  * @param[in] square The `std::pair` representing the square (see `squaresMap`).
  */
-void Board::UpdateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> &&square) noexcept
+void Board::UpdateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> square)
 {
   this->squaresMap.at(square.first) = square.second;
 }

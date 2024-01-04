@@ -34,7 +34,7 @@ public:
   void PrintWhiteBoard(bool simplified) const;
   void PrintBlackBoard(bool simplified) const;
 
-  void UpdateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> &&square) noexcept;
+  void UpdateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> square);
   void UpdatePiecesVector();
   void AddKings(Coordinate whiteKingPosition, Coordinate blackKingPosition);
 
