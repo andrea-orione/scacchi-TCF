@@ -1,6 +1,6 @@
 #include "Board.hh"
 
-#include <algorithm>
+#include <cctype>
 #include <iostream>
 #include <memory>
 #include <string>
@@ -24,9 +24,6 @@ constexpr std::tuple<std::string_view, std::string_view, std::string_view, std::
 constexpr std::tuple<std::string_view, std::string_view, std::string_view, std::string_view, std::string_view> completeBoardStrings{
     "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗", "╟───┼───┼───┼───┼───┼───┼───┼───╢",
     "╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝", "║", "│"};
-
-constexpr std::string_view promotionWhitePieces{"RNBQ"};
-constexpr std::string_view promotionBlackPieces{"rnbq"};
 
 /**
  * The default constructor.
@@ -328,32 +325,32 @@ void Board::Promotion(std::shared_ptr<Piece> &&pawn, const char promotionPiece, 
     throw InvalidMoveException("This move is not allowed. This piece cannot reach that position.");
 
   // promote to the right color
-  char newPieceChar{};
-  if (pawn->GetColor() == PieceColor::WHITE)
-  {
-    const size_t found = promotionBlackPieces.find(promotionPiece);
-    newPieceChar = (found == std::string_view::npos) ? promotionPiece : promotionWhitePieces[found];
-  }
-  else
-  {
-    const size_t found = promotionWhitePieces.find(promotionPiece);
-    newPieceChar = (found == std::string_view::npos) ? promotionPiece : promotionBlackPieces[found];
-  }
+  const char newPieceChar = (pawn->GetColor() == PieceColor::WHITE) ? std::toupper(promotionPiece) : std::tolower(promotionPiece);
   std::shared_ptr<Piece> newPiece = GameManager::MakePiece(newPieceChar, endingPosition);
 
   const Coordinate startingPosition = pawn->GetPosition();
-  std::shared_ptr<Piece> endingPiece = squaresMap[endingPosition];
+  std::shared_ptr<Piece> capturedPiece = squaresMap.at(endingPosition);
+  auto &opponentPieceVector = (pawn->GetColor() == PieceColor::WHITE) ? blackPieces : whitePieces;
+  auto &opponentCapturedPieceVector = (pawn->GetColor() == PieceColor::WHITE) ? blackCapturedPieces : whiteCapturedPieces;
   squaresMap.at(endingPosition) = newPiece;
   squaresMap.at(startingPosition) = GameManager::MakePiece(0, startingPosition);
   const Coordinate friendKingPosition = (pawn->GetColor() == PieceColor::WHITE) ? whiteKing->GetPosition() : blackKing->GetPosition();
+  if (capturedPiece->GetColor() != PieceColor::VOID)
+    opponentPieceVector.erase(std::find(opponentPieceVector.begin(), opponentPieceVector.end(), capturedPiece));
 
   // Valid move case
-  if (!IsSquareAttacked(friendKingPosition, !(pawn->GetColor())))
+  if (!IsSquareAttacked(friendKingPosition, !(pawn->GetColor()))) {
+    pawn->Move(endingPosition);
+    if (capturedPiece->GetType() != PieceType::VOID)
+      opponentCapturedPieceVector.push_back(capturedPiece);
     return;
+  }
 
   // Invalid move case. Resetting the board.
+  if (capturedPiece->GetColor() != PieceColor::VOID)
+    opponentPieceVector.push_back(capturedPiece);
   squaresMap.at(startingPosition) = pawn;
-  squaresMap.at(endingPosition) = endingPiece;
+  squaresMap.at(endingPosition) = capturedPiece;
   throw InvalidMoveException("This move is not allowed. The king would be in check.");
 }
 
