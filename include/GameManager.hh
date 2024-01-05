@@ -41,6 +41,7 @@ private:
   PieceColor activePlayerColor;
   GameStatus gameStatus;
   bool simplified;
+  bool colored;
 
   std::fstream welcomeFile;
   std::fstream helpFile;

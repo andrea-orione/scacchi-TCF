@@ -8,7 +8,6 @@
 #include "Coordinate.hh"
 #include "Piece.hh"
 
-//! @todo Delete testing functions (printWhitePieces() and printBlackPieces())
 /**
  * The most important class in the program.
  *
@@ -29,10 +28,7 @@ public:
   Board &operator=(const Board &) = delete;  // delete assignment operator
   Board &operator=(const Board &&) = delete; // delete move assignment operator
 
-  // void InitializeBoard();
-
-  void PrintWhiteBoard(bool simplified) const;
-  void PrintBlackBoard(bool simplified) const;
+  void PrintBoard(bool colored, bool simplified, PieceColor playerColor);
 
   void UpdateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> square);
   void UpdatePiecesVector();
@@ -41,10 +37,11 @@ public:
   bool IsKingInCheck(PieceColor kingColor) const;
   bool HasValidMoves(PieceColor playerColor);
   bool IsMaterialLacking() const;
+
   void NormalMove(std::shared_ptr<Piece> &&movingPiece, Coordinate endingPosition);
   void Promotion(std::shared_ptr<Piece> &&pawn, char promotionPiece, Coordinate endingPosition);
 
-  std::shared_ptr<Piece> GetPiece(Coordinate position) const;
+  std::shared_ptr<Piece> GetPiece(Coordinate position) const { return squaresMap.find(position)->second; }
 
   void ClearBoard();
   void ResetMoveNumber() { moveNumber = 0; }
@@ -53,11 +50,13 @@ public:
 
   std::string GetCapturedPieces(PieceColor pColor, bool literal = false) const;
 
-  void printWhitePieces() const;
-  void printBlackPieces() const;
-
 private:
   Board(); // private constructor
+
+  void PrintWhiteBoard(bool simplified) const;
+  void PrintBlackBoard(bool simplified) const;
+  void PrintWhiteBoardColored() const;
+  void PrintBlackBoardColored() const;
 
   void Castling(std::shared_ptr<Piece> &&king, Coordinate kingEndingPosition);
   void EnPassant(std::shared_ptr<Piece> &&pawn, Coordinate pawnEndingPosition);

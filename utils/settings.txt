@@ -4,15 +4,23 @@
        ___) | |___  | |   | |  | || |\  | |_| |___) |
       |____/|_____| |_|   |_| |___|_| \_|\____|____/ 
 
-The following things can be changed:
+The following features can be modified:
 1. The type of characters used for displaying the chess board. 
    If the terminal used doesn't support the  ASCII  characters 
    used by default, it is possible to disable this feature.
    
    If you can correctly see ♕ (black queen), there is no  need 
    to proceed.  If  your terminal doesn't properly display the 
-   queen, type: 'simplified'.
+   queen, type: 'simplified' and press Enter.
 
-   To revert to the default characters, type: 'no simplified'.
+   To revert to the default characters, type:  'no simplified'
+   and press Enter.
+
+2. The style of the  board.  In particular,  it is possible to 
+   print the board using colors (if the terminal used supports
+   this feature). 
+   To enable colors,  just type 'colored' and press Enter.  To 
+   revert t the original settings, type 'no colored' and press
+   Enter. 
 
 Type 'exit' or press Enter to go back to the game.

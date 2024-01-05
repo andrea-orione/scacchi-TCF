@@ -1,13 +1,15 @@
 #include "GameManager.hh"
 
+#include <algorithm>
+#include <array>
 #include <cctype>
+#include <charconv>
 #include <filesystem>
 #include <iostream>
 #include <memory>
 #include <stdexcept>
 #include <string>
 #include <string_view>
-#include <charconv>
 
 #include "Bishop.hh"
 #include "Board.hh"
@@ -27,7 +29,12 @@ const std::filesystem::path welcomeFilePath{"../utils/welcome.txt"};
 const std::filesystem::path helpFilePath{"../utils/help.txt"};
 const std::filesystem::path settingsFilePath{"../utils/settings.txt"};
 
-GameManager::GameManager() : activePlayerColor(PieceColor::WHITE), gameStatus(GameStatus::PLAYING), simplified(false) {}
+constexpr std::array<const char *, 4> settings = {"simplified", "no simplified", "colored", "no colored"};
+
+GameManager::GameManager() : activePlayerColor(PieceColor::WHITE),
+                             gameStatus(GameStatus::PLAYING),
+                             simplified(false),
+                             colored(false) {}
 
 /**
  * Function to initialize the board from a FEN string.
@@ -368,20 +375,34 @@ void GameManager::UserSettings()
   {
     printf("\nOption: ");
     std::getline(std::cin, choice);
-    if (choice == "simplified")
+
+    if (choice.length() == 0 || choice == "exit")
+      break;
+
+    auto itr = std::find(settings.begin(), settings.end(), choice);
+    if (itr == settings.end())
+      continue;
+
+    size_t index = std::distance(settings.begin(), itr);
+    printf("%i\n", index);
+
+    switch (index)
     {
+    case 0:
       this->simplified = true;
       break;
-    }
-    else if (choice == "no simplified")
-    {
+    case 1:
       this->simplified = false;
       break;
-    }
-    else if (choice.length() == 0 || choice == "exit")
+    case 2:
+      this->colored = true;
       break;
-    else
-      continue;
+    case 3:
+      this->colored = false;
+      break;
+    }
+
+    break;
   }
 }
 
@@ -509,7 +530,7 @@ void GameManager::GameLoop()
 
   while (gameStatus == GameStatus::PLAYING)
   {
-    (activePlayerColor == PieceColor::WHITE) ? board.PrintWhiteBoard(simplified) : board.PrintBlackBoard(simplified);
+    board.PrintBoard(colored, simplified, activePlayerColor);
     try
     {
       GetUserMove();
