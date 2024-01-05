@@ -291,7 +291,7 @@ void Board::NormalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate en
   const Coordinate startingPosition = movingPiece->GetPosition();
   auto &opponentPieceVector = (movingPiece->GetColor() == PieceColor::WHITE) ? blackPieces : whitePieces;
   auto &opponentCapturedPieceVector = (movingPiece->GetColor() == PieceColor::WHITE) ? blackCapturedPieces : whiteCapturedPieces;
-  std::shared_ptr<Piece> temporaryStorageCapturedPiece = squaresMap[endingPosition];
+  std::shared_ptr<Piece> temporaryStorageCapturedPiece = squaresMap.at(endingPosition);
   squaresMap.at(endingPosition) = movingPiece;
   squaresMap.at(startingPosition) = GameManager::MakePiece(0, startingPosition);
   std::shared_ptr<Piece> &friendKing = (movingPiece->GetColor() == PieceColor::WHITE) ? whiteKing : blackKing;
