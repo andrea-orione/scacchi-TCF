@@ -15,6 +15,6 @@ public:
   Bishop(PieceColor pColor, Coordinate pPosition);
   ~Bishop() override = default;
 
-  std::string ToString(bool simplified = false) const override;
+  std::string ToString(bool simplified = false, bool colored = true) const override;
   bool IsMoveValid(const Coordinate endingPosition) const override;
 };

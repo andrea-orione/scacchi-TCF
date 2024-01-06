@@ -40,6 +40,7 @@ protected:
   PieceColor color;
   PieceType pieceType;
   std::string character;
+  std::string coloredCharacter;
   char literalCharacter;
   Coordinate position;
 
@@ -51,7 +52,7 @@ public:
    *
    * @return The aforementioned string.
    */
-  virtual std::string ToString(bool literal = false) const = 0;
+  virtual std::string ToString(bool literal = false, bool colored = false) const = 0;
 
   /**
    * Function for determining whether a move is valid or not.

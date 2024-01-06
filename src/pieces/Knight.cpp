@@ -12,10 +12,12 @@ Knight::Knight(PieceColor pColor, Coordinate pPosition)
   {
   case PieceColor::WHITE:
     character = "♞";
+    coloredCharacter = "♘";
     literalCharacter = 'N';
     break;
   case PieceColor::BLACK:
     character = "♘";
+    coloredCharacter = "♞";
     literalCharacter = 'n';
     break;
   default:
@@ -23,10 +25,12 @@ Knight::Knight(PieceColor pColor, Coordinate pPosition)
   }
 }
 
-std::string Knight::ToString(bool simplified) const
+std::string Knight::ToString(bool simplified, bool colored) const
 {
   if (simplified)
     return std::string(1, literalCharacter);
+  if (colored)
+    return coloredCharacter;
   return character;
 }
 

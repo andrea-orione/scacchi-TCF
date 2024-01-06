@@ -19,10 +19,12 @@ Rook::Rook(PieceColor pColor, Coordinate pPosition, bool pHasMoved)
   {
   case PieceColor::WHITE:
     character = "♜";
+    coloredCharacter = "♖";
     literalCharacter = 'R';
     break;
   case PieceColor::BLACK:
     character = "♖";
+    coloredCharacter = "♜";
     literalCharacter = 'r';
     break;
   default:
@@ -58,10 +60,12 @@ bool Rook::IsMoveValid(const Coordinate endingPosition) const
   return true;
 }
 
-std::string Rook::ToString(bool simplified) const
+std::string Rook::ToString(bool simplified, bool colored) const
 {
   if (simplified)
     return std::string(1, literalCharacter);
+  if (colored)
+    return coloredCharacter;
   return character;
 }
 

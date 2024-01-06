@@ -10,7 +10,7 @@ VoidPiece::VoidPiece(Coordinate pPosition)
   literalCharacter = ' ';
 }
 
-std::string VoidPiece::ToString(bool simplified) const
+std::string VoidPiece::ToString(bool simplified, bool colored) const
 {
   return std::string(1, literalCharacter);
 }

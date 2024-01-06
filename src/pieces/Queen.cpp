@@ -15,10 +15,12 @@ Queen::Queen(PieceColor pColor, Coordinate pPosition)
   {
   case PieceColor::WHITE:
     character = "♛";
+    coloredCharacter = "♕";
     literalCharacter = 'Q';
     break;
   case PieceColor::BLACK:
     character = "♕";
+    coloredCharacter = "♛";
     literalCharacter = 'q';
     break;
   default:
@@ -26,10 +28,12 @@ Queen::Queen(PieceColor pColor, Coordinate pPosition)
   }
 }
 
-std::string Queen::ToString(bool simplified) const
+std::string Queen::ToString(bool simplified, bool colored) const
 {
   if (simplified)
     return std::string(1, literalCharacter);
+  if (colored)
+    return coloredCharacter;
   return character;
 }
 

@@ -16,10 +16,12 @@ King::King(PieceColor pColor, Coordinate pPosition, bool pHasMoved)
   {
   case PieceColor::WHITE:
     character = "♚";
+    coloredCharacter = "♔";
     literalCharacter = 'K';
     break;
   case PieceColor::BLACK:
     character = "♔";
+    coloredCharacter = "♚";
     literalCharacter = 'k';
     break;
   default:
@@ -66,10 +68,12 @@ bool King::IsMoveValid(const Coordinate endingPosition) const
   throw CastlingSignal();
 }
 
-std::string King::ToString(bool simplified) const
+std::string King::ToString(bool simplified, bool colored) const
 {
   if (simplified)
     return std::string(1, literalCharacter);
+  if (colored)
+    return coloredCharacter;
   return character;
 }
 

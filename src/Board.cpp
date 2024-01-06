@@ -391,7 +391,7 @@ void Board::PrintWhiteBoardColored() const
     {
       auto piece = squaresMap.find(Coordinate(column, row))->second;
       auto &colorParameter = ((row + column) % 2) ? COLOR_WHITE : COLOR_BLACK;
-      cout << colorParameter << " " << piece->ToString() << " ";
+      cout << colorParameter << " " << piece->ToString(false, true) << " ";
     }
     cout << COLOR_OFF;
     if (row == 8)
