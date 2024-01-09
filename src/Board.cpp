@@ -519,27 +519,31 @@ void Board::EnPassant(std::shared_ptr<Piece> &&pawn, const Coordinate pawnEnding
 /**
  * Function for determining if there is enough material to continue the game.
  *
- * If only the kings are left on the board, no player can checkmate the other, so the game is in stale.
- * This function checks if this is the case.
- * If just a knight (other than the kings) is left a checkmate is not possible eather.
+ * This function checks for the following configurations:
+ *  - king vs king;
+ *  - king vs king + knight;
+ *  - king vd king + bishop.
+ *
+ * None of these can lead to a checkmate, so the game is stopped.
  *
  * @return true if the position is a stale by lack of material, false otherwise.
  */
 bool Board::IsMaterialLacking() const
 {
-  int knightCounter = 0;
+  int knightOrBishopCounter = 0;
+
   for (const auto piece : whitePieces)
   {
-    if (piece->GetType() == PieceType::KNIGHT)
-      knightCounter++;
-    if ((piece->GetType() != PieceType::KNIGHT && piece->GetType() != PieceType::KING) || knightCounter > 1)
+    if (piece->GetType() == PieceType::KNIGHT || piece->GetType() == PieceType::KNIGHT)
+      knightOrBishopCounter++;
+    if ((piece->GetType() != PieceType::KNIGHT && piece->GetType() != PieceType::KING && piece->GetType() != PieceType::BISHOP) || knightOrBishopCounter > 1)
       return false;
   }
   for (const auto piece : blackPieces)
   {
-    if (piece->GetType() == PieceType::KNIGHT)
-      knightCounter++;
-    if ((piece->GetType() != PieceType::KNIGHT && piece->GetType() != PieceType::KING) || knightCounter > 1)
+    if (piece->GetType() == PieceType::KNIGHT || piece->GetType() == PieceType::KNIGHT)
+      knightOrBishopCounter++;
+    if ((piece->GetType() != PieceType::KNIGHT && piece->GetType() != PieceType::KING && piece->GetType() != PieceType::BISHOP) || knightOrBishopCounter > 1)
       return false;
   }
   return true;
