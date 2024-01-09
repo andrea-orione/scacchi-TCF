@@ -43,7 +43,6 @@ int main(int argc, char *argv[])
     std::unique_ptr<GameManager> gm = std::make_unique<GameManager>();
 
     gm->StartGame();
-    gm->GameLoop();
   }
   catch (const std::runtime_error &e)
   {

@@ -7,6 +7,7 @@
 #include <filesystem>
 #include <iostream>
 #include <memory>
+#include <map>
 #include <stdexcept>
 #include <string>
 #include <string_view>
@@ -25,16 +26,189 @@
 
 const std::regex regexRuleNormal{"[a-h][1-8][a-h][1-8]"};
 const std::regex regexRulePromotion{"[a-h][2,7][a-h][1,8][R,N,B,Q,r,n,b,q]"};
+
 const std::filesystem::path welcomeFilePath{"../utils/welcome.txt"};
 const std::filesystem::path helpFilePath{"../utils/help.txt"};
 const std::filesystem::path settingsFilePath{"../utils/settings.txt"};
+std::string endGameDirPath = "../utils/end_game/";
+
+const std::map<GameStatus, const char *> endgameFilesMap = {
+    {GameStatus::CHECKMATE, "checkmate.txt"},
+    {GameStatus::STALEMATE, "stalemate.txt"},
+    {GameStatus::MATERIAL_LACK, "material.txt"},
+    {GameStatus::REPETITION, "repetition.txt"}};
 
 constexpr std::array<const char *, 4> settings = {"simplified", "no simplified", "colored", "no colored"};
 
 GameManager::GameManager() : activePlayerColor(PieceColor::WHITE),
                              gameStatus(GameStatus::PLAYING),
                              simplified(false),
-                             colored(false) {}
+                             colored(false)
+{
+}
+
+/**
+ * Function for creating the pointer to a specified piece from.
+ *
+ * @param[in] pChar The `char` representing the piece.
+ * @param[in] pPosition The position of the piece.
+ * @param[in] hasMoved For king and rook, `false` by default.
+ *
+ * @return The pointer to the piece that has been created created.
+ */
+std::shared_ptr<Piece> GameManager::MakePiece(char pChar, const Coordinate pPosition, const bool hasRookMoved)
+{
+  // Check if void
+  if (pChar == 0)
+    return std::make_shared<VoidPiece>(pPosition);
+
+  // determine the color of the piece
+  PieceColor pColor;
+  if (std::isupper(pChar))
+  {
+    pColor = PieceColor::WHITE;
+  }
+  else if (std::islower(pChar))
+  {
+    pColor = PieceColor::BLACK;
+    pChar = std::toupper(pChar);
+  }
+  else
+  {
+    throw std::invalid_argument("GameManager::makePiece(char, Coordinate) Invalid value for char representing piece.");
+  }
+
+  // determine the type of the piece
+  switch (pChar)
+  {
+  case 'P':
+    return std::make_shared<Pawn>(pColor, pPosition);
+  case 'R':
+    return std::make_shared<Rook>(pColor, pPosition, hasRookMoved);
+  case 'N':
+    return std::make_shared<Knight>(pColor, pPosition);
+  case 'B':
+    return std::make_shared<Bishop>(pColor, pPosition);
+  case 'Q':
+    return std::make_shared<Queen>(pColor, pPosition);
+  case 'K':
+    return std::make_shared<King>(pColor, pPosition, false);
+  default:
+    throw std::invalid_argument("GameManager::makePiece(char, Coordinate) Invalid value for char representing piece.");
+  }
+}
+
+/**
+ * Function for initializing the game.
+ */
+void GameManager::StartGame()
+{
+  // open file with welcome text
+  welcomeFile.open(welcomeFilePath, std::ios::in);
+
+  if (!welcomeFile.is_open())
+    throw std::runtime_error("Error opening welcome.txt");
+
+  // read from file
+  utils::clear();
+  std::string line;
+  while (std::getline(welcomeFile, line))
+    printf("%s\n", line.c_str());
+  welcomeFile.close();
+
+  // user option
+  std::string choice;
+  while (true)
+  {
+    printf("Option: ");
+    std::getline(std::cin, choice);
+    if (choice == "g" || choice == "G")
+    {
+      InitializeStartingBoard();
+      GameLoop();
+      break;
+    }
+    else if (choice == "h" || choice == "H")
+    {
+      utils::clear();
+      HelpUser();
+      break;
+    }
+    else if (choice == "s" || choice == "S")
+    {
+      utils::clear();
+      UserSettings();
+      break;
+    }
+    else if (choice == "e" || choice == "E")
+      KillGame();
+    else
+      continue;
+  }
+
+  InitializeStartingBoard();
+}
+
+/**
+ * The most important function of the `GameManager`.
+ *
+ * It creates the game loop, thereby allowing the users to
+ * play continuously until the game is finished.
+ *
+ * It is responsible of printing the updated board at
+ * the beginning of each player's turn.
+ */
+void GameManager::GameLoop()
+{
+  Board &board = Board::Instance();
+  activePlayerColor = (board.GetMoveNumber() % 2) ? PieceColor::BLACK : PieceColor::WHITE;
+  utils::clear();
+  std::cout << std::endl;
+
+  while (gameStatus == GameStatus::PLAYING)
+  {
+    board.PrintBoard(colored, simplified, activePlayerColor);
+    try
+    {
+      GetUserMove();
+      board.IncrementMoveNumber();
+      utils::clear();
+      std::cout << std::endl;
+    }
+    catch (GuideSignal)
+    {
+      utils::clear();
+      continue;
+    }
+    catch (SettingsSignal)
+    {
+      utils::clear();
+      continue;
+    }
+    catch (InvalidMoveException &e)
+    {
+      utils::clear();
+      std::cerr << e.what() << '\n';
+      continue;
+    }
+    catch (InvalidNotationException &e)
+    {
+      utils::clear();
+      std::cerr << e.what() << '\n';
+      continue;
+    }
+    catch (const std::runtime_error &e)
+    {
+      utils::clear();
+      std::cerr << e.what() << '\n';
+      KillGame();
+    }
+
+    activePlayerColor = !activePlayerColor;
+  }
+
+  EndGame();
+}
 
 /**
  * Function to initialize the board from a FEN string.
@@ -220,117 +394,18 @@ void GameManager::InitializeStartingBoard() const
 {
   try
   {
+    //! @todo Delete test FENs
     // this->LoadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
     // this->LoadFenPosition("r1bqkbnr/pPpppppp/8/8/8/8/P1PPPPPP/RNBQKBNR w KQkq - 0 1");
-    this->LoadFenPosition("2n1n3/3PK1kp/8/8/8/8/8/8 w - - 0 1");
+    // this->LoadFenPosition("2n1n3/3PK1kp/8/8/8/8/8/8 w - - 0 1");
+    // this->LoadFenPosition("8/3PK1kp/8/8/8/8/8/8 w - - 0 1");
+    this->LoadFenPosition("k7/3R4/7Q/8/8/8/8/7K w - - 0 1");
   }
   catch (const std::invalid_argument &e)
   {
     std::cerr << e.what() << '\n';
     throw std::runtime_error("Impossible to load the FEN string.");
   }
-}
-
-/**
- * Function for creating the pointer to a specified piece from.
- *
- * @param[in] pChar The `char` representing the piece.
- * @param[in] pPosition The position of the piece.
- * @param[in] hasMoved For king and rook, `false` by default.
- *
- * @return The pointer to the piece that has been created created.
- */
-std::shared_ptr<Piece> GameManager::MakePiece(char pChar, const Coordinate pPosition, const bool hasRookMoved)
-{
-  // Check if void
-  if (pChar == 0)
-    return std::make_shared<VoidPiece>(pPosition);
-
-  // determine the color of the piece
-  PieceColor pColor;
-  if (std::isupper(pChar))
-  {
-    pColor = PieceColor::WHITE;
-  }
-  else if (std::islower(pChar))
-  {
-    pColor = PieceColor::BLACK;
-    pChar = std::toupper(pChar);
-  }
-  else
-  {
-    throw std::invalid_argument("GameManager::makePiece(char, Coordinate) Invalid value for char representing piece.");
-  }
-
-  // determine the type of the piece
-  switch (pChar)
-  {
-  case 'P':
-    return std::make_shared<Pawn>(pColor, pPosition);
-  case 'R':
-    return std::make_shared<Rook>(pColor, pPosition, hasRookMoved);
-  case 'N':
-    return std::make_shared<Knight>(pColor, pPosition);
-  case 'B':
-    return std::make_shared<Bishop>(pColor, pPosition);
-  case 'Q':
-    return std::make_shared<Queen>(pColor, pPosition);
-  case 'K':
-    return std::make_shared<King>(pColor, pPosition, false);
-  default:
-    throw std::invalid_argument("GameManager::makePiece(char, Coordinate) Invalid value for char representing piece.");
-  }
-}
-
-/**
- * Function for initializing the game.
- */
-void GameManager::StartGame()
-{
-  // open file with welcome text
-  welcomeFile.open(welcomeFilePath, std::ios::in);
-
-  if (!welcomeFile.is_open())
-    throw std::runtime_error("Error opening welcome.txt");
-
-  // read from file
-  utils::clear();
-  std::string line;
-  while (std::getline(welcomeFile, line))
-    printf("%s\n", line.c_str());
-  welcomeFile.close();
-
-  // user option
-  std::string choice;
-  while (true)
-  {
-    printf("Option: ");
-    std::getline(std::cin, choice);
-    if (choice == "g" || choice == "G")
-    {
-      InitializeStartingBoard();
-      GameLoop();
-      break;
-    }
-    else if (choice == "h" || choice == "H")
-    {
-      utils::clear();
-      HelpUser();
-      break;
-    }
-    else if (choice == "s" || choice == "S")
-    {
-      utils::clear();
-      UserSettings();
-      break;
-    }
-    else if (choice == "e" || choice == "E")
-      KillGame();
-    else
-      continue;
-  }
-
-  InitializeStartingBoard();
 }
 
 /**
@@ -513,62 +588,29 @@ void GameManager::UpdateGameStatus()
 }
 
 /**
- * The most important function of the `GameManager`.
- *
- * It creates the game loop, thereby allowing the users to
- * play continuously until the game is finished.
- *
- * It is responsible of printing the updated board at
- * the beginning of each player's turn.
+ * Function for ending the game.
  */
-void GameManager::GameLoop()
+void GameManager::EndGame()
 {
-  Board &board = Board::Instance();
-  activePlayerColor = (board.GetMoveNumber() % 2) ? PieceColor::BLACK : PieceColor::WHITE;
-  utils::clear();
-  std::cout << std::endl;
+  Board::Instance().PrintBoard(colored, simplified, !activePlayerColor);
 
-  while (gameStatus == GameStatus::PLAYING)
+  endFile.open(std::filesystem::path{endGameDirPath + endgameFilesMap.at(gameStatus)}, std::ios::in);
+  if (!endFile.is_open())
+    throw std::runtime_error("Impossible to open endgame text file.");
+
+  std::string line;
+  while (std::getline(endFile, line))
+    printf("%s\n", line.c_str());
+
+  endFile.close();
+
+  if (gameStatus == GameStatus::CHECKMATE)
   {
-    board.PrintBoard(colored, simplified, activePlayerColor);
-    try
-    {
-      GetUserMove();
-      board.IncrementMoveNumber();
-      utils::clear();
-      std::cout << std::endl;
-    }
-    catch (GuideSignal)
-    {
-      utils::clear();
-      continue;
-    }
-    catch (SettingsSignal)
-    {
-      utils::clear();
-      continue;
-    }
-    catch (InvalidMoveException &e)
-    {
-      utils::clear();
-      std::cerr << e.what() << '\n';
-      continue;
-    }
-    catch (InvalidNotationException &e)
-    {
-      utils::clear();
-      std::cerr << e.what() << '\n';
-      continue;
-    }
-    catch (const std::runtime_error &e)
-    {
-      utils::clear();
-      std::cerr << e.what() << '\n';
-      KillGame();
-    }
-
-    activePlayerColor = !activePlayerColor;
+    const char *winner = (!activePlayerColor == PieceColor::BLACK) ? "BLACK" : "WHITE";
+    printf("\n                           %s WON!\n", winner);
   }
+  printf("\nPress 'Enter' to exit.\n");
+  std::cin.get();
 }
 
 /**

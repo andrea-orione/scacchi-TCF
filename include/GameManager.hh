@@ -46,12 +46,14 @@ private:
   std::fstream welcomeFile;
   std::fstream helpFile;
   std::fstream settingsFile;
+  std::fstream endFile;
 
   void LoadFenPosition(std::string_view fenString) const;
   void InitializeStartingBoard() const;
   void HelpUser();
   void UserSettings();
   void GetUserMove();
-  void KillGame() const;
   void UpdateGameStatus();
+  void KillGame() const;
+  void EndGame();
 };

@@ -1,12 +1,15 @@
 #include "Utils.hh"
 #include "Piece.hh"
 
+#include <fstream>
+#include <filesystem>
+
 /**
- * Helper function to mimic the overloading of the `!` operator.
+ * Helper function  to mimic the overloading of the `!` operator.
  *
- * @param[in] oldColor The `pieceColor` to invert.
- * @return `PieceColor::WHITE` if `PieceColor::BLACK` was passed, and viceversa.
- * If `PieceColor::VOID` is passed, it is returned unchanged.
+ * @param[in] oldCo lor The `pieceColor` to invert.
+ * @return `PieceCo lor::WHITE` if `PieceColor::BLACK` was passed, and viceversa.
+ * If `PieceColor:: VOID` is passed, it is returned unchanged.
  */
 PieceColor operator!(const PieceColor &oldColor)
 {
