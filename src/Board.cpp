@@ -17,17 +17,6 @@
 using std::cout;
 using std::endl;
 
-constexpr std::tuple<std::string_view, std::string_view, std::string_view, std::string_view, std::string_view> simplifiedBoardStrings{
-    "---------------------------------", "|---|---|---|---|---|---|---|---|",
-    "---------------------------------", "|", "|"};
-
-constexpr std::tuple<std::string_view, std::string_view, std::string_view, std::string_view, std::string_view> completeBoardStrings{
-    "╔═══╤═══╤═══╤═══╤═══╤═══╤═══╤═══╗", "╟───┼───┼───┼───┼───┼───┼───┼───╢",
-    "╚═══╧═══╧═══╧═══╧═══╧═══╧═══╧═══╝", "║", "│"};
-
-constexpr char COLOR_WHITE[] = "\u001b[38;5;0m\u001b[48;5;250m";
-constexpr char COLOR_BLACK[] = "\u001b[38;5;0m\u001b[48;5;216m";
-constexpr char COLOR_OFF[] = "\x1b[0m";
 
 /**
  * The default constructor.
@@ -61,27 +50,6 @@ Board &Board::Instance()
 {
   static Board instance;
   return instance;
-}
-
-/**
- * Function for printing the board.
- *
- * @param[in] colored `true` for colored board, `false` for default board.
- * @param[in] simplified Whether to use ASCII characters (see user's manual).
- * @param[in] playerColor The color of the active player.
- */
-void Board::PrintBoard(bool colored, bool simplified, PieceColor playerColor)
-{
-  if (playerColor == PieceColor::VOID)
-    throw std::invalid_argument("Board::PrintBoard() : The player color must be either black or white.");
-
-  if (!colored)
-  {
-    (playerColor == PieceColor::WHITE) ? PrintWhiteBoard(simplified) : PrintBlackBoard(simplified);
-    return;
-  }
-
-  (playerColor == PieceColor::WHITE) ? PrintWhiteBoardColored() : PrintBlackBoardColored();
 }
 
 /**
@@ -298,136 +266,6 @@ void Board::Promotion(std::shared_ptr<Piece> &&pawn, const char promotionPiece, 
   squaresMap.at(startingPosition) = pawn;
   squaresMap.at(endingPosition) = capturedPiece;
   throw InvalidMoveException("This move is not allowed. The king would be in check.");
-}
-
-/**
- * Prints the state of the board and the captured pieces from the white perspective.
- *
- * It displays visually to the screen the board using UNICODE characters.
- *
- * @param[in] simplified Whether to use simplified chars or not. `false` by default.
- */
-void Board::PrintWhiteBoard(const bool simplified) const
-{
-  const auto &[top, middle, bottom, border, separator] = (simplified) ? simplifiedBoardStrings : completeBoardStrings;
-
-  cout << "\n   " << top << "\n";
-  for (int row = 8; row > 0; row--)
-  {
-    cout << " " << row << " " << border << " ";
-    for (int column = 1; column < 9; column++)
-    {
-      const auto piecePtr = squaresMap.find(Coordinate(column, row))->second;
-      cout << piecePtr->ToString(simplified);
-
-      // Slightly inefficient but makes the code cleaner
-      if (column != 8)
-        cout << " " << separator << " ";
-      else
-        cout << " " << border;
-    }
-    if (row == 8)
-      cout << "   BLACK CAPTURED PIECES: " << GetCapturedPieces(PieceColor::BLACK, simplified);
-    if (row == 7)
-      cout << "   WHITE CAPTURED PIECES: " << GetCapturedPieces(PieceColor::WHITE, simplified);
-    if (row != 1)
-      cout << "\n   " << middle << "\n";
-    else
-      cout << "\n   " << bottom << "\n";
-  }
-  cout << "     a   b   c   d   e   f   g   h\n"
-       << endl;
-}
-
-/**
- * Prints the state of the board and the captured pieces from the black perspective.
- *
- * It displays visually to the screen the board using UNICODE characters.
- *
- * @param[in] simplified Whether to use simplified chars or not. `false` by default.
- */
-void Board::PrintBlackBoard(const bool simplified) const
-{
-  const auto &[top, middle, bottom, border, separator] = (simplified) ? simplifiedBoardStrings : completeBoardStrings;
-
-  cout << "\n   " << top << "\n";
-  for (int row = 1; row < 9; row++)
-  {
-    cout << " " << row << " " << border << " ";
-    for (int column = 8; column > 0; column--)
-    {
-      const auto piecePtr = squaresMap.find(Coordinate(column, row))->second;
-      cout << piecePtr->ToString(simplified);
-
-      // Slightly inefficient but makes the code cleaner
-      if (column != 1)
-        cout << " " << separator << " ";
-      else
-        cout << " " << border;
-    }
-    if (row == 1)
-      cout << "   BLACK CAPTURED PIECES: " << GetCapturedPieces(PieceColor::BLACK, simplified);
-    if (row == 2)
-      cout << "   WHITE CAPTURED PIECES: " << GetCapturedPieces(PieceColor::WHITE, simplified);
-    if (row != 8)
-      cout << "\n   " << middle << "\n";
-    else
-      cout << "\n   " << bottom << "\n";
-  }
-  cout << "     h   g   f   e   d   c   b   a\n"
-       << endl;
-}
-
-/**
- * Function for printing the colored board from the white perspective.
- */
-void Board::PrintWhiteBoardColored() const
-{
-  cout << "\n";
-  for (int row = 8; row > 0; row--)
-  {
-    cout << " " << row << " ";
-    for (int column = 1; column < 9; column++)
-    {
-      auto piece = squaresMap.find(Coordinate(column, row))->second;
-      auto &colorParameter = ((row + column) % 2) ? COLOR_WHITE : COLOR_BLACK;
-      cout << colorParameter << " " << piece->ToString(false, true) << " ";
-    }
-    cout << COLOR_OFF;
-    if (row == 8)
-      cout << "   BLACK CAPTURED PIECES: " << GetCapturedPieces(PieceColor::BLACK);
-    if (row == 6)
-      cout << "   WHITE CAPTURED PIECES: " << GetCapturedPieces(PieceColor::WHITE);
-    cout << '\n';
-  }
-  cout << "    a  b  c  d  e  f  g  h\n"
-       << endl;
-}
-
-/**
- * Function for printing the colored board from the white perspective.
- */
-void Board::PrintBlackBoardColored() const
-{
-  cout << "\n";
-  for (int row = 1; row < 9; row++)
-  {
-    cout << " " << row << " ";
-    for (int column = 8; column > 0; column--)
-    {
-      auto piece = squaresMap.find(Coordinate(column, row))->second;
-      auto &colorParameter = ((row + column) % 2) ? COLOR_WHITE : COLOR_BLACK;
-      cout << colorParameter << " " << piece->ToString() << " ";
-    }
-    cout << COLOR_OFF;
-    if (row == 1)
-      cout << "   BLACK CAPTURED PIECES: " << GetCapturedPieces(PieceColor::BLACK);
-    if (row == 3)
-      cout << "   WHITE CAPTURED PIECES: " << GetCapturedPieces(PieceColor::WHITE);
-    cout << '\n';
-  }
-  cout << "    h  g  f  e  d  c  b  a\n"
-       << endl;
 }
 
 /**

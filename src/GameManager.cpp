@@ -14,13 +14,17 @@
 
 #include "Bishop.hh"
 #include "Board.hh"
+#include "ColoredBoardRenderer.hh"
 #include "Coordinate.hh"
 #include "King.hh"
 #include "Knight.hh"
+#include "InvertedBoardRenderer.hh"
+#include "NormalBoardRenderer.hh"
 #include "Pawn.hh"
 #include "Piece.hh"
 #include "Queen.hh"
 #include "Rook.hh"
+#include "SimplifiedBoardRenderer.hh"
 #include "Utils.hh"
 #include "VoidPiece.hh"
 
@@ -38,13 +42,12 @@ const std::map<GameStatus, const char *> endgameFilesMap = {
     {GameStatus::MATERIAL_LACK, "material.txt"},
     {GameStatus::REPETITION, "repetition.txt"}};
 
-constexpr std::array<const char *, 4> settings = {"simplified", "no simplified", "colored", "no colored"};
+constexpr std::array<const char *, 4> settings = {"normal", "simplified", "colored", "inverted"};
 
 GameManager::GameManager() : activePlayerColor(PieceColor::WHITE),
-                             gameStatus(GameStatus::PLAYING),
-                             simplified(false),
-                             colored(false)
+                             gameStatus(GameStatus::PLAYING)
 {
+  boardRenderer = std::make_unique<NormalBoardRenderer>();
 }
 
 /**
@@ -167,7 +170,7 @@ void GameManager::GameLoop()
 
   while (gameStatus == GameStatus::PLAYING)
   {
-    board.PrintBoard(colored, simplified, activePlayerColor);
+    boardRenderer->PrintBoard(activePlayerColor);
     try
     {
       GetUserMove();
@@ -464,16 +467,16 @@ void GameManager::UserSettings()
     switch (index)
     {
     case 0:
-      this->simplified = true;
+      this->boardRenderer = std::make_unique<NormalBoardRenderer>();
       break;
     case 1:
-      this->simplified = false;
+      this->boardRenderer = std::make_unique<SimplifiedBoardRenderer>();
       break;
     case 2:
-      this->colored = true;
+      this->boardRenderer = std::make_unique<ColoredBoardRenderer>();
       break;
     case 3:
-      this->colored = false;
+      this->boardRenderer = std::make_unique<InvertedBoardRenderer>();
       break;
     }
 
@@ -592,7 +595,7 @@ void GameManager::UpdateGameStatus()
  */
 void GameManager::EndGame()
 {
-  Board::Instance().PrintBoard(colored, simplified, !activePlayerColor);
+  boardRenderer->PrintBoard(!activePlayerColor);
 
   endFile.open(std::filesystem::path{endGameDirPath + endgameFilesMap.at(gameStatus)}, std::ios::in);
   if (!endFile.is_open())

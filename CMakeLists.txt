@@ -5,12 +5,15 @@ project(Scacchi)
 # include necessary directories
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_SOURCE_DIR}/include/pieces)
+include_directories(${PROJECT_SOURCE_DIR}/include/renderers)
 
 # get all files to be compiled
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cpp)
 file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 file(GLOB pieces_sources ${PROJECT_SOURCE_DIR}/src/pieces/*.cpp)
 file(GLOB pieces_headers ${PROJECT_SOURCE_DIR}/include/pieces/*.hh)
+file(GLOB pieces_sources ${PROJECT_SOURCE_DIR}/src/renderers/*.cpp)
+file(GLOB pieces_headers ${PROJECT_SOURCE_DIR}/include/renderers/*.hh)
 
 # create executable
 add_executable(scacchi main.cpp ${pieces_sources} ${pieces_headers} ${sources} ${headers})

@@ -28,8 +28,6 @@ public:
   Board &operator=(const Board &) = delete;  // delete assignment operator
   Board &operator=(const Board &&) = delete; // delete move assignment operator
 
-  void PrintBoard(bool colored, bool simplified, PieceColor playerColor);
-
   void UpdateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> square);
   void UpdatePiecesVector();
   void AddKings(Coordinate whiteKingPosition, Coordinate blackKingPosition);
@@ -52,11 +50,6 @@ public:
 
 private:
   Board(); // private constructor
-
-  void PrintWhiteBoard(bool simplified) const;
-  void PrintBlackBoard(bool simplified) const;
-  void PrintWhiteBoardColored() const;
-  void PrintBlackBoardColored() const;
 
   void Castling(std::shared_ptr<Piece> &&king, Coordinate kingEndingPosition);
   void EnPassant(std::shared_ptr<Piece> &&pawn, Coordinate pawnEndingPosition);

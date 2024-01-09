@@ -6,6 +6,7 @@
 #include <fstream>
 #include <filesystem>
 
+#include "BoardRenderer.hh"
 #include "Piece.hh"
 
 /**
@@ -40,8 +41,7 @@ public:
 private:
   PieceColor activePlayerColor;
   GameStatus gameStatus;
-  bool simplified;
-  bool colored;
+  std::unique_ptr<BoardRenderer> boardRenderer;
 
   std::fstream welcomeFile;
   std::fstream helpFile;
