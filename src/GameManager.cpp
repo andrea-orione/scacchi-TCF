@@ -135,12 +135,16 @@ void GameManager::StartGame()
     {
       utils::clear();
       HelpUser();
+      InitializeStartingBoard();
+      GameLoop();
       break;
     }
     else if (choice == "s" || choice == "S")
     {
       utils::clear();
       UserSettings();
+      InitializeStartingBoard();
+      GameLoop();
       break;
     }
     else if (choice == "e" || choice == "E")
@@ -299,14 +303,14 @@ void GameManager::LoadFenPosition(std::string_view fenString) const
   analyzingChar = fenString.at(analyzingPosition);
   switch (analyzingChar)
   {
-  case 'w':
-    break;
-  case 'b':
-    boardInstance.IncrementMoveNumber();
-    break;
-  default:
-    boardInstance.ClearBoard();
-    throw std::invalid_argument("GameManager::loadFenPosition(string) Invalid active color");
+    case 'w':
+      break;
+    case 'b':
+      boardInstance.IncrementMoveNumber();
+      break;
+    default:
+      boardInstance.ClearBoard();
+      throw std::invalid_argument("GameManager::loadFenPosition(string) Invalid active color");
   }
 
   // Castling availability
@@ -319,22 +323,22 @@ void GameManager::LoadFenPosition(std::string_view fenString) const
     Coordinate rookPosition;
     switch (analyzingChar)
     {
-    case 'K':
-      rookPosition = Coordinate(8, 1);
-      break;
-    case 'Q':
-      rookPosition = Coordinate(1, 1);
-      break;
-    case 'k':
-      rookPosition = Coordinate(8, 8);
-      break;
-    case 'q':
-      rookPosition = Coordinate(1, 8);
-      break;
-    default:
-      boardInstance.ClearBoard();
-      throw std::invalid_argument("GameManager::loadFendPosition() Invalid castling section");
-      break;
+      case 'K':
+        rookPosition = Coordinate(8, 1);
+        break;
+      case 'Q':
+        rookPosition = Coordinate(1, 1);
+        break;
+      case 'k':
+        rookPosition = Coordinate(8, 8);
+        break;
+      case 'q':
+        rookPosition = Coordinate(1, 8);
+        break;
+      default:
+        boardInstance.ClearBoard();
+        throw std::invalid_argument("GameManager::loadFendPosition() Invalid castling section");
+        break;
     }
     std::shared_ptr<Piece> rook = boardInstance.GetPiece(rookPosition);
     if (rook->GetType() != PieceType::ROOK)
