@@ -39,6 +39,7 @@ protected:
   PieceColor color;
   PieceType pieceType;
   Coordinate position;
+  char literal;
 
 public:
   virtual ~Piece() {}
@@ -55,6 +56,8 @@ public:
    * @return `true` if the move is valid, `false` if it's not.
    */
   virtual bool IsMoveValid(const Coordinate endingPosition) const = 0;
+
+  virtual char GetChar() const { return literal; }
 
   /**
    * Function for getting the color of the piece.

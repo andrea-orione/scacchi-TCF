@@ -425,3 +425,30 @@ std::vector<std::shared_ptr<Piece>> Board::GetCapturedPieces(PieceColor pColor) 
 
   return (pColor == PieceColor::WHITE) ? whiteCapturedPieces : blackCapturedPieces;
 }
+
+
+/**
+ * Function for getting a string_view representing the board state.
+ *
+ * @return The aforementioned string_view
+ */
+std::string_view Board::GetFenPosition() const
+{
+    //doppio ciclo for per ogni riga e colonna al contrario coi numeri
+    //cerco pezzo nella mappa con .at 
+    //ultima riga al fondo senza slash
+    std::string cyclestring;
+    Coordinate coord(int x, int y);
+
+    for (int i = 7; i >= 0; i--)
+    {
+        for (int j = 7; j >= 0; j--) {
+            std::shared_ptr<Piece> cpiece = squaresMap.at(Coordinate(i, j));
+            char pstring = cpiece->GetChar();
+            cyclestring += pstring;
+        }
+    }
+
+    std::string_view FenPositionString(cyclestring);
+    return FenPositionString;
+}

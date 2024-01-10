@@ -31,10 +31,10 @@
 const std::regex regexRuleNormal{"[a-h][1-8][a-h][1-8]"};
 const std::regex regexRulePromotion{"[a-h][2,7][a-h][1,8][R,N,B,Q,r,n,b,q]"};
 
-const std::filesystem::path welcomeFilePath{"C:/dev/scacchi-TCF/utils/welcome.txt"};
-const std::filesystem::path helpFilePath{"C:/dev/scacchi-TCF/utils/help.txt"};
-const std::filesystem::path settingsFilePath{"C:/dev/scacchi-TCF/utils/settings.txt"};
-std::string endGameDirPath = "C:/dev/scacchi-TCF/utils/end_game/";
+const std::filesystem::path welcomeFilePath{"../utils/welcome.txt"};
+const std::filesystem::path helpFilePath{"../utils/help.txt"};
+const std::filesystem::path settingsFilePath{"../utils/settings.txt"};
+std::string endGameDirPath = "../utils/end_game/";
 
 const std::map<GameStatus, const char *> endgameFilesMap = {
     {GameStatus::CHECKMATE, "checkmate.txt"},
