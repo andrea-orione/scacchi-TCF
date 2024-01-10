@@ -1,5 +1,6 @@
 #include "Board.hh"
 
+#include <algorithm>
 #include <cctype>
 #include <memory>
 #include <tuple>
