@@ -26,29 +26,6 @@ Coordinate::Coordinate(const int newX, const int newY)
 }
 
 /**
- * The constructor from (`char`, `int`) representing the coordinates.
- *
- * Takes a char and an int and assigns them to the x and y coordinates,
- * after checking if they respect the constraints.
- *
- * @param[in] literalNewX the value to assign to the x (column)
- *   valid values are chars from `a` to `h` (included) corresponding to an int from 1 to 8.
- * @param[in] newY the value between 1 and 8 (included) to assign to the y (row).
- */
-Coordinate::Coordinate(const char literalNewX, const int newY)
-{
-  if (newY < 1 || newY > 8)
-    throw std::out_of_range("y value outside the board");
-
-  const int xIndex = literalChars.find(literalNewX);
-  if (xIndex == std::string::npos)
-    throw std::invalid_argument("x value not valid");
-
-  this->x = xIndex + 1;
-  this->y = newY;
-}
-
-/**
  * The constructor from `string_view` representing the coordinates.
  *
  * Checks if the `string_view` is of the form "xn", with x being a
