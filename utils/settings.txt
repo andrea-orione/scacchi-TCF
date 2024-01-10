@@ -1,25 +1,29 @@
+             ____  __  ____  ____  __     __  _  _ 
+            (    \(  )/ ___)(  _ \(  )   / _\( \/ )
+             ) D ( )( \___ \ ) __// (_/\/    \\  / 
+            (____/(__)(____/(__)  \____/\_/\_/(__) 
           ____  ____  ____  ____  __  __ _   ___  ____ 
          / ___)(  __)(_  _)(_  _)(  )(  ( \ / __)/ ___)
          \___ \ ) _)   )(    )(   )( /    /( (_ \\___ \
          (____/(____) (__)  (__) (__)\_)__) \___/(____/
 
-The following features can be modified:
-1. The type of characters used for displaying the chess board. 
-   If the terminal used doesn't support the  ASCII  characters 
-   used by default, it is possible to disable this feature.
-   
-   If you can correctly see ♕ (black queen), there is no  need 
-   to proceed.  If  your terminal doesn't properly display the 
-   queen, type: 'simplified' and press Enter.
-
-   To revert to the default characters, type:  'no simplified'
-   and press Enter.
-
-2. The style of the  board.  In particular,  it is possible to 
-   print the board using colors (if the terminal used supports
-   this feature). 
-   To enable colors,  just type 'colored' and press Enter.  To 
-   revert t the original settings, type 'no colored' and press
-   Enter. 
-
+The board and the pieces support various representation:
+1. `normal`: The  standard  display formatting. It uses  ASCII
+   characters for displaying the board and the pieces.
+   The background is all black. It is thought for dark themes,
+   so make sure to set it if you want to use this formatting.
+   To check if  your terminal supports this mode,  here ♕  you
+   should see the black queen.
+2. `simplified`: This  formatting is thought for old terminals
+   that do not support ASCII characters. It uses only letters,
+   dashes (-), underscores (_) and pipes (|).
+3. `colored`: This  formatting  uses ANSI strings to  set  the
+   background color of some characters to show the board whith
+   colored squares. To use this mode, make  sure your terminal
+   is able to process ANSI strings.
+4. `inverted`: This formatting is thought  for terminals whith
+   a light theme  enabled. It uses  the same principles as the
+   normal theme, but  the color of the pieces  is inverted, to
+   accomodate the background of the terminal.
+Type the name of one of the modes and press Enter to use it. 
 Type 'exit' or press Enter to go back to the game.
