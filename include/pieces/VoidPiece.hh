@@ -13,5 +13,7 @@ public:
   VoidPiece(Coordinate pPosition);
   ~VoidPiece() override = default;
 
+  char GetChar() const { char literal = ' '; return literal; }
+
   bool IsMoveValid(const Coordinate endingPosition) const override;
 };
