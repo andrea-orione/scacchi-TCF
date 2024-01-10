@@ -16,6 +16,8 @@ public:
   bool IsMoveValid(const Coordinate endingPosition) const override;
 
   bool CanCastle() const override { return !hasMoved; }
+
+  char GetChar() const { char literal = (this->GetColor() == PieceColor::WHITE) ? 'R' : 'r'; return literal; }
   void Move(const Coordinate newPosition) override;
 
 private:
