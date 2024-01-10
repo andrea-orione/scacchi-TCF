@@ -1,5 +1,7 @@
 #include "BoardRenderer.hh"
 
+#include "Utils.hh"
+
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -12,19 +14,20 @@ void BoardRenderer::PrintBoard(PieceColor playerColor) const
   (playerColor == PieceColor::WHITE) ? this->PrintWhiteBoard() : this->PrintBlackBoard();
 }
 
-std::string_view BoardRenderer::PieceToString(const std::shared_ptr<Piece> piece) const
+std::string_view BoardRenderer::PieceToString(const std::shared_ptr<Piece> piece, const bool inverted) const
 {
   if (piece->GetColor() == PieceColor::VOID) return " ";
-  const auto &pieceChars = (piece->GetColor() == PieceColor::WHITE) ? whitePiecesChars : blackPiecesChars;
+  const PieceColor pieceColor = (inverted) ? !piece->GetColor() : piece->GetColor();
+  const auto &pieceChars = (pieceColor == PieceColor::WHITE) ? whitePiecesChars : blackPiecesChars;
   return pieceChars.at(piece->GetType());
 }
 
-std::string BoardRenderer::PieceVectorToString(const std::vector<std::shared_ptr<Piece>> pieceVector) const
+std::string BoardRenderer::PieceVectorToString(const std::vector<std::shared_ptr<Piece>> pieceVector, const bool inverted) const
 {
   std::string vectorString{};
   for (const auto piece : pieceVector)
   {
-    vectorString += (std::string(this->PieceToString(piece)) + " ");
+    vectorString += (std::string(this->PieceToString(piece, inverted)) + " ");
   }
   return vectorString;
 }

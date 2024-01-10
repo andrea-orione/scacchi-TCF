@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Coordinate.hh"
-#include <string>
 
 /**
  * Enumeration representing the color of the piece.
@@ -104,5 +103,5 @@ public:
    * @return 0 if the piece is not a pawn, the `doubleAdvancementMoveNumber` data
    * member if the piece is a pawn
    */
-  virtual int GetDoubleAdvancementMoveNumber() const { return 0; }
+  virtual int GetDoubleAdvancementMoveNumber() const { return -1; }
 };

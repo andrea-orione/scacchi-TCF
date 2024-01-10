@@ -1,4 +1,5 @@
 #include "Movement.hh"
+
 #include <stdexcept>
 
 /**

@@ -1,16 +1,19 @@
 #include "Bishop.hh"
 
-#include <memory>
-
 #include "Movement.hh"
 #include "Board.hh"
 #include "Piece.hh"
 #include "Utils.hh"
 
+#include <stdexcept>
+
 Bishop::Bishop(PieceColor pColor, Coordinate pPosition)
 {
-  pieceType = PieceType::BISHOP;
+  if (pColor == PieceColor::VOID)
+    throw std::invalid_argument("Bishop constructor: VOID is invalid Color for a bishop.");
+
   color = pColor;
+  pieceType = PieceType::BISHOP;
   position = pPosition;
 }
 
@@ -23,14 +26,13 @@ bool Bishop::IsMoveValid(const Coordinate endingPosition) const
   if (abs(xDistance) != abs(yDistance))
     return false;
 
-  // determine diagonal
-  Movement baseMove(utils::sgn(xDistance), utils::sgn(yDistance));
-
   // determine if the move is valid
-  Board &board = Board::Instance();
-  std::shared_ptr<Piece> endingPositionPiece = board.GetPiece(endingPosition);
-  if (endingPositionPiece->GetColor() == this->color)
+  const Board &board = Board::Instance();
+  if (board.GetPiece(endingPosition)->GetColor() == this->color)
     return false;
+
+  // determine diagonal
+  const Movement baseMove(utils::sgn(xDistance), utils::sgn(yDistance));
 
   // Check whether there are other pieces in the way.
   for (Coordinate newPosition = this->GetPosition() + baseMove; newPosition != endingPosition; newPosition += baseMove)

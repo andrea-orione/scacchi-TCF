@@ -1,9 +1,6 @@
 #include "Utils.hh"
 #include "Piece.hh"
 
-#include <fstream>
-#include <filesystem>
-
 /**
  * Helper function  to mimic the overloading of the `!` operator.
  *

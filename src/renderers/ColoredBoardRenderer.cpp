@@ -47,9 +47,9 @@ void ColoredBoardRenderer::PrintWhiteBoard() const
     }
     cout << COLOR_OFF;
     if (row == 8)
-      cout << "   BLACK CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::BLACK));
+      cout << "   BLACK CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::BLACK), true);
     if (row == 6)
-      cout << "   WHITE CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::WHITE));
+      cout << "   WHITE CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::WHITE), true);
     cout << '\n';
   }
   cout << "    a  b  c  d  e  f  g  h\n"
@@ -71,9 +71,9 @@ void ColoredBoardRenderer::PrintBlackBoard() const
     }
     cout << COLOR_OFF;
     if (row == 1)
-      cout << "   BLACK CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::BLACK));
+      cout << "   BLACK CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::BLACK), true);
     if (row == 3)
-      cout << "   WHITE CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::WHITE));
+      cout << "   WHITE CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::WHITE), true);
     cout << '\n';
   }
   cout << "    h  g  f  e  d  c  b  a\n"

@@ -3,10 +3,15 @@
 #include "Board.hh"
 #include "Piece.hh"
 
+#include <stdexcept>
+
 Knight::Knight(PieceColor pColor, Coordinate pPosition)
 {
-  pieceType = PieceType::KNIGHT;
+  if (pColor == PieceColor::VOID)
+    throw std::invalid_argument("Knight constructor: VOID is invalid Color for a knight.");
+
   color = pColor;
+  pieceType = PieceType::KNIGHT;
   position = pPosition;
 }
 
@@ -17,7 +22,7 @@ bool Knight::IsMoveValid(const Coordinate endingPosition) const
     return false;
 
   // determine if the move is valid
-  Board &board = Board::Instance();
+  const Board &board = Board::Instance();
 
   return !(board.GetPiece(endingPosition)->GetColor() == this->color);
 }
