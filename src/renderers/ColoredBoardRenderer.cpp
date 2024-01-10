@@ -1,6 +1,9 @@
 #include "ColoredBoardRenderer.hh"
 
 #include <iostream>
+#include <map>
+#include <memory>
+#include <string_view>
 
 #include "Board.hh"
 
@@ -11,6 +14,24 @@ constexpr char COLOR_WHITE[] = "\u001b[38;5;0m\u001b[48;5;250m";
 constexpr char COLOR_BLACK[] = "\u001b[38;5;0m\u001b[48;5;216m";
 constexpr char COLOR_OFF[] = "\x1b[0m";
 
+const std::map<PieceType, std::string_view> whitePiecesChars = {
+  {PieceType::PAWN, "♙"},
+  {PieceType::ROOK, "♖"},
+  {PieceType::KNIGHT, "♘"},
+  {PieceType::BISHOP, "♗"},
+  {PieceType::QUEEN, "♕"},
+  {PieceType::KING, "♔"},
+  {PieceType::VOID, " "}};
+
+const std::map<PieceType, std::string_view> blackPiecesChars = {
+  {PieceType::PAWN, "♟︎"},
+  {PieceType::ROOK, "♜"},
+  {PieceType::KNIGHT, "♞"},
+  {PieceType::BISHOP, "♝"},
+  {PieceType::QUEEN, "♛"},
+  {PieceType::KING, "♚"},
+  {PieceType::VOID, " "}};
+
 void ColoredBoardRenderer::PrintWhiteBoard() const
 {
   const Board &board = Board::Instance();
@@ -20,9 +41,8 @@ void ColoredBoardRenderer::PrintWhiteBoard() const
     cout << " " << row << " ";
     for (int column = 1; column < 9; column++)
     {
-      auto piece = board.GetPiece(Coordinate(column, row));
       auto &colorParameter = ((row + column) % 2) ? COLOR_WHITE : COLOR_BLACK;
-      cout << colorParameter << " " << piece->ToString(false, true) << " ";
+      cout << colorParameter << " " << this->PieceToString(board.GetPiece(Coordinate(column, row))) << " ";
     }
     cout << COLOR_OFF;
     if (row == 8)
@@ -46,7 +66,7 @@ void ColoredBoardRenderer::PrintBlackBoard() const
     {
       auto piece = board.GetPiece(Coordinate(column, row));
       auto &colorParameter = ((row + column) % 2) ? COLOR_WHITE : COLOR_BLACK;
-      cout << colorParameter << " " << piece->ToString(false, true) << " ";
+      cout << colorParameter << " " << this->PieceToString(board.GetPiece(Coordinate(column, row))) << " ";
     }
     cout << COLOR_OFF;
     if (row == 1)
@@ -57,4 +77,11 @@ void ColoredBoardRenderer::PrintBlackBoard() const
   }
   cout << "    h  g  f  e  d  c  b  a\n"
        << endl;
+}
+
+std::string_view ColoredBoardRenderer::PieceToString(const std::shared_ptr<Piece> piece) const
+{
+  if (piece->GetColor() == PieceColor::VOID) return " ";
+  const auto &pieceChars = (piece->GetColor() == PieceColor::WHITE) ? whitePiecesChars : blackPiecesChars;
+  return pieceChars.at(piece->GetType());
 }

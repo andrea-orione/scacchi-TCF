@@ -1,7 +1,9 @@
 #include "SimplifiedBoardRenderer.hh"
 
-#include <string_view>
 #include <iostream>
+#include <map>
+#include <memory>
+#include <string_view>
 
 #include "Board.hh"
 
@@ -14,6 +16,24 @@ constexpr std::string_view bottom = "---------------------------------";
 constexpr std::string_view border = "|";
 constexpr std::string_view separator = "|";
 
+const std::map<PieceType, std::string_view> whitePiecesChars = {
+  {PieceType::PAWN, "P"},
+  {PieceType::ROOK, "R"},
+  {PieceType::KNIGHT, "N"},
+  {PieceType::BISHOP, "B"},
+  {PieceType::QUEEN, "Q"},
+  {PieceType::KING, "K"},
+  {PieceType::VOID, " "}};
+
+const std::map<PieceType, std::string_view> blackPiecesChars = {
+  {PieceType::PAWN, "p"},
+  {PieceType::ROOK, "r"},
+  {PieceType::KNIGHT, "n"},
+  {PieceType::BISHOP, "b"},
+  {PieceType::QUEEN, "q"},
+  {PieceType::KING, "k"},
+  {PieceType::VOID, " "}};
+
 void SimplifiedBoardRenderer::PrintWhiteBoard() const
 {
   const Board &board = Board::Instance();
@@ -23,8 +43,7 @@ void SimplifiedBoardRenderer::PrintWhiteBoard() const
     cout << " " << row << " " << border << " ";
     for (int column = 1; column < 9; column++)
     {
-      const auto piecePtr = board.GetPiece(Coordinate(column, row));
-      cout << piecePtr->ToString(true);
+      cout << this->PieceToString(board.GetPiece(Coordinate(column, row)));
 
       // Slightly inefficient but makes the code cleaner
       if (column != 8)
@@ -54,8 +73,7 @@ void SimplifiedBoardRenderer::PrintBlackBoard() const
     cout << " " << row << " " << border << " ";
     for (int column = 8; column > 0; column--)
     {
-      const auto piecePtr = board.GetPiece(Coordinate(column, row));
-      cout << piecePtr->ToString(true);
+      cout << this->PieceToString(board.GetPiece(Coordinate(column, row)));
 
       // Slightly inefficient but makes the code cleaner
       if (column != 1)
@@ -74,4 +92,11 @@ void SimplifiedBoardRenderer::PrintBlackBoard() const
   }
   cout << "     h   g   f   e   d   c   b   a\n"
        << endl;
+}
+
+std::string_view SimplifiedBoardRenderer::PieceToString(const std::shared_ptr<Piece> piece) const
+{
+  if (piece->GetColor() == PieceColor::VOID) return " ";
+  const auto &pieceChars = (piece->GetColor() == PieceColor::WHITE) ? whitePiecesChars : blackPiecesChars;
+  return pieceChars.at(piece->GetType());
 }
