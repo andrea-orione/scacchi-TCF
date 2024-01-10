@@ -12,30 +12,6 @@ Bishop::Bishop(PieceColor pColor, Coordinate pPosition)
   pieceType = PieceType::BISHOP;
   color = pColor;
   position = pPosition;
-  switch (color)
-  {
-  case PieceColor::WHITE:
-    character = "♝";
-    coloredCharacter = "♗";
-    literalCharacter = 'B';
-    break;
-  case PieceColor::BLACK:
-    character = "♗";
-    coloredCharacter = "♝";
-    literalCharacter = 'b';
-    break;
-  default:
-    break;
-  }
-}
-
-std::string Bishop::ToString(bool simplified, bool colored) const
-{
-  if (simplified)
-    return std::string(1, literalCharacter);
-  if (colored)
-    return coloredCharacter;
-  return character;
 }
 
 bool Bishop::IsMoveValid(const Coordinate endingPosition) const

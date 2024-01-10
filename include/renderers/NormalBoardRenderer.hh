@@ -5,7 +5,7 @@
 class NormalBoardRenderer : public BoardRenderer
 {
 public:
-  NormalBoardRenderer() {}
+  NormalBoardRenderer();
   ~NormalBoardRenderer() override = default;
 
   void PrintWhiteBoard() const override;

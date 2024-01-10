@@ -5,6 +5,7 @@
 #include <string_view>
 
 #include "Board.hh"
+#include "BoardRenderer.hh"
 #include "Piece.hh"
 
 using std::cout;
@@ -16,23 +17,23 @@ constexpr std::string_view bottom = "---------------------------------";
 constexpr std::string_view border = "|";
 constexpr std::string_view separator = "|";
 
-const std::map<PieceType, std::string_view> whitePiecesChars = {
-  {PieceType::PAWN, "P"},
-  {PieceType::ROOK, "R"},
-  {PieceType::KNIGHT, "N"},
-  {PieceType::BISHOP, "B"},
-  {PieceType::QUEEN, "Q"},
-  {PieceType::KING, "K"},
-  {PieceType::VOID, " "}};
-
-const std::map<PieceType, std::string_view> blackPiecesChars = {
-  {PieceType::PAWN, "p"},
-  {PieceType::ROOK, "r"},
-  {PieceType::KNIGHT, "n"},
-  {PieceType::BISHOP, "b"},
-  {PieceType::QUEEN, "q"},
-  {PieceType::KING, "k"},
-  {PieceType::VOID, " "}};
+SimplifiedBoardRenderer::SimplifiedBoardRenderer() :
+  BoardRenderer(std::map<PieceType, std::string_view>{
+      {PieceType::PAWN, "P"},
+      {PieceType::ROOK, "R"},
+      {PieceType::KNIGHT, "N"},
+      {PieceType::BISHOP, "B"},
+      {PieceType::QUEEN, "Q"},
+      {PieceType::KING, "K"},
+      {PieceType::VOID, " "}},
+    std::map<PieceType, std::string_view>{
+      {PieceType::PAWN, "p"},
+      {PieceType::ROOK, "r"},
+      {PieceType::KNIGHT, "n"},
+      {PieceType::BISHOP, "b"},
+      {PieceType::QUEEN, "q"},
+      {PieceType::KING, "k"},
+      {PieceType::VOID, " "}}) {}
 
 void SimplifiedBoardRenderer::PrintWhiteBoard() const
 {
