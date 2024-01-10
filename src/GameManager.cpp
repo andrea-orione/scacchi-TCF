@@ -462,7 +462,7 @@ void GameManager::UserSettings()
       continue;
 
     size_t index = std::distance(settings.begin(), itr);
-    printf("%i\n", index);
+    printf("%i\n", (int)index);
 
     switch (index)
     {

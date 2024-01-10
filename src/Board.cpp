@@ -1,10 +1,7 @@
 #include "Board.hh"
 
 #include <cctype>
-#include <iostream>
 #include <memory>
-#include <string>
-#include <string_view>
 #include <tuple>
 #include <vector>
 
@@ -14,8 +11,6 @@
 #include "Utils.hh"
 #include "Piece.hh"
 
-using std::cout;
-using std::endl;
 
 
 /**
@@ -417,16 +412,10 @@ void Board::ClearBoard()
  *
  * @return The aforementioned string
  */
-std::string Board::GetCapturedPieces(PieceColor pColor, const bool literal) const
+std::vector<std::shared_ptr<Piece>> Board::GetCapturedPieces(PieceColor pColor) const
 {
   if (pColor == PieceColor::VOID)
     throw std::invalid_argument("Board::GetCapturedPieces() : The captured pieces must be either white or black.");
 
-  std::string piecesString{};
-  const auto &capturedPiecesVector = (pColor == PieceColor::WHITE) ? whiteCapturedPieces : blackCapturedPieces;
-  for (const auto piece : capturedPiecesVector)
-  {
-    piecesString += (piece->ToString(literal) + " ");
-  }
-  return piecesString;
+  return (pColor == PieceColor::WHITE) ? whiteCapturedPieces : blackCapturedPieces;
 }

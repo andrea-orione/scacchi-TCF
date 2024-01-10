@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <map>
-#include <memory>
 #include <string_view>
 
 #include "Board.hh"
@@ -46,9 +45,9 @@ void ColoredBoardRenderer::PrintWhiteBoard() const
     }
     cout << COLOR_OFF;
     if (row == 8)
-      cout << "   BLACK CAPTURED PIECES: " << board.GetCapturedPieces(PieceColor::BLACK);
+      cout << "   BLACK CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::BLACK));
     if (row == 6)
-      cout << "   WHITE CAPTURED PIECES: " << board.GetCapturedPieces(PieceColor::WHITE);
+      cout << "   WHITE CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::WHITE));
     cout << '\n';
   }
   cout << "    a  b  c  d  e  f  g  h\n"
@@ -70,18 +69,11 @@ void ColoredBoardRenderer::PrintBlackBoard() const
     }
     cout << COLOR_OFF;
     if (row == 1)
-      cout << "   BLACK CAPTURED PIECES: " << board.GetCapturedPieces(PieceColor::BLACK);
+      cout << "   BLACK CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::BLACK));
     if (row == 3)
-      cout << "   WHITE CAPTURED PIECES: " << board.GetCapturedPieces(PieceColor::WHITE);
+      cout << "   WHITE CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::WHITE));
     cout << '\n';
   }
   cout << "    h  g  f  e  d  c  b  a\n"
        << endl;
-}
-
-std::string_view ColoredBoardRenderer::PieceToString(const std::shared_ptr<Piece> piece) const
-{
-  if (piece->GetColor() == PieceColor::VOID) return " ";
-  const auto &pieceChars = (piece->GetColor() == PieceColor::WHITE) ? whitePiecesChars : blackPiecesChars;
-  return pieceChars.at(piece->GetType());
 }

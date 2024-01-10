@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <map>
-#include <memory>
 #include <string_view>
 
 #include "Board.hh"
@@ -52,9 +51,9 @@ void NormalBoardRenderer::PrintWhiteBoard() const
         cout << " " << border;
     }
     if (row == 8)
-      cout << "   BLACK CAPTURED PIECES: " << board.GetCapturedPieces(PieceColor::BLACK, false);
+      cout << "   BLACK CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::BLACK));
     if (row == 7)
-      cout << "   WHITE CAPTURED PIECES: " << board.GetCapturedPieces(PieceColor::WHITE, false);
+      cout << "   WHITE CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::WHITE));
     if (row != 1)
       cout << "\n   " << middle << "\n";
     else
@@ -82,9 +81,9 @@ void NormalBoardRenderer::PrintBlackBoard() const
         cout << " " << border;
     }
     if (row == 1)
-      cout << "   BLACK CAPTURED PIECES: " << board.GetCapturedPieces(PieceColor::BLACK, false);
+      cout << "   BLACK CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::WHITE));
     if (row == 2)
-      cout << "   WHITE CAPTURED PIECES: " << board.GetCapturedPieces(PieceColor::WHITE, false);
+      cout << "   WHITE CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::BLACK));
     if (row != 8)
       cout << "\n   " << middle << "\n";
     else
@@ -92,11 +91,4 @@ void NormalBoardRenderer::PrintBlackBoard() const
   }
   cout << "     h   g   f   e   d   c   b   a\n"
        << endl;
-}
-
-std::string_view NormalBoardRenderer::PieceToString(const std::shared_ptr<Piece> piece) const
-{
-  if (piece->GetColor() == PieceColor::VOID) return " ";
-  const auto &pieceChars = (piece->GetColor() == PieceColor::WHITE) ? whitePiecesChars : blackPiecesChars;
-  return pieceChars.at(piece->GetType());
 }

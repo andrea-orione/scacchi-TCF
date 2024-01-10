@@ -2,7 +2,6 @@
 
 #include <map>
 #include <memory>
-#include <string>
 #include <vector>
 
 #include "Coordinate.hh"
@@ -46,7 +45,7 @@ public:
   void IncrementMoveNumber(int increment = 1) { moveNumber += increment; }
   int GetMoveNumber() const { return moveNumber; }
 
-  std::string GetCapturedPieces(PieceColor pColor, bool literal = false) const;
+  std::vector<std::shared_ptr<Piece>> GetCapturedPieces(PieceColor pColor) const;
 
 private:
   Board(); // private constructor
