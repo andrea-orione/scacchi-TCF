@@ -116,8 +116,14 @@ bool Board::HasValidMoves(const PieceColor playerColor)
 
     for (const auto piece : playerPieces)
     {
-      if (!piece->IsMoveValid(coordinate))
+      try {
+        if (!piece->IsMoveValid(coordinate))
+          continue;
+      } catch (CastlingSignal) {
         continue;
+      } catch (EnPassantSignal) {
+        continue;
+      }
 
       // Setting up the position to be tested
       const Coordinate startingPosition = piece->GetPosition();

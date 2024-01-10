@@ -5,6 +5,8 @@
 #include <string_view>
 
 #include "Board.hh"
+#include "BoardRenderer.hh"
+#include "Piece.hh"
 
 using std::cout;
 using std::endl;
@@ -13,23 +15,23 @@ constexpr char COLOR_WHITE[] = "\u001b[38;5;0m\u001b[48;5;250m";
 constexpr char COLOR_BLACK[] = "\u001b[38;5;0m\u001b[48;5;216m";
 constexpr char COLOR_OFF[] = "\x1b[0m";
 
-const std::map<PieceType, std::string_view> whitePiecesChars = {
-  {PieceType::PAWN, "♙"},
-  {PieceType::ROOK, "♖"},
-  {PieceType::KNIGHT, "♘"},
-  {PieceType::BISHOP, "♗"},
-  {PieceType::QUEEN, "♕"},
-  {PieceType::KING, "♔"},
-  {PieceType::VOID, " "}};
-
-const std::map<PieceType, std::string_view> blackPiecesChars = {
-  {PieceType::PAWN, "♟︎"},
-  {PieceType::ROOK, "♜"},
-  {PieceType::KNIGHT, "♞"},
-  {PieceType::BISHOP, "♝"},
-  {PieceType::QUEEN, "♛"},
-  {PieceType::KING, "♚"},
-  {PieceType::VOID, " "}};
+ColoredBoardRenderer::ColoredBoardRenderer() :
+  BoardRenderer(std::map<PieceType, std::string_view>{
+      {PieceType::PAWN, "♙"},
+      {PieceType::ROOK, "♖"},
+      {PieceType::KNIGHT, "♘"},
+      {PieceType::BISHOP, "♗"},
+      {PieceType::QUEEN, "♕"},
+      {PieceType::KING, "♔"},
+      {PieceType::VOID, " "}},
+    std::map<PieceType, std::string_view>{
+      {PieceType::PAWN, "♟︎"},
+      {PieceType::ROOK, "♜"},
+      {PieceType::KNIGHT, "♞"},
+      {PieceType::BISHOP, "♝"},
+      {PieceType::QUEEN, "♛"},
+      {PieceType::KING, "♚"},
+      {PieceType::VOID, " "}}) {}
 
 void ColoredBoardRenderer::PrintWhiteBoard() const
 {
@@ -45,9 +47,9 @@ void ColoredBoardRenderer::PrintWhiteBoard() const
     }
     cout << COLOR_OFF;
     if (row == 8)
-      cout << "   BLACK CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::BLACK));
+      cout << "   BLACK CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::BLACK), true);
     if (row == 6)
-      cout << "   WHITE CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::WHITE));
+      cout << "   WHITE CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::WHITE), true);
     cout << '\n';
   }
   cout << "    a  b  c  d  e  f  g  h\n"
@@ -69,9 +71,9 @@ void ColoredBoardRenderer::PrintBlackBoard() const
     }
     cout << COLOR_OFF;
     if (row == 1)
-      cout << "   BLACK CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::BLACK));
+      cout << "   BLACK CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::BLACK), true);
     if (row == 3)
-      cout << "   WHITE CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::WHITE));
+      cout << "   WHITE CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::WHITE), true);
     cout << '\n';
   }
   cout << "    h  g  f  e  d  c  b  a\n"

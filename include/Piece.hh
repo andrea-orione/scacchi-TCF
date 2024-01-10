@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Coordinate.hh"
-#include <string>
 
 /**
  * Enumeration representing the color of the piece.
@@ -39,20 +38,10 @@ class Piece
 protected:
   PieceColor color;
   PieceType pieceType;
-  std::string character;
-  std::string coloredCharacter;
-  char literalCharacter;
   Coordinate position;
 
 public:
   virtual ~Piece() {}
-
-  /**
-   * Return the string representing the Piece.
-   *
-   * @return The aforementioned string.
-   */
-  virtual std::string ToString(bool literal = false, bool colored = false) const = 0;
 
   /**
    * Function for determining whether a move is valid or not.
@@ -114,5 +103,5 @@ public:
    * @return 0 if the piece is not a pawn, the `doubleAdvancementMoveNumber` data
    * member if the piece is a pawn
    */
-  virtual int GetDoubleAdvancementMoveNumber() const { return 0; }
+  virtual int GetDoubleAdvancementMoveNumber() const { return -1; }
 };

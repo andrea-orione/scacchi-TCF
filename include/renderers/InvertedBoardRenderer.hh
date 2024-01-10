@@ -5,7 +5,7 @@
 class InvertedBoardRenderer : public BoardRenderer
 {
 public:
-  InvertedBoardRenderer() {}
+  InvertedBoardRenderer();
   ~InvertedBoardRenderer() override = default;
 
   void PrintWhiteBoard() const override;

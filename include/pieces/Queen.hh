@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 #include "Coordinate.hh"
 #include "Piece.hh"
 
@@ -15,6 +13,5 @@ public:
   Queen(PieceColor pColor, Coordinate pPosition);
   ~Queen() override = default;
 
-  std::string ToString(bool simplified = false, bool colored = false) const override;
   bool IsMoveValid(const Coordinate endingPosition) const override;
 };

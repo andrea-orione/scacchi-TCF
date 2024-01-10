@@ -1,40 +1,19 @@
 #include "Queen.hh"
 
-#include <memory>
-
 #include "Board.hh"
 #include "Piece.hh"
 #include "Utils.hh"
 
+#include <stdexcept>
+
 Queen::Queen(PieceColor pColor, Coordinate pPosition)
 {
-  pieceType = PieceType::QUEEN;
+  if (pColor == PieceColor::VOID)
+    throw std::invalid_argument("Queen constructor: VOID is invalid Color for a queen.");
+  
   color = pColor;
+  pieceType = PieceType::QUEEN;
   position = pPosition;
-  switch (color)
-  {
-  case PieceColor::WHITE:
-    character = "♛";
-    coloredCharacter = "♕";
-    literalCharacter = 'Q';
-    break;
-  case PieceColor::BLACK:
-    character = "♕";
-    coloredCharacter = "♛";
-    literalCharacter = 'q';
-    break;
-  default:
-    break;
-  }
-}
-
-std::string Queen::ToString(bool simplified, bool colored) const
-{
-  if (simplified)
-    return std::string(1, literalCharacter);
-  if (colored)
-    return coloredCharacter;
-  return character;
 }
 
 bool Queen::IsMoveValid(const Coordinate endingPosition) const
@@ -47,21 +26,19 @@ bool Queen::IsMoveValid(const Coordinate endingPosition) const
     return false;
 
   // determine direction
-  Movement baseMove(utils::sgn(xDistance), utils::sgn(yDistance));
+  const Movement baseMove(utils::sgn(xDistance), utils::sgn(yDistance));
 
   // determine if the move is valid
-  Board &board = Board::Instance();
+  const Board &board = Board::Instance();
 
   // check final square
-  std::shared_ptr<Piece> endingPositionPiece = board.GetPiece(endingPosition);
-  if (endingPositionPiece->GetColor() == this->color)
+  if (board.GetPiece(endingPosition)->GetColor() == this->color)
     return false;
 
   // Check whether there are other pieces in the way.
   for (Coordinate newPosition = this->GetPosition() + baseMove; newPosition != endingPosition; newPosition += baseMove)
   {
-    std::shared_ptr<Piece> newSquarePiece = board.GetPiece(newPosition);
-    if (newSquarePiece->GetColor() != PieceColor::VOID)
+    if (board.GetPiece(newPosition)->GetColor() != PieceColor::VOID)
       return false;
   }
   return true;

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 #include "Coordinate.hh"
 #include "Piece.hh"
 
@@ -15,6 +13,5 @@ public:
   Bishop(PieceColor pColor, Coordinate pPosition);
   ~Bishop() override = default;
 
-  std::string ToString(bool simplified = false, bool colored = true) const override;
   bool IsMoveValid(const Coordinate endingPosition) const override;
 };

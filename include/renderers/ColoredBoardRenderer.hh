@@ -5,7 +5,7 @@
 class ColoredBoardRenderer : public BoardRenderer
 {
 public:
-  ColoredBoardRenderer() {}
+  ColoredBoardRenderer();
   ~ColoredBoardRenderer() override = default;
 
   void PrintWhiteBoard() const override;

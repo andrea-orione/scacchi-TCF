@@ -1,4 +1,5 @@
 #include "Coordinate.hh"
+
 #include <stdexcept>
 #include <string_view>
 

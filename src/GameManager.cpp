@@ -398,11 +398,11 @@ void GameManager::InitializeStartingBoard() const
   try
   {
     //! @todo Delete test FENs
-    // this->LoadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    this->LoadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
     // this->LoadFenPosition("r1bqkbnr/pPpppppp/8/8/8/8/P1PPPPPP/RNBQKBNR w KQkq - 0 1");
     // this->LoadFenPosition("2n1n3/3PK1kp/8/8/8/8/8/8 w - - 0 1");
     // this->LoadFenPosition("8/3PK1kp/8/8/8/8/8/8 w - - 0 1");
-    this->LoadFenPosition("k7/3R4/7Q/8/8/8/8/7K w - - 0 1");
+    // this->LoadFenPosition("k7/3R4/7Q/8/8/8/8/7K w - - 0 1");
   }
   catch (const std::invalid_argument &e)
   {

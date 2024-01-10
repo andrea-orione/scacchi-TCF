@@ -5,7 +5,7 @@
 class SimplifiedBoardRenderer : public BoardRenderer
 {
 public:
-  SimplifiedBoardRenderer() {}
+  SimplifiedBoardRenderer();
   ~SimplifiedBoardRenderer() override = default;
 
   void PrintWhiteBoard() const override;
