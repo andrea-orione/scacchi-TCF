@@ -10,11 +10,11 @@ Questo progetto ha lo scopo di generare un programma che permetta di giocare a s
 2. effettuare una mossa;
 3. valutare lo stato del gioco, per verificare se la partita è finita;
 4. cambiare il modo di visualizzazione tra le seguenti possibilità
-  - normale: utilizzando caratteri ASCII
-  - semplificata: utilizzando solo lettere e caratteri della tastiera
-  - colorata: utilizzando stringhe ANSI per cambiare il colore di sfondo dei caratteri
+    - *normale*: utilizzando caratteri ASCII
+    - *semplificata*: utilizzando solo lettere e caratteri della tastiera
+    - *colorata*: utilizzando stringhe ANSI per cambiare il colore di sfondo dei caratteri
       in modo da avere una scacchiera colorata
-  - invertita: con lo stesso settaggio della normale ma con i colori invertiti (adatta
+    - *invertita*: con lo stesso settaggio della normale ma con i colori invertiti (adatta
       a terminali con sfondo chiaro)
 
 <br/>
@@ -34,6 +34,7 @@ La notazione UCI è costruita nel modo seguente:
      in una stringa senza spazi. L'arrocco e la cattura seguono la stessa formattazione
  - Per la promozione apporre alla stringa indicata sopra il carattere corrispondente al tipo di pezzo in cui si
      vuole promuovere (i caratteri validi sono /r/, /n/, /b/, /q/ in maiuscolo o minuscolo)
+
 Esempi di notazione valida sono i seguenti:
  - e2e4
  - e1g1 (per l'arrocco di re del bianco)
