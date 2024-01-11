@@ -3,6 +3,7 @@
 #include <memory>
 #include <fstream>
 
+#include "BoardFactory.hh"
 #include "BoardRenderer.hh"
 #include "Piece.hh"
 
@@ -30,8 +31,6 @@ public:
   GameManager();
   ~GameManager() = default;
 
-  static std::shared_ptr<Piece> MakePiece(char pieceChar, Coordinate pPosition, bool hasRookMoved = true);
-
   void StartGame();
   void GameLoop();
 
@@ -39,14 +38,13 @@ private:
   PieceColor activePlayerColor;
   GameStatus gameStatus;
   std::unique_ptr<BoardRenderer> boardRenderer;
+  std::unique_ptr<BoardFactory> boardFactory;
 
   std::fstream welcomeFile;
   std::fstream helpFile;
   std::fstream settingsFile;
   std::fstream endFile;
 
-  void LoadFenPosition(std::string_view fenString) const;
-  void InitializeStartingBoard() const;
   void HelpUser();
   void UserSettings();
   void GetUserMove();

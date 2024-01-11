@@ -6,8 +6,8 @@
 #include <tuple>
 #include <vector>
 
+#include "BoardFactory.hh"
 #include "Coordinate.hh"
-#include "GameManager.hh"
 #include "Movement.hh"
 #include "Utils.hh"
 #include "Piece.hh"
@@ -32,7 +32,7 @@ Board::Board() : squaresMap{},
     for (int column = 1; column < 9; column++)
     {
       const Coordinate position(column, row);
-      squaresMap.insert(std::make_pair(position, GameManager::MakePiece(0, position)));
+      squaresMap.insert(std::make_pair(position, BoardFactory::MakePiece(0, position)));
     }
   }
 }
@@ -130,7 +130,7 @@ bool Board::HasValidMoves(const PieceColor playerColor)
       const Coordinate startingPosition = piece->GetPosition();
       std::shared_ptr<Piece> temporaryStorageCapturedPiece = occupyingPiece;
       squaresMap.at(coordinate) = piece;
-      squaresMap.at(startingPosition) = GameManager::MakePiece(0, startingPosition);
+      squaresMap.at(startingPosition) = BoardFactory::MakePiece(0, startingPosition);
       const Coordinate friendKingPosition = (friendKing == piece) ? coordinate : friendKing->GetPosition();
       if (temporaryStorageCapturedPiece->GetColor() != PieceColor::VOID)
         opponentPieces.erase(std::find(opponentPieces.begin(), opponentPieces.end(), temporaryStorageCapturedPiece));
@@ -208,7 +208,7 @@ void Board::NormalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate en
   auto &opponentCapturedPieceVector = (movingPiece->GetColor() == PieceColor::WHITE) ? blackCapturedPieces : whiteCapturedPieces;
   std::shared_ptr<Piece> temporaryStorageCapturedPiece = squaresMap.at(endingPosition);
   squaresMap.at(endingPosition) = movingPiece;
-  squaresMap.at(startingPosition) = GameManager::MakePiece(0, startingPosition);
+  squaresMap.at(startingPosition) = BoardFactory::MakePiece(0, startingPosition);
   std::shared_ptr<Piece> &friendKing = (movingPiece->GetColor() == PieceColor::WHITE) ? whiteKing : blackKing;
   const Coordinate &friendKingPosition = (friendKing == movingPiece) ? endingPosition : friendKing->GetPosition();
   if (temporaryStorageCapturedPiece->GetColor() != PieceColor::VOID)
@@ -241,14 +241,14 @@ void Board::Promotion(std::shared_ptr<Piece> &&pawn, const char promotionPiece, 
 
   // promote to the right color
   const char newPieceChar = (pawn->GetColor() == PieceColor::WHITE) ? std::toupper(promotionPiece) : std::tolower(promotionPiece);
-  std::shared_ptr<Piece> newPiece = GameManager::MakePiece(newPieceChar, endingPosition);
+  std::shared_ptr<Piece> newPiece = BoardFactory::MakePiece(newPieceChar, endingPosition);
 
   const Coordinate startingPosition = pawn->GetPosition();
   std::shared_ptr<Piece> capturedPiece = squaresMap.at(endingPosition);
   auto &opponentPieceVector = (pawn->GetColor() == PieceColor::WHITE) ? blackPieces : whitePieces;
   auto &opponentCapturedPieceVector = (pawn->GetColor() == PieceColor::WHITE) ? blackCapturedPieces : whiteCapturedPieces;
   squaresMap.at(endingPosition) = newPiece;
-  squaresMap.at(startingPosition) = GameManager::MakePiece(0, startingPosition);
+  squaresMap.at(startingPosition) = BoardFactory::MakePiece(0, startingPosition);
   const Coordinate friendKingPosition = (pawn->GetColor() == PieceColor::WHITE) ? whiteKing->GetPosition() : blackKing->GetPosition();
   if (capturedPiece->GetColor() != PieceColor::VOID)
     opponentPieceVector.erase(std::find(opponentPieceVector.begin(), opponentPieceVector.end(), capturedPiece));
@@ -291,8 +291,8 @@ void Board::Castling(std::shared_ptr<Piece> &&king, const Coordinate kingEndingP
   const Coordinate rookEndingPosition = (kingEndingPosition.GetX() == 7) ? Coordinate(6, rookY) : Coordinate(4, rookY);
   squaresMap.at(kingEndingPosition) = squaresMap.at(kingStartingPosition);
   squaresMap.at(rookEndingPosition) = squaresMap.at(rookStartingPosition);
-  squaresMap.at(kingStartingPosition) = GameManager::MakePiece(0, kingStartingPosition);
-  squaresMap.at(rookStartingPosition) = GameManager::MakePiece(0, rookStartingPosition);
+  squaresMap.at(kingStartingPosition) = BoardFactory::MakePiece(0, kingStartingPosition);
+  squaresMap.at(rookStartingPosition) = BoardFactory::MakePiece(0, rookStartingPosition);
 
   if (!(IsSquareAttacked(kingEndingPosition, !(king->GetColor())) || IsSquareAttacked(rookEndingPosition, !(king->GetColor()))))
   {
@@ -303,8 +303,8 @@ void Board::Castling(std::shared_ptr<Piece> &&king, const Coordinate kingEndingP
 
   squaresMap.at(kingStartingPosition) = squaresMap.at(kingEndingPosition);
   squaresMap.at(rookStartingPosition) = squaresMap.at(rookEndingPosition);
-  squaresMap.at(kingEndingPosition) = GameManager::MakePiece(0, kingEndingPosition);
-  squaresMap.at(rookEndingPosition) = GameManager::MakePiece(0, rookEndingPosition);
+  squaresMap.at(kingEndingPosition) = BoardFactory::MakePiece(0, kingEndingPosition);
+  squaresMap.at(rookEndingPosition) = BoardFactory::MakePiece(0, rookEndingPosition);
   throw InvalidMoveException("Castling is not allowed. The king cannot pass through or end in check.");
 }
 
@@ -334,8 +334,8 @@ void Board::EnPassant(std::shared_ptr<Piece> &&pawn, const Coordinate pawnEnding
   auto &opponentCapturedPieceVector = (pawn->GetColor() == PieceColor::WHITE) ? blackCapturedPieces : whiteCapturedPieces;
 
   squaresMap.at(pawnEndingPosition) = pawn;
-  squaresMap.at(pawnStartingPosition) = GameManager::MakePiece(0, pawnStartingPosition);
-  squaresMap.at(capturedPawnPosition) = GameManager::MakePiece(0, capturedPawnPosition);
+  squaresMap.at(pawnStartingPosition) = BoardFactory::MakePiece(0, pawnStartingPosition);
+  squaresMap.at(capturedPawnPosition) = BoardFactory::MakePiece(0, capturedPawnPosition);
 
   const std::shared_ptr<Piece> &friendKing = (pawn->GetColor() == PieceColor::WHITE) ? whiteKing : blackKing;
   opponentPieceVector.erase(std::find(opponentPieceVector.begin(), opponentPieceVector.end(), capturedPawn));
@@ -351,7 +351,7 @@ void Board::EnPassant(std::shared_ptr<Piece> &&pawn, const Coordinate pawnEnding
   // Invalid move case. Resetting the board.
   opponentPieceVector.push_back(capturedPawn);
   squaresMap.at(pawnStartingPosition) = pawn;
-  squaresMap.at(pawnEndingPosition) = GameManager::MakePiece(0, pawnEndingPosition);
+  squaresMap.at(pawnEndingPosition) = BoardFactory::MakePiece(0, pawnEndingPosition);
   squaresMap.at(capturedPawnPosition) = capturedPawn;
   throw InvalidMoveException("This move is not allowed. The king would be in check.");
 }
@@ -407,7 +407,7 @@ void Board::ClearBoard()
     for (int column = 1; column < 9; column++)
     {
       Coordinate position(column, row);
-      squaresMap[position] = GameManager::MakePiece(0, position);
+      squaresMap[position] = BoardFactory::MakePiece(0, position);
     }
   }
 }
