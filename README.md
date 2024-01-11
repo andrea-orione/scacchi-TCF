@@ -4,7 +4,7 @@ Università di Torino <br/> A.A. 2023/2024 <br/> Marchetti Luca, Orione Andrea, 
 <br/>
 
 ## INTRODUZIONE
-Questo progetto ha lo scopo di generare un programma che permetta di giocare a scacchi. In particolare, si vuole progettare un programma che, dati due giocatori, dia la possibilità di:
+Questo progetto ha lo scopo di creare un programma che permetta di giocare a scacchi. In particolare, si vuole progettare un programma che, dati due giocatori, dia la possibilità di:
 
 1. visualizzare nel terminale lo stato attuale della scacchiera;
 2. effettuare una mossa;
@@ -22,7 +22,7 @@ Questo progetto ha lo scopo di generare un programma che permetta di giocare a s
 L'esecuzione della mossa consiste nei seguenti passi:
 
 1. prendere in input una mossa in notazione UCI (Universal Chess Interface);
-2. controllare che notazione della mossa indicata sia valida;
+2. controllare che la notazione della mossa indicata sia valida;
 3. controllare che la mossa indicata sia realizzabile; 
 3. eseguire la mossa;
 4. valutare il nuovo stato della partita, controllando se è: *scacco matto*, *stallo*, *patta per ripetizione* o *patta per mancanza di pezzi*.
@@ -42,8 +42,12 @@ Esempi di notazione valida sono i seguenti:
 
 <br/>
 
-## COME COMPILARLO ED UTILIZZARLO (MacOs o Linux)
-Una volta scaricata ed installata una versione di CMake superiore a 3.26, seguire i seguenti passaggi:
+## COME COMPILARE ED ESEGUIRE
+Innanzitutto è necessario assicurarsi di avere una versione di CMake superiore a 3.26 installata e funzionante sul proprio computer. Si noti che è possibile abbassare la versione minima di CMake richiesta modificando il file *CMakeLists.txt*. 
+
+### MacOS e Linux
+
+Seguire i passaggi elencati.
 
 1. Clonare la repository sul proprio computer.
 2. Navigare da terminale fino alla directory dove è stato clonato il progetto.
@@ -55,18 +59,18 @@ Una volta scaricata ed installata una versione di CMake superiore a 3.26, seguir
    ```bash
    cmake ..
    ```
-5. Compilare il progetto:
+5. Compilare e linkare il progetto:
    ```bash
    make -j N
    ```
-   dove N va sostituito con il numero di threads che si vogliono utilizzare (scrivere solo ```make``` per usare un solo thread).
-6. Eseguire l'eseguibile ottenuto:
+   dove N va sostituito con il numero di threads che si vogliono utilizzare (scrivere solamente ```make``` per usare un solo thread).
+6. Eseguire l'eseguibile generato da CMake:
    ```bash
    ./scacchi
    ```
 <br/>
 
 ## Diagrammi UML
-Per vedere il Class Diagram ed il Use Case Diagram in versione originale, scaricare UMLet ed aprire i file *.uxf* con tale applicazione.
+Per vedere lo Use Case Diagram, il Class Diagram ed i diagrammi di flusso in versione originale, scaricare UMLet ed aprire i file *.uxf* con tale applicazione.
 In alternativa, una versione in formato *.pdf* è disponibile nella cartella **UML**.
 
