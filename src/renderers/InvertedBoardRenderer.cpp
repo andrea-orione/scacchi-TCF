@@ -6,7 +6,6 @@
 
 #include "Board.hh"
 #include "BoardRenderer.hh"
-#include "Piece.hh"
 
 using std::cout;
 using std::endl;
@@ -17,23 +16,23 @@ constexpr std::string_view bottom = "╚═══╧═══╧═══╧═�
 constexpr std::string_view border = "║";
 constexpr std::string_view separator = "│";
 
-InvertedBoardRenderer::InvertedBoardRenderer() :
-  BoardRenderer(std::map<PieceType, std::string_view>{
-      {PieceType::PAWN, "♙"},
-      {PieceType::ROOK, "♖"},
-      {PieceType::KNIGHT, "♘"},
-      {PieceType::BISHOP, "♗"},
-      {PieceType::QUEEN, "♕"},
-      {PieceType::KING, "♔"},
-      {PieceType::VOID, " "}},
-    std::map<PieceType, std::string_view>{
-      {PieceType::PAWN, "♟︎"},
-      {PieceType::ROOK, "♜"},
-      {PieceType::KNIGHT, "♞"},
-      {PieceType::BISHOP, "♝"},
-      {PieceType::QUEEN, "♛"},
-      {PieceType::KING, "♚"},
-      {PieceType::VOID, " "}}) {}
+InvertedBoardRenderer::InvertedBoardRenderer() : BoardRenderer(
+                                                     std::map<PieceType, std::string_view>{
+                                                         {PieceType::PAWN, "♙"},
+                                                         {PieceType::ROOK, "♖"},
+                                                         {PieceType::KNIGHT, "♘"},
+                                                         {PieceType::BISHOP, "♗"},
+                                                         {PieceType::QUEEN, "♕"},
+                                                         {PieceType::KING, "♔"},
+                                                         {PieceType::VOID, " "}},
+                                                     std::map<PieceType, std::string_view>{
+                                                         {PieceType::PAWN, "♟︎"},
+                                                         {PieceType::ROOK, "♜"},
+                                                         {PieceType::KNIGHT, "♞"},
+                                                         {PieceType::BISHOP, "♝"},
+                                                         {PieceType::QUEEN, "♛"},
+                                                         {PieceType::KING, "♚"},
+                                                         {PieceType::VOID, " "}}) {}
 
 void InvertedBoardRenderer::PrintWhiteBoard() const
 {

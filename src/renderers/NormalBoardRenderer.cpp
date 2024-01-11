@@ -6,7 +6,6 @@
 
 #include "Board.hh"
 #include "BoardRenderer.hh"
-#include "Piece.hh"
 
 using std::cout;
 using std::endl;
@@ -17,23 +16,23 @@ constexpr std::string_view bottom = "╚═══╧═══╧═══╧═�
 constexpr std::string_view border = "║";
 constexpr std::string_view separator = "│";
 
-NormalBoardRenderer::NormalBoardRenderer() :
-  BoardRenderer(std::map<PieceType, std::string_view>{
-      {PieceType::PAWN, "♟︎"},
-      {PieceType::ROOK, "♜"},
-      {PieceType::KNIGHT, "♞"},
-      {PieceType::BISHOP, "♝"},
-      {PieceType::QUEEN, "♛"},
-      {PieceType::KING, "♚"},
-      {PieceType::VOID, " "}},
-    std::map<PieceType, std::string_view>{
-      {PieceType::PAWN, "♙"},
-      {PieceType::ROOK, "♖"},
-      {PieceType::KNIGHT, "♘"},
-      {PieceType::BISHOP, "♗"},
-      {PieceType::QUEEN, "♕"},
-      {PieceType::KING, "♔"},
-      {PieceType::VOID, " "}}) {}
+NormalBoardRenderer::NormalBoardRenderer() : BoardRenderer(
+                                                 std::map<PieceType, std::string_view>{
+                                                     {PieceType::PAWN, "♟︎"},
+                                                     {PieceType::ROOK, "♜"},
+                                                     {PieceType::KNIGHT, "♞"},
+                                                     {PieceType::BISHOP, "♝"},
+                                                     {PieceType::QUEEN, "♛"},
+                                                     {PieceType::KING, "♚"},
+                                                     {PieceType::VOID, " "}},
+                                                 std::map<PieceType, std::string_view>{
+                                                     {PieceType::PAWN, "♙"},
+                                                     {PieceType::ROOK, "♖"},
+                                                     {PieceType::KNIGHT, "♘"},
+                                                     {PieceType::BISHOP, "♗"},
+                                                     {PieceType::QUEEN, "♕"},
+                                                     {PieceType::KING, "♔"},
+                                                     {PieceType::VOID, " "}}) {}
 
 void NormalBoardRenderer::PrintWhiteBoard() const
 {
@@ -44,7 +43,7 @@ void NormalBoardRenderer::PrintWhiteBoard() const
     cout << " " << row << " " << border << " ";
     for (int column = 1; column < 9; column++)
     {
-      cout << this->PieceToString(board.GetPiece(Coordinate(column,row)));
+      cout << this->PieceToString(board.GetPiece(Coordinate(column, row)));
 
       // Slightly inefficient but makes the code cleaner
       if (column != 8)
