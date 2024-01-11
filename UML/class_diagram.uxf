@@ -758,15 +758,16 @@ m2=1
       <x>612</x>
       <y>222</y>
       <w>432</w>
-      <h>78</h>
+      <h>84</h>
     </coordinates>
     <panel_attributes>BoardFactory
 &lt;&lt;factory&gt;&gt;
 -
 + BoardFactory()
 + ~BoardFactory()
-- LoadFenPosition(fenString : string) : void
-- InitializeStartingBoard() : void
++ LoadFenPosition(fenString : string_view) : void
++ LoardBoardPosition(boardString : string_view) : void
++ InitializeStartingBoard() : void
 _+ makePiece(pieceChar : char, pPosition : Coordinate, hasRookMoved : bool = true) : shared_ptr_</panel_attributes>
     <additional_attributes/>
   </element>
@@ -785,16 +786,16 @@ _+ makePiece(pieceChar : char, pPosition : Coordinate, hasRookMoved : bool = tru
     <id>Relation</id>
     <coordinates>
       <x>870</x>
-      <y>294</y>
+      <y>300</y>
       <w>24</w>
-      <h>78</h>
+      <h>72</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
 m1=1
 m2=1
 
 </panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;110.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
