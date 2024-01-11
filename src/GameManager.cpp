@@ -46,10 +46,9 @@ const std::map<GameStatus, const char *> endgameFilesMap = {
 constexpr std::array<const char *, 4> settings = {"normal", "simplified", "colored", "inverted"};
 
 GameManager::GameManager() : activePlayerColor(PieceColor::WHITE),
-                             gameStatus(GameStatus::PLAYING)
-{
-  boardRenderer = std::make_unique<NormalBoardRenderer>();
-}
+                             gameStatus(GameStatus::PLAYING),
+                             boardRenderer(std::make_unique<NormalBoardRenderer>())
+{}
 
 /**
  * Function for creating the pointer to a specified piece from.
