@@ -5,6 +5,7 @@
 #include <iostream>
 #include <memory>
 #include <stdexcept>
+#include <string_view>
 
 #include "Bishop.hh"
 #include "Board.hh"
@@ -44,7 +45,7 @@ std::shared_ptr<Piece> BoardFactory::MakePiece(char pChar, const Coordinate pPos
   }
   else
   {
-    throw std::invalid_argument("GameManager::makePiece(char, Coordinate) Invalid value for char representing piece.");
+    throw std::invalid_argument("BoardFactory::makePiece(char, Coordinate) Invalid value for char representing piece.");
   }
 
   // determine the type of the piece
@@ -63,7 +64,7 @@ std::shared_ptr<Piece> BoardFactory::MakePiece(char pChar, const Coordinate pPos
   case 'K':
     return std::make_shared<King>(pColor, pPosition, false);
   default:
-    throw std::invalid_argument("GameManager::makePiece(char, Coordinate) Invalid value for char representing piece.");
+    throw std::invalid_argument("BoardFactory::makePiece(char, Coordinate) Invalid value for char representing piece.");
   }
 }
 
@@ -99,8 +100,110 @@ void BoardFactory::InitializeStartingBoard() const
  */
 void BoardFactory::LoadFenPosition(std::string_view fenString) const
 {
-  Board &boardInstance = Board::Instance();
-  boardInstance.ClearBoard();
+  Board &board = Board::Instance();
+  board.ClearBoard();
+
+  int analyzingPosition = fenString.find(" ");
+  if (analyzingPosition == std::string_view::npos)
+    throw std::invalid_argument("BoardFactory::loadFenPosition(string) Space not found.");
+  this->LoadBoardPosition(fenString.substr(0, analyzingPosition));
+
+  // ActivePiece
+  analyzingPosition++;
+  char analyzingChar = fenString.at(analyzingPosition);
+  switch (analyzingChar)
+  {
+    case 'w':
+      break;
+    case 'b':
+      board.IncrementMoveNumber();
+      break;
+    default:
+      board.ClearBoard();
+      throw std::invalid_argument("BoardFactory::loadFenPosition(string) Invalid active color");
+  }
+
+  // Castling availability
+  analyzingPosition += 2;
+  if (fenString.at(analyzingPosition) == '-')
+    analyzingPosition++;
+  analyzingChar = fenString.at(analyzingPosition);
+  while (analyzingChar != ' ')
+  {
+    Coordinate rookPosition;
+    switch (analyzingChar)
+    {
+      case 'K':
+        rookPosition = Coordinate(8, 1);
+        break;
+      case 'Q':
+        rookPosition = Coordinate(1, 1);
+        break;
+      case 'k':
+        rookPosition = Coordinate(8, 8);
+        break;
+      case 'q':
+        rookPosition = Coordinate(1, 8);
+        break;
+      default:
+        board.ClearBoard();
+        throw std::invalid_argument("BoardFactory::loadFendPosition() Invalid castling section");
+        break;
+    }
+    std::shared_ptr<Piece> rook = board.GetPiece(rookPosition);
+    if (rook->GetType() != PieceType::ROOK)
+    {
+      board.ClearBoard();
+      throw std::invalid_argument("BoardFactory::loadFendPosition() Invalid castling section");
+    }
+    rook->Move(rookPosition);
+    analyzingPosition++;
+    analyzingChar = fenString.at(analyzingPosition);
+  }
+
+  // En passant Substring
+  analyzingPosition++;
+  const bool hasEnPassant = fenString.at(analyzingPosition) != '-';
+  const std::string_view enPassantSubstring = (hasEnPassant) ? fenString.substr(analyzingPosition, 2) : "";
+
+  // Half move number (useless)
+  analyzingPosition += 2;
+  analyzingChar = fenString.at(analyzingPosition);
+  while (analyzingChar != ' ')
+  {
+    analyzingPosition++;
+    analyzingChar = fenString.at(analyzingPosition);
+  }
+
+  // moveNumber
+  analyzingPosition++;
+  std::string_view sMoveNumber = fenString.substr(analyzingPosition);
+  int iMoveNumber;
+  std::from_chars(sMoveNumber.data(), sMoveNumber.data() + sMoveNumber.size(), iMoveNumber);
+  board.IncrementMoveNumber((iMoveNumber - 1) * 2);
+
+  // enPassant
+  if (hasEnPassant)
+  {
+    try
+    {
+      const Coordinate enPassantPawnPosition = Coordinate(enPassantSubstring);
+      board.GetPiece(enPassantPawnPosition)->Move(enPassantPawnPosition);
+    }
+    catch (std::invalid_argument)
+    {
+      board.ClearBoard();
+      throw std::invalid_argument("BoardFactory::loadFendPosition() Invalid en-passant section");
+    }
+  }
+
+  board.UpdatePiecesVector();
+}
+
+void BoardFactory::LoadBoardPosition(std::string_view boardString) const
+{
+  Board &board = Board::Instance();
+  board.ClearBoard();
 
   bool hasWhiteKing = false;
   bool hasBlackKing = false;
@@ -112,13 +215,13 @@ void BoardFactory::LoadFenPosition(std::string_view fenString) const
   char analyzingChar;
   while (analyzingY != 1 || analyzingX != 9)
   {
-    analyzingChar = fenString.at(analyzingPosition);
+    analyzingChar = boardString.at(analyzingPosition);
 
     // Check if is a `/` or if it should be (if it shouldn't it will throw an error in the last part)
     if (analyzingX == 9 && analyzingChar != '/')
     {
-      boardInstance.ClearBoard();
-      throw std::invalid_argument("GameManager::loadFenPosition(string) Invalid string formatting.");
+      board.ClearBoard();
+      throw std::invalid_argument("BoardFactory::loadFenPosition(string) Invalid string formatting.");
     }
     if (analyzingX == 9 && analyzingChar == '/')
     {
@@ -152,12 +255,12 @@ void BoardFactory::LoadFenPosition(std::string_view fenString) const
         kingCoordinateColor = pPosition;
       }
       std::pair<Coordinate, std::shared_ptr<Piece>> p(pPosition, piece);
-      boardInstance.UpdateSquare(p);
+      board.UpdateSquare(p);
     }
     catch (const std::invalid_argument &e)
     {
-      boardInstance.ClearBoard();
-      throw std::invalid_argument("GameManager::loadFenPosition(string) Invalid naming in FEN string.");
+      board.ClearBoard();
+      throw std::invalid_argument("BoardFactory::loadFenPosition(string) Invalid naming in FEN string.");
     }
 
     analyzingX++;
@@ -165,103 +268,8 @@ void BoardFactory::LoadFenPosition(std::string_view fenString) const
   }
   if (!(hasBlackKing && hasWhiteKing))
   {
-    boardInstance.ClearBoard();
-    throw std::invalid_argument("GameManager::loadFenPosition(string) Not enough kings.");
+    board.ClearBoard();
+    throw std::invalid_argument("BoardFactory::loadFenPosition(string) Not enough kings.");
   }
-  boardInstance.AddKings(whiteKingCoordinate, blackKingCoordinate);
-
-  // ActivePiece
-  analyzingPosition++;
-  analyzingChar = fenString.at(analyzingPosition);
-  switch (analyzingChar)
-  {
-    case 'w':
-      break;
-    case 'b':
-      boardInstance.IncrementMoveNumber();
-      break;
-    default:
-      boardInstance.ClearBoard();
-      throw std::invalid_argument("GameManager::loadFenPosition(string) Invalid active color");
-  }
-
-  // Castling availability
-  analyzingPosition += 2;
-  if (fenString.at(analyzingPosition) == '-')
-    analyzingPosition++;
-  analyzingChar = fenString.at(analyzingPosition);
-  while (analyzingChar != ' ')
-  {
-    Coordinate rookPosition;
-    switch (analyzingChar)
-    {
-      case 'K':
-        rookPosition = Coordinate(8, 1);
-        break;
-      case 'Q':
-        rookPosition = Coordinate(1, 1);
-        break;
-      case 'k':
-        rookPosition = Coordinate(8, 8);
-        break;
-      case 'q':
-        rookPosition = Coordinate(1, 8);
-        break;
-      default:
-        boardInstance.ClearBoard();
-        throw std::invalid_argument("GameManager::loadFendPosition() Invalid castling section");
-        break;
-    }
-    std::shared_ptr<Piece> rook = boardInstance.GetPiece(rookPosition);
-    if (rook->GetType() != PieceType::ROOK)
-    {
-      boardInstance.ClearBoard();
-      throw std::invalid_argument("GameManager::loadFendPosition() Invalid castling section");
-    }
-    char rookChar = (rook->GetColor() == PieceColor::WHITE) ? 'R' : 'r';
-    std::shared_ptr<Piece> newRook = MakePiece(rookChar, rookPosition, false);
-    std::pair<Coordinate, std::shared_ptr<Piece>> p(rookPosition, newRook);
-    boardInstance.UpdateSquare(p);
-    analyzingPosition++;
-    analyzingChar = fenString.at(analyzingPosition);
-  }
-
-  // En passant Substring
-  analyzingPosition++;
-  const bool hasEnPassant = fenString.at(analyzingPosition) != '-';
-  const std::string_view enPassantSubstring = (hasEnPassant) ? fenString.substr(analyzingPosition, 2) : "";
-
-  // Half move number (useless)
-  analyzingPosition += 2;
-  analyzingChar = fenString.at(analyzingPosition);
-  while (analyzingChar != ' ')
-  {
-    analyzingPosition++;
-    analyzingChar = fenString.at(analyzingPosition);
-  }
-
-  // moveNumber
-  analyzingPosition++;
-  std::string_view sMoveNumber = fenString.substr(analyzingPosition);
-  int iMoveNumber;
-  std::from_chars(sMoveNumber.data(), sMoveNumber.data() + sMoveNumber.size(), iMoveNumber);
-  boardInstance.IncrementMoveNumber((iMoveNumber - 1) * 2);
-
-  // enPassant
-  if (hasEnPassant)
-  {
-    try
-    {
-      const Coordinate enPassantPawnPosition = Coordinate(enPassantSubstring);
-      boardInstance.GetPiece(enPassantPawnPosition)->Move(enPassantPawnPosition);
-    }
-    catch (std::invalid_argument)
-    {
-      boardInstance.ClearBoard();
-      throw std::invalid_argument("GameManager::loadFendPosition() Invalid en-passant section");
-    }
-  }
-
-  // Updating PiecesVector
-  boardInstance.UpdatePiecesVector();
+  board.AddKings(whiteKingCoordinate, blackKingCoordinate);
 }

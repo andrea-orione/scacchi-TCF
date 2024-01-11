@@ -48,5 +48,6 @@ bool Rook::IsMoveValid(const Coordinate endingPosition) const
 void Rook::Move(const Coordinate newPosition)
 {
   position = newPosition;
-  hasMoved = true;
+  // the distanceSquared == 0 case is used when the FEN position is loaded (for loading the last movement for the en passant)
+  hasMoved = !(this->GetPosition().SquaredDistance(newPosition) == 0);
 }
