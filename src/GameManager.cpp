@@ -341,18 +341,21 @@ void GameManager::UpdateGameStatus()
     gameStatus = GameStatus::MATERIAL_LACK;
     return;
   }
-
-  std::string_view pastpos = board.GetFenPosition();
-  PastPositions.push_back(pastpos);
-  size_t size = PastPositions.size();
   
+  //c'è un problema nella GetFenPosition
+
+  //std::string_view pastpos = board.GetFenPosition();
+  //PastPositions.push_back(pastpos);
+  //size_t size = PastPositions.size();
+
+  /*
   if (size >= 6 && PastPositions[size -1] == PastPositions[size - 3] && PastPositions[size - 2] == PastPositions[size - 4] 
       && PastPositions[size - 3] == PastPositions[size - 5])
   {
       gameStatus = GameStatus::REPETITION;
       return;
   }
-
+  */
 }
 
 /**

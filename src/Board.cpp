@@ -435,18 +435,14 @@ std::vector<std::shared_ptr<Piece>> Board::GetCapturedPieces(PieceColor pColor) 
  */
 std::string_view Board::GetFenPosition() const
 {
-    //doppio ciclo for per ogni riga e colonna al contrario coi numeri
-    //cerco pezzo nella mappa con .at 
-    //ultima riga al fondo senza slash
     std::string cyclestring;
-    Coordinate coord(int x, int y);
 
     for (int i = 7; i >= 0; i--)
     {
         for (int j = 7; j >= 0; j--) {
             std::shared_ptr<Piece> cpiece = squaresMap.at(Coordinate(i, j));
             char pstring = cpiece->GetChar();
-            cyclestring += pstring;
+            cyclestring.push_back(pstring);
         }
     }
 
