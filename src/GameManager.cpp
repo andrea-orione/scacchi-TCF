@@ -341,8 +341,6 @@ void GameManager::UpdateGameStatus()
     gameStatus = GameStatus::MATERIAL_LACK;
     return;
   }
-  
-  //c'è un problema nella GetFenPosition
 
   //std::string_view pastpos = board.GetFenPosition();
   //PastPositions.push_back(pastpos);
@@ -393,6 +391,9 @@ void GameManager::KillGame() const
   std::exit(0);
 }
 
+/**
+* Function for clearing the PastPosition vector. 
+*/
 void GameManager::ClearPastPositions()
 {
     PastPositions.clear();
