@@ -35,13 +35,16 @@ bool Pawn::IsMoveValid(const Coordinate endingPosition) const
   // board instance
   const Board &board = Board::Instance();
 
+  if (absXDistance == 0 && board.GetPiece(endingPosition)->GetColor() != PieceColor::VOID)
+    return false;
+
   // check if landing square is free and the square in front is free (for double advancement moves also)
   if (abs(yDistance) == 2)
   {
     const Movement forwardMovement(0, yDirection);
     const Coordinate inFrontPosition = this->GetPosition() + forwardMovement;
 
-    return (board.GetPiece(inFrontPosition)->GetColor() == PieceColor::VOID && board.GetPiece(endingPosition)->GetColor() == PieceColor::VOID);
+    return (board.GetPiece(inFrontPosition)->GetColor() == PieceColor::VOID);
   }
 
   // check en passant
