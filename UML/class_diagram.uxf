@@ -113,7 +113,7 @@ _+ Instance() : Board&amp;_
 - Castling(king : shared_ptr, kingEndingPosition : Coordinate) : void
 - EnPassant(pawn : shared_ptr, pawnEndingPosition : Coordinate) : void
 - IsSquareAttacked(square : Coordinate, attackerColor : PieceColor) : bool
-+ UpdateSquare(square : pair) : void
++ UpdateSquare(position : Coordinate, piece : Piece) : void
 + UpdatePiecesVector() : void
 + AddKings(whiteKingPosition : Coordinate, blackKingPosition : Coordinate) : void
 + IsKingInCheck(kingColor : PieceColor) : bool

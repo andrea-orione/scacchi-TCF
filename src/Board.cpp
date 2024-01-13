@@ -53,9 +53,9 @@ Board &Board::Instance()
  *
  * @param[in] square The `std::pair` representing the square (see `squaresMap`).
  */
-void Board::UpdateSquare(std::pair<Coordinate, std::shared_ptr<Piece>> square)
+void Board::UpdateSquare(Coordinate position, std::shared_ptr<Piece> piece)
 {
-  this->squaresMap.at(square.first) = square.second;
+  this->squaresMap.at(position) = piece;
 }
 
 /**

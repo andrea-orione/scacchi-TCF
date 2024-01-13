@@ -254,8 +254,7 @@ void BoardFactory::LoadBoardPosition(std::string_view boardString) const
         hasKingColor = true;
         kingCoordinateColor = pPosition;
       }
-      std::pair<Coordinate, std::shared_ptr<Piece>> p(pPosition, piece);
-      board.UpdateSquare(p);
+      board.UpdateSquare(pPosition, piece);
     }
     catch (const std::invalid_argument &e)
     {
