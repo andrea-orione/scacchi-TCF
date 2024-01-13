@@ -1,9 +1,12 @@
 #include "Pawn.hh"
 
+#include "EnPassantMover.hh"
 #include "Movement.hh"
 #include "Piece.hh"
 #include "Board.hh"
+#include "PieceMover.hh"
 #include "Utils.hh"
+#include <memory>
 
 Pawn::Pawn(PieceColor pColor, Coordinate pPosition, bool pHasMoved) :
   hasMoved(pHasMoved),
@@ -18,7 +21,7 @@ Pawn::Pawn(PieceColor pColor, Coordinate pPosition, bool pHasMoved) :
   literal = (color == PieceColor::WHITE) ? 'P' : 'p';
 }
 
-bool Pawn::IsMoveValid(const Coordinate endingPosition) const
+bool Pawn::IsMoveValid(const Coordinate endingPosition, std::unique_ptr<PieceMover> &moveHandler) const
 {
   const Coordinate pawnStartingPosition = this->GetPosition();
   // geometric check
@@ -58,7 +61,7 @@ bool Pawn::IsMoveValid(const Coordinate endingPosition) const
     if (doubleAdvNum==-1 || abs(doubleAdvNum - board.GetMoveNumber()) > 1)
       return false;
 
-    throw EnPassantSignal();
+    moveHandler = std::make_unique<EnPassantMover>();
     return true;
   }
 

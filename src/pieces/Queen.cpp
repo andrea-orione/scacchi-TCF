@@ -2,8 +2,10 @@
 
 #include "Board.hh"
 #include "Piece.hh"
+#include "PieceMover.hh"
 #include "Utils.hh"
 
+#include <memory>
 #include <stdexcept>
 
 Queen::Queen(PieceColor pColor, Coordinate pPosition)
@@ -17,7 +19,7 @@ Queen::Queen(PieceColor pColor, Coordinate pPosition)
   literal = (color == PieceColor::WHITE) ? 'Q' : 'q';
 }
 
-bool Queen::IsMoveValid(const Coordinate endingPosition) const
+bool Queen::IsMoveValid(const Coordinate endingPosition, std::unique_ptr<PieceMover> &moveHandler) const
 {
   const int xDistance = endingPosition.GetX() - this->position.GetX();
   const int yDistance = endingPosition.GetY() - this->position.GetY();

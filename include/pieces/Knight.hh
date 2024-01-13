@@ -2,6 +2,9 @@
 
 #include "Coordinate.hh"
 #include "Piece.hh"
+#include "PieceMover.hh"
+
+#include <memory>
 
 /**
  * The class representing the knights.
@@ -13,5 +16,5 @@ public:
   Knight(PieceColor pColor, Coordinate pPosition);
   ~Knight() override = default;
 
-  bool IsMoveValid(const Coordinate endingPosition) const override;
+  bool IsMoveValid(const Coordinate endingPosition, std::unique_ptr<PieceMover> &moveHandler) const override;
 };

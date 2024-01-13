@@ -3,8 +3,10 @@
 #include "Movement.hh"
 #include "Board.hh"
 #include "Piece.hh"
+#include "PieceMover.hh"
 #include "Utils.hh"
 
+#include <memory>
 #include <stdexcept>
 
 Bishop::Bishop(PieceColor pColor, Coordinate pPosition)
@@ -18,7 +20,7 @@ Bishop::Bishop(PieceColor pColor, Coordinate pPosition)
   literal = (color == PieceColor::WHITE) ? 'B' : 'b';
 }
 
-bool Bishop::IsMoveValid(const Coordinate endingPosition) const
+bool Bishop::IsMoveValid(const Coordinate endingPosition, std::unique_ptr<PieceMover> &moveHandler) const
 {
   const int xDistance = endingPosition.GetX() - this->position.GetX();
   const int yDistance = endingPosition.GetY() - this->position.GetY();

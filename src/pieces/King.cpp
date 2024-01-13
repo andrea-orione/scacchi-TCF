@@ -1,11 +1,14 @@
 #include "King.hh"
 
 #include "Board.hh"
+#include "CastlingMover.hh"
 #include "Coordinate.hh"
 #include "Movement.hh"
 #include "Piece.hh"
+#include "PieceMover.hh"
 #include "Utils.hh"
 
+#include <memory>
 #include <stdexcept>
 
 King::King(PieceColor pColor, Coordinate pPosition, bool pHasMoved)
@@ -20,7 +23,7 @@ King::King(PieceColor pColor, Coordinate pPosition, bool pHasMoved)
   literal = (color == PieceColor::WHITE) ? 'K' : 'k';
 }
 
-bool King::IsMoveValid(const Coordinate endingPosition) const
+bool King::IsMoveValid(const Coordinate endingPosition, std::unique_ptr<PieceMover> &moveHandler) const
 {
   // Too far case
   if (this->position.SquaredDistance(endingPosition) > 4)
@@ -54,7 +57,8 @@ bool King::IsMoveValid(const Coordinate endingPosition) const
     if (board.GetPiece(newPosition)->GetColor() != PieceColor::VOID)
       return false;
   }
-  throw CastlingSignal();
+  moveHandler = std::make_unique<CastlingMover>();
+  return true;
 }
 
 void King::Move(const Coordinate newPosition)

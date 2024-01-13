@@ -18,7 +18,10 @@
 #include "Coordinate.hh"
 #include "InvertedBoardRenderer.hh"
 #include "NormalBoardRenderer.hh"
+#include "NormalMover.hh"
 #include "Piece.hh"
+#include "PieceMover.hh"
+#include "PromotionMover.hh"
 #include "SimplifiedBoardRenderer.hh"
 #include "Utils.hh"
 
@@ -270,31 +273,35 @@ void GameManager::GetUserMove()
   Board &board = Board::Instance();
   if (userMove.length() == 4 && std::regex_match(userMove, regexRuleNormal))
   {
-    std::string_view startingSquare(userMove.c_str(), 2);
-    std::string_view endingSquare(userMove.c_str() + 2, 2);
+    const Coordinate startingSquare(std::string_view(userMove.c_str(), 2));
+    const Coordinate endingSquare(std::string_view(userMove.c_str() + 2, 2));
 
-    std::shared_ptr<Piece> pieceToMove = board.GetPiece(Coordinate(startingSquare));
+    std::shared_ptr<Piece> pieceToMove = board.GetPiece(startingSquare);
 
     if (pieceToMove->GetColor() != activePlayerColor)
       throw InvalidMoveException("The piece you want to move doesn't belong to you.");
 
     // check for trying to move pawn without promoting
-    if (pieceToMove->GetType() == PieceType::PAWN && (endingSquare[1] == '8' || endingSquare[1] == '1'))
+    if (pieceToMove->GetType() == PieceType::PAWN && (endingSquare.GetY() == 8 || endingSquare.GetY() == 1)
       throw InvalidMoveException("You have to promote this pawn.");
-
+    
     if (pieceToMove->GetType() == PieceType::PAWN)
       pastPositions.clear();
 
-    board.NormalMove(std::move(pieceToMove), Coordinate(endingSquare));
+    std::unique_ptr<PieceMover> mover = std::make_unique<NormalMover>();
+    if (!pieceToMove->IsMoveValid(Coordinate(endingSquare), mover))
+      throw InvalidMoveException("This move is not allowed. This piece cannot reach that position.");
+
+    mover->Move(std::move(pieceToMove), endingSquare);
     pastPositions.push_back(board.GetFenPosition());
     UpdateGameStatus();
   }
   // Promotion
   else if (userMove.length() == 5 && std::regex_match(userMove, regexRulePromotion))
   {
-    std::string_view startingSquare(userMove.c_str(), 2);
-    std::string_view endingSquare(userMove.c_str() + 2, 2);
-    char promotionPiece = userMove[4];
+    const Coordinate startingSquare(std::string_view(userMove.c_str(), 2));
+    const Coordinate endingSquare(std::string_view(userMove.c_str() + 2, 2));
+    const char promotionPiece = userMove[4];
 
     std::shared_ptr<Piece> pieceToMove = board.GetPiece(Coordinate(startingSquare));
 
@@ -304,8 +311,16 @@ void GameManager::GetUserMove()
     if (pieceToMove->GetType() != PieceType::PAWN)
       throw InvalidMoveException("You cannot promote a piece which is not a pawn.");
 
+<<<<<<< HEAD
     board.Promotion(std::move(pieceToMove), promotionPiece, Coordinate(endingSquare));
     pastPositions.push_back(board.GetFenPosition());
+=======
+    std::unique_ptr<PieceMover> mover = std::make_unique<PromotionMover>(promotionPiece);
+    if (!pieceToMove->IsMoveValid(Coordinate(endingSquare), mover))
+      throw InvalidMoveException("This move is not allowed. This piece cannot reach that position.");
+
+    mover->Move(std::move(pieceToMove), endingSquare);
+>>>>>>> 8d2acea (Tentativo fallito di rendere move una strategy)
     UpdateGameStatus();
   }
   else
