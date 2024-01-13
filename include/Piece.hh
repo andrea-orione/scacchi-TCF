@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Coordinate.hh"
+#include "PieceMover.hh"
+#include <memory>
 
 /**
  * Enumeration representing the color of the piece.
@@ -52,10 +54,11 @@ public:
    * pieces in the way.
    *
    * @param[in] endingPosition The square where the piece should move to.
+   * @param[out] moveHandler The strategy that should handle the move.
    *
    * @return `true` if the move is valid, `false` if it's not.
    */
-  virtual bool IsMoveValid(const Coordinate endingPosition) const = 0;
+  virtual bool IsMoveValid(const Coordinate endingPosition, std::unique_ptr<PieceMover> &moveHandler) const = 0;
 
   virtual char GetChar() const { return literal; }
 

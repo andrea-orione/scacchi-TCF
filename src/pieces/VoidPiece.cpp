@@ -8,8 +8,3 @@ VoidPiece::VoidPiece(Coordinate pPosition)
   color = PieceColor::VOID;
   position = pPosition;
 }
-
-bool VoidPiece::IsMoveValid(const Coordinate endingPosition) const
-{
-  return false;
-}

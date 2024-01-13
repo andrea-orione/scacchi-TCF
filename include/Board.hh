@@ -32,6 +32,7 @@ public:
   void AddKings(Coordinate whiteKingPosition, Coordinate blackKingPosition);
 
   bool IsKingInCheck(PieceColor kingColor) const;
+  bool IsSquareAttacked(Coordinate square, PieceColor attackerColor) const;
   bool HasValidMoves(PieceColor playerColor);
   bool IsMaterialLacking() const;
 
@@ -45,7 +46,11 @@ public:
   void IncrementMoveNumber(int increment = 1) { moveNumber += increment; }
   int GetMoveNumber() const { return moveNumber; }
 
+  std::shared_ptr<Piece> GetWhiteKing() const { return whiteKing; }
+  std::shared_ptr<Piece> GetBlackKing() const { return blackKing; }
   std::vector<std::shared_ptr<Piece>> GetCapturedPieces(PieceColor pColor) const;
+  
+  void AddCapturedPiece(const std::shared_ptr<Piece>);
 
   std::string_view GetFenPosition() const;
 
@@ -55,7 +60,6 @@ private:
   void Castling(std::shared_ptr<Piece> &&king, Coordinate kingEndingPosition);
   void EnPassant(std::shared_ptr<Piece> &&pawn, Coordinate pawnEndingPosition);
 
-  bool IsSquareAttacked(Coordinate square, PieceColor attackerColor) const;
 
   // Map defining the squares as {coordinate : pointer to piece}.
   std::map<Coordinate, std::shared_ptr<Piece>> squaresMap;
