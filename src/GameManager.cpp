@@ -342,6 +342,7 @@ void GameManager::UpdateGameStatus()
     return;
   }
 
+  //PRIMA RIGA QUA SOTTO DA' PROBLEMI
   //std::string_view pastpos = board.GetFenPosition();
   //PastPositions.push_back(pastpos);
   //size_t size = PastPositions.size();
