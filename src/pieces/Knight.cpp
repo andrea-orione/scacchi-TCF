@@ -1,8 +1,8 @@
 #include "Knight.hh"
 
 #include "Board.hh"
+#include "NormalMover.hh"
 #include "Piece.hh"
-#include "PieceMover.hh"
 
 #include <memory>
 #include <stdexcept>
@@ -18,14 +18,14 @@ Knight::Knight(PieceColor pColor, Coordinate pPosition)
   literal = (color == PieceColor::WHITE) ? 'N' : 'n';
 }
 
-bool Knight::IsMoveValid(const Coordinate endingPosition, std::unique_ptr<PieceMover> &moveHandler) const
+MoveInfo Knight::IsMoveValid(const Coordinate endingPosition) const
 {
   // geometric check
   if (this->position.SquaredDistance(endingPosition) != 5)
-    return false;
+    return {false, std::make_unique<NormalMover>()};
 
   // determine if the move is valid
   const Board &board = Board::Instance();
 
-  return !(board.GetPiece(endingPosition)->GetColor() == this->color);
+  return {!(board.GetPiece(endingPosition)->GetColor() == this->color), std::make_unique<NormalMover>()};
 }

@@ -18,7 +18,6 @@
 #include "Coordinate.hh"
 #include "InvertedBoardRenderer.hh"
 #include "NormalBoardRenderer.hh"
-#include "NormalMover.hh"
 #include "Piece.hh"
 #include "PieceMover.hh"
 #include "PromotionMover.hh"
@@ -288,8 +287,8 @@ void GameManager::GetUserMove()
     if (pieceToMove->GetType() == PieceType::PAWN)
       pastPositions.clear();
 
-    std::unique_ptr<PieceMover> mover = std::make_unique<NormalMover>();
-    if (!pieceToMove->IsMoveValid(Coordinate(endingSquare), mover))
+    MoveInfo move = pieceToMove->IsMoveValid(Coordinate(endingSquare));
+    if (!move.valid)
       throw InvalidMoveException("This move is not allowed. This piece cannot reach that position.");
 
     mover->Move(std::move(pieceToMove), endingSquare);
@@ -312,6 +311,7 @@ void GameManager::GetUserMove()
       throw InvalidMoveException("You cannot promote a piece which is not a pawn.");
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     board.Promotion(std::move(pieceToMove), promotionPiece, Coordinate(endingSquare));
     pastPositions.push_back(board.GetFenPosition());
 =======
@@ -321,6 +321,14 @@ void GameManager::GetUserMove()
 
     mover->Move(std::move(pieceToMove), endingSquare);
 >>>>>>> 8d2acea (Tentativo fallito di rendere move una strategy)
+=======
+    MoveInfo move = pieceToMove->IsMoveValid(Coordinate(endingSquare));
+    if (!move.valid)
+      throw InvalidMoveException("This move is not allowed. This piece cannot reach that position.");
+
+    std::unique_ptr<PieceMover> moveHandler = std::make_unique<PromotionMover>(promotionPiece);
+    moveHandler->Move(std::move(pieceToMove), endingSquare);
+>>>>>>> e3f0230 (Fatto un sacco di roba continua a non funzionare)
     UpdateGameStatus();
   }
   else

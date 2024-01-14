@@ -2,35 +2,34 @@
 
 #include <memory>
 
+#include "Board.hh"
+#include "BoardFactory.hh"
 #include "Coordinate.hh"
 #include "Piece.hh"
+#include "Utils.hh"
 
 void NormalMover::Move(std::shared_ptr<Piece> &&movingPiece, const Coordinate endingPosition) const
 {
+  Board &board = Board::Instance();
   const Coordinate startingPosition = movingPiece->GetPosition();
-  auto &opponentPieceVector = (movingPiece->GetColor() == PieceColor::WHITE) ? blackPieces : whitePieces;
-  auto &opponentCapturedPieceVector = (movingPiece->GetColor() == PieceColor::WHITE) ? blackCapturedPieces : whiteCapturedPieces;
-  std::shared_ptr<Piece> temporaryStorageCapturedPiece = squaresMap.at(endingPosition);
-  squaresMap.at(endingPosition) = movingPiece;
-  squaresMap.at(startingPosition) = BoardFactory::MakePiece(0, startingPosition);
-  std::shared_ptr<Piece> &friendKing = (movingPiece->GetColor() == PieceColor::WHITE) ? whiteKing : blackKing;
-  const Coordinate &friendKingPosition = (friendKing == movingPiece) ? endingPosition : friendKing->GetPosition();
-  if (temporaryStorageCapturedPiece->GetColor() != PieceColor::VOID)
-    opponentPieceVector.erase(std::find(opponentPieceVector.begin(), opponentPieceVector.end(), temporaryStorageCapturedPiece));
+  std::shared_ptr<Piece> temporaryStorageCapturedPiece = board.GetPiece(endingPosition);
+  board.UpdateSquare(endingPosition, movingPiece);
+  board.UpdateSquare(startingPosition, BoardFactory::MakePiece(0, startingPosition));
+
+  const bool kingInCheck = (movingPiece->GetType() == PieceType::KING) ?
+    board.IsSquareAttacked(endingPosition, !movingPiece->GetColor()) :
+    board.IsKingInCheck(movingPiece->GetColor());
 
   // Valid move case
-  if (!IsSquareAttacked(friendKingPosition, !(movingPiece->GetColor())))
+  if (!kingInCheck)
   {
     movingPiece->Move(endingPosition);
-    if (temporaryStorageCapturedPiece->GetType() != PieceType::VOID)
-      opponentCapturedPieceVector.push_back(temporaryStorageCapturedPiece);
+    board.AddCapturedPiece(temporaryStorageCapturedPiece);
     return;
   }
 
   // Invalid move case. Resetting the board.
-  if (temporaryStorageCapturedPiece->GetColor() != PieceColor::VOID)
-    opponentPieceVector.push_back(temporaryStorageCapturedPiece);
-  squaresMap.at(startingPosition) = movingPiece;
-  squaresMap.at(endingPosition) = temporaryStorageCapturedPiece;
+  board.UpdateSquare(startingPosition, movingPiece);
+  board.UpdateSquare(endingPosition, temporaryStorageCapturedPiece);
   throw InvalidMoveException("This move is not allowed. The king would be in check.");
 }

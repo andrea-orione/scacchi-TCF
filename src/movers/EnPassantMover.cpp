@@ -31,20 +31,16 @@ void EnPassantMover::Move(std::shared_ptr<Piece> &&pawn, const Coordinate pawnEn
   board.UpdateSquare(pawnEndingPosition, pawn);
   board.UpdateSquare(pawnStartingPosition, BoardFactory::MakePiece(0, pawnStartingPosition));
   board.UpdateSquare(capturedPawnPosition, BoardFactory::MakePiece(0, capturedPawnPosition));
-  board.UpdatePiecesVector();
-
-  const std::shared_ptr<Piece> &friendKing = (pawn->GetColor() == PieceColor::WHITE) ? board.GetWhiteKing() : board.GetBlackKing();
 
   // Valid move case
-  if (!board.IsSquareAttacked(friendKing->GetPosition(), !(pawn->GetColor())))
+  if (!board.IsKingInCheck(pawn->GetColor()))
   {
     pawn->Move(pawnEndingPosition);
-    opponentCapturedPieceVector.push_back(capturedPawn);
+    board.AddCapturedPiece(capturedPawn);
     return;
   }
 
   // Invalid move case. Resetting the board.
-  opponentPieceVector.push_back(capturedPawn);
   board.UpdateSquare(pawnStartingPosition, pawn);
   board.UpdateSquare(pawnEndingPosition, BoardFactory::MakePiece(0, pawnEndingPosition));
   board.UpdateSquare(capturedPawnPosition, capturedPawn);

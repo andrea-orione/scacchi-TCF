@@ -31,13 +31,11 @@ public:
   void UpdatePiecesVector();
   void AddKings(Coordinate whiteKingPosition, Coordinate blackKingPosition);
 
-  bool IsKingInCheck(PieceColor kingColor) const;
   bool IsSquareAttacked(Coordinate square, PieceColor attackerColor) const;
+
+  bool IsKingInCheck(PieceColor kingColor) const;
   bool HasValidMoves(PieceColor playerColor);
   bool IsMaterialLacking() const;
-
-  void NormalMove(std::shared_ptr<Piece> &&movingPiece, Coordinate endingPosition);
-  void Promotion(std::shared_ptr<Piece> &&pawn, char promotionPiece, Coordinate endingPosition);
 
   std::shared_ptr<Piece> GetPiece(Coordinate position) const { return squaresMap.find(position)->second; }
 
@@ -46,20 +44,14 @@ public:
   void IncrementMoveNumber(int increment = 1) { moveNumber += increment; }
   int GetMoveNumber() const { return moveNumber; }
 
-  std::shared_ptr<Piece> GetWhiteKing() const { return whiteKing; }
-  std::shared_ptr<Piece> GetBlackKing() const { return blackKing; }
   std::vector<std::shared_ptr<Piece>> GetCapturedPieces(PieceColor pColor) const;
   
-  void AddCapturedPiece(const std::shared_ptr<Piece>);
+  void AddCapturedPiece(const std::shared_ptr<Piece> piece);
 
   std::string GetFenPosition() const;
 
 private:
   Board(); // private constructor
-
-  void Castling(std::shared_ptr<Piece> &&king, Coordinate kingEndingPosition);
-  void EnPassant(std::shared_ptr<Piece> &&pawn, Coordinate pawnEndingPosition);
-
 
   // Map defining the squares as {coordinate : pointer to piece}.
   std::map<Coordinate, std::shared_ptr<Piece>> squaresMap;
@@ -72,12 +64,11 @@ private:
   std::vector<std::shared_ptr<Piece>> whiteCapturedPieces;
   // Vector with the pointers to the black pieces captured.
   std::vector<std::shared_ptr<Piece>> blackCapturedPieces;
-
-  // The number of moves done.
-  int moveNumber;
-
   // Pointer to the white king.
   std::shared_ptr<Piece> whiteKing;
   // Pointer to the black king.
   std::shared_ptr<Piece> blackKing;
+
+  // The number of moves done.
+  int moveNumber;
 };

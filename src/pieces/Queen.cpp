@@ -1,8 +1,8 @@
 #include "Queen.hh"
 
 #include "Board.hh"
+#include "NormalMover.hh"
 #include "Piece.hh"
-#include "PieceMover.hh"
 #include "Utils.hh"
 
 #include <memory>
@@ -19,14 +19,14 @@ Queen::Queen(PieceColor pColor, Coordinate pPosition)
   literal = (color == PieceColor::WHITE) ? 'Q' : 'q';
 }
 
-bool Queen::IsMoveValid(const Coordinate endingPosition, std::unique_ptr<PieceMover> &moveHandler) const
+MoveInfo Queen::IsMoveValid(const Coordinate endingPosition) const
 {
   const int xDistance = endingPosition.GetX() - this->position.GetX();
   const int yDistance = endingPosition.GetY() - this->position.GetY();
 
   // geometric check
   if (abs(xDistance) != abs(yDistance) && (xDistance != 0 && yDistance != 0))
-    return false;
+    return {false, std::make_unique<NormalMover>()};
 
   // determine direction
   const Movement baseMove(utils::sgn(xDistance), utils::sgn(yDistance));
@@ -36,13 +36,13 @@ bool Queen::IsMoveValid(const Coordinate endingPosition, std::unique_ptr<PieceMo
 
   // check final square
   if (board.GetPiece(endingPosition)->GetColor() == this->color)
-    return false;
+    return {false, std::make_unique<NormalMover>()};
 
   // Check whether there are other pieces in the way.
   for (Coordinate newPosition = this->GetPosition() + baseMove; newPosition != endingPosition; newPosition += baseMove)
   {
     if (board.GetPiece(newPosition)->GetColor() != PieceColor::VOID)
-      return false;
+      return {false, std::make_unique<NormalMover>()};
   }
-  return true;
+  return {true, std::make_unique<NormalMover>()};
 }
