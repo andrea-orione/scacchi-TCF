@@ -26,7 +26,7 @@ namespace utils
    */
   inline void clear() { std::cout << "\033c" << std::flush; }
 
-  bool adjacent_find(const std::vector<std::string> &vec);
+  bool adjacent_find(std::vector<std::string> vec);
 } // namespace utils
 
 PieceColor operator!(const PieceColor &oldColor);

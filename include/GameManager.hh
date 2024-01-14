@@ -39,7 +39,7 @@ private:
   GameStatus gameStatus;
   std::unique_ptr<BoardRenderer> boardRenderer;
   std::unique_ptr<BoardFactory> boardFactory;
-  std::vector<std::string> PastPositions;
+  std::vector<std::string> pastPositions;
 
   std::fstream welcomeFile;
   std::fstream helpFile;

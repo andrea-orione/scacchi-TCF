@@ -42,7 +42,8 @@ GameManager::GameManager() : activePlayerColor(PieceColor::WHITE),
                              gameStatus(GameStatus::PLAYING),
                              boardRenderer(std::make_unique<NormalBoardRenderer>()),
                              boardFactory(std::make_unique<BoardFactory>())
-{}
+{
+}
 
 /**
  * Function for initializing the game.
@@ -115,7 +116,7 @@ void GameManager::GameLoop()
   utils::clear();
   std::cout << std::endl;
 
-  PastPositions.push_back(board.GetFenPosition());
+  pastPositions.push_back(board.GetFenPosition());
 
   while (gameStatus == GameStatus::PLAYING)
   {
@@ -287,10 +288,10 @@ void GameManager::GetUserMove()
       throw InvalidMoveException("You have to promote this pawn.");
 
     if (pieceToMove->GetType() == PieceType::PAWN)
-        PastPositions.clear();
+      pastPositions.clear();
 
     board.NormalMove(std::move(pieceToMove), Coordinate(endingSquare));
-    PastPositions.push_back(board.GetFenPosition());
+    pastPositions.push_back(board.GetFenPosition());
     UpdateGameStatus();
   }
   // Promotion
@@ -309,7 +310,7 @@ void GameManager::GetUserMove()
       throw InvalidMoveException("You cannot promote a piece which is not a pawn.");
 
     board.Promotion(std::move(pieceToMove), promotionPiece, Coordinate(endingSquare));
-    PastPositions.push_back(board.GetFenPosition());
+    pastPositions.push_back(board.GetFenPosition());
     UpdateGameStatus();
   }
   else
@@ -341,13 +342,13 @@ void GameManager::UpdateGameStatus()
     gameStatus = GameStatus::MATERIAL_LACK;
     return;
   }
- 
-  std::sort(PastPositions.begin(), PastPositions.end());
 
-  if (utils::adjacent_find(PastPositions))
+  std::sort(pastPositions.begin(), pastPositions.end());
+
+  if (utils::adjacent_find(pastPositions))
   {
-      gameStatus = GameStatus::REPETITION;
-      return;
+    gameStatus = GameStatus::REPETITION;
+    return;
   }
 }
 

@@ -12,8 +12,6 @@
 #include "Utils.hh"
 #include "Piece.hh"
 
-
-
 /**
  * The default constructor.
  *
@@ -117,12 +115,17 @@ bool Board::HasValidMoves(const PieceColor playerColor)
 
     for (const auto piece : playerPieces)
     {
-      try {
+      try
+      {
         if (!piece->IsMoveValid(coordinate))
           continue;
-      } catch (CastlingSignal) {
+      }
+      catch (CastlingSignal)
+      {
         continue;
-      } catch (EnPassantSignal) {
+      }
+      catch (EnPassantSignal)
+      {
         continue;
       }
 
@@ -427,7 +430,6 @@ std::vector<std::shared_ptr<Piece>> Board::GetCapturedPieces(PieceColor pColor) 
   return (pColor == PieceColor::WHITE) ? whiteCapturedPieces : blackCapturedPieces;
 }
 
-
 /**
  * Function for getting a string_view representing the board state.
  *
@@ -435,17 +437,17 @@ std::vector<std::shared_ptr<Piece>> Board::GetCapturedPieces(PieceColor pColor) 
  */
 std::string Board::GetFenPosition() const
 {
-  std::string cyclestring;
+  std::string cycleString;
 
   for (int i = 8; i >= 1; i--)
   {
     for (int j = 1; j <= 8; j++)
     {
-      std::shared_ptr<Piece> cpiece = squaresMap.at(Coordinate(j, i));
-      const char pstring = cpiece->GetChar();
-      cyclestring.push_back(pstring);
+      std::shared_ptr<Piece> cPiece = squaresMap.at(Coordinate(j, i));
+      const char pString = cPiece->GetChar();
+      cycleString.push_back(pString);
     }
   }
-    
-    return cyclestring;
+
+  return cycleString;
 }
