@@ -13,7 +13,5 @@ public:
   Knight(PieceColor pColor, Coordinate pPosition);
   ~Knight() override = default;
 
-  char GetChar() const { char literal = (this->GetColor() == PieceColor::WHITE) ? 'N' : 'n'; return literal; }
-
   bool IsMoveValid(const Coordinate endingPosition) const override;
 };

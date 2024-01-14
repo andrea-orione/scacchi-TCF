@@ -57,7 +57,7 @@ public:
    */
   virtual bool IsMoveValid(const Coordinate endingPosition) const = 0;
 
-  virtual char GetChar() const { return literal; }
+  char GetChar() const { return literal; }
 
   /**
    * Function for getting the color of the piece.

@@ -15,6 +15,7 @@ Bishop::Bishop(PieceColor pColor, Coordinate pPosition)
   color = pColor;
   pieceType = PieceType::BISHOP;
   position = pPosition;
+  literal = (color == PieceColor::WHITE) ? 'B' : 'b';
 }
 
 bool Bishop::IsMoveValid(const Coordinate endingPosition) const

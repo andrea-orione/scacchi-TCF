@@ -15,6 +15,7 @@ Pawn::Pawn(PieceColor pColor, Coordinate pPosition, bool pHasMoved) :
   pieceType = PieceType::PAWN;
   color = pColor;
   position = pPosition;
+  literal = (color == PieceColor::WHITE) ? 'P' : 'p';
 }
 
 bool Pawn::IsMoveValid(const Coordinate endingPosition) const

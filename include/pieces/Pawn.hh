@@ -15,8 +15,6 @@ public:
 
   bool IsMoveValid(const Coordinate endingPosition) const override;
 
-  char GetChar() const { char literal = (this->GetColor() == PieceColor::WHITE) ? 'P' : 'p'; return literal; }
-
   void Move(const Coordinate newPosition) override;
   int GetDoubleAdvancementMoveNumber() const override { return doubleAdvancementMoveNumber; }
 

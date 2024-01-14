@@ -17,6 +17,7 @@ King::King(PieceColor pColor, Coordinate pPosition, bool pHasMoved)
   pieceType = PieceType::KING;
   position = pPosition;
   hasMoved = pHasMoved;
+  literal = (color == PieceColor::WHITE) ? 'K' : 'k';
 }
 
 bool King::IsMoveValid(const Coordinate endingPosition) const

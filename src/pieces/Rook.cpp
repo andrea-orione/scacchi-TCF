@@ -17,6 +17,7 @@ Rook::Rook(PieceColor pColor, Coordinate pPosition, bool pHasMoved)
   pieceType = PieceType::ROOK;
   position = pPosition;
   hasMoved = pHasMoved;
+  literal = (color == PieceColor::WHITE) ? 'R' : 'r';
 }
 
 bool Rook::IsMoveValid(const Coordinate endingPosition) const

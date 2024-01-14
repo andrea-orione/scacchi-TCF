@@ -13,6 +13,7 @@ Knight::Knight(PieceColor pColor, Coordinate pPosition)
   color = pColor;
   pieceType = PieceType::KNIGHT;
   position = pPosition;
+  literal = (color == PieceColor::WHITE) ? 'N' : 'n';
 }
 
 bool Knight::IsMoveValid(const Coordinate endingPosition) const

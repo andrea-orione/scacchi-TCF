@@ -39,7 +39,7 @@ private:
   GameStatus gameStatus;
   std::unique_ptr<BoardRenderer> boardRenderer;
   std::unique_ptr<BoardFactory> boardFactory;
-  std::vector<std::string_view> PastPositions;
+  std::vector<std::string> PastPositions;
 
   std::fstream welcomeFile;
   std::fstream helpFile;
@@ -49,7 +49,6 @@ private:
   void HelpUser();
   void UserSettings();
   void GetUserMove();
-  void ClearPastPositions();
   void UpdateGameStatus();
   void KillGame() const;
   void EndGame();

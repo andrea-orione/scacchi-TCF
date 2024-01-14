@@ -24,10 +24,10 @@
 const std::regex regexRuleNormal{"[a-h][1-8][a-h][1-8]"};
 const std::regex regexRulePromotion{"[a-h][2,7][a-h][1,8][R,N,B,Q,r,n,b,q]"};
 
-const std::filesystem::path welcomeFilePath{"C:/dev/scacchi-TCF/utils/welcome.txt"};
-const std::filesystem::path helpFilePath{"C:/dev/scacchi-TCF/utils/help.txt"};
-const std::filesystem::path settingsFilePath{"C:/dev/scacchi-TCF/utils/settings.txt"};
-std::string endGameDirPath = "C:/dev/scacchi-TCF/utils/end_game/";
+const std::filesystem::path welcomeFilePath{"../utils/welcome.txt"};
+const std::filesystem::path helpFilePath{"../utils/help.txt"};
+const std::filesystem::path settingsFilePath{"../utils/settings.txt"};
+std::string endGameDirPath = "../utils/end_game/";
 
 const std::map<GameStatus, const char *> endgameFilesMap = {
     {GameStatus::CHECKMATE, "checkmate.txt"},
@@ -288,7 +288,7 @@ void GameManager::GetUserMove()
 
     if (pieceToMove->GetType() == PieceType::PAWN)
     {
-        ClearPastPositions();
+        PastPositions.clear();
     }
 
     board.NormalMove(std::move(pieceToMove), Coordinate(endingSquare));
@@ -342,16 +342,16 @@ void GameManager::UpdateGameStatus()
     return;
   }
 
-  std::string_view pastpos = board.GetFenPosition();
-  PastPositions.push_back(pastpos);
+  PastPositions.push_back(board.GetFenPosition());
   size_t size = PastPositions.size();
  
-  if (size >= 6 && PastPositions[size -1] == PastPositions[size - 3] && PastPositions[size - 2] == PastPositions[size - 4] 
-      && PastPositions[size - 3] == PastPositions[size - 5])
-  {
-      gameStatus = GameStatus::REPETITION;
-      return;
-  }
+  if (size >= 6)
+      if(PastPositions[size - 1] == PastPositions[size - 3] && PastPositions[size - 2] == PastPositions[size - 4]
+          && PastPositions[size - 3] == PastPositions[size - 5])
+    {
+        gameStatus = GameStatus::REPETITION;
+        return;
+    }
 
 }
 
@@ -388,12 +388,4 @@ void GameManager::KillGame() const
 {
   printf("Goodbye. \n");
   std::exit(0);
-}
-
-/**
-* Function for clearing the PastPosition vector. 
-*/
-void GameManager::ClearPastPositions()
-{
-    PastPositions.clear();
 }

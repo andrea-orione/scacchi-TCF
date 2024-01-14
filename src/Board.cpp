@@ -374,14 +374,14 @@ bool Board::IsMaterialLacking() const
 
   for (const auto piece : whitePieces)
   {
-    if (piece->GetType() == PieceType::KNIGHT || piece->GetType() == PieceType::KNIGHT)
+    if (piece->GetType() == PieceType::KNIGHT || piece->GetType() == PieceType::BISHOP)
       knightOrBishopCounter++;
     if ((piece->GetType() != PieceType::KNIGHT && piece->GetType() != PieceType::KING && piece->GetType() != PieceType::BISHOP) || knightOrBishopCounter > 1)
       return false;
   }
   for (const auto piece : blackPieces)
   {
-    if (piece->GetType() == PieceType::KNIGHT || piece->GetType() == PieceType::KNIGHT)
+    if (piece->GetType() == PieceType::KNIGHT || piece->GetType() == PieceType::BISHOP)
       knightOrBishopCounter++;
     if ((piece->GetType() != PieceType::KNIGHT && piece->GetType() != PieceType::KING && piece->GetType() != PieceType::BISHOP) || knightOrBishopCounter > 1)
       return false;
@@ -433,20 +433,17 @@ std::vector<std::shared_ptr<Piece>> Board::GetCapturedPieces(PieceColor pColor) 
  *
  * @return The aforementioned string_view
  */
-std::string_view Board::GetFenPosition() const
+std::string Board::GetFenPosition() const
 {
     std::string cyclestring;
 
     for (int i = 8; i >= 1; i--)
     {
-        for (int j = 8; j >= 1; j--) {
-            std::shared_ptr<Piece> cpiece = squaresMap.at(Coordinate(i, j));
-            char pstring = cpiece->GetChar();
+        for (int j = 1; j <= 8; j++) {
+            std::shared_ptr<Piece> cpiece = squaresMap.at(Coordinate(j, i));
+            const char pstring = cpiece->GetChar();
             cyclestring.push_back(pstring);
         }
-    }
-
-    std::string_view FenPositionString(cyclestring);
-    //std::cout << FenPositionString << std::endl;
-    return FenPositionString;
+    
+    return cyclestring;
 }

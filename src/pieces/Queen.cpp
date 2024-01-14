@@ -14,6 +14,7 @@ Queen::Queen(PieceColor pColor, Coordinate pPosition)
   color = pColor;
   pieceType = PieceType::QUEEN;
   position = pPosition;
+  literal = (color == PieceColor::WHITE) ? 'Q' : 'q';
 }
 
 bool Queen::IsMoveValid(const Coordinate endingPosition) const

@@ -13,7 +13,5 @@ public:
   Bishop(PieceColor pColor, Coordinate pPosition);
   ~Bishop() override = default;
 
-  char GetChar() const { char literal = (this->GetColor() == PieceColor::WHITE) ? 'B' : 'b'; return literal; }
-
   bool IsMoveValid(const Coordinate endingPosition) const override;
 };

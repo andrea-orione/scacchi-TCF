@@ -18,8 +18,6 @@ public:
   bool CanCastle() const override { return !hasMoved; }
   void Move(const Coordinate newPosition) override;
 
-  char GetChar() const { char literal = (this->GetColor() == PieceColor::WHITE) ? 'K' : 'k'; return literal; }
-
 private:
   bool hasMoved;
 };

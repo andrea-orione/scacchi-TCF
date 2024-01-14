@@ -47,7 +47,7 @@ public:
 
   std::vector<std::shared_ptr<Piece>> GetCapturedPieces(PieceColor pColor) const;
 
-  std::string_view GetFenPosition() const;
+  std::string GetFenPosition() const;
 
 private:
   Board(); // private constructor
