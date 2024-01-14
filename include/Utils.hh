@@ -2,6 +2,8 @@
 
 #include <exception>
 #include <iostream>
+#include <vector>
+#include <string>
 
 #include "Piece.hh"
 
@@ -23,6 +25,8 @@ namespace utils
    * (valid for most of the terminal emulators).
    */
   inline void clear() { std::cout << "\033c" << std::flush; }
+
+  bool adjacent_find(const std::vector<std::string> &vec);
 } // namespace utils
 
 PieceColor operator!(const PieceColor &oldColor);

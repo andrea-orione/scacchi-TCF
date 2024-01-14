@@ -15,3 +15,16 @@ PieceColor operator!(const PieceColor &oldColor)
 
   return PieceColor::VOID;
 }
+
+
+bool utils::adjacent_find(const std::vector<std::string> &vec)
+{
+    if (vec.size() < 7)
+        return false;
+    for (auto i = vec.begin(); i != vec.end() - 2; i++)
+    {
+        if (*i == *(i + 1) && *i == *(i + 2))
+            return true;
+    }
+    return false;
+}

@@ -10,6 +10,7 @@
 #include <stdexcept>
 #include <string>
 #include <string_view>
+#include <vector>
 
 #include "Board.hh"
 #include "BoardFactory.hh"
@@ -113,6 +114,8 @@ void GameManager::GameLoop()
   activePlayerColor = (board.GetMoveNumber() % 2) ? PieceColor::BLACK : PieceColor::WHITE;
   utils::clear();
   std::cout << std::endl;
+
+  PastPositions.push_back(board.GetFenPosition());
 
   while (gameStatus == GameStatus::PLAYING)
   {
@@ -287,6 +290,7 @@ void GameManager::GetUserMove()
         PastPositions.clear();
 
     board.NormalMove(std::move(pieceToMove), Coordinate(endingSquare));
+    PastPositions.push_back(board.GetFenPosition());
     UpdateGameStatus();
   }
   // Promotion
@@ -305,6 +309,7 @@ void GameManager::GetUserMove()
       throw InvalidMoveException("You cannot promote a piece which is not a pawn.");
 
     board.Promotion(std::move(pieceToMove), promotionPiece, Coordinate(endingSquare));
+    PastPositions.push_back(board.GetFenPosition());
     UpdateGameStatus();
   }
   else
@@ -336,18 +341,14 @@ void GameManager::UpdateGameStatus()
     gameStatus = GameStatus::MATERIAL_LACK;
     return;
   }
-
-  PastPositions.push_back(board.GetFenPosition());
-  size_t size = PastPositions.size();
  
-  if (size >= 6)
-      if(PastPositions[size - 1] == PastPositions[size - 3] && PastPositions[size - 2] == PastPositions[size - 4]
-          && PastPositions[size - 3] == PastPositions[size - 5])
-    {
-        gameStatus = GameStatus::REPETITION;
-        return;
-    }
+  std::sort(PastPositions.begin(), PastPositions.end());
 
+  if (utils::adjacent_find(PastPositions))
+  {
+      gameStatus = GameStatus::REPETITION;
+      return;
+  }
 }
 
 /**
