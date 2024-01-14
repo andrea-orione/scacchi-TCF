@@ -280,16 +280,11 @@ void GameManager::GetUserMove()
       throw InvalidMoveException("The piece you want to move doesn't belong to you.");
 
     // check for trying to move pawn without promoting
-    if (pieceToMove->GetDoubleAdvancementMoveNumber())
-    {
-      if ((startingSquare[1] == '7' && endingSquare[1] == '8') || (startingSquare[1] == '2' && endingSquare[1] == '1'))
-        throw InvalidMoveException("You have to promote this pawn.");
-    }
+    if (pieceToMove->GetType() == PieceType::PAWN && (endingSquare[1] == '8' || endingSquare[1] == '1'))
+      throw InvalidMoveException("You have to promote this pawn.");
 
     if (pieceToMove->GetType() == PieceType::PAWN)
-    {
         PastPositions.clear();
-    }
 
     board.NormalMove(std::move(pieceToMove), Coordinate(endingSquare));
     UpdateGameStatus();
@@ -306,7 +301,7 @@ void GameManager::GetUserMove()
     if (pieceToMove->GetColor() != activePlayerColor)
       throw InvalidMoveException("The piece you want to move doesn't belong to you.");
 
-    if (!pieceToMove->GetDoubleAdvancementMoveNumber())
+    if (pieceToMove->GetType() != PieceType::PAWN)
       throw InvalidMoveException("You cannot promote a piece which is not a pawn.");
 
     board.Promotion(std::move(pieceToMove), promotionPiece, Coordinate(endingSquare));

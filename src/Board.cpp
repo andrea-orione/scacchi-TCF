@@ -435,15 +435,17 @@ std::vector<std::shared_ptr<Piece>> Board::GetCapturedPieces(PieceColor pColor) 
  */
 std::string Board::GetFenPosition() const
 {
-    std::string cyclestring;
+  std::string cyclestring;
 
-    for (int i = 8; i >= 1; i--)
+  for (int i = 8; i >= 1; i--)
+  {
+    for (int j = 1; j <= 8; j++)
     {
-        for (int j = 1; j <= 8; j++) {
-            std::shared_ptr<Piece> cpiece = squaresMap.at(Coordinate(j, i));
-            const char pstring = cpiece->GetChar();
-            cyclestring.push_back(pstring);
-        }
+      std::shared_ptr<Piece> cpiece = squaresMap.at(Coordinate(j, i));
+      const char pstring = cpiece->GetChar();
+      cyclestring.push_back(pstring);
+    }
+  }
     
     return cyclestring;
 }
