@@ -447,5 +447,6 @@ std::string_view Board::GetFenPosition() const
     }
 
     std::string_view FenPositionString(cyclestring);
+    //std::cout << FenPositionString << std::endl;
     return FenPositionString;
 }
