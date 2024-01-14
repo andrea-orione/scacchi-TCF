@@ -197,7 +197,7 @@ void BoardFactory::LoadFenPosition(std::string_view fenString) const
     }
   }
 
-  board.UpdatePiecesVector();
+  //board.UpdatePiecesVector();
 }
 
 void BoardFactory::LoadBoardPosition(std::string_view boardString) const

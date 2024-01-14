@@ -1,8 +1,11 @@
 #pragma once
 
+#include <memory>
+
 #include "Coordinate.hh"
 #include "PieceMover.hh"
-#include <memory>
+class PieceMover;
+
 
 /**
  * Enumeration representing the color of the piece.
@@ -33,6 +36,15 @@ enum class PieceType
 };
 
 /**
+ * This struct contains the informations needed to make a move.
+ * Theese are if the move is valid and the handler of the move.
+ */
+struct MoveInfo{
+  bool valid;
+  std::unique_ptr<PieceMover> moveHandler;
+};
+
+/**
  * The abstract class for the chess Piece.
  */
 class Piece
@@ -58,7 +70,7 @@ public:
    *
    * @return `true` if the move is valid, `false` if it's not.
    */
-  virtual bool IsMoveValid(const Coordinate endingPosition, std::unique_ptr<PieceMover> &moveHandler) const = 0;
+  virtual MoveInfo IsMoveValid(const Coordinate endingPosition) const = 0;
 
   virtual char GetChar() const { return literal; }
 

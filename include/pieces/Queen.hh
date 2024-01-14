@@ -2,9 +2,6 @@
 
 #include "Coordinate.hh"
 #include "Piece.hh"
-#include "PieceMover.hh"
-
-#include <memory>
 
 /**
  * The class representing the queens.
@@ -15,7 +12,7 @@ class Queen : public Piece
 public:
   Queen(PieceColor pColor, Coordinate pPosition);
   ~Queen() override = default;
-  char GetChar() const { char literal = (this->GetColor() == PieceColor::WHITE) ? 'Q' : 'q'; return literal; }
+  char GetChar() const override { char literal = (this->GetColor() == PieceColor::WHITE) ? 'Q' : 'q'; return literal; }
 
-  bool IsMoveValid(const Coordinate endingPosition, std::unique_ptr<PieceMover> &moveHandler) const override;
+  struct MoveInfo IsMoveValid(const Coordinate endingPosition) const override;
 };

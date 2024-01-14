@@ -19,4 +19,4 @@ file(GLOB renderers_sources ${PROJECT_SOURCE_DIR}/src/renderers/*.cpp)
 file(GLOB renderers_headers ${PROJECT_SOURCE_DIR}/include/renderers/*.hh)
 
 # create executable
-add_executable(scacchi main.cpp ${renderers_sources} ${renderers_headers} ${pieces_sources} ${pieces_headers} ${movers_sources} ${movers_headers} ${sources} ${headers})
+add_executable(scacchi main.cpp ${renderers_sources} ${pieces_sources} ${movers_sources} ${sources})

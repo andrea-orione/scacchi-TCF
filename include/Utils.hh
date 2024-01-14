@@ -54,13 +54,6 @@ private:
   const char *message;
 };
 
-class CastlingSignal : public std::exception
-{
-};
-
-class EnPassantSignal : public std::exception
-{
-};
 
 class GuideSignal : public std::exception
 {

@@ -2,8 +2,8 @@
 
 #include "Movement.hh"
 #include "Board.hh"
+#include "NormalMover.hh"
 #include "Piece.hh"
-#include "PieceMover.hh"
 #include "Utils.hh"
 
 #include <memory>
@@ -19,19 +19,19 @@ Bishop::Bishop(PieceColor pColor, Coordinate pPosition)
   position = pPosition;
 }
 
-bool Bishop::IsMoveValid(const Coordinate endingPosition, std::unique_ptr<PieceMover> &moveHandler) const
+MoveInfo Bishop::IsMoveValid(const Coordinate endingPosition) const
 {
   const int xDistance = endingPosition.GetX() - this->position.GetX();
   const int yDistance = endingPosition.GetY() - this->position.GetY();
 
   // geometric check
   if (abs(xDistance) != abs(yDistance))
-    return false;
+    return {false, std::make_unique<NormalMover>()};
 
   // determine if the move is valid
   const Board &board = Board::Instance();
   if (board.GetPiece(endingPosition)->GetColor() == this->color)
-    return false;
+    return {false, std::make_unique<NormalMover>()};
 
   // determine diagonal
   const Movement baseMove(utils::sgn(xDistance), utils::sgn(yDistance));
@@ -40,7 +40,7 @@ bool Bishop::IsMoveValid(const Coordinate endingPosition, std::unique_ptr<PieceM
   for (Coordinate newPosition = this->GetPosition() + baseMove; newPosition != endingPosition; newPosition += baseMove)
   {
     if (board.GetPiece(newPosition)->GetColor() != PieceColor::VOID)
-      return false;
+      return {false, std::make_unique<NormalMover>()};
   }
-  return true;
+  return {true, std::make_unique<NormalMover>()};
 }

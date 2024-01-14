@@ -8,7 +8,7 @@ public:
   PromotionMover(const char promotionPiece): promotionPiece(promotionPiece) {}
   ~PromotionMover() override = default;
 
-  void Move(std::shared_ptr<Piece> &&movingPiece, Coordinate endingPosition) const override;
+  void Move(std::shared_ptr<Piece> &&movingPiece, const Coordinate endingPosition) const override;
 private:
   char promotionPiece;
 };

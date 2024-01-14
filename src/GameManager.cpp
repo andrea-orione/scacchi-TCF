@@ -17,7 +17,6 @@
 #include "Coordinate.hh"
 #include "InvertedBoardRenderer.hh"
 #include "NormalBoardRenderer.hh"
-#include "NormalMover.hh"
 #include "Piece.hh"
 #include "PieceMover.hh"
 #include "PromotionMover.hh"
@@ -286,11 +285,11 @@ void GameManager::GetUserMove()
     if (pieceToMove->GetType() == PieceType::PAWN && (endingSquare.GetY() == 8 || endingSquare.GetY() == 1))
       throw InvalidMoveException("You have to promote this pawn.");
 
-    std::unique_ptr<PieceMover> mover = std::make_unique<NormalMover>();
-    if (!pieceToMove->IsMoveValid(Coordinate(endingSquare), mover))
+    MoveInfo move = pieceToMove->IsMoveValid(Coordinate(endingSquare));
+    if (!move.valid)
       throw InvalidMoveException("This move is not allowed. This piece cannot reach that position.");
 
-    mover->Move(std::move(pieceToMove), endingSquare);
+    move.moveHandler->Move(std::move(pieceToMove), endingSquare);
     UpdateGameStatus();
   }
   // Promotion
@@ -308,11 +307,12 @@ void GameManager::GetUserMove()
     if (pieceToMove->GetType() != PieceType::PAWN)
       throw InvalidMoveException("You cannot promote a piece which is not a pawn.");
 
-    std::unique_ptr<PieceMover> mover = std::make_unique<PromotionMover>(promotionPiece);
-    if (!pieceToMove->IsMoveValid(Coordinate(endingSquare), mover))
+    MoveInfo move = pieceToMove->IsMoveValid(Coordinate(endingSquare));
+    if (!move.valid)
       throw InvalidMoveException("This move is not allowed. This piece cannot reach that position.");
 
-    mover->Move(std::move(pieceToMove), endingSquare);
+    std::unique_ptr<PieceMover> moveHandler = std::make_unique<PromotionMover>(promotionPiece);
+    moveHandler->Move(std::move(pieceToMove), endingSquare);
     UpdateGameStatus();
   }
   else

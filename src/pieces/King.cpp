@@ -4,8 +4,8 @@
 #include "CastlingMover.hh"
 #include "Coordinate.hh"
 #include "Movement.hh"
+#include "NormalMover.hh"
 #include "Piece.hh"
-#include "PieceMover.hh"
 #include "Utils.hh"
 
 #include <memory>
@@ -22,17 +22,17 @@ King::King(PieceColor pColor, Coordinate pPosition, bool pHasMoved)
   hasMoved = pHasMoved;
 }
 
-bool King::IsMoveValid(const Coordinate endingPosition, std::unique_ptr<PieceMover> &moveHandler) const
+MoveInfo King::IsMoveValid(const Coordinate endingPosition) const
 {
   // Too far case
   if (this->position.SquaredDistance(endingPosition) > 4)
-    return false;
+    return {false, std::make_unique<NormalMover>()};
 
   // Normal move case
   const Board &board = Board::Instance();
   if (this->position.SquaredDistance(endingPosition) < 3)
   {
-    return (board.GetPiece(endingPosition)->GetColor() != this->color);
+    return {(board.GetPiece(endingPosition)->GetColor() != this->color), std::make_unique<NormalMover>()};
   }
 
   // Castles
@@ -40,7 +40,7 @@ bool King::IsMoveValid(const Coordinate endingPosition, std::unique_ptr<PieceMov
   const int yDistance = endingPosition.GetY() - this->position.GetY();
 
   if (yDistance != 0 || this->position.GetX() != 5)
-    return false;
+    return {false, std::make_unique<NormalMover>()};
 
   // Chooses direction
   const Movement direction(utils::sgn(xDistance), 0);
@@ -48,16 +48,15 @@ bool King::IsMoveValid(const Coordinate endingPosition, std::unique_ptr<PieceMov
   const Coordinate rookPosition(rookXPosition, this->position.GetY());
   // Checks whether there is the rook and if eather one of them has moved
   if (!(board.GetPiece(rookPosition)->CanCastle() && this->CanCastle()))
-    return false;
+    return {false, std::make_unique<NormalMover>()};
 
   // Checks that all square are void (check condition checked in Board function to avoid recursive calls)
   for (Coordinate newPosition = this->GetPosition() + direction; newPosition != rookPosition; newPosition += direction)
   {
     if (board.GetPiece(newPosition)->GetColor() != PieceColor::VOID)
-      return false;
+      return {false, std::make_unique<CastlingMover>()};
   }
-  moveHandler = std::make_unique<CastlingMover>();
-  return true;
+  return {true, std::make_unique<CastlingMover>()};
 }
 
 void King::Move(const Coordinate newPosition)
