@@ -437,9 +437,9 @@ std::string_view Board::GetFenPosition() const
 {
     std::string cyclestring;
 
-    for (int i = 7; i >= 0; i--)
+    for (int i = 8; i >= 1; i--)
     {
-        for (int j = 7; j >= 0; j--) {
+        for (int j = 8; j >= 1; j--) {
             std::shared_ptr<Piece> cpiece = squaresMap.at(Coordinate(i, j));
             char pstring = cpiece->GetChar();
             cyclestring.push_back(pstring);

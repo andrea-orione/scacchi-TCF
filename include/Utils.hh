@@ -22,7 +22,8 @@ namespace utils
    * that toggles terminal control sequence for resetting the console
    * (valid for most of the terminal emulators).
    */
-  inline void clear() { std::cout << "\033c" << std::flush; }
+  //inline void clear() { std::cout << "\033c" << std::flush; }
+  inline void clear() {}
 } // namespace utils
 
 PieceColor operator!(const PieceColor &oldColor);
