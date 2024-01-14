@@ -344,7 +344,6 @@ void GameManager::UpdateGameStatus()
 
   std::string_view pastpos = board.GetFenPosition();
   PastPositions.push_back(pastpos);
-  std::cout << pastpos << std::endl;
   size_t size = PastPositions.size();
  
   if (size >= 6 && PastPositions[size -1] == PastPositions[size - 3] && PastPositions[size - 2] == PastPositions[size - 4] 
