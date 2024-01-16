@@ -69,35 +69,30 @@ void GameManager::StartGame()
   {
     printf("Option: ");
     std::getline(std::cin, choice);
+
+    if (choice == "e" || choice == "E")
+      KillGame();
+
     if (choice == "g" || choice == "G")
-    {
-      boardFactory->InitializeStartingBoard();
-      GameLoop();
       break;
-    }
     else if (choice == "h" || choice == "H")
     {
       utils::clear();
       HelpUser();
-      boardFactory->InitializeStartingBoard();
-      GameLoop();
       break;
     }
     else if (choice == "s" || choice == "S")
     {
       utils::clear();
       UserSettings();
-      boardFactory->InitializeStartingBoard();
-      GameLoop();
       break;
     }
-    else if (choice == "e" || choice == "E")
-      KillGame();
     else
       continue;
   }
 
   boardFactory->InitializeStartingBoard();
+  GameLoop();
 }
 
 /**
