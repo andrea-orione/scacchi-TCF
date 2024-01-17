@@ -303,12 +303,12 @@ void GameManager::GetUserMove()
         break;
     }
 
+    moveHandler->Move(std::move(pieceToMove), endingSquare);
+
     if (pieceToMove->GetType() == PieceType::PAWN)
       pastPositions.clear();
-
-    moveHandler->Move(std::move(pieceToMove), endingSquare);
-    UpdateGameStatus();
     pastPositions.push_back(board.GetFenPosition());
+    UpdateGameStatus();
   }
 
   // Promotion
@@ -333,6 +333,7 @@ void GameManager::GetUserMove()
     const auto moveHandler = std::make_unique<PromotionMover>(promotionPiece);
     moveHandler->Move(std::move(pieceToMove), endingSquare);
 
+    pastPositions.clear();
     pastPositions.push_back(board.GetFenPosition());
     UpdateGameStatus();
   }
