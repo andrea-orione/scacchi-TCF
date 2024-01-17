@@ -31,7 +31,7 @@ const std::filesystem::path settingsFilePath{"../utils/settings.txt"};
 std::string endGameDirPath = "../utils/end_game/";
 
 const std::map<GameStatus, const char *> endgameFilesMap = {
-    {GameStatus::CHECKMATE, "checkmate.txt"},
+    {GameStatus::CHECKMATE, "checkmate_"},
     {GameStatus::STALEMATE, "stalemate.txt"},
     {GameStatus::MATERIAL_LACK, "material.txt"},
     {GameStatus::REPETITION, "repetition.txt"}};
@@ -354,21 +354,19 @@ void GameManager::EndGame()
 {
   boardRenderer->PrintBoard(!activePlayerColor);
 
-  endFile.open(std::filesystem::path{endGameDirPath + endgameFilesMap.at(gameStatus)}, std::ios::in);
+  const char *winner = (!activePlayerColor == PieceColor::BLACK) ? "black.txt" : "white.txt";
+  endFile.open(std::filesystem::path{endGameDirPath + endgameFilesMap.at(gameStatus) + winner}, std::ios::in);
   if (!endFile.is_open())
     throw std::runtime_error("Impossible to open endgame text file.");
 
   std::string line;
+  // printf("\u001b[38;5;208m");
   while (std::getline(endFile, line))
     printf("%s\n", line.c_str());
+  // printf("\033[0m");
 
   endFile.close();
 
-  if (gameStatus == GameStatus::CHECKMATE)
-  {
-    const char *winner = (!activePlayerColor == PieceColor::BLACK) ? "BLACK" : "WHITE";
-    printf("\n                           %s WON!\n", winner);
-  }
   printf("\nPress 'Enter' to exit.\n");
   std::cin.get();
 }
