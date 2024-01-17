@@ -14,5 +14,5 @@ public:
   ~Queen() override = default;
   char GetChar() const override { char literal = (this->GetColor() == PieceColor::WHITE) ? 'Q' : 'q'; return literal; }
 
-  struct MoveInfo IsMoveValid(const Coordinate endingPosition) const override;
+  MoveType IsMoveValid(const Coordinate endingPosition) const override;
 };

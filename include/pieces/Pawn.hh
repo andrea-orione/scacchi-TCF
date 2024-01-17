@@ -13,7 +13,7 @@ public:
   Pawn(PieceColor pColor, Coordinate pPosition, bool pHasMoved = false);
   ~Pawn() override = default;
 
-  struct MoveInfo IsMoveValid(const Coordinate endingPosition) const override;
+  MoveType IsMoveValid(const Coordinate endingPosition) const override;
 
   char GetChar() const override { char literal = (this->GetColor() == PieceColor::WHITE) ? 'P' : 'p'; return literal; }
 

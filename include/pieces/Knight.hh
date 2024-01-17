@@ -15,5 +15,5 @@ public:
 
   char GetChar() const override { char literal = (this->GetColor() == PieceColor::WHITE) ? 'N' : 'n'; return literal; }
 
-  struct MoveInfo IsMoveValid(const Coordinate endingPosition) const override;
+  MoveType IsMoveValid(const Coordinate endingPosition) const override;
 };

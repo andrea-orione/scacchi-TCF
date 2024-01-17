@@ -7,7 +7,6 @@
 
 #include "BoardFactory.hh"
 #include "Coordinate.hh"
-#include "PieceMover.hh"
 #include "Utils.hh"
 #include "Piece.hh"
 
@@ -127,8 +126,8 @@ bool Board::HasValidMoves(const PieceColor playerColor)
 
     for (const auto piece : playerPieces)
     {
-      const MoveInfo move = piece->IsMoveValid(coordinate);
-      if (!move.valid)
+      const MoveType moveType = piece->IsMoveValid(coordinate);
+      if (moveType == MoveType::INVALID)
         continue;
 
       // Setting up the position to be tested
@@ -169,7 +168,7 @@ bool Board::IsSquareAttacked(const Coordinate square, const PieceColor attackerC
   const auto &attackerVector = (attackerColor == PieceColor::WHITE) ? this->whitePieces : this->blackPieces;
   for (const auto attackingPiece : attackerVector)
   {
-    if (attackingPiece->IsMoveValid(square).valid)
+    if (attackingPiece->IsMoveValid(square) != MoveType::INVALID)
       return true;
   }
   return false;

@@ -45,7 +45,6 @@ public:
   int GetMoveNumber() const { return moveNumber; }
 
   std::vector<std::shared_ptr<Piece>> GetCapturedPieces(PieceColor pColor) const;
-  
   void AddCapturedPiece(const std::shared_ptr<Piece> piece);
 
   std::string_view GetFenPosition() const;

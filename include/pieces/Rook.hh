@@ -13,7 +13,7 @@ public:
   Rook(PieceColor pColor, Coordinate pPosition, bool pHasMoved = false);
   ~Rook() override = default;
 
-  struct MoveInfo IsMoveValid(const Coordinate endingPosition) const override;
+  MoveType IsMoveValid(const Coordinate endingPosition) const override;
 
   bool CanCastle() const override { return !hasMoved; }
 
