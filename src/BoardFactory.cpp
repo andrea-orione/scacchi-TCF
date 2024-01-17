@@ -1,10 +1,13 @@
 #include "BoardFactory.hh"
 
+#include <algorithm>
+#include <array>
 #include <cctype>
 #include <charconv>
 #include <iostream>
 #include <memory>
 #include <stdexcept>
+#include <string>
 #include <string_view>
 
 #include "Bishop.hh"
@@ -15,7 +18,16 @@
 #include "Pawn.hh"
 #include "Queen.hh"
 #include "Rook.hh"
+#include "Utils.hh"
 #include "VoidPiece.hh"
+
+std::array<const char *, 7> fenArray = {"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+                                        "rnbqkbnr/pPpppppp/8/8/8/8/P1PPPPPP/RNBQKBNR w KQkq - 0 1",
+                                        "rnbqkbnr/ppp1pppp/8/8/3p4/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+                                        "1k6/7R/8/8/4K3/8/6Q1/8 w - - 0 1",
+                                        "k7/n7/8/8/8/8/7q/7K w - - 0 1",
+                                        "7k/7p/8/8/8/1nK5/6Q1/8 w - - 0 1",
+                                        "rnb2k1r/pp1Pbppp/2p5/q7/2B5/8/PPPQNnPP/RNB1K2R w KQ - 3 9"};
 
 /**
  * Function for creating the pointer to a specified piece from.
@@ -75,12 +87,7 @@ void BoardFactory::InitializeStartingBoard() const
 {
   try
   {
-    //! @todo Delete test FENs
     this->LoadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-    // this->LoadFenPosition("r1bqkbnr/pPpppppp/8/8/8/8/P1PPPPPP/RNBQKBNR w KQkq - 0 1");
-    // this->LoadFenPosition("2n1n3/3PK1kp/8/8/8/8/8/8 w - - 0 1");
-    // this->LoadFenPosition("8/3PK1kp/8/8/8/8/8/8 w - - 0 1");
-    // this->LoadFenPosition("k7/3R4/7Q/8/8/8/8/7K w - - 0 1");
   }
   catch (const std::invalid_argument &e)
   {
@@ -89,6 +96,49 @@ void BoardFactory::InitializeStartingBoard() const
   }
 }
 
+/**
+ * Function for initializing the board at the beginning of the game.
+ */
+void BoardFactory::InitializeStartingBoardDemo() const
+{
+  utils::clear();
+  try
+  {
+    printf("GAME DEMO\n");
+    printf("---------\n");
+    printf("Choose one of the following options (by typing its number):\n");
+    printf("1. initial board;\n");
+    printf("2. promotion with capture;\n");
+    printf("3. en passant capture;\n");
+    printf("4. checkmate;\n");
+    printf("5. insufficient material;\n");
+    printf("6. stalemate;\n");
+    printf("7. random configuration.\n");
+
+    while (true)
+    {
+      printf("Choice: \n");
+      std::string choice;
+      std::getline(std::cin, choice);
+
+      if (choice.length() > 1)
+        continue;
+
+      std::string choices{'1', '2', '3', '4', '5', '6', '7'};
+
+      if (choices.find(choice) == std::string::npos)
+        continue;
+
+      this->LoadFenPosition(fenArray[std::stoi(choice) - 1]);
+      break;
+    }
+  }
+  catch (const std::invalid_argument &e)
+  {
+    std::cerr << e.what() << '\n';
+    throw std::runtime_error("Impossible to load the FEN string.");
+  }
+}
 
 /**
  * Function to initialize the board from a FEN string.
@@ -113,14 +163,14 @@ void BoardFactory::LoadFenPosition(std::string_view fenString) const
   char analyzingChar = fenString.at(analyzingPosition);
   switch (analyzingChar)
   {
-    case 'w':
-      break;
-    case 'b':
-      board.IncrementMoveNumber();
-      break;
-    default:
-      board.ClearBoard();
-      throw std::invalid_argument("BoardFactory::loadFenPosition(string) Invalid active color");
+  case 'w':
+    break;
+  case 'b':
+    board.IncrementMoveNumber();
+    break;
+  default:
+    board.ClearBoard();
+    throw std::invalid_argument("BoardFactory::loadFenPosition(string) Invalid active color");
   }
 
   // Castling availability
@@ -133,22 +183,22 @@ void BoardFactory::LoadFenPosition(std::string_view fenString) const
     Coordinate rookPosition;
     switch (analyzingChar)
     {
-      case 'K':
-        rookPosition = Coordinate(8, 1);
-        break;
-      case 'Q':
-        rookPosition = Coordinate(1, 1);
-        break;
-      case 'k':
-        rookPosition = Coordinate(8, 8);
-        break;
-      case 'q':
-        rookPosition = Coordinate(1, 8);
-        break;
-      default:
-        board.ClearBoard();
-        throw std::invalid_argument("BoardFactory::loadFendPosition() Invalid castling section");
-        break;
+    case 'K':
+      rookPosition = Coordinate(8, 1);
+      break;
+    case 'Q':
+      rookPosition = Coordinate(1, 1);
+      break;
+    case 'k':
+      rookPosition = Coordinate(8, 8);
+      break;
+    case 'q':
+      rookPosition = Coordinate(1, 8);
+      break;
+    default:
+      board.ClearBoard();
+      throw std::invalid_argument("BoardFactory::loadFendPosition() Invalid castling section");
+      break;
     }
     std::shared_ptr<Piece> rook = board.GetPiece(rookPosition);
     if (rook->GetType() != PieceType::ROOK)

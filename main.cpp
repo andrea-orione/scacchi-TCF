@@ -37,7 +37,6 @@ static void PrintMemoryUsage()
 
 int main(int argc, char *argv[])
 {
-  PrintMemoryUsage();
   try
   {
     std::unique_ptr<GameManager> gm = std::make_unique<GameManager>();

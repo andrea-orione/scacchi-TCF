@@ -2,7 +2,7 @@ Demo
 
 "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"       Posizione iniziale + arrocco + eventualmente ripetizione (muovi avanti e indietro i cavalli)
 "rnbqkbnr/pPpppppp/8/8/8/8/P1PPPPPP/RNBQKBNR w KQkq - 0 1"       Promozione + cattura
-"rnbqkbnr/ppp1pppp/8/8/3p4/5n2/PPPPPPPP/RNBQKBNR w KQkq - 0 1"   En passant (il bianco muove il pedone in e4 e verrà mangiato dal nero in e3)
+"rnbqkbnr/ppp1pppp/8/8/3p4/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"     En passant (il bianco muove il pedone in e4 e verrà mangiato dal nero in e3)
 "1k6/7R/8/8/4K3/8/6Q1/8 w - - 0 1"                               Scacco matto (il bianco deve muovere con la regina in g8)
 "k7/n7/8/8/8/8/7q/7K w - - 0 1"                                  Mancanza materiale (il re bianco deve catturare la regina nera)
 "7k/7p/8/8/8/1nK5/6Q1/8 w - - 0 1"                               Stallo (il re bianco deve mangiare il cavallo nero)
