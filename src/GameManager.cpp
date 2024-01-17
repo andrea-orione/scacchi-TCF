@@ -282,7 +282,6 @@ void GameManager::GetUserMove()
     if (pieceToMove->GetColor() != activePlayerColor)
       throw InvalidMoveException("The piece you want to move doesn't belong to you.");
 
-
     MoveType moveType = pieceToMove->IsMoveValid(Coordinate(endingSquare));
     std::unique_ptr<PieceMover> moveHandler;
     switch (moveType)

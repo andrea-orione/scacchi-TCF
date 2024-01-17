@@ -227,8 +227,6 @@ std::vector<std::shared_ptr<Piece>> Board::GetCapturedPieces(PieceColor pColor) 
   return (pColor == PieceColor::WHITE) ? whiteCapturedPieces : blackCapturedPieces;
 }
 
-<<<<<<< HEAD
-=======
 /**
  * Function for adding a piece to the capturedPieces vector of the corresponding color.
  *
@@ -244,7 +242,6 @@ void Board::AddCapturedPiece(const std::shared_ptr<Piece> piece)
   capturedVector.push_back(piece);
 }
 
->>>>>>> e3f0230 (Fatto un sacco di roba continua a non funzionare)
 /**
  * Function for getting a string_view representing the board state.
  *
