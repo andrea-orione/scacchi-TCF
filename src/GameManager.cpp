@@ -354,8 +354,14 @@ void GameManager::EndGame()
 {
   boardRenderer->PrintBoard(!activePlayerColor);
 
-  const char *winner = (!activePlayerColor == PieceColor::BLACK) ? "black.txt" : "white.txt";
-  endFile.open(std::filesystem::path{endGameDirPath + endgameFilesMap.at(gameStatus) + winner}, std::ios::in);
+  if (gameStatus == GameStatus::CHECKMATE)
+  {
+    const char *winner = (!activePlayerColor == PieceColor::BLACK) ? "black.txt" : "white.txt";
+    endFile.open(std::filesystem::path{endGameDirPath + endgameFilesMap.at(gameStatus) + winner}, std::ios::in);
+  }
+  else
+    endFile.open(std::filesystem::path{endGameDirPath + endgameFilesMap.at(gameStatus)}, std::ios::in);
+
   if (!endFile.is_open())
     throw std::runtime_error("Impossible to open endgame text file.");
 
