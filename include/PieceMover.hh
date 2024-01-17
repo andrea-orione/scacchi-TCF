@@ -4,7 +4,6 @@
 
 #include "Coordinate.hh"
 #include "Piece.hh"
-class Piece;
 
 class PieceMover
 {

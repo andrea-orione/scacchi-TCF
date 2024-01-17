@@ -13,5 +13,5 @@ public:
   Queen(PieceColor pColor, Coordinate pPosition);
   ~Queen() override = default;
 
-  struct MoveInfo IsMoveValid(const Coordinate endingPosition) const override;
+  MoveType IsMoveValid(const Coordinate endingPosition) const override;
 };

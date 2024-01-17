@@ -1,12 +1,9 @@
 #include "Pawn.hh"
 
-#include "EnPassantMover.hh"
 #include "Movement.hh"
-#include "NormalMover.hh"
 #include "Piece.hh"
 #include "Board.hh"
 #include "Utils.hh"
-#include <memory>
 
 Pawn::Pawn(PieceColor pColor, Coordinate pPosition, bool pHasMoved) :
   hasMoved(pHasMoved),
@@ -21,7 +18,7 @@ Pawn::Pawn(PieceColor pColor, Coordinate pPosition, bool pHasMoved) :
   literal = (color == PieceColor::WHITE) ? 'P' : 'p';
 }
 
-MoveInfo Pawn::IsMoveValid(const Coordinate endingPosition) const
+MoveType Pawn::IsMoveValid(const Coordinate endingPosition) const
 {
   const Coordinate pawnStartingPosition = this->GetPosition();
   // geometric check
@@ -34,7 +31,7 @@ MoveInfo Pawn::IsMoveValid(const Coordinate endingPosition) const
   const bool generalMoveInvalid = absXDistance > 1 || yDistance * yDirection > 2 || yDistance * yDirection < 1;
   const bool doubleMoveInvalid = (this->hasMoved && yDistance * yDirection != 1) || (yDistance * yDirection == 2 && absXDistance != 0);
   if (generalMoveInvalid || doubleMoveInvalid)
-    return {false, std::make_unique<NormalMover>()};
+    return MoveType::INVALID;
 
   // board instance
   const Board &board = Board::Instance();
@@ -48,7 +45,9 @@ MoveInfo Pawn::IsMoveValid(const Coordinate endingPosition) const
     const Movement forwardMovement(0, yDirection);
     const Coordinate inFrontPosition = this->GetPosition() + forwardMovement; 
 
-    return {(board.GetPiece(inFrontPosition)->GetColor() == PieceColor::VOID && board.GetPiece(endingPosition)->GetColor() == PieceColor::VOID), std::make_unique<NormalMover>()};
+    return (board.GetPiece(inFrontPosition)->GetColor() == PieceColor::VOID && board.GetPiece(endingPosition)->GetColor() == PieceColor::VOID) ?
+      MoveType::NORMAL :
+      MoveType::INVALID;
   }
 
   // check en passant
@@ -59,12 +58,14 @@ MoveInfo Pawn::IsMoveValid(const Coordinate endingPosition) const
 
     const int doubleAdvNum = board.GetPiece(capturedPawnPosition)->GetDoubleAdvancementMoveNumber();
     if (doubleAdvNum==-1 || abs(doubleAdvNum - board.GetMoveNumber()) > 1)
-      return {false, std::make_unique<EnPassantMover>()};
+      return MoveType::INVALID;
 
-    return {true, std::make_unique<EnPassantMover>()};
+    return MoveType::ENPASSANT;
   }
 
-  return {!(absXDistance == 1 && board.GetPiece(endingPosition)->GetColor() != !this->GetColor()), std::make_unique<NormalMover>()};
+  if (absXDistance != 1 || board.GetPiece(endingPosition)->GetColor() == !this->GetColor())
+    return (endingPosition.GetY() == 5 + (yDirection * 3)) ? MoveType::PROMOTION : MoveType::NORMAL;
+  return MoveType::INVALID;
 }
 
 void Pawn::Move(const Coordinate newPosition)

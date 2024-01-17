@@ -1,9 +1,7 @@
 #include "VoidPiece.hh"
 
 #include "Coordinate.hh"
-#include "NormalMover.hh"
 #include "Piece.hh"
-#include <memory>
 
 VoidPiece::VoidPiece(Coordinate pPosition)
 {
@@ -13,7 +11,7 @@ VoidPiece::VoidPiece(Coordinate pPosition)
   literal = ' ';
 }
 
-MoveInfo VoidPiece::IsMoveValid(const Coordinate endingPosition) const
+MoveType VoidPiece::IsMoveValid(const Coordinate endingPosition) const
 {
-  return {false, std::make_unique<NormalMover>()};
+  return MoveType::INVALID;
 }

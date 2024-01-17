@@ -1,11 +1,6 @@
 #pragma once
 
-#include <memory>
-
 #include "Coordinate.hh"
-#include "PieceMover.hh"
-class PieceMover;
-
 
 /**
  * Enumeration representing the color of the piece.
@@ -36,12 +31,17 @@ enum class PieceType
 };
 
 /**
- * This struct contains the informations needed to make a move.
- * Theese are if the move is valid and the handler of the move.
+ * Enumeration representing the type of the move to be done (and if it is valid).
+ *
+ * Can take five values: `NORMAL`, `ENPASSANT`, `CASTLING`, `PROMOTION` and `INVALID`.
  */
-struct MoveInfo{
-  bool valid;
-  std::unique_ptr<PieceMover> moveHandler;
+enum class MoveType
+{
+  NORMAL,
+  ENPASSANT,
+  CASTLING,
+  PROMOTION,
+  INVALID
 };
 
 /**
@@ -68,9 +68,9 @@ public:
    * @param[in] endingPosition The square where the piece should move to.
    * @param[out] moveHandler The strategy that should handle the move.
    *
-   * @return `true` if the move is valid, `false` if it's not.
+   * @return The type of the move to be performed to achieve that position.
    */
-  virtual MoveInfo IsMoveValid(const Coordinate endingPosition) const = 0;
+  virtual MoveType IsMoveValid(const Coordinate endingPosition) const = 0;
 
   char GetChar() const { return literal; }
 

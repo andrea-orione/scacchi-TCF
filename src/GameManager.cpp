@@ -14,10 +14,13 @@
 
 #include "Board.hh"
 #include "BoardFactory.hh"
+#include "CastlingMover.hh"
 #include "ColoredBoardRenderer.hh"
 #include "Coordinate.hh"
+#include "EnPassantMover.hh"
 #include "InvertedBoardRenderer.hh"
 #include "NormalBoardRenderer.hh"
+#include "NormalMover.hh"
 #include "Piece.hh"
 #include "PieceMover.hh"
 #include "PromotionMover.hh"
@@ -33,19 +36,18 @@ const std::filesystem::path settingsFilePath{"../utils/settings.txt"};
 std::string endGameDirPath = "../utils/end_game/";
 
 const std::map<GameStatus, const char *> endgameFilesMap = {
-    {GameStatus::CHECKMATE, "checkmate.txt"},
-    {GameStatus::STALEMATE, "stalemate.txt"},
-    {GameStatus::MATERIAL_LACK, "material.txt"},
-    {GameStatus::REPETITION, "repetition.txt"}};
+  {GameStatus::CHECKMATE, "checkmate.txt"},
+  {GameStatus::STALEMATE, "stalemate.txt"},
+  {GameStatus::MATERIAL_LACK, "material.txt"},
+  {GameStatus::REPETITION, "repetition.txt"}};
 
 constexpr std::array<const char *, 4> settings = {"normal", "simplified", "colored", "inverted"};
 
 GameManager::GameManager() : activePlayerColor(PieceColor::WHITE),
                              gameStatus(GameStatus::PLAYING),
-                             boardRenderer(std::make_unique<NormalBoardRenderer>()),
-                             boardFactory(std::make_unique<BoardFactory>())
-{
-}
+                             boardFactory(BoardFactory()),
+                             boardRenderer(std::make_unique<NormalBoardRenderer>())
+{}
 
 /**
  * Function for initializing the game.
@@ -93,7 +95,7 @@ void GameManager::StartGame()
       continue;
   }
 
-  boardFactory->InitializeStartingBoard();
+  boardFactory.InitializeStartingBoard();
   GameLoop();
 }
 
@@ -280,21 +282,36 @@ void GameManager::GetUserMove()
     if (pieceToMove->GetColor() != activePlayerColor)
       throw InvalidMoveException("The piece you want to move doesn't belong to you.");
 
-    // check for trying to move pawn without promoting
-    if (pieceToMove->GetType() == PieceType::PAWN && (endingSquare.GetY() == 8 || endingSquare.GetY() == 1)
-      throw InvalidMoveException("You have to promote this pawn.");
-    
+
+    MoveType moveType = pieceToMove->IsMoveValid(Coordinate(endingSquare));
+    std::unique_ptr<PieceMover> moveHandler;
+    switch (moveType)
+    {
+      case MoveType::NORMAL:
+        moveHandler = std::make_unique<NormalMover>();
+        break;
+      case MoveType::ENPASSANT:
+        moveHandler = std::make_unique<EnPassantMover>();
+        break;
+      case MoveType::CASTLING:
+        moveHandler = std::make_unique<CastlingMover>();
+        break;
+      case MoveType::PROMOTION:
+        throw InvalidMoveException("You have to promote this pawn.");
+        break;
+      case MoveType::INVALID:
+        throw InvalidMoveException("This move is not allowed. This piece cannot reach that position.");
+        break;
+    }
+
     if (pieceToMove->GetType() == PieceType::PAWN)
       pastPositions.clear();
 
-    MoveInfo move = pieceToMove->IsMoveValid(Coordinate(endingSquare));
-    if (!move.valid)
-      throw InvalidMoveException("This move is not allowed. This piece cannot reach that position.");
-
-    mover->Move(std::move(pieceToMove), endingSquare);
-    pastPositions.push_back(board.GetFenPosition());
+    moveHandler->Move(std::move(pieceToMove), endingSquare);
     UpdateGameStatus();
+    pastPositions.push_back(board.GetFenPosition());
   }
+
   // Promotion
   else if (userMove.length() == 5 && std::regex_match(userMove, regexRulePromotion))
   {
@@ -310,25 +327,14 @@ void GameManager::GetUserMove()
     if (pieceToMove->GetType() != PieceType::PAWN)
       throw InvalidMoveException("You cannot promote a piece which is not a pawn.");
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    board.Promotion(std::move(pieceToMove), promotionPiece, Coordinate(endingSquare));
-    pastPositions.push_back(board.GetFenPosition());
-=======
-    std::unique_ptr<PieceMover> mover = std::make_unique<PromotionMover>(promotionPiece);
-    if (!pieceToMove->IsMoveValid(Coordinate(endingSquare), mover))
+    MoveType moveType = pieceToMove->IsMoveValid(Coordinate(endingSquare));
+    if (moveType == MoveType::INVALID)
       throw InvalidMoveException("This move is not allowed. This piece cannot reach that position.");
 
-    mover->Move(std::move(pieceToMove), endingSquare);
->>>>>>> 8d2acea (Tentativo fallito di rendere move una strategy)
-=======
-    MoveInfo move = pieceToMove->IsMoveValid(Coordinate(endingSquare));
-    if (!move.valid)
-      throw InvalidMoveException("This move is not allowed. This piece cannot reach that position.");
-
-    std::unique_ptr<PieceMover> moveHandler = std::make_unique<PromotionMover>(promotionPiece);
+    const auto moveHandler = std::make_unique<PromotionMover>(promotionPiece);
     moveHandler->Move(std::move(pieceToMove), endingSquare);
->>>>>>> e3f0230 (Fatto un sacco di roba continua a non funzionare)
+
+    pastPositions.push_back(board.GetFenPosition());
     UpdateGameStatus();
   }
   else

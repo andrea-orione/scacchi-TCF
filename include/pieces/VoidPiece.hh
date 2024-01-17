@@ -13,5 +13,5 @@ public:
   VoidPiece(Coordinate pPosition);
   ~VoidPiece() override = default;
 
-  struct MoveInfo IsMoveValid(const Coordinate endingPosition) const override;
+  MoveType IsMoveValid(const Coordinate endingPosition) const override;
 };
