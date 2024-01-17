@@ -28,7 +28,6 @@ public:
   Board &operator=(const Board &&) = delete; // delete move assignment operator
 
   void UpdateSquare(Coordinate position, std::shared_ptr<Piece> piece);
-  void UpdatePiecesVector();
   void AddKings(Coordinate whiteKingPosition, Coordinate blackKingPosition);
 
   bool IsSquareAttacked(Coordinate square, PieceColor attackerColor) const;

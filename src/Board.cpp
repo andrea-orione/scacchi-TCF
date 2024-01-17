@@ -10,8 +10,6 @@
 #include "Utils.hh"
 #include "Piece.hh"
 
-
-
 /**
  * The default constructor.
  *
@@ -63,23 +61,7 @@ void Board::UpdateSquare(Coordinate position, std::shared_ptr<Piece> piece)
   if (piece->GetColor() != PieceColor::VOID)
   {
     auto &newPieceVector = (piece->GetColor() == PieceColor::WHITE) ? whitePieces : blackPieces;
-    newPieceVector.erase(std::find(newPieceVector.begin(), newPieceVector.end(), piece));
-  }
-}
-
-/**
- * Function for adding pieces to the `whitePieces` and `blackPieces` vectors.
- */
-void Board::UpdatePiecesVector()
-{
-  this->whitePieces.clear();
-  this->blackPieces.clear();
-  for (const auto [coordinate, piece] : this->squaresMap)
-  {
-    if (piece->GetColor() == PieceColor::BLACK)
-      this->blackPieces.push_back(piece);
-    else if (piece->GetColor() == PieceColor::WHITE)
-      this->whitePieces.push_back(piece);
+    newPieceVector.push_back(piece);
   }
 }
 
