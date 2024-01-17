@@ -196,8 +196,6 @@ void BoardFactory::LoadFenPosition(std::string_view fenString) const
       throw std::invalid_argument("BoardFactory::loadFendPosition() Invalid en-passant section");
     }
   }
-
-  //board.UpdatePiecesVector();
 }
 
 void BoardFactory::LoadBoardPosition(std::string_view boardString) const
