@@ -1,6 +1,5 @@
 #include "BoardFactory.hh"
 
-#include <algorithm>
 #include <array>
 #include <cctype>
 #include <charconv>
@@ -26,7 +25,7 @@ std::array<const char *, 7> fenArray = {"rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQ
                                         "rnbqkbnr/ppp1pppp/8/8/3p4/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
                                         "1k6/7R/8/8/4K3/8/6Q1/8 w - - 0 1",
                                         "k7/n7/8/8/8/8/7q/7K w - - 0 1",
-                                        "7k/7p/8/8/8/1nK5/6Q1/8 w - - 0 1",
+                                        "7k/7p/7P/8/8/1nK5/6Q1/8 w - - 0 1",
                                         "rnb2k1r/pp1Pbppp/2p5/q7/2B5/8/PPPQNnPP/RNB1K2R w KQ - 3 9"};
 
 /**
