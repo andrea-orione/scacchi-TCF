@@ -109,7 +109,7 @@ void GameManager::GameLoop()
   Board &board = Board::Instance();
   activePlayerColor = (board.GetMoveNumber() % 2) ? PieceColor::BLACK : PieceColor::WHITE;
   utils::clear();
-  std::cout << std::endl;
+  utils::head_spaces();
 
   pastPositions.push_back(board.GetFenPosition());
 
@@ -121,16 +121,24 @@ void GameManager::GameLoop()
       GetUserMove();
       board.IncrementMoveNumber();
       utils::clear();
-      std::cout << std::endl;
+      utils::head_spaces();
     }
     catch (GuideSignal)
     {
       utils::clear();
+      utils::head_spaces();
       continue;
     }
     catch (SettingsSignal)
     {
       utils::clear();
+      utils::head_spaces();
+      continue;
+    }
+    catch (RestartLoopSignal)
+    {
+      utils::clear();
+      utils::head_spaces();
       continue;
     }
     catch (InvalidMoveException &e)
@@ -246,12 +254,22 @@ void GameManager::GetUserMove()
 
   if (userMove == "exit" || userMove == "EXIT")
   {
-    char exitChar;
-    printf("Are you sure you want to exit? (y/n) ");
-    std::cin >> exitChar;
+    std::string exitChar;
+    while (true)
+    {
+      printf("Are you sure you want to exit? (y/n) ");
+      std::getline(std::cin, exitChar);
 
-    if (exitChar == 'y' || exitChar == 'Y')
-      throw std::runtime_error("Exiting the game.");
+      if (exitChar.length() > 1)
+        continue;
+
+      if (exitChar[0] == 'y' || exitChar[0] == 'Y')
+        throw std::runtime_error("Exiting the game.");
+      else if (exitChar[0] == 'n' || exitChar[0] == 'N')
+        break;
+    }
+
+    throw RestartLoopSignal();
   }
   else if (userMove == "guide" || userMove == "GUIDE")
   {
@@ -272,7 +290,6 @@ void GameManager::GetUserMove()
   {
     std::string_view startingSquare(userMove.c_str(), 2);
     std::string_view endingSquare(userMove.c_str() + 2, 2);
-
     std::shared_ptr<Piece> pieceToMove = board.GetPiece(Coordinate(startingSquare));
 
     if (pieceToMove->GetColor() != activePlayerColor)
@@ -295,7 +312,6 @@ void GameManager::GetUserMove()
     std::string_view startingSquare(userMove.c_str(), 2);
     std::string_view endingSquare(userMove.c_str() + 2, 2);
     char promotionPiece = userMove[4];
-
     std::shared_ptr<Piece> pieceToMove = board.GetPiece(Coordinate(startingSquare));
 
     if (pieceToMove->GetColor() != activePlayerColor)
