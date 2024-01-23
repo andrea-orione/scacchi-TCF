@@ -1,119 +1,1511 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="15.1">
-  <zoom_level>10</zoom_level>
+  <zoom_level>5</zoom_level>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>490</x>
-      <y>120</y>
-      <w>20</w>
+      <x>180</x>
+      <y>95</y>
+      <w>10</w>
+      <h>10</h>
+    </coordinates>
+    <panel_attributes>type=initial
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>140</x>
+      <y>125</y>
+      <w>90</w>
       <h>20</h>
     </coordinates>
-    <panel_attributes>type=initial</panel_attributes>
+    <panel_attributes>get active player color</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>180</x>
+      <y>100</y>
+      <w>15</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>130</x>
+      <y>195</y>
+      <w>110</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>type=decision
+gameStatus==PLAYING</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>180</x>
+      <y>175</y>
+      <w>15</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLObject</id>
     <coordinates>
-      <x>260</x>
-      <y>80</y>
-      <w>470</w>
-      <h>570</h>
+      <x>80</x>
+      <y>620</y>
+      <w>680</w>
+      <h>500</h>
+    </coordinates>
+    <panel_attributes>GetUserMove
+valign=top</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>235</x>
+      <y>205</y>
+      <w>45</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+F</panel_attributes>
+    <additional_attributes>70.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>270</x>
+      <y>205</y>
+      <w>50</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>end game
+type=sender</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>160</x>
+      <y>260</y>
+      <w>50</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>print current
+board</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>180</x>
+      <y>140</y>
+      <w>15</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>140</x>
+      <y>160</y>
+      <w>90</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>add FEN to pastPositions</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>205</x>
+      <y>285</y>
+      <w>75</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>guide signal
+type=receiver</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>205</x>
+      <y>315</y>
+      <w>75</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>settings signal
+type=receiver</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>205</x>
+      <y>375</y>
+      <w>75</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>invalid move
+signal
+type=receiver</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>205</x>
+      <y>405</y>
+      <w>75</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>invalid notation
+signal
+type=receiver</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>90</x>
+      <y>210</y>
+      <w>335</w>
+      <h>355</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>80.0;10.0;10.0;10.0;10.0;690.0;650.0;690.0;650.0;230.0;450.0;230.0;450.0;170.0;380.0;170.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>275</x>
+      <y>305</y>
+      <w>50</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>80.0;10.0;80.0;40.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>275</x>
+      <y>395</y>
+      <w>50</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>80.0;10.0;80.0;40.0;10.0;40.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>335</x>
+      <y>390</y>
+      <w>50</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>print
+exception</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>380</x>
+      <y>390</y>
+      <w>45</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>70.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>205</x>
+      <y>435</y>
+      <w>75</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>runtime_error
+signal
+type=receiver</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>340</x>
+      <y>435</y>
+      <w>50</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>kill game
+type=sender</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>275</x>
+      <y>440</y>
+      <w>75</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>130.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>180</x>
+      <y>230</y>
+      <w>20</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+T</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>180</x>
+      <y>275</y>
+      <w>15</w>
+      <h>205</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;390.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>160</x>
+      <y>470</y>
+      <w>55</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>get user
+move
+type=sender</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>150</x>
+      <y>520</y>
+      <w>70</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>increment 
+move number</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>180</x>
+      <y>485</y>
+      <w>15</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>180</x>
+      <y>535</y>
+      <w>15</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLObject</id>
+    <coordinates>
+      <x>80</x>
+      <y>85</y>
+      <w>365</w>
+      <h>485</h>
     </coordinates>
     <panel_attributes>GameLoop
 valign=top</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>175</x>
+      <y>475</y>
+      <w>120</w>
+      <h>165</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+fg=red</panel_attributes>
+    <additional_attributes>10.0;310.0;10.0;260.0;220.0;260.0;220.0;10.0;80.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>175</x>
+      <y>630</y>
+      <w>10</w>
+      <h>10</h>
+    </coordinates>
+    <panel_attributes>type=initial</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
     <id>UMLState</id>
     <coordinates>
-      <x>280</x>
-      <y>170</y>
-      <w>440</w>
-      <h>50</h>
+      <x>140</x>
+      <y>665</y>
+      <w>80</w>
+      <h>20</h>
     </coordinates>
-    <panel_attributes>halign=left
-&amp;board = Board::Instance()
-activePlayCol = (board.GetMoveNumber() % 2) ? BLACK : WHITE
-utils::clear()</panel_attributes>
+    <panel_attributes>stdin -&gt; userMove</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>380</x>
-      <y>260</y>
-      <w>240</w>
-      <h>80</h>
+      <x>130</x>
+      <y>705</y>
+      <w>100</w>
+      <h>30</h>
     </coordinates>
     <panel_attributes>type=decision
-gameStatus == PLAYING</panel_attributes>
+userMove=="exit"</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>175</x>
+      <y>680</y>
+      <w>15</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>175</x>
+      <y>635</y>
+      <w>15</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>130</x>
+      <y>825</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>type=decision
+userMove=="settings"</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>130</x>
+      <y>765</y>
+      <w>100</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>type=decision
+userMove=="guide"</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>175</x>
+      <y>730</y>
+      <w>20</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+F</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>175</x>
+      <y>790</y>
+      <w>20</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+F</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>175</x>
+      <y>850</y>
+      <w>20</w>
+      <h>65</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+F</panel_attributes>
+    <additional_attributes>10.0;110.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>205</x>
+      <y>345</y>
+      <w>75</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>restart loop 
+signal
+type=receiver</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>275</x>
+      <y>320</y>
+      <w>50</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>80.0;10.0;80.0;70.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>275</x>
+      <y>380</y>
+      <w>70</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>120.0;40.0;80.0;40.0;80.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>265</x>
+      <y>660</y>
+      <w>80</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>type=decision
+want to exit?</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>225</x>
+      <y>670</y>
+      <w>50</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+T</panel_attributes>
+    <additional_attributes>80.0;10.0;50.0;10.0;50.0;100.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>365</x>
+      <y>665</y>
+      <w>55</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>kill
+game
+type=sender</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>340</x>
+      <y>665</y>
+      <w>35</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+T</panel_attributes>
+    <additional_attributes>50.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>365</x>
+      <y>700</y>
+      <w>55</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>restart loop
+signal
+type=sender</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>300</x>
+      <y>685</y>
+      <w>75</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+F</panel_attributes>
+    <additional_attributes>130.0;50.0;10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>255</x>
+      <y>770</y>
+      <w>50</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>guide
+signal
+type=sender</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>225</x>
+      <y>770</y>
+      <w>40</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+T</panel_attributes>
+    <additional_attributes>60.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>225</x>
+      <y>830</y>
+      <w>40</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+T</panel_attributes>
+    <additional_attributes>60.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>255</x>
+      <y>830</y>
+      <w>50</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>settings
+signal
+type=sender</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>150</x>
+      <y>905</y>
+      <w>60</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>type=decision
+normal
+move?</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>150</x>
+      <y>985</y>
+      <w>60</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>type=decision
+promotion?</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>175</x>
+      <y>930</y>
+      <w>20</w>
+      <h>65</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+F</panel_attributes>
+    <additional_attributes>10.0;110.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>175</x>
+      <y>1010</y>
+      <w>20</w>
+      <h>55</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+F</panel_attributes>
+    <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>140</x>
+      <y>1055</y>
+      <w>80</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>invalid notation
+signal
+type=sender</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLObject</id>
+    <coordinates>
+      <x>365</x>
+      <y>735</y>
+      <w>360</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>Normal Move
+valign=top
+bg=gray
+transparency=90
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>360</x>
-      <y>380</y>
-      <w>300</w>
-      <h>190</h>
+      <x>375</x>
+      <y>755</y>
+      <w>75</w>
+      <h>30</h>
     </coordinates>
-    <panel_attributes>halign=left
-boardRenderer-&gt;PrintBoard(activePlayCol)
-try{
- GetUserMove()
- board.IncrementMoveNumber()
- utils:clear()
-} catch (std::exception &amp;e) {
- std::cerr &lt;&lt; e.what()
- continue
-}
-activePlayerColor = !activePlayerColor</panel_attributes>
+    <panel_attributes>get initial square
+get final square
+get piece to move</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>375</x>
+      <y>845</y>
+      <w>80</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>type=decision
+piece color 
+same as player
+color</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>490</x>
-      <y>130</y>
-      <w>30</w>
-      <h>60</h>
+      <x>410</x>
+      <y>780</y>
+      <w>15</w>
+      <h>75</h>
     </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;40.0;10.0;10.0</additional_attributes>
+    <panel_attributes>lt=&lt;-
+</panel_attributes>
+    <additional_attributes>10.0;130.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>485</x>
+      <y>845</y>
+      <w>90</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>type=decision
+moving 
+pawn without
+promoting</panel_attributes>
+    <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>490</x>
-      <y>210</y>
-      <w>30</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>490</x>
-      <y>330</y>
-      <w>40</w>
-      <h>70</h>
+      <x>450</x>
+      <y>855</y>
+      <w>45</w>
+      <h>20</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 T</panel_attributes>
-    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+    <additional_attributes>70.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>600</x>
+      <y>845</y>
+      <w>90</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>type=decision
+piece to move
+is a pawn</panel_attributes>
+    <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>270</x>
-      <y>290</y>
-      <w>240</w>
-      <h>340</h>
+      <x>570</x>
+      <y>855</y>
+      <w>40</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+F</panel_attributes>
+    <additional_attributes>60.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>650</x>
+      <y>910</y>
+      <w>65</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>invalid move
+signal
+type=sender</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>410</x>
+      <y>900</y>
+      <w>220</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>
+</panel_attributes>
+    <additional_attributes>420.0;60.0;420.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>525</x>
+      <y>880</y>
+      <w>20</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>T</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>605</x>
+      <y>805</y>
+      <w>80</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>board.NormalMove
+type=sender</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>620</x>
+      <y>750</y>
+      <w>50</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>reset
+pastPositions</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>665</x>
+      <y>755</y>
+      <w>60</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+T</panel_attributes>
+    <additional_attributes>10.0;10.0;90.0;10.0;90.0;220.0;50.0;220.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>640</x>
+      <y>820</y>
+      <w>20</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+T</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>495</x>
+      <y>805</y>
+      <w>65</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>add FEN to
+pastPositions</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>555</x>
+      <y>810</y>
+      <w>60</w>
+      <h>15</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>110.0;10.0;10.0;10.0;10.0;320.0;220.0;320.0;220.0;280.0</additional_attributes>
+    <additional_attributes>10.0;10.0;100.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>640</x>
+      <y>765</y>
+      <w>15</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>460</x>
+      <y>755</y>
+      <w>35</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>update
+game
+status
+type=sender</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>470</x>
+      <y>780</y>
+      <w>35</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+T</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0;50.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>205</x>
+      <y>765</y>
+      <w>180</w>
+      <h>165</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+T</panel_attributes>
+    <additional_attributes>340.0;10.0;240.0;10.0;240.0;310.0;10.0;310.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLObject</id>
+    <coordinates>
+      <x>370</x>
+      <y>950</y>
+      <w>260</w>
+      <h>155</h>
+    </coordinates>
+    <panel_attributes>Promotion
+valign=top
+bg=gray
+transparency=90
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>380</x>
+      <y>1060</y>
+      <w>75</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>get initial square
+get final square
+get piece to move
+get promotion char</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>375</x>
+      <y>955</y>
+      <w>80</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>type=decision
+piece color 
+same as player
+color</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>485</x>
+      <y>955</y>
+      <w>90</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>type=decision
+promoting
+piece different from
+pawn</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>450</x>
+      <y>965</y>
+      <w>45</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+T</panel_attributes>
+    <additional_attributes>70.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>410</x>
+      <y>990</y>
+      <w>15</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+</panel_attributes>
+    <additional_attributes>10.0;140.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>525</x>
+      <y>925</y>
+      <w>20</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>T</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>410</x>
+      <y>925</y>
+      <w>20</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>F</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>410</x>
+      <y>880</y>
+      <w>20</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>F</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>490</x>
+      <y>1020</y>
+      <w>80</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>board.Promotion
+type=sender</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>525</x>
+      <y>990</y>
+      <w>20</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+F</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>495</x>
+      <y>1060</y>
+      <w>65</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>add FEN to
+pastPositions</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>525</x>
+      <y>1035</y>
+      <w>15</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>585</x>
+      <y>1055</y>
+      <w>40</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>update
+game
+status
+type=sender</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>555</x>
+      <y>1065</y>
+      <w>40</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>60.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>490</x>
+      <y>105</y>
+      <w>80</w>
+      <h>675</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+fg=red</panel_attributes>
+    <additional_attributes>10.0;1330.0;20.0;1330.0;20.0;10.0;140.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>495</x>
+      <y>680</y>
+      <w>255</w>
+      <h>400</h>
+    </coordinates>
+    <panel_attributes>fg=red</panel_attributes>
+    <additional_attributes>260.0;780.0;490.0;780.0;490.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>410</x>
+      <y>920</y>
+      <w>220</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>
+</panel_attributes>
+    <additional_attributes>420.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>615</x>
+      <y>915</y>
+      <w>45</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;70.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLObject</id>
+    <coordinates>
+      <x>505</x>
+      <y>90</y>
+      <w>250</w>
+      <h>385</h>
+    </coordinates>
+    <panel_attributes>Update Game Status
+valign=top</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>560</x>
+      <y>105</y>
+      <w>10</w>
+      <h>10</h>
+    </coordinates>
+    <panel_attributes>type=initial</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>535</x>
+      <y>135</y>
+      <w>60</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>type=decision
+there 
+aren't valid 
+moves</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>110</y>
+      <w>15</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>615</x>
+      <y>140</y>
+      <w>60</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>type=decision
+king is
+in check</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>590</x>
+      <y>145</y>
+      <w>35</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+T</panel_attributes>
+    <additional_attributes>10.0;20.0;50.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>695</x>
+      <y>145</y>
+      <w>50</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>CHECKMATE</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>670</x>
+      <y>145</y>
+      <w>35</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+T</panel_attributes>
+    <additional_attributes>10.0;20.0;50.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>620</x>
+      <y>190</y>
+      <w>50</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>STALEMATE</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>640</x>
+      <y>165</y>
+      <w>20</w>
+      <h>35</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+T</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>580</x>
+      <y>430</y>
+      <w>10</w>
+      <h>10</h>
+    </coordinates>
+    <panel_attributes>type=final</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>665</x>
+      <y>190</y>
+      <w>65</w>
+      <h>25</h>
+    </coordinates>
+    <panel_attributes>
+</panel_attributes>
+    <additional_attributes>10.0;20.0;110.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>715</x>
+      <y>160</y>
+      <w>15</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;190.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>170</y>
+      <w>20</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+T</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>530</x>
+      <y>240</y>
+      <w>70</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>type=decision
+material
+is lacking</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>655</x>
+      <y>245</y>
+      <w>40</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>MATERIAL
+LACK</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>595</x>
+      <y>245</y>
+      <w>70</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+T</panel_attributes>
+    <additional_attributes>10.0;20.0;120.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>540</x>
+      <y>295</y>
+      <w>50</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>sort
+pastPositions</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>265</y>
+      <w>20</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+T</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>535</x>
+      <y>350</y>
+      <w>100</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>type=decision
+pastPositions
+has 3 consecutive
+equal elements</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>310</y>
+      <w>35</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+T</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;40.0;50.0;40.0;50.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLState</id>
+    <coordinates>
+      <x>655</x>
+      <y>365</y>
+      <w>50</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>REPETITION</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>580</x>
+      <y>395</y>
+      <w>15</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>630</x>
+      <y>365</y>
+      <w>35</w>
+      <h>20</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+T</panel_attributes>
+    <additional_attributes>10.0;20.0;50.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>585</x>
+      <y>380</y>
+      <w>105</w>
+      <h>65</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+</panel_attributes>
+    <additional_attributes>190.0;10.0;190.0;110.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>580</x>
+      <y>250</y>
+      <w>155</w>
+      <h>225</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;
+T</panel_attributes>
+    <additional_attributes>230.0;10.0;280.0;10.0;280.0;430.0;10.0;430.0;10.0;380.0</additional_attributes>
   </element>
 </diagram>

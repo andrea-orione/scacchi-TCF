@@ -36,7 +36,7 @@ const std::filesystem::path settingsFilePath{"../utils/settings.txt"};
 std::string endGameDirPath = "../utils/end_game/";
 
 const std::map<GameStatus, const char *> endgameFilesMap = {
-  {GameStatus::CHECKMATE, "checkmate.txt"},
+  {GameStatus::CHECKMATE, "checkmate_"},
   {GameStatus::STALEMATE, "stalemate.txt"},
   {GameStatus::MATERIAL_LACK, "material.txt"},
   {GameStatus::REPETITION, "repetition.txt"}};
@@ -113,7 +113,7 @@ void GameManager::GameLoop()
   Board &board = Board::Instance();
   activePlayerColor = (board.GetMoveNumber() % 2) ? PieceColor::BLACK : PieceColor::WHITE;
   utils::clear();
-  std::cout << std::endl;
+  utils::head_spaces();
 
   pastPositions.push_back(board.GetFenPosition());
 
@@ -125,16 +125,24 @@ void GameManager::GameLoop()
       GetUserMove();
       board.IncrementMoveNumber();
       utils::clear();
-      std::cout << std::endl;
+      utils::head_spaces();
     }
     catch (GuideSignal)
     {
       utils::clear();
+      utils::head_spaces();
       continue;
     }
     catch (SettingsSignal)
     {
       utils::clear();
+      utils::head_spaces();
+      continue;
+    }
+    catch (RestartLoopSignal)
+    {
+      utils::clear();
+      utils::head_spaces();
       continue;
     }
     catch (InvalidMoveException &e)
@@ -250,12 +258,22 @@ void GameManager::GetUserMove()
 
   if (userMove == "exit" || userMove == "EXIT")
   {
-    char exitChar;
-    printf("Are you sure you want to exit? (y/n) ");
-    std::cin >> exitChar;
+    std::string exitChar;
+    while (true)
+    {
+      printf("Are you sure you want to exit? (y/n) ");
+      std::getline(std::cin, exitChar);
 
-    if (exitChar == 'y' || exitChar == 'Y')
-      throw std::runtime_error("Exiting the game.");
+      if (exitChar.length() > 1)
+        continue;
+
+      if (exitChar[0] == 'y' || exitChar[0] == 'Y')
+        throw std::runtime_error("Exiting the game.");
+      else if (exitChar[0] == 'n' || exitChar[0] == 'N')
+        break;
+    }
+
+    throw RestartLoopSignal();
   }
   else if (userMove == "guide" || userMove == "GUIDE")
   {
@@ -383,21 +401,25 @@ void GameManager::EndGame()
 {
   boardRenderer->PrintBoard(!activePlayerColor);
 
-  endFile.open(std::filesystem::path{endGameDirPath + endgameFilesMap.at(gameStatus)}, std::ios::in);
+  if (gameStatus == GameStatus::CHECKMATE)
+  {
+    const char *winner = (!activePlayerColor == PieceColor::BLACK) ? "black.txt" : "white.txt";
+    endFile.open(std::filesystem::path{endGameDirPath + endgameFilesMap.at(gameStatus) + winner}, std::ios::in);
+  }
+  else
+    endFile.open(std::filesystem::path{endGameDirPath + endgameFilesMap.at(gameStatus)}, std::ios::in);
+
   if (!endFile.is_open())
     throw std::runtime_error("Impossible to open endgame text file.");
 
   std::string line;
+  // printf("\u001b[38;5;208m");
   while (std::getline(endFile, line))
     printf("%s\n", line.c_str());
+  // printf("\033[0m");
 
   endFile.close();
 
-  if (gameStatus == GameStatus::CHECKMATE)
-  {
-    const char *winner = (!activePlayerColor == PieceColor::BLACK) ? "BLACK" : "WHITE";
-    printf("\n                           %s WON!\n", winner);
-  }
   printf("\nPress 'Enter' to exit.\n");
   std::cin.get();
 }

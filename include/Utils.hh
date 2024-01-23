@@ -26,6 +26,9 @@ namespace utils
    */
   inline void clear() { std::cout << "\033c" << std::flush; }
 
+  inline void head_spaces() { std::cout << "\n\n"
+                                        << std::flush; }
+
   bool adjacent_find(std::vector<std::string> vec);
 } // namespace utils
 
@@ -64,5 +67,9 @@ class GuideSignal : public std::exception
 };
 
 class SettingsSignal : public std::exception
+{
+};
+
+class RestartLoopSignal : public std::exception
 {
 };
