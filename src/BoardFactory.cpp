@@ -105,14 +105,15 @@ void BoardFactory::InitializeStartingBoardDemo() const
   {
     printf("GAME DEMO\n");
     printf("---------\n");
-    printf("Choose one of the following options (by typing its number):\n");
-    printf("1. initial board;\n");
-    printf("2. promotion with capture;\n");
-    printf("3. en passant capture;\n");
-    printf("4. checkmate;\n");
-    printf("5. insufficient material;\n");
-    printf("6. stalemate;\n");
-    printf("7. random configuration.\n");
+    printf("Choose one of the following options\n");
+    printf("by typing the corresponding number:\n");
+    printf("  1. initial board;\n");
+    printf("  2. promotion with capture;\n");
+    printf("  3. en passant capture;\n");
+    printf("  4. checkmate;\n");
+    printf("  5. insufficient material;\n");
+    printf("  6. stalemate;\n");
+    printf("  7. random configuration.\n");
 
     while (true)
     {
