@@ -218,13 +218,3 @@ int Coordinate::SquaredDistance(const Coordinate other) const
 {
   return (x - other.x) * (x - other.x) + (y - other.y) * (y - other.y);
 }
-
-/**
- * Return the string representing the coordinate in a `char``int` format.
- *
- * @return the above described string.
- */
-std::string Coordinate::ToString() const
-{
-  return (literalChars.at(x - 1) + std::to_string(y));
-}

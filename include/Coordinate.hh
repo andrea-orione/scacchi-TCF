@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include <string_view>
 
 #include "Movement.hh"
 
@@ -35,9 +35,6 @@ public:
   Coordinate &operator+=(const Movement &movement);
 
   int SquaredDistance(Coordinate other) const;
-
-  //! @todo Serve??
-  std::string ToString() const;
 
 private:
   int x;

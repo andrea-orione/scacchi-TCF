@@ -4,8 +4,8 @@
 /**
  * Helper function  to mimic the overloading of the `!` operator.
  *
- * @param[in] oldColor lor The `pieceColor` to invert.
- * @return `PieceCo lor::WHITE` if `PieceColor::BLACK` was passed, and viceversa.
+ * @param[in] oldColor The `pieceColor` to invert.
+ * @return `PieceColor::WHITE` if `PieceColor::BLACK` was passed, and viceversa.
  * If `PieceColor:: VOID` is passed, it is returned unchanged.
  */
 PieceColor operator!(const PieceColor &oldColor)
@@ -16,7 +16,12 @@ PieceColor operator!(const PieceColor &oldColor)
   return PieceColor::VOID;
 }
 
-//! @todo add documentation
+/**
+ * Utility to find if there are three equal strings in a sorted vector
+ *
+ * @param[in] vec The sorted vector of strings.
+ * @return true if there are three adjacent items that are the same.
+ */
 bool utils::adjacent_find(std::vector<std::string> vec)
 {
   if (vec.size() < 7)
