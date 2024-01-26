@@ -32,7 +32,6 @@ public:
   ~GameManager() = default;
 
   void StartGame();
-  void GameLoop();
 
 private:
   PieceColor activePlayerColor;
@@ -48,6 +47,7 @@ private:
 
   void HelpUser();
   void UserSettings();
+  void GameLoop();
   void GetUserMove();
   void UpdateGameStatus();
   void KillGame() const;
