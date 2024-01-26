@@ -50,38 +50,6 @@ Movement &Movement::operator=(const Movement &newMovement)
 }
 
 /**
- * The x setter.
- *
- * @param[in] newX an int from -7 to 7 (included) to assign to the x (column) movement.
- * @return a reference to the object, for cascaded member function calls.
- */
-Movement &Movement::SetX(const int newX)
-{
-  if (newX < -7 || newX > 7)
-    throw std::out_of_range("x value not valid");
-
-  this->x = newX;
-
-  return *this;
-}
-
-/**
- * The y setter.
- *
- * @param[in] newY an int from -7 to +7 (included) to assign to the y (row) movement.
- * @return a reference to the object, for cascaded member function calls.
- */
-Movement &Movement::SetY(const int newY)
-{
-  if (newY < -7 || newY > 7)
-    throw std::out_of_range("y value not valid");
-
-  this->y = newY;
-
-  return *this;
-}
-
-/**
  * Operator `<` overloading.
  */
 bool Movement::operator<(const Movement &other) const

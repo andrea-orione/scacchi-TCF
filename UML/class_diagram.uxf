@@ -25,14 +25,14 @@ fontfamily=Monospaced
 
 
 // This text will be stored with each diagram;  use it for notes.</help_text>
-  <zoom_level>4</zoom_level>
+  <zoom_level>5</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>408</x>
-      <y>360</y>
-      <w>176</w>
-      <h>92</h>
+      <x>440</x>
+      <y>470</y>
+      <w>230</w>
+      <h>115</h>
     </coordinates>
     <panel_attributes>/Piece/
 -
@@ -58,10 +58,10 @@ fontfamily=Monospaced
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>192</x>
-      <y>72</y>
-      <w>40</w>
-      <h>36</h>
+      <x>235</x>
+      <y>110</y>
+      <w>50</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>PieceColor
 «enumeration»
@@ -75,10 +75,10 @@ VOID
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>140</x>
-      <y>72</y>
-      <w>40</w>
-      <h>48</h>
+      <x>170</x>
+      <y>110</y>
+      <w>50</w>
+      <h>60</h>
     </coordinates>
     <panel_attributes>GameStatus
 «enumeration»
@@ -93,10 +93,10 @@ REPETITION</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>696</x>
-      <y>316</y>
-      <w>264</w>
-      <h>180</h>
+      <x>760</x>
+      <y>410</y>
+      <w>330</w>
+      <h>220</h>
     </coordinates>
     <panel_attributes>Board
 &lt;&lt;singleton&gt;&gt;
@@ -136,10 +136,10 @@ _+ Instance() : Board&amp;_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>696</x>
-      <y>188</y>
-      <w>100</w>
-      <h>120</h>
+      <x>855</x>
+      <y>255</y>
+      <w>125</w>
+      <h>150</h>
     </coordinates>
     <panel_attributes>GameManager
 -
@@ -158,19 +158,19 @@ _+ Instance() : Board&amp;_
 - HelpUser() : void
 - UserSettings() : void
 - GetUserMove() : void
+- GameLoop() : void
 - KillGame() : void
 - UpdateGameStatus() : void
-+ startGame() : void
-+ gameLoop() : void</panel_attributes>
++ StartGame() : void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>812</x>
-      <y>508</y>
-      <w>148</w>
-      <h>104</h>
+      <x>730</x>
+      <y>660</y>
+      <w>245</w>
+      <h>130</h>
     </coordinates>
     <panel_attributes>Movement
 -
@@ -180,8 +180,6 @@ _+ Instance() : Board&amp;_
 + Movement(newX : int = 0, newY : int = 0)
 + Movement(newMovement : Movement)
 + ~Movement()
-+ SetX(newX : int) : Movement&amp;
-+ SetY(newY : int) : Movement&amp;
 + GetX() : int
 + GetY() : int
 + operator=(newMovement : Movement) : Movement&amp;
@@ -199,10 +197,10 @@ _+ Instance() : Board&amp;_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>508</x>
-      <y>480</y>
-      <w>160</w>
-      <h>132</h>
+      <x>440</x>
+      <y>620</y>
+      <w>245</w>
+      <h>165</h>
     </coordinates>
     <panel_attributes>Coordinate
 -
@@ -214,8 +212,6 @@ _- literalChars : string_
 + Coordinate(literalExpression : string_view)
 + ~Coordinate()
 + Coordinate(newCoordinate : Coordinate)
-+ SetX(newX : int) : Coordinate&amp;
-+ SetY(newY : int) : Coordinate&amp;
 + GetX() : int
 + GetY() : int
 + operator=(newCoordinate : Coordinate) : Coordinate&amp;
@@ -235,10 +231,10 @@ _- literalChars : string_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>88</x>
-      <y>320</y>
-      <w>160</w>
-      <h>28</h>
+      <x>105</x>
+      <y>435</y>
+      <w>200</w>
+      <h>35</h>
     </coordinates>
     <panel_attributes>Knight
 -
@@ -250,10 +246,10 @@ _- literalChars : string_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>88</x>
-      <y>224</y>
-      <w>160</w>
-      <h>28</h>
+      <x>105</x>
+      <y>345</y>
+      <w>200</w>
+      <h>35</h>
     </coordinates>
     <panel_attributes>VoidPiece
 -
@@ -265,10 +261,10 @@ _- literalChars : string_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>88</x>
-      <y>368</y>
-      <w>160</w>
-      <h>28</h>
+      <x>105</x>
+      <y>480</y>
+      <w>200</w>
+      <h>35</h>
     </coordinates>
     <panel_attributes>Queen
 -
@@ -280,10 +276,10 @@ _- literalChars : string_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>88</x>
-      <y>416</y>
-      <w>204</w>
-      <h>48</h>
+      <x>105</x>
+      <y>525</y>
+      <w>255</w>
+      <h>60</h>
     </coordinates>
     <panel_attributes>Rook
 -
@@ -299,10 +295,10 @@ _- literalChars : string_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>88</x>
-      <y>484</y>
-      <w>204</w>
-      <h>48</h>
+      <x>105</x>
+      <y>595</y>
+      <w>255</w>
+      <h>60</h>
     </coordinates>
     <panel_attributes>King
 -
@@ -318,10 +314,10 @@ _- literalChars : string_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>88</x>
-      <y>552</y>
-      <w>204</w>
-      <h>60</h>
+      <x>105</x>
+      <y>665</y>
+      <w>255</w>
+      <h>75</h>
     </coordinates>
     <panel_attributes>Pawn
 -
@@ -338,10 +334,10 @@ _- literalChars : string_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>88</x>
-      <y>272</y>
-      <w>160</w>
-      <h>28</h>
+      <x>105</x>
+      <y>390</y>
+      <w>200</w>
+      <h>35</h>
     </coordinates>
     <panel_attributes>Bishop
 -
@@ -353,10 +349,10 @@ _- literalChars : string_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>244</x>
-      <y>228</y>
-      <w>80</w>
-      <h>16</h>
+      <x>300</x>
+      <y>350</y>
+      <w>100</w>
+      <h>20</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes>10.0;20.0;180.0;20.0</additional_attributes>
@@ -364,10 +360,10 @@ _- literalChars : string_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>244</x>
-      <y>280</y>
-      <w>80</w>
-      <h>16</h>
+      <x>300</x>
+      <y>400</y>
+      <w>100</w>
+      <h>20</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes>10.0;20.0;180.0;20.0</additional_attributes>
@@ -375,10 +371,10 @@ _- literalChars : string_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>244</x>
-      <y>328</y>
-      <w>80</w>
-      <h>16</h>
+      <x>300</x>
+      <y>445</y>
+      <w>100</w>
+      <h>20</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes>10.0;20.0;180.0;20.0</additional_attributes>
@@ -386,10 +382,10 @@ _- literalChars : string_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>244</x>
-      <y>376</y>
-      <w>80</w>
-      <h>16</h>
+      <x>300</x>
+      <y>490</y>
+      <w>100</w>
+      <h>20</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes>10.0;20.0;180.0;20.0</additional_attributes>
@@ -397,10 +393,10 @@ _- literalChars : string_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>288</x>
-      <y>432</y>
-      <w>36</w>
-      <h>16</h>
+      <x>355</x>
+      <y>545</y>
+      <w>45</w>
+      <h>20</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes>10.0;20.0;70.0;20.0</additional_attributes>
@@ -408,10 +404,10 @@ _- literalChars : string_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>288</x>
-      <y>500</y>
-      <w>36</w>
-      <h>16</h>
+      <x>355</x>
+      <y>615</y>
+      <w>45</w>
+      <h>20</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes>10.0;20.0;70.0;20.0</additional_attributes>
@@ -419,10 +415,10 @@ _- literalChars : string_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>288</x>
-      <y>576</y>
-      <w>36</w>
-      <h>16</h>
+      <x>355</x>
+      <y>695</y>
+      <w>45</w>
+      <h>20</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes>10.0;20.0;70.0;20.0</additional_attributes>
@@ -430,9 +426,9 @@ _- literalChars : string_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>312</x>
-      <y>232</y>
-      <w>12</w>
+      <x>385</x>
+      <y>355</y>
+      <w>15</w>
       <h>360</h>
     </coordinates>
     <panel_attributes/>
@@ -441,10 +437,10 @@ _- literalChars : string_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>312</x>
-      <y>396</y>
-      <w>104</w>
-      <h>12</h>
+      <x>385</x>
+      <y>515</y>
+      <w>65</w>
+      <h>15</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>240.0;10.0;10.0;10.0</additional_attributes>
@@ -452,24 +448,24 @@ _- literalChars : string_
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>428</x>
-      <y>448</y>
-      <w>88</w>
-      <h>124</h>
+      <x>545</x>
+      <y>580</y>
+      <w>20</w>
+      <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=1
 m2=1
 </panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;280.0;200.0;280.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>580</x>
-      <y>404</y>
-      <w>124</w>
-      <h>20</h>
+      <x>665</x>
+      <y>505</y>
+      <w>105</w>
+      <h>25</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=1
@@ -480,10 +476,10 @@ m2=68..*
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>664</x>
-      <y>564</y>
-      <w>156</w>
-      <h>16</h>
+      <x>680</x>
+      <y>730</y>
+      <w>60</w>
+      <h>20</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m2=1
@@ -493,10 +489,10 @@ m1=0..*</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>792</x>
-      <y>276</y>
-      <w>48</w>
-      <h>48</h>
+      <x>975</x>
+      <y>365</y>
+      <w>35</w>
+      <h>55</h>
     </coordinates>
     <panel_attributes>m1=1
 m2=1
@@ -506,10 +502,10 @@ m2=1
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>664</x>
-      <y>492</y>
-      <w>76</w>
-      <h>64</h>
+      <x>595</x>
+      <y>585</y>
+      <w>175</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=1
@@ -520,10 +516,10 @@ m2=64
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>496</x>
-      <y>284</y>
-      <w>24</w>
-      <h>84</h>
+      <x>515</x>
+      <y>375</y>
+      <w>30</w>
+      <h>105</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m2=1
@@ -533,10 +529,10 @@ m1=0..*</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>88</x>
-      <y>72</y>
-      <w>40</w>
-      <h>52</h>
+      <x>105</x>
+      <y>110</y>
+      <w>50</w>
+      <h>65</h>
     </coordinates>
     <panel_attributes>PieceType
 «enumeration»
@@ -553,10 +549,10 @@ KING
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>356</x>
-      <y>76</y>
-      <w>204</w>
-      <h>72</h>
+      <x>440</x>
+      <y>115</y>
+      <w>255</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>/BoardRenderer/
 &lt;&lt;strategy&gt;&gt;
@@ -567,19 +563,19 @@ KING
 + BoardRenderer(whitePiecesChars : map, blackPiecesChars : map)
 + ~BoardRenderer()
 + PrintBoard(playerColor : PieceColor) : void
-+ PieceToString(piece : shared_ptr, inverted : bool) : string_view
-+ PieceVectorToString(pieceVector : vector, inverted : bool) string
-+ {abstract} PrintWhiteBoard() : void
-+ {abstract} PrintBlackBoard() : void</panel_attributes>
+- PieceToString(piece : shared_ptr, inverted : bool) : string_view
+- PieceVectorToString(pieceVector : vector, inverted : bool) string
+- {abstract} PrintWhiteBoard() : void
+- {abstract} PrintBlackBoard() : void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>876</x>
-      <y>176</y>
-      <w>16</w>
-      <h>148</h>
+      <x>1050</x>
+      <y>240</y>
+      <w>20</w>
+      <h>180</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
 m2=1
@@ -590,10 +586,10 @@ m2=1
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>404</x>
-      <y>144</y>
-      <w>300</w>
-      <h>68</h>
+      <x>500</x>
+      <y>200</y>
+      <w>365</w>
+      <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=1
@@ -603,74 +599,74 @@ m2=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>788</x>
-      <y>120</y>
-      <w>80</w>
-      <h>36</h>
+      <x>980</x>
+      <y>170</y>
+      <w>100</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>ColoredBoardRenderer
 -
 + ColoredBoardRenderer()
 + ~ColoredBoardRenderer()
-+ PrintWhiteBoard() : void
-+ PrintBlackBoard() : void</panel_attributes>
+- PrintWhiteBoard() : void
+- PrintBlackBoard() : void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>876</x>
-      <y>120</y>
-      <w>80</w>
-      <h>36</h>
+      <x>1090</x>
+      <y>170</y>
+      <w>100</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>InvertedBoardRenderer
 -
 + InvertedBoardRenderer()
 + ~InvertedBoardRenderer()
-+ PrintWhiteBoard() : void
-+ PrintBlackBoard() : void</panel_attributes>
+- PrintWhiteBoard() : void
+- PrintBlackBoard() : void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>604</x>
-      <y>120</y>
-      <w>80</w>
-      <h>36</h>
+      <x>750</x>
+      <y>170</y>
+      <w>100</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>NormalBoardRenderer
 -
 + NormalBoardRenderer()
 + ~NormalBoardRenderer()
-+ PrintWhiteBoard() : void
-+ PrintBlackBoard() : void</panel_attributes>
+- PrintWhiteBoard() : void
+- PrintBlackBoard() : void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>692</x>
-      <y>120</y>
-      <w>88</w>
-      <h>36</h>
+      <x>860</x>
+      <y>170</y>
+      <w>110</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>SimplifiedBoardRenderer
 -
 + SimplifiedBoardRenderer()
 + ~SimplifiedBoardRenderer()
-+ PrintWhiteBoard() : void
-+ PrintBlackBoard() : void</panel_attributes>
+- PrintWhiteBoard() : void
+- PrintBlackBoard() : void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>556</x>
-      <y>92</y>
-      <w>368</w>
-      <h>12</h>
+      <x>690</x>
+      <y>135</y>
+      <w>460</w>
+      <h>15</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;900.0;10.0</additional_attributes>
@@ -678,10 +674,10 @@ m2=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>644</x>
-      <y>172</y>
-      <w>280</w>
-      <h>16</h>
+      <x>800</x>
+      <y>235</y>
+      <w>350</w>
+      <h>20</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes>10.0;20.0;680.0;20.0</additional_attributes>
@@ -689,10 +685,10 @@ m2=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>820</x>
-      <y>92</y>
-      <w>12</w>
-      <h>36</h>
+      <x>1020</x>
+      <y>135</y>
+      <w>15</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
@@ -700,10 +696,10 @@ m2=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>732</x>
-      <y>92</y>
-      <w>12</w>
-      <h>36</h>
+      <x>910</x>
+      <y>135</y>
+      <w>15</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
@@ -711,10 +707,10 @@ m2=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>644</x>
-      <y>92</y>
-      <w>12</w>
-      <h>36</h>
+      <x>800</x>
+      <y>135</y>
+      <w>15</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
@@ -722,10 +718,10 @@ m2=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>732</x>
-      <y>152</y>
-      <w>16</w>
-      <h>36</h>
+      <x>910</x>
+      <y>210</y>
+      <w>20</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>lt=-
 m2=1
@@ -735,10 +731,10 @@ m2=1
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>820</x>
-      <y>152</y>
-      <w>16</w>
-      <h>36</h>
+      <x>1020</x>
+      <y>210</y>
+      <w>20</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>lt=-
 m2=1
@@ -748,10 +744,10 @@ m2=1
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>912</x>
-      <y>152</y>
-      <w>16</w>
-      <h>36</h>
+      <x>1135</x>
+      <y>210</y>
+      <w>20</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>lt=-
 m2=1
@@ -761,10 +757,10 @@ m2=1
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>356</x>
-      <y>232</y>
-      <w>288</w>
-      <h>56</h>
+      <x>440</x>
+      <y>310</y>
+      <w>360</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>BoardFactory
 &lt;&lt;factory&gt;&gt;
@@ -772,18 +768,18 @@ m2=1
 + BoardFactory()
 + ~BoardFactory()
 + LoadFenPosition(fenString : string_view) : void
-+ LoardBoardPosition(boardString : string_view) : void
 + InitializeStartingBoard() : void
-_+ makePiece(pieceChar : char, pPosition : Coordinate, hasRookMoved : bool = true) : shared_ptr_</panel_attributes>
+_+ makePiece(pieceChar : char, pPosition : Coordinate, hasRookMoved : bool = true) : shared_ptr_
+- LoardBoardPosition(boardString : string_view) : void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>640</x>
-      <y>248</y>
-      <w>64</w>
-      <h>20</h>
+      <x>795</x>
+      <y>335</y>
+      <w>70</w>
+      <h>15</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 m1=1
@@ -794,10 +790,10 @@ m2=1
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>576</x>
-      <y>284</y>
-      <w>128</w>
-      <h>64</h>
+      <x>635</x>
+      <y>375</y>
+      <w>135</w>
+      <h>75</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
 m1=1
@@ -809,10 +805,10 @@ m2=1
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>644</x>
-      <y>152</y>
-      <w>16</w>
-      <h>36</h>
+      <x>800</x>
+      <y>210</y>
+      <w>20</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>lt=-
 m2=1
@@ -822,10 +818,10 @@ m2=1
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>912</x>
-      <y>92</y>
-      <w>12</w>
-      <h>36</h>
+      <x>1135</x>
+      <y>135</y>
+      <w>15</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>

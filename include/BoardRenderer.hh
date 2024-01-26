@@ -16,11 +16,13 @@ public:
   virtual ~BoardRenderer() = default;
 
   void PrintBoard(PieceColor playerColor) const;
+  
+protected:
+  const std::map<PieceType, std::string_view> whitePiecesChars;
+  const std::map<PieceType, std::string_view> blackPiecesChars;
+
   virtual void PrintWhiteBoard() const = 0;
   virtual void PrintBlackBoard() const = 0;
   std::string_view PieceToString(const std::shared_ptr<Piece> piece, const bool inverted = false) const;
   std::string PieceVectorToString(const std::vector<std::shared_ptr<Piece>> pieceVector, const bool inverted = false) const;
-protected:
-  const std::map<PieceType, std::string_view> whitePiecesChars;
-  const std::map<PieceType, std::string_view> blackPiecesChars;
 };
