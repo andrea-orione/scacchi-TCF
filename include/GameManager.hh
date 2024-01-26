@@ -22,8 +22,12 @@ enum class GameStatus
 };
 
 /**
- * A class for managing the creation of the pieces,
- * the board and the user IO.
+ * The core class of the program:
+ *  - it starts the game;
+ *  - it manages the game loop;
+ *  - it manages the user IO;
+ *  - it updated the status of the game;
+ *  - it is responsible for terminating the game.
  */
 class GameManager
 {

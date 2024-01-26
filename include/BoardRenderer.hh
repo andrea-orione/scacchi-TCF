@@ -10,8 +10,9 @@
 class BoardRenderer
 {
 public:
-  BoardRenderer(const std::map<PieceType, std::string_view> whitePiecesChars, const std::map<PieceType, std::string_view> blackPiecesChars):
-    whitePiecesChars(whitePiecesChars), blackPiecesChars(blackPiecesChars) {}
+  BoardRenderer(const std::map<PieceType, std::string_view> whitePiecesChars,
+                const std::map<PieceType, std::string_view> blackPiecesChars) : whitePiecesChars(whitePiecesChars),
+                                                                                blackPiecesChars(blackPiecesChars) {}
   virtual ~BoardRenderer() = default;
 
   void PrintBoard(PieceColor playerColor) const;
