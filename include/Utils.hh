@@ -26,7 +26,7 @@ namespace utils
    */
   inline void clear() { std::cout << "\033c" << std::flush; }
 
-  inline void head_spaces() { std::cout << "\n\n"
+  inline void head_spaces() { std::cout << "\n"
                                         << std::flush; }
 
   bool adjacent_find(std::vector<std::string> vec);
