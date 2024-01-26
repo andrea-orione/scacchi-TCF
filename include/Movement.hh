@@ -16,8 +16,6 @@ public:
   Movement(const Movement &newMovement);
   Movement &operator=(const Movement &newMovement);
 
-  Movement &SetX(int newX);
-  Movement &SetY(int newY);
   int GetX() const { return x; }
   int GetY() const { return y; }
 

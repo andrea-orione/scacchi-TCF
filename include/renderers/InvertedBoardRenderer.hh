@@ -8,6 +8,7 @@ public:
   InvertedBoardRenderer();
   ~InvertedBoardRenderer() override = default;
 
+private:
   void PrintWhiteBoard() const override;
   void PrintBlackBoard() const override;
 };

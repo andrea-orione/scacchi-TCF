@@ -79,39 +79,6 @@ Coordinate &Coordinate::operator=(const Coordinate &newCoordinate)
 }
 
 /**
- * The x setter.
- *
- * @param[in] newX an int from 1 to 8 (included) to assign to the x (column).
- *
- * @return a reference to the object, for cascaded member function calls.
- */
-Coordinate &Coordinate::SetX(const int newX)
-{
-  if (newX < 1 || newX > 8)
-    throw std::out_of_range("x value outside the board");
-
-  this->x = newX;
-
-  return *this;
-}
-
-/**
- * The y setter.
- *
- * @param[in] newY an int from 1 to 8 (included) to assign to the y (row).
- * @return a reference to the object, for cascaded member function calls.
- */
-Coordinate &Coordinate::SetY(const int newY)
-{
-  if (newY < 1 || newY > 8)
-    throw std::out_of_range("y value outside the board");
-
-  this->y = newY;
-
-  return *this;
-}
-
-/**
  * Operator `<` overloading.
  */
 bool Coordinate::operator<(const Coordinate &other) const
