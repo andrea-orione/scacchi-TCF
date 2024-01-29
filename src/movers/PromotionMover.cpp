@@ -11,7 +11,7 @@
 /**
  * Function for promoting a pawn.
  */
-void PromotionMover::Move(std::shared_ptr<Piece> &&pawn, const Coordinate endingPosition) const
+void PromotionMover::Move(std::shared_ptr<Piece> pawn, const Coordinate endingPosition) const
 {
   Board &board = Board::Instance();
 

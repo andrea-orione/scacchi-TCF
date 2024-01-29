@@ -25,5 +25,5 @@ public:
    * @param[in] movingPiece A pointer to the piece that should move.
    * @param[in] endingPosition The coordinate of the square that should be reached.
    */
-  virtual void Move(std::shared_ptr<Piece> &&movingPiece, const Coordinate endingPosition) const = 0;
+  virtual void Move(std::shared_ptr<Piece> movingPiece, const Coordinate endingPosition) const = 0;
 };

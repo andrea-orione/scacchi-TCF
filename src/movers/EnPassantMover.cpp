@@ -18,7 +18,7 @@
  * @param[in] pawn A pointer to the pawn that should move.
  * @param[in] pawnEndingPosition The coordinate to the square that should be reached.
  */
-void EnPassantMover::Move(std::shared_ptr<Piece> &&pawn, const Coordinate pawnEndingPosition) const
+void EnPassantMover::Move(std::shared_ptr<Piece> pawn, const Coordinate pawnEndingPosition) const
 {
   const Coordinate pawnStartingPosition = pawn->GetPosition();
   const Movement capturingMovement = (pawn->GetColor() == PieceColor::WHITE) ? Movement(0, -1) : Movement(0, 1);

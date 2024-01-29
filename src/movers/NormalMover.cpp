@@ -8,7 +8,7 @@
 #include "Piece.hh"
 #include "Utils.hh"
 
-void NormalMover::Move(std::shared_ptr<Piece> &&movingPiece, const Coordinate endingPosition) const
+void NormalMover::Move(std::shared_ptr<Piece> movingPiece, const Coordinate endingPosition) const
 {
   Board &board = Board::Instance();
   const Coordinate startingPosition = movingPiece->GetPosition();

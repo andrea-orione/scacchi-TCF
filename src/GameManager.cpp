@@ -321,7 +321,7 @@ void GameManager::GetUserMove()
         break;
     }
 
-    moveHandler->Move(std::move(pieceToMove), endingSquare);
+    moveHandler->Move(pieceToMove, endingSquare);
 
     if (pieceToMove->GetType() == PieceType::PAWN)
       pastPositions.clear();
@@ -349,7 +349,7 @@ void GameManager::GetUserMove()
       throw InvalidMoveException("This move is not allowed. This piece cannot reach that position.");
 
     const auto moveHandler = std::make_unique<PromotionMover>(promotionPiece);
-    moveHandler->Move(std::move(pieceToMove), endingSquare);
+    moveHandler->Move(pieceToMove, endingSquare);
 
     pastPositions.clear();
     pastPositions.push_back(board.GetFenPosition());

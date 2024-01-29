@@ -37,7 +37,7 @@ MoveType Pawn::IsMoveValid(const Coordinate endingPosition) const
   const Board &board = Board::Instance();
 
   if (absXDistance == 0 && board.GetPiece(endingPosition)->GetColor() != PieceColor::VOID)
-    return false;
+    return MoveType::INVALID;
 
   // check if landing square is free and the square in front is free (for double advancement moves also)
   if (abs(yDistance) == 2)
