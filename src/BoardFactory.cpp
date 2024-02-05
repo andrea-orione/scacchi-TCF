@@ -230,6 +230,7 @@ void BoardFactory::LoadFenPosition(std::string_view fenString) const
   std::string_view sMoveNumber = fenString.substr(analyzingPosition);
   int iMoveNumber;
   std::from_chars(sMoveNumber.data(), sMoveNumber.data() + sMoveNumber.size(), iMoveNumber);
+  board.ResetMoveNumber();
   board.IncrementMoveNumber((iMoveNumber - 1) * 2);
 
   // enPassant
