@@ -43,7 +43,7 @@ MoveType Pawn::IsMoveValid(const Coordinate endingPosition) const
   if (abs(yDistance) == 2)
   {
     const Movement forwardMovement(0, yDirection);
-    const Coordinate inFrontPosition = this->GetPosition() + forwardMovement; 
+    const Coordinate inFrontPosition = this->GetPosition() + forwardMovement;
 
     return (board.GetPiece(inFrontPosition)->GetColor() == PieceColor::VOID && board.GetPiece(endingPosition)->GetColor() == PieceColor::VOID) ?
       MoveType::NORMAL :
