@@ -17,14 +17,14 @@ Queen::Queen(PieceColor pColor, Coordinate pPosition)
   literal = (color == PieceColor::WHITE) ? 'Q' : 'q';
 }
 
-bool Queen::IsMoveValid(const Coordinate endingPosition) const
+MoveType Queen::IsMoveValid(const Coordinate endingPosition) const
 {
   const int xDistance = endingPosition.GetX() - this->position.GetX();
   const int yDistance = endingPosition.GetY() - this->position.GetY();
 
   // geometric check
   if (abs(xDistance) != abs(yDistance) && (xDistance != 0 && yDistance != 0))
-    return false;
+    return MoveType::INVALID;
 
   // determine direction
   const Movement baseMove(utils::sgn(xDistance), utils::sgn(yDistance));
@@ -34,13 +34,13 @@ bool Queen::IsMoveValid(const Coordinate endingPosition) const
 
   // check final square
   if (board.GetPiece(endingPosition)->GetColor() == this->color)
-    return false;
+    return MoveType::INVALID;
 
   // Check whether there are other pieces in the way.
   for (Coordinate newPosition = this->GetPosition() + baseMove; newPosition != endingPosition; newPosition += baseMove)
   {
     if (board.GetPiece(newPosition)->GetColor() != PieceColor::VOID)
-      return false;
+      return MoveType::INVALID;
   }
-  return true;
+  return MoveType::NORMAL;
 }

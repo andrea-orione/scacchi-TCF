@@ -20,17 +20,17 @@ King::King(PieceColor pColor, Coordinate pPosition, bool pHasMoved)
   literal = (color == PieceColor::WHITE) ? 'K' : 'k';
 }
 
-bool King::IsMoveValid(const Coordinate endingPosition) const
+MoveType King::IsMoveValid(const Coordinate endingPosition) const
 {
   // Too far case
   if (this->position.SquaredDistance(endingPosition) > 4)
-    return false;
+    return MoveType::INVALID;
 
   // Normal move case
   const Board &board = Board::Instance();
   if (this->position.SquaredDistance(endingPosition) < 3)
   {
-    return (board.GetPiece(endingPosition)->GetColor() != this->color);
+    return (board.GetPiece(endingPosition)->GetColor() != this->color) ? MoveType::NORMAL : MoveType::INVALID;
   }
 
   // Castles
@@ -38,7 +38,7 @@ bool King::IsMoveValid(const Coordinate endingPosition) const
   const int yDistance = endingPosition.GetY() - this->position.GetY();
 
   if (yDistance != 0 || this->position.GetX() != 5)
-    return false;
+    return MoveType::INVALID;
 
   // Chooses direction
   const Movement direction(utils::sgn(xDistance), 0);
@@ -46,15 +46,15 @@ bool King::IsMoveValid(const Coordinate endingPosition) const
   const Coordinate rookPosition(rookXPosition, this->position.GetY());
   // Checks whether there is the rook and if eather one of them has moved
   if (!(board.GetPiece(rookPosition)->CanCastle() && this->CanCastle()))
-    return false;
+    return MoveType::INVALID;
 
   // Checks that all square are void (check condition checked in Board function to avoid recursive calls)
   for (Coordinate newPosition = this->GetPosition() + direction; newPosition != rookPosition; newPosition += direction)
   {
     if (board.GetPiece(newPosition)->GetColor() != PieceColor::VOID)
-      return false;
+      return MoveType::INVALID;
   }
-  throw CastlingSignal();
+  return MoveType::CASTLING;
 }
 
 void King::Move(const Coordinate newPosition)

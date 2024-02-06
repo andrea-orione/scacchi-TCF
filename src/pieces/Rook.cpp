@@ -20,14 +20,14 @@ Rook::Rook(PieceColor pColor, Coordinate pPosition, bool pHasMoved)
   literal = (color == PieceColor::WHITE) ? 'R' : 'r';
 }
 
-bool Rook::IsMoveValid(const Coordinate endingPosition) const
+MoveType Rook::IsMoveValid(const Coordinate endingPosition) const
 {
   const int xDistance = endingPosition.GetX() - this->position.GetX();
   const int yDistance = endingPosition.GetY() - this->position.GetY();
 
   // Check whether the endingPosition in the same line or column
   if (xDistance != 0 && yDistance != 0)
-    return false;
+    return MoveType::INVALID;
 
   // Choose direction
   const Board &board = Board::Instance();
@@ -35,15 +35,15 @@ bool Rook::IsMoveValid(const Coordinate endingPosition) const
 
   // Check whether the endingPosition is a free square or occupied by an opponent's piece.
   if (board.GetPiece(endingPosition)->GetColor() == this->color)
-    return false;
+    return MoveType::INVALID;
 
   // Check whether there are other pieces in the way.
   for (Coordinate newPosition = this->GetPosition() + baseMove; newPosition != endingPosition; newPosition += baseMove)
   {
     if (board.GetPiece(newPosition)->GetColor() != PieceColor::VOID)
-      return false;
+      return MoveType::INVALID;
   }
-  return true;
+  return MoveType::NORMAL;
 }
 
 void Rook::Move(const Coordinate newPosition)

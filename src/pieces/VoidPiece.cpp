@@ -1,5 +1,6 @@
 #include "VoidPiece.hh"
 
+#include "Coordinate.hh"
 #include "Piece.hh"
 
 VoidPiece::VoidPiece(Coordinate pPosition)
@@ -10,7 +11,7 @@ VoidPiece::VoidPiece(Coordinate pPosition)
   literal = ' ';
 }
 
-bool VoidPiece::IsMoveValid(const Coordinate endingPosition) const
+MoveType VoidPiece::IsMoveValid(const Coordinate endingPosition) const
 {
-  return false;
+  return MoveType::INVALID;
 }

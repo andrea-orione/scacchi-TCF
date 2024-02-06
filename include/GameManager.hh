@@ -40,8 +40,8 @@ public:
 private:
   PieceColor activePlayerColor;
   GameStatus gameStatus;
+  BoardFactory boardFactory;
   std::unique_ptr<BoardRenderer> boardRenderer;
-  std::unique_ptr<BoardFactory> boardFactory;
   std::vector<std::string> pastPositions;
 
   std::fstream welcomeFile;

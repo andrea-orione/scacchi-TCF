@@ -31,6 +31,20 @@ enum class PieceType
 };
 
 /**
+ * Enumeration representing the type of the move to be done (and if it is valid).
+ *
+ * Can take five values: `NORMAL`, `ENPASSANT`, `CASTLING`, `PROMOTION` and `INVALID`.
+ */
+enum class MoveType
+{
+  NORMAL,
+  ENPASSANT,
+  CASTLING,
+  PROMOTION,
+  INVALID
+};
+
+/**
  * The abstract class for the chess Piece.
  */
 class Piece
@@ -52,10 +66,11 @@ public:
    * pieces in the way.
    *
    * @param[in] endingPosition The square where the piece should move to.
+   * @param[out] moveHandler The strategy that should handle the move.
    *
-   * @return `true` if the move is valid, `false` if it's not.
+   * @return The type of the move to be performed to achieve that position.
    */
-  virtual bool IsMoveValid(const Coordinate endingPosition) const = 0;
+  virtual MoveType IsMoveValid(const Coordinate endingPosition) const = 0;
 
   char GetChar() const { return literal; }
 

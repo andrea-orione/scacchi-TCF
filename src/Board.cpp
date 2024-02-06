@@ -1,14 +1,12 @@
 #include "Board.hh"
 
 #include <algorithm>
-#include <cctype>
 #include <memory>
 #include <tuple>
 #include <vector>
 
 #include "BoardFactory.hh"
 #include "Coordinate.hh"
-#include "Movement.hh"
 #include "Utils.hh"
 #include "Piece.hh"
 
@@ -53,22 +51,17 @@ Board &Board::Instance()
  */
 void Board::UpdateSquare(Coordinate position, std::shared_ptr<Piece> piece)
 {
-  this->squaresMap.at(position) = piece;
-}
-
-/**
- * Function for adding pieces to the `whitePieces` and `blackPieces` vectors.
- */
-void Board::UpdatePiecesVector()
-{
-  this->whitePieces.clear();
-  this->blackPieces.clear();
-  for (const auto [coordinate, piece] : this->squaresMap)
+  const std::shared_ptr<Piece> occupyingPiece = squaresMap.at(position);
+  if (occupyingPiece->GetColor() != PieceColor::VOID)
   {
-    if (piece->GetColor() == PieceColor::BLACK)
-      this->blackPieces.push_back(piece);
-    else if (piece->GetColor() == PieceColor::WHITE)
-      this->whitePieces.push_back(piece);
+    auto &occupyingPieceVector = (occupyingPiece->GetColor() == PieceColor::WHITE) ? whitePieces : blackPieces;
+    occupyingPieceVector.erase(std::find(occupyingPieceVector.begin(), occupyingPieceVector.end(), occupyingPiece));
+  }
+  this->squaresMap.at(position) = piece;
+  if (piece->GetColor() != PieceColor::VOID)
+  {
+    auto &newPieceVector = (piece->GetColor() == PieceColor::WHITE) ? whitePieces : blackPieces;
+    newPieceVector.push_back(piece);
   }
 }
 
@@ -115,19 +108,9 @@ bool Board::HasValidMoves(const PieceColor playerColor)
 
     for (const auto piece : playerPieces)
     {
-      try
-      {
-        if (!piece->IsMoveValid(coordinate))
-          continue;
-      }
-      catch (CastlingSignal)
-      {
+      const MoveType moveType = piece->IsMoveValid(coordinate);
+      if (moveType == MoveType::INVALID)
         continue;
-      }
-      catch (EnPassantSignal)
-      {
-        continue;
-      }
 
       // Setting up the position to be tested
       const Coordinate startingPosition = piece->GetPosition();
@@ -167,196 +150,10 @@ bool Board::IsSquareAttacked(const Coordinate square, const PieceColor attackerC
   const auto &attackerVector = (attackerColor == PieceColor::WHITE) ? this->whitePieces : this->blackPieces;
   for (const auto attackingPiece : attackerVector)
   {
-    if (attackingPiece->IsMoveValid(square))
+    if (attackingPiece->IsMoveValid(square) != MoveType::INVALID)
       return true;
   }
   return false;
-}
-
-/**
- * Function for checking if a move is valid and, in that case, updating the board and the internal position of the piece.
- *
- * The function first checks whether the piece can reach the endingPosition.
- * Then updates temporarily the board storing the eventual captured piece in a temporary variable.
- * It checks if in the new position the king of the movingColor is under check.
- * In that case the move is invalid, so the previous position is restored and an error is thrown.
- * Otherwise the move is valid, so the internal position of the moving piece is updated,
- * and the eventual captured piece is stored into the capturedPieces vector of the opposing team.
- * If the move is a castle or en-passant, an exception is thrown by the `IsMoveValid` method of the moving piece.
- * In that case the exception is caught and the validity check is delegated to the proper methods.
- *
- * @param[in] movingPiece A pointer to the piece that should move.
- * @param[in] endingPosition The coordinate of the square that should be reached.
- */
-void Board::NormalMove(std::shared_ptr<Piece> &&movingPiece, const Coordinate endingPosition)
-{
-  try
-  {
-    if (!(movingPiece->IsMoveValid(endingPosition)))
-      throw InvalidMoveException("This move is not allowed. This piece cannot reach that position.");
-  }
-  catch (const CastlingSignal)
-  {
-    Castling(std::move(movingPiece), endingPosition);
-    return;
-  }
-  catch (const EnPassantSignal)
-  {
-    EnPassant(std::move(movingPiece), endingPosition);
-    return;
-  }
-
-  const Coordinate startingPosition = movingPiece->GetPosition();
-  auto &opponentPieceVector = (movingPiece->GetColor() == PieceColor::WHITE) ? blackPieces : whitePieces;
-  auto &opponentCapturedPieceVector = (movingPiece->GetColor() == PieceColor::WHITE) ? blackCapturedPieces : whiteCapturedPieces;
-  std::shared_ptr<Piece> temporaryStorageCapturedPiece = squaresMap.at(endingPosition);
-  squaresMap.at(endingPosition) = movingPiece;
-  squaresMap.at(startingPosition) = BoardFactory::MakePiece(0, startingPosition);
-  std::shared_ptr<Piece> &friendKing = (movingPiece->GetColor() == PieceColor::WHITE) ? whiteKing : blackKing;
-  const Coordinate &friendKingPosition = (friendKing == movingPiece) ? endingPosition : friendKing->GetPosition();
-  if (temporaryStorageCapturedPiece->GetColor() != PieceColor::VOID)
-    opponentPieceVector.erase(std::find(opponentPieceVector.begin(), opponentPieceVector.end(), temporaryStorageCapturedPiece));
-
-  // Valid move case
-  if (!IsSquareAttacked(friendKingPosition, !(movingPiece->GetColor())))
-  {
-    movingPiece->Move(endingPosition);
-    if (temporaryStorageCapturedPiece->GetType() != PieceType::VOID)
-      opponentCapturedPieceVector.push_back(temporaryStorageCapturedPiece);
-    return;
-  }
-
-  // Invalid move case. Resetting the board.
-  if (temporaryStorageCapturedPiece->GetColor() != PieceColor::VOID)
-    opponentPieceVector.push_back(temporaryStorageCapturedPiece);
-  squaresMap.at(startingPosition) = movingPiece;
-  squaresMap.at(endingPosition) = temporaryStorageCapturedPiece;
-  throw InvalidMoveException("This move is not allowed. The king would be in check.");
-}
-
-/**
- * Function for promoting a pawn.
- */
-void Board::Promotion(std::shared_ptr<Piece> &&pawn, const char promotionPiece, const Coordinate endingPosition)
-{
-  if (!pawn->IsMoveValid(endingPosition))
-    throw InvalidMoveException("This move is not allowed. This piece cannot reach that position.");
-
-  // promote to the right color
-  const char newPieceChar = (pawn->GetColor() == PieceColor::WHITE) ? std::toupper(promotionPiece) : std::tolower(promotionPiece);
-  std::shared_ptr<Piece> newPiece = BoardFactory::MakePiece(newPieceChar, endingPosition);
-
-  const Coordinate startingPosition = pawn->GetPosition();
-  std::shared_ptr<Piece> capturedPiece = squaresMap.at(endingPosition);
-  auto &opponentPieceVector = (pawn->GetColor() == PieceColor::WHITE) ? blackPieces : whitePieces;
-  auto &opponentCapturedPieceVector = (pawn->GetColor() == PieceColor::WHITE) ? blackCapturedPieces : whiteCapturedPieces;
-  squaresMap.at(endingPosition) = newPiece;
-  squaresMap.at(startingPosition) = BoardFactory::MakePiece(0, startingPosition);
-  const Coordinate friendKingPosition = (pawn->GetColor() == PieceColor::WHITE) ? whiteKing->GetPosition() : blackKing->GetPosition();
-  if (capturedPiece->GetColor() != PieceColor::VOID)
-    opponentPieceVector.erase(std::find(opponentPieceVector.begin(), opponentPieceVector.end(), capturedPiece));
-
-  // Valid move case
-  if (!IsSquareAttacked(friendKingPosition, !(pawn->GetColor())))
-  {
-    pawn->Move(endingPosition);
-    if (capturedPiece->GetType() != PieceType::VOID)
-      opponentCapturedPieceVector.push_back(capturedPiece);
-    return;
-  }
-
-  // Invalid move case. Resetting the board.
-  if (capturedPiece->GetColor() != PieceColor::VOID)
-    opponentPieceVector.push_back(capturedPiece);
-  squaresMap.at(startingPosition) = pawn;
-  squaresMap.at(endingPosition) = capturedPiece;
-  throw InvalidMoveException("This move is not allowed. The king would be in check.");
-}
-
-/**
- * Function for checking if a castling move is valid and, in that case, updating the board and the internal position of the piece.
- *
- * The function first checks whether if the king is in check or if he should pass through a check. In this case the move is invalid
- * Otherwise the move is valid, so the internal position of the moving piece is updated, and the rook is also moved.
- *
- * @param[in] king A pointer to the king that should move.
- * @param[in] kingEndingPosition The coordinate of the square that should be reached.
- */
-void Board::Castling(std::shared_ptr<Piece> &&king, const Coordinate kingEndingPosition)
-{
-  // Preliminary control that the king isn't in check
-  const Coordinate kingStartingPosition = king->GetPosition();
-  if (IsSquareAttacked(kingStartingPosition, !(king->GetColor())))
-    throw InvalidMoveException("Castling is not allowed. The king is in check.");
-
-  const int rookY = kingStartingPosition.GetY();
-  const Coordinate rookStartingPosition = (kingEndingPosition.GetX() == 7) ? Coordinate(8, rookY) : Coordinate(1, rookY);
-  const Coordinate rookEndingPosition = (kingEndingPosition.GetX() == 7) ? Coordinate(6, rookY) : Coordinate(4, rookY);
-  squaresMap.at(kingEndingPosition) = squaresMap.at(kingStartingPosition);
-  squaresMap.at(rookEndingPosition) = squaresMap.at(rookStartingPosition);
-  squaresMap.at(kingStartingPosition) = BoardFactory::MakePiece(0, kingStartingPosition);
-  squaresMap.at(rookStartingPosition) = BoardFactory::MakePiece(0, rookStartingPosition);
-
-  if (!(IsSquareAttacked(kingEndingPosition, !(king->GetColor())) || IsSquareAttacked(rookEndingPosition, !(king->GetColor()))))
-  {
-    squaresMap.at(kingEndingPosition)->Move(kingEndingPosition);
-    squaresMap.at(rookEndingPosition)->Move(rookEndingPosition);
-    return;
-  }
-
-  squaresMap.at(kingStartingPosition) = squaresMap.at(kingEndingPosition);
-  squaresMap.at(rookStartingPosition) = squaresMap.at(rookEndingPosition);
-  squaresMap.at(kingEndingPosition) = BoardFactory::MakePiece(0, kingEndingPosition);
-  squaresMap.at(rookEndingPosition) = BoardFactory::MakePiece(0, rookEndingPosition);
-  throw InvalidMoveException("Castling is not allowed. The king cannot pass through or end in check.");
-}
-
-/**
- * Function for checking if an en-passant move is valid and, in that case, updating the board and the internal position of the piece.
- *
- * The function updates temporarily the board storing the captured piece in a temporary variable.
- * It checks if in the new position the king of the movingColor is under check.
- * In that case the move is invalid, so the previous position is restored and an error is thrown.
- * Otherwise the move is valid, so the internal position of the moving piece is updated,
- * and the eventual captured piece is stored into the capturedPieces vector of the opposing team.
- * If the move is a castle or en-passant, an exception is thrown by the `IsMoveValid` method of the moving piece.
- * In that case the exception is caught and the validity check is delegated to the proper methods.
- *
- * @param[in] pawn A pointer to the pawn that should move.
- * @param[in] pawnEndingPosition The coordinate to the square that should be reached.
- */
-void Board::EnPassant(std::shared_ptr<Piece> &&pawn, const Coordinate pawnEndingPosition)
-{
-  const Coordinate pawnStartingPosition = pawn->GetPosition();
-  const Movement capturingMovement = (pawn->GetColor() == PieceColor::WHITE) ? Movement(0, -1) : Movement(0, 1);
-  const Coordinate capturedPawnPosition = pawnEndingPosition + capturingMovement;
-
-  std::shared_ptr<Piece> capturedPawn = squaresMap[capturedPawnPosition];
-
-  auto &opponentPieceVector = (pawn->GetColor() == PieceColor::WHITE) ? blackPieces : whitePieces;
-  auto &opponentCapturedPieceVector = (pawn->GetColor() == PieceColor::WHITE) ? blackCapturedPieces : whiteCapturedPieces;
-
-  squaresMap.at(pawnEndingPosition) = pawn;
-  squaresMap.at(pawnStartingPosition) = BoardFactory::MakePiece(0, pawnStartingPosition);
-  squaresMap.at(capturedPawnPosition) = BoardFactory::MakePiece(0, capturedPawnPosition);
-
-  const std::shared_ptr<Piece> &friendKing = (pawn->GetColor() == PieceColor::WHITE) ? whiteKing : blackKing;
-  opponentPieceVector.erase(std::find(opponentPieceVector.begin(), opponentPieceVector.end(), capturedPawn));
-
-  // Valid move case
-  if (!IsSquareAttacked(friendKing->GetPosition(), !(pawn->GetColor())))
-  {
-    pawn->Move(pawnEndingPosition);
-    opponentCapturedPieceVector.push_back(capturedPawn);
-    return;
-  }
-
-  // Invalid move case. Resetting the board.
-  opponentPieceVector.push_back(capturedPawn);
-  squaresMap.at(pawnStartingPosition) = pawn;
-  squaresMap.at(pawnEndingPosition) = BoardFactory::MakePiece(0, pawnEndingPosition);
-  squaresMap.at(capturedPawnPosition) = capturedPawn;
-  throw InvalidMoveException("This move is not allowed. The king would be in check.");
 }
 
 /**
@@ -428,6 +225,21 @@ std::vector<std::shared_ptr<Piece>> Board::GetCapturedPieces(PieceColor pColor) 
     throw std::invalid_argument("Board::GetCapturedPieces() : The captured pieces must be either white or black.");
 
   return (pColor == PieceColor::WHITE) ? whiteCapturedPieces : blackCapturedPieces;
+}
+
+/**
+ * Function for adding a piece to the capturedPieces vector of the corresponding color.
+ *
+ * If the piece is void it does nothing.
+ *
+ * @param[in] piece The piece to be added.
+ */
+void Board::AddCapturedPiece(const std::shared_ptr<Piece> piece)
+{
+  if (piece->GetColor() == PieceColor::VOID)
+    return;
+  auto &capturedVector = (piece->GetColor() == PieceColor::WHITE) ? whiteCapturedPieces : blackCapturedPieces;
+  capturedVector.push_back(piece);
 }
 
 /**

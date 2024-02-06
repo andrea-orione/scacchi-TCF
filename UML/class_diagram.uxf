@@ -42,7 +42,7 @@ fontfamily=Monospaced
 # literal : Char
 -
 + ~Piece()
-+ {abstract} IsMoveValid(endigPosition : Coordinate) : bool
++ {abstract} IsMoveValid(endigPosition : Coordinate) : MoveType
 + GetColor() : PieceColor
 + GetType() : PieceType
 + GetPosition() : Coordinate
@@ -112,17 +112,12 @@ REPETITION</panel_attributes>
 -
 - Board()
 _+ Instance() : Board&amp;_
-- Castling(king : shared_ptr, kingEndingPosition : Coordinate) : void
-- EnPassant(pawn : shared_ptr, pawnEndingPosition : Coordinate) : void
-- IsSquareAttacked(square : Coordinate, attackerColor : PieceColor) : bool
++ IsSquareAttacked(square : Coordinate, attackerColor : PieceColor) : bool
 + UpdateSquare(position : Coordinate, piece : Piece) : void
-+ UpdatePiecesVector() : void
 + AddKings(whiteKingPosition : Coordinate, blackKingPosition : Coordinate) : void
 + IsKingInCheck(kingColor : PieceColor) : bool
 + HasValidMoves(playerColor : PieceColor) : bool
 + IsMaterialLacking() : bool
-+ NormalMove(movingPiece : shared_ptr, endingPosition : Coordinate) : void
-+ Promotion(pawn : shared_ptr, promotionPiece : char, endingPosition : Coordinate) : void
 + GetPiece(position : Coordinate) : shared_ptr
 + ClearBoard() : void
 + ResetMoveNumber() : void
@@ -825,5 +820,161 @@ m2=1
     </coordinates>
     <panel_attributes/>
     <additional_attributes>10.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>872</x>
+      <y>320</y>
+      <w>236</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>/PieceMover/
+&lt;&lt;strategy&gt;&gt;
+-
++ ~PieceMover()
++ {abstract} Move(movingPiece : shared_ptr, endingPosition : Coordinate) : void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>912</x>
+      <y>376</y>
+      <w>236</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>/NormalMover/
+-
++ NormalMover()
++ ~NormalMover()
++ Move(movingPiece : shared_ptr, endingPosition : Coordinate) : void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>912</x>
+      <y>420</y>
+      <w>236</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>/EnPassantMover/
+-
++ EnPassantMover()
++ ~EnPassantMover()
++ Move(movingPiece : shared_ptr, endingPosition : Coordinate) : void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>912</x>
+      <y>464</y>
+      <w>236</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>/CastlingMover/
+-
++ CastlingMover()
++ ~CastlingMover()
++ Move(movingPiece : shared_ptr, endingPosition : Coordinate) : void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>912</x>
+      <y>508</y>
+      <w>236</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>/PromotionMover/
+-
++ PromotionMover()
++ ~PromotionMover()
++ Move(movingPiece : shared_ptr, endingPosition : Coordinate) : void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>892</x>
+      <y>348</y>
+      <w>12</w>
+      <h>188</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;450.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>892</x>
+      <y>520</y>
+      <w>28</w>
+      <h>16</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>50.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>892</x>
+      <y>472</y>
+      <w>28</w>
+      <h>16</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>50.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>892</x>
+      <y>428</y>
+      <w>28</w>
+      <h>16</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>50.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>892</x>
+      <y>388</y>
+      <w>28</w>
+      <h>16</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>50.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>768</x>
+      <y>336</y>
+      <w>112</w>
+      <h>16</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+m2=1</panel_attributes>
+    <additional_attributes>260.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>836</x>
+      <y>348</y>
+      <w>56</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+m2=1</panel_attributes>
+    <additional_attributes>10.0;330.0;110.0;330.0;110.0;10.0</additional_attributes>
   </element>
 </diagram>

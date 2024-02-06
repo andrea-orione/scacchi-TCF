@@ -13,7 +13,7 @@ public:
   Pawn(PieceColor pColor, Coordinate pPosition, bool pHasMoved = false);
   ~Pawn() override = default;
 
-  bool IsMoveValid(const Coordinate endingPosition) const override;
+  MoveType IsMoveValid(const Coordinate endingPosition) const override;
 
   void Move(const Coordinate newPosition) override;
   int GetDoubleAdvancementMoveNumber() const override { return doubleAdvancementMoveNumber; }

@@ -13,5 +13,5 @@ public:
   Bishop(PieceColor pColor, Coordinate pPosition);
   ~Bishop() override = default;
 
-  bool IsMoveValid(const Coordinate endingPosition) const override;
+  MoveType IsMoveValid(const Coordinate endingPosition) const override;
 };

@@ -18,7 +18,7 @@ Pawn::Pawn(PieceColor pColor, Coordinate pPosition, bool pHasMoved) :
   literal = (color == PieceColor::WHITE) ? 'P' : 'p';
 }
 
-bool Pawn::IsMoveValid(const Coordinate endingPosition) const
+MoveType Pawn::IsMoveValid(const Coordinate endingPosition) const
 {
   const Coordinate pawnStartingPosition = this->GetPosition();
   // geometric check
@@ -31,21 +31,23 @@ bool Pawn::IsMoveValid(const Coordinate endingPosition) const
   const bool generalMoveInvalid = absXDistance > 1 || yDistance * yDirection > 2 || yDistance * yDirection < 1;
   const bool doubleMoveInvalid = (this->hasMoved && yDistance * yDirection != 1) || (yDistance * yDirection == 2 && absXDistance != 0);
   if (generalMoveInvalid || doubleMoveInvalid)
-    return false;
+    return MoveType::INVALID;
 
   // board instance
   const Board &board = Board::Instance();
 
   if (absXDistance == 0 && board.GetPiece(endingPosition)->GetColor() != PieceColor::VOID)
-    return false;
+    return MoveType::INVALID;
 
   // check if landing square is free and the square in front is free (for double advancement moves also)
   if (abs(yDistance) == 2)
   {
     const Movement forwardMovement(0, yDirection);
-    const Coordinate inFrontPosition = this->GetPosition() + forwardMovement;
+    const Coordinate inFrontPosition = this->GetPosition() + forwardMovement; 
 
-    return (board.GetPiece(inFrontPosition)->GetColor() == PieceColor::VOID);
+    return (board.GetPiece(inFrontPosition)->GetColor() == PieceColor::VOID && board.GetPiece(endingPosition)->GetColor() == PieceColor::VOID) ?
+      MoveType::NORMAL :
+      MoveType::INVALID;
   }
 
   // check en passant
@@ -56,13 +58,14 @@ bool Pawn::IsMoveValid(const Coordinate endingPosition) const
 
     const int doubleAdvNum = board.GetPiece(capturedPawnPosition)->GetDoubleAdvancementMoveNumber();
     if (doubleAdvNum==-1 || abs(doubleAdvNum - board.GetMoveNumber()) > 1)
-      return false;
+      return MoveType::INVALID;
 
-    throw EnPassantSignal();
-    return true;
+    return MoveType::ENPASSANT;
   }
 
-  return !(absXDistance == 1 && board.GetPiece(endingPosition)->GetColor() != !this->GetColor());
+  if (absXDistance != 1 || board.GetPiece(endingPosition)->GetColor() == !this->GetColor())
+    return (endingPosition.GetY() == 5 + (yDirection * 3)) ? MoveType::PROMOTION : MoveType::NORMAL;
+  return MoveType::INVALID;
 }
 
 void Pawn::Move(const Coordinate newPosition)

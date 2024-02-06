@@ -13,5 +13,5 @@ public:
   Knight(PieceColor pColor, Coordinate pPosition);
   ~Knight() override = default;
 
-  bool IsMoveValid(const Coordinate endingPosition) const override;
+  MoveType IsMoveValid(const Coordinate endingPosition) const override;
 };

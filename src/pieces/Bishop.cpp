@@ -18,19 +18,19 @@ Bishop::Bishop(PieceColor pColor, Coordinate pPosition)
   literal = (color == PieceColor::WHITE) ? 'B' : 'b';
 }
 
-bool Bishop::IsMoveValid(const Coordinate endingPosition) const
+MoveType Bishop::IsMoveValid(const Coordinate endingPosition) const
 {
   const int xDistance = endingPosition.GetX() - this->position.GetX();
   const int yDistance = endingPosition.GetY() - this->position.GetY();
 
   // geometric check
   if (abs(xDistance) != abs(yDistance))
-    return false;
+    return MoveType::INVALID;
 
   // determine if the move is valid
   const Board &board = Board::Instance();
   if (board.GetPiece(endingPosition)->GetColor() == this->color)
-    return false;
+    return MoveType::INVALID;
 
   // determine diagonal
   const Movement baseMove(utils::sgn(xDistance), utils::sgn(yDistance));
@@ -39,7 +39,7 @@ bool Bishop::IsMoveValid(const Coordinate endingPosition) const
   for (Coordinate newPosition = this->GetPosition() + baseMove; newPosition != endingPosition; newPosition += baseMove)
   {
     if (board.GetPiece(newPosition)->GetColor() != PieceColor::VOID)
-      return false;
+      return MoveType::INVALID;
   }
-  return true;
+  return MoveType::NORMAL;
 }
