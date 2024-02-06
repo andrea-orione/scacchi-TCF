@@ -19,8 +19,6 @@ public:
   Coordinate(const Coordinate &newCoordinate);
   Coordinate &operator=(const Coordinate &newCoordinate);
 
-  Coordinate &SetX(int newX);
-  Coordinate &SetY(int newY);
   int GetX() const { return x; }
   int GetY() const { return y; }
 
