@@ -12,29 +12,25 @@
 class Coordinate
 {
 public:
-  Coordinate(int newX = 1, int newY = 1);
+  Coordinate(int newX=1, int newY=1);
   Coordinate(std::string_view literalExpression);
-  ~Coordinate() = default;
 
-  Coordinate(const Coordinate &newCoordinate);
-  Coordinate &operator=(const Coordinate &newCoordinate);
+  inline int GetX() const { return x; }
+  inline int GetY() const { return y; }
 
-  int GetX() const { return x; }
-  int GetY() const { return y; }
-
-  bool operator<(const Coordinate &other) const;
-  bool operator>(const Coordinate &other) const;
-  bool operator==(const Coordinate &other) const;
-  bool operator!=(const Coordinate &other) const;
-  bool operator<=(const Coordinate &other) const;
-  bool operator>=(const Coordinate &other) const;
-
-  Coordinate operator+(const Movement &movement) const;
-  Coordinate &operator+=(const Movement &movement);
-
-  int SquaredDistance(Coordinate other) const;
+  Coordinate operator+(Movement movement) const;
+  Coordinate &operator+=(Movement movement);
 
 private:
   int x;
   int y;
 };
+
+bool operator<(Coordinate left, Coordinate right);
+bool operator>(Coordinate left, Coordinate right);
+bool operator==(Coordinate left, Coordinate right);
+bool operator!=(Coordinate left, Coordinate right);
+bool operator<=(Coordinate left, Coordinate right);
+bool operator>=(Coordinate left, Coordinate right);
+
+int SquaredDistance(Coordinate left, Coordinate right);

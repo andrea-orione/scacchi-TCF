@@ -11,20 +11,9 @@ class Movement
 {
 public:
   Movement(int newX = 0, int newY = 0);
-  ~Movement() = default;
 
-  Movement(const Movement &newMovement);
-  Movement &operator=(const Movement &newMovement);
-
-  int GetX() const { return x; }
-  int GetY() const { return y; }
-
-  bool operator<(const Movement &other) const;
-  bool operator>(const Movement &other) const;
-  bool operator==(const Movement &other) const;
-  bool operator!=(const Movement &other) const;
-  bool operator<=(const Movement &other) const;
-  bool operator>=(const Movement &other) const;
+  inline int GetX() const { return x; }
+  inline int GetY() const { return y; }
 
   Movement operator*(int multiplier) const;
 
@@ -32,3 +21,10 @@ private:
   int x;
   int y;
 };
+
+bool operator<(Movement left, Movement right);
+bool operator>(Movement left, Movement right);
+bool operator==(Movement left, Movement right);
+bool operator!=(Movement left, Movement right);
+bool operator<=(Movement left, Movement right);
+bool operator>=(Movement left, Movement right);

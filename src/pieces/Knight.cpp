@@ -1,6 +1,7 @@
 #include "Knight.hh"
 
 #include "Board.hh"
+#include "Coordinate.hh"
 #include "Piece.hh"
 
 #include <stdexcept>
@@ -19,7 +20,7 @@ Knight::Knight(PieceColor pColor, Coordinate pPosition)
 MoveType Knight::IsMoveValid(const Coordinate endingPosition) const
 {
   // geometric check
-  if (this->position.SquaredDistance(endingPosition) != 5)
+  if (SquaredDistance(this->position, endingPosition) != 5)
     return MoveType::INVALID;
 
   // determine if the move is valid

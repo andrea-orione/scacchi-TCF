@@ -23,12 +23,12 @@ King::King(PieceColor pColor, Coordinate pPosition, bool pHasMoved)
 MoveType King::IsMoveValid(const Coordinate endingPosition) const
 {
   // Too far case
-  if (this->position.SquaredDistance(endingPosition) > 4)
+  if (SquaredDistance(this->GetPosition(), endingPosition) > 4)
     return MoveType::INVALID;
 
   // Normal move case
   const Board &board = Board::Instance();
-  if (this->position.SquaredDistance(endingPosition) < 3)
+  if (SquaredDistance(this->GetPosition(), endingPosition) < 3)
   {
     return (board.GetPiece(endingPosition)->GetColor() != this->color) ? MoveType::NORMAL : MoveType::INVALID;
   }

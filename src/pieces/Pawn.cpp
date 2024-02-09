@@ -71,7 +71,7 @@ MoveType Pawn::IsMoveValid(const Coordinate endingPosition) const
 void Pawn::Move(const Coordinate newPosition)
 {
   const Board &board = Board::Instance();
-  const int distanceSquared = this->position.SquaredDistance(newPosition);
+  const int distanceSquared = SquaredDistance(this->GetPosition(), newPosition);
   // the distanceSquared == 0 case is used when the FEN position is loaded (for loading the last movement for the en passant)
   if (distanceSquared == 0 || distanceSquared == 4)
     doubleAdvancementMoveNumber = board.GetMoveNumber();

@@ -23,81 +23,6 @@ Movement::Movement(const int newX, const int newY)
 }
 
 /**
- * The copy constructor.
- *
- * @param[in] newMovement the Movement to be copied
- */
-Movement::Movement(const Movement &newMovement)
-{
-  this->x = newMovement.x;
-  this->y = newMovement.y;
-}
-
-/**
- * The copy operator.
- *
- * @param[in] newMovement the Movement to be copied.
- */
-Movement &Movement::operator=(const Movement &newMovement)
-{
-  // Check for self assignment
-  if (this != &newMovement)
-  {
-    this->x = newMovement.x;
-    this->y = newMovement.y;
-  }
-  return *this;
-}
-
-/**
- * Operator `<` overloading.
- */
-bool Movement::operator<(const Movement &other) const
-{
-  return (y < other.y) || ((y == other.y) && (x < other.x));
-}
-
-/**
- * Operator `>` overloading.
- */
-bool Movement::operator>(const Movement &other) const
-{
-  return (y > other.y) || ((y == other.y) && (x > other.x));
-}
-
-/**
- * Operator `==` overloading.
- */
-bool Movement::operator==(const Movement &other) const
-{
-  return (x == other.x && y == other.y);
-}
-
-/**
- * Operator `!=` overloading.
- */
-bool Movement::operator!=(const Movement &other) const
-{
-  return !(x == other.x && y == other.y);
-}
-
-/**
- * Operator `<=` overloading.
- */
-bool Movement::operator<=(const Movement &other) const
-{
-  return !((y > other.y) || ((y == other.y) && (x > other.x)));
-}
-
-/**
- * Operator `>=` overloading.
- */
-bool Movement::operator>=(const Movement &other) const
-{
-  return !((y < other.y) || ((y == other.y) && (x < other.x)));
-}
-
-/**
  * Operator `*` overloading.
  *
  * Return the movement scaled by the multiplier factor, if the result respects the constraints.
@@ -120,3 +45,47 @@ Movement Movement::operator*(const int multiplier) const
 
   return Movement(newX, newY);
 }
+
+/**
+ * Operator `<` overloading.
+ *
+ * A movement is considered bigger than the other if it has a bigger y.
+ * If two movements have the same y the one with the bigger x is considered bigger
+ */
+bool operator<(Movement left, Movement right)
+{
+  return (left.GetY() < right.GetY()) || ((left.GetY() == right.GetY()) && (left.GetX() < right.GetX()));
+}
+
+/**
+ * Operator `>` overloading.
+ *
+ * A movement is considered smaller than the other if it has a smaller y.
+ * If two movements have the same y the one with the smaller x is considered smaller
+ */
+bool operator>(Movement left, Movement right)
+{
+  return (left.GetY() > right.GetY()) || ((left.GetY() == right.GetY()) && (left.GetX() > right.GetX()));
+}
+
+/**
+ * Operator `==` overloading.
+ *
+ * Two movements are considered equals if they have both the same x and the same y
+ */
+bool operator==(Movement left, Movement right) { return (left.GetX() == right.GetX() && left.GetY() == right.GetY()); }
+
+/**
+ * Operator `!=` overloading.
+ */
+bool operator!=(Movement left, Movement right) { return !(left == right); }
+
+/**
+ * Operator `<=` overloading.
+ */
+bool operator<=(Movement left, Movement right) { return !(left > right); }
+
+/**
+ * Operator `>=` overloading.
+ */
+bool operator>=(Movement left, Movement right) { return !(left < right); }

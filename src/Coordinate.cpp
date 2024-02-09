@@ -14,7 +14,7 @@ constexpr std::string_view literalChars{"abcdefgh"};
  * @param[in] newX the value between 1 and 8 (included) to assign to the x (column).
  * @param[in] newY the value between 1 and 8 (included) to assign to the y (row).
  */
-Coordinate::Coordinate(const int newX, const int newY)
+Coordinate::Coordinate(int newX, int newY)
 {
   if (newX < 1 || newX > 8)
     throw std::out_of_range("x value outside the board");
@@ -33,7 +33,7 @@ Coordinate::Coordinate(const int newX, const int newY)
  *
  * @param[in] literalExpression The aforementioned `string_view`.
  */
-Coordinate::Coordinate(const std::string_view literalExpression)
+Coordinate::Coordinate(std::string_view literalExpression)
 {
   if (literalExpression.length() != 2)
     throw std::invalid_argument("Non valid literal expression");
@@ -51,81 +51,6 @@ Coordinate::Coordinate(const std::string_view literalExpression)
 }
 
 /**
- * The copy constructor.
- *
- * @param[in] newCoordinate the Coordinate to be copied
- */
-Coordinate::Coordinate(const Coordinate &newCoordinate)
-{
-  this->x = newCoordinate.x;
-  this->y = newCoordinate.y;
-}
-
-/**
- * The copy operator.
- *
- * @param[in] newCoordinate the Coordinate to be copied.
- */
-Coordinate &Coordinate::operator=(const Coordinate &newCoordinate)
-{
-  // Check for self assignment
-  if (this != &newCoordinate)
-  {
-    this->x = newCoordinate.x;
-    this->y = newCoordinate.y;
-  }
-
-  return *this;
-}
-
-/**
- * Operator `<` overloading.
- */
-bool Coordinate::operator<(const Coordinate &other) const
-{
-  return (y < other.y) || ((y == other.y) && (x < other.x));
-}
-
-/**
- * Operator `>` overloading.
- */
-bool Coordinate::operator>(const Coordinate &other) const
-{
-  return (y > other.y) || ((y == other.y) && (x > other.x));
-}
-
-/**
- * Operator `==` overloading.
- */
-bool Coordinate::operator==(const Coordinate &other) const
-{
-  return (x == other.x && y == other.y);
-}
-/**
- * Operator `!=` overloading.
- */
-bool Coordinate::operator!=(const Coordinate &other) const
-{
-  return !(x == other.x && y == other.y);
-}
-
-/**
- * Operator `<=` overloading.
- */
-bool Coordinate::operator<=(const Coordinate &other) const
-{
-  return !((y > other.y) || ((y == other.y) && (x > other.x)));
-}
-
-/**
- * Operator `>=` overloading.
- */
-bool Coordinate::operator>=(const Coordinate &other) const
-{
-  return !((y < other.y) || ((y == other.y) && (x < other.x)));
-}
-
-/**
  * The sum operator, to get to new coordinates.
  *
  * It uses a `Movement` object to generate the new `Coordinate`,
@@ -134,7 +59,7 @@ bool Coordinate::operator>=(const Coordinate &other) const
  * @param[in] movement The movement to perform.
  * @return the new Coordinate.
  */
-Coordinate Coordinate::operator+(const Movement &movement) const
+Coordinate Coordinate::operator+(Movement movement) const
 {
   const int newX = x + movement.GetX();
   const int newY = y + movement.GetY();
@@ -156,7 +81,7 @@ Coordinate Coordinate::operator+(const Movement &movement) const
  * @param[in] movement The movement to perform.
  * @return the new Coordinate.
  */
-Coordinate &Coordinate::operator+=(const Movement &movement)
+Coordinate &Coordinate::operator+=(Movement movement)
 {
   const int newX = x + movement.GetX();
   const int newY = y + movement.GetY();
@@ -173,6 +98,50 @@ Coordinate &Coordinate::operator+=(const Movement &movement)
 }
 
 /**
+ * Operator `<` overloading.
+ *
+ * A coordinate is considered bigger than the other if it has a bigger y.
+ * If two coordinates have the same y the one with the bigger x is considered bigger
+ */
+bool operator<(Coordinate left, Coordinate right)
+{
+  return (left.GetY() < right.GetY()) || ((left.GetY() == right.GetY()) && (left.GetX() < right.GetX()));
+}
+
+/**
+ * Operator `>` overloading.
+ *
+ * A coordinate is considered smaller than the other if it has a smaller y.
+ * If two coordinates have the same y the one with the smaller x is considered smaller
+ */
+bool operator>(Coordinate left, Coordinate right)
+{
+  return (left.GetY() > right.GetY()) || ((left.GetY() == right.GetY()) && (left.GetX() > right.GetX()));
+}
+
+/**
+ * Operator `==` overloading.
+ *
+ * Two coordinates are considered equals if they have both the same x and the same y
+ */
+bool operator==(Coordinate left, Coordinate right) { return (left.GetX() == right.GetX() && left.GetY() == right.GetY()); }
+
+/**
+ * Operator `!=` overloading.
+ */
+bool operator!=(Coordinate left, Coordinate right) { return !(left == right); }
+
+/**
+ * Operator `<=` overloading.
+ */
+bool operator<=(Coordinate left, Coordinate right) { return !(left > right); }
+
+/**
+ * Operator `>=` overloading.
+ */
+bool operator>=(Coordinate left, Coordinate right) { return !(left < right); }
+
+/**
  * Function for getting the distance squared between to coordinates.
  *
  * To increase the performance, the square root is avoided, as it would
@@ -181,7 +150,9 @@ Coordinate &Coordinate::operator+=(const Movement &movement)
  * @param[in] other The other `Coordinate`.
  * @return The distance squared.
  */
-int Coordinate::SquaredDistance(const Coordinate other) const
+int SquaredDistance(Coordinate left, Coordinate right)
 {
-  return (x - other.x) * (x - other.x) + (y - other.y) * (y - other.y);
+  const int deltaX = left.GetX() - right.GetX();
+  const int deltaY = left.GetY() - right.GetY();
+  return deltaX * deltaX + deltaY * deltaY;
 }
