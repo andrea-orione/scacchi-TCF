@@ -10,8 +10,3 @@ VoidPiece::VoidPiece(Coordinate pPosition)
   position = pPosition;
   literal = ' ';
 }
-
-MoveType VoidPiece::IsMoveValid(const Coordinate endingPosition) const
-{
-  return MoveType::INVALID;
-}
