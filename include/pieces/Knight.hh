@@ -11,7 +11,6 @@ class Knight : public Piece
 {
 public:
   Knight(PieceColor pColor, Coordinate pPosition);
-  ~Knight() override = default;
 
   MoveType IsMoveValid(const Coordinate endingPosition) const override;
 };

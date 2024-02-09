@@ -11,7 +11,6 @@ class Pawn : public Piece
 {
 public:
   Pawn(PieceColor pColor, Coordinate pPosition, bool pHasMoved = false);
-  ~Pawn() override = default;
 
   MoveType IsMoveValid(const Coordinate endingPosition) const override;
 

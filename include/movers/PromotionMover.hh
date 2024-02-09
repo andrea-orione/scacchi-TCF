@@ -5,8 +5,7 @@
 class PromotionMover : public PieceMover
 {
 public:
-  PromotionMover(const char promotionPiece): promotionPiece(promotionPiece) {}
-  ~PromotionMover() override = default;
+  PromotionMover(char promotionPiece): promotionPiece(promotionPiece) {}
 
   void Move(std::shared_ptr<Piece> movingPiece, const Coordinate endingPosition) const override;
 private:

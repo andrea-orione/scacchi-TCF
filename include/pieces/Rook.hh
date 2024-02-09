@@ -11,7 +11,6 @@ class Rook : public Piece
 {
 public:
   Rook(PieceColor pColor, Coordinate pPosition, bool pHasMoved = false);
-  ~Rook() override = default;
 
   MoveType IsMoveValid(const Coordinate endingPosition) const override;
 

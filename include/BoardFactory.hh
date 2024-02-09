@@ -10,7 +10,6 @@ class BoardFactory
 {
 public:
   BoardFactory() {}
-  ~BoardFactory() = default;
   
   static std::shared_ptr<Piece> MakePiece(char pieceChar, Coordinate pPosition, bool hasRookMoved = true);
 

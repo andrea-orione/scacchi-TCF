@@ -13,7 +13,7 @@
  * @param[in] king A pointer to the king that should move.
  * @param[in] kingEndingPosition The coordinate of the square that should be reached.
  */
-void CastlingMover::Move(std::shared_ptr<Piece> king, const Coordinate kingEndingPosition) const
+void CastlingMover::Move(std::shared_ptr<Piece> king, Coordinate kingEndingPosition) const
 {
   Board &board = Board::Instance();
 

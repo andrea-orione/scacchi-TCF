@@ -11,7 +11,6 @@ class VoidPiece : public Piece
 {
 public:
   VoidPiece(Coordinate pPosition);
-  ~VoidPiece() override = default;
 
   MoveType IsMoveValid(const Coordinate endingPosition) const override;
 };

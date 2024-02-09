@@ -11,7 +11,6 @@ class Queen : public Piece
 {
 public:
   Queen(PieceColor pColor, Coordinate pPosition);
-  ~Queen() override = default;
 
   MoveType IsMoveValid(const Coordinate endingPosition) const override;
 };

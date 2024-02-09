@@ -32,9 +32,6 @@ enum class GameStatus
 class GameManager
 {
 public:
-  GameManager();
-  ~GameManager() = default;
-
   void StartGame();
 
 private:

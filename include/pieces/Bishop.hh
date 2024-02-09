@@ -11,7 +11,6 @@ class Bishop : public Piece
 {
 public:
   Bishop(PieceColor pColor, Coordinate pPosition);
-  ~Bishop() override = default;
 
   MoveType IsMoveValid(const Coordinate endingPosition) const override;
 };
