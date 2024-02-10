@@ -219,12 +219,17 @@ void Board::ClearBoard()
  *
  * @return The aforementioned string
  */
-std::vector<std::shared_ptr<Piece>> Board::GetCapturedPieces(PieceColor pColor) const
+std::vector<Piece*> Board::GetCapturedPieces(PieceColor pColor) const
 {
   if (pColor == PieceColor::VOID)
     throw std::invalid_argument("Board::GetCapturedPieces() : The captured pieces must be either white or black.");
 
-  return (pColor == PieceColor::WHITE) ? whiteCapturedPieces : blackCapturedPieces;
+  const auto &capturedPieces = (pColor == PieceColor::WHITE) ? whiteCapturedPieces : blackCapturedPieces;
+  std::vector<Piece*> result{capturedPieces.size()};
+  std::transform(capturedPieces.begin(), capturedPieces.end(), result.begin(),
+      [](std::shared_ptr<Piece> piece) -> Piece* { return piece.get(); });
+
+  return result;
 }
 
 /**

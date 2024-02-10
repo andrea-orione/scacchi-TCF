@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <fstream>
+#include <vector>
 
 #include "BoardFactory.hh"
 #include "BoardRenderer.hh"
@@ -32,6 +33,8 @@ enum class GameStatus
 class GameManager
 {
 public:
+  GameManager();
+
   void StartGame();
 
 private:

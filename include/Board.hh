@@ -36,14 +36,14 @@ public:
   bool HasValidMoves(PieceColor playerColor);
   bool IsMaterialLacking() const;
 
-  std::shared_ptr<Piece> GetPiece(Coordinate position) const { return squaresMap.find(position)->second; }
+  std::shared_ptr<Piece> GetPiece(Coordinate position) const { return squaresMap.at(position); }
 
   void ClearBoard();
   void ResetMoveNumber() { moveNumber = 0; }
   void IncrementMoveNumber(int increment = 1) { moveNumber += increment; }
   int GetMoveNumber() const { return moveNumber; }
 
-  std::vector<std::shared_ptr<Piece>> GetCapturedPieces(PieceColor pColor) const;
+  std::vector<Piece*> GetCapturedPieces(PieceColor pColor) const;
   void AddCapturedPiece(const std::shared_ptr<Piece> piece);
 
   std::string GetFenPosition() const;

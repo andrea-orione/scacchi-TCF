@@ -5,7 +5,7 @@
 #include <string_view>
 
 #include "Board.hh"
-#include "BoardRenderer.hh"
+#include "Piece.hh"
 
 using std::cout;
 using std::endl;
@@ -16,23 +16,22 @@ constexpr std::string_view bottom = "---------------------------------";
 constexpr std::string_view border = "|";
 constexpr std::string_view separator = "|";
 
-SimplifiedBoardRenderer::SimplifiedBoardRenderer() : BoardRenderer(
-                                                         std::map<PieceType, std::string_view>{
-                                                             {PieceType::PAWN, "P"},
-                                                             {PieceType::ROOK, "R"},
-                                                             {PieceType::KNIGHT, "N"},
-                                                             {PieceType::BISHOP, "B"},
-                                                             {PieceType::QUEEN, "Q"},
-                                                             {PieceType::KING, "K"},
-                                                             {PieceType::VOID, " "}},
-                                                         std::map<PieceType, std::string_view>{
-                                                             {PieceType::PAWN, "p"},
-                                                             {PieceType::ROOK, "r"},
-                                                             {PieceType::KNIGHT, "n"},
-                                                             {PieceType::BISHOP, "b"},
-                                                             {PieceType::QUEEN, "q"},
-                                                             {PieceType::KING, "k"},
-                                                             {PieceType::VOID, " "}}) {}
+const std::map<PieceType, char> whitePiecesChars = {
+  {PieceType::PAWN, 'P'},
+  {PieceType::ROOK, 'R'},
+  {PieceType::KNIGHT, 'N'},
+  {PieceType::BISHOP, 'B'},
+  {PieceType::QUEEN, 'Q'},
+  {PieceType::KING, 'K'},
+  {PieceType::VOID, ' '}};
+const std::map<PieceType, char> blackPiecesChars = {
+  {PieceType::PAWN, 'p'},
+  {PieceType::ROOK, 'r'},
+  {PieceType::KNIGHT, 'n'},
+  {PieceType::BISHOP, 'b'},
+  {PieceType::QUEEN, 'q'},
+  {PieceType::KING, 'k'},
+  {PieceType::VOID, ' '}};
 
 void SimplifiedBoardRenderer::PrintWhiteBoard() const
 {
@@ -43,7 +42,9 @@ void SimplifiedBoardRenderer::PrintWhiteBoard() const
     cout << " " << row << " " << border << " ";
     for (int column = 1; column < 9; column++)
     {
-      cout << this->PieceToString(board.GetPiece(Coordinate(column, row)));
+      const Piece* piece = board.GetPiece(Coordinate(column, row)).get();
+      const auto &pieceChars = (piece->GetColor() == PieceColor::WHITE) ? whitePiecesChars : blackPiecesChars;
+      cout << pieceChars.at(piece->GetType());
 
       // Slightly inefficient but makes the code cleaner
       if (column != 8)
@@ -73,7 +74,9 @@ void SimplifiedBoardRenderer::PrintBlackBoard() const
     cout << " " << row << " " << border << " ";
     for (int column = 8; column > 0; column--)
     {
-      cout << this->PieceToString(board.GetPiece(Coordinate(column, row)));
+      const Piece* piece = board.GetPiece(Coordinate(column, row)).get();
+      const auto &pieceChars = (piece->GetColor() == PieceColor::WHITE) ? whitePiecesChars : blackPiecesChars;
+      cout << pieceChars.at(piece->GetType());
 
       // Slightly inefficient but makes the code cleaner
       if (column != 1)
@@ -92,4 +95,15 @@ void SimplifiedBoardRenderer::PrintBlackBoard() const
   }
   cout << "     h   g   f   e   d   c   b   a\n"
        << endl;
+}
+
+std::string SimplifiedBoardRenderer::PieceVectorToString(const std::vector<Piece*>& pieceVector) const
+{
+  std::string vectorString{};
+  for (const auto piece : pieceVector)
+  {
+    const auto &pieceChars = (piece->GetColor() == PieceColor::WHITE) ? whitePiecesChars : blackPiecesChars;
+    vectorString += (std::string(1, pieceChars.at(piece->GetType())) + " ");
+  }
+  return vectorString;
 }

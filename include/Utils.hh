@@ -2,6 +2,7 @@
 
 #include <exception>
 #include <iostream>
+#include <map>
 #include <vector>
 #include <string>
 
@@ -30,6 +31,25 @@ namespace utils
                                         << std::flush; }
 
   bool adjacent_find(std::vector<std::string> vec);
+
+
+  const std::map<PieceType, std::string_view> voidPiecesChars = {
+    {PieceType::PAWN, "♙"},
+    {PieceType::ROOK, "♖"},
+    {PieceType::KNIGHT, "♘"},
+    {PieceType::BISHOP, "♗"},
+    {PieceType::QUEEN, "♕"},
+    {PieceType::KING, "♔"},
+    {PieceType::VOID, " "}};
+
+  const std::map<PieceType, std::string_view> fullPiecesChars = {
+    {PieceType::PAWN, "♟︎"},
+    {PieceType::ROOK, "♜"},
+    {PieceType::KNIGHT, "♞"},
+    {PieceType::BISHOP, "♝"},
+    {PieceType::QUEEN, "♛"},
+    {PieceType::KING, "♚"},
+    {PieceType::VOID, " "}};
 } // namespace utils
 
 PieceColor operator!(const PieceColor &oldColor);

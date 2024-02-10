@@ -1,14 +1,15 @@
 #pragma once
 
 #include "BoardRenderer.hh"
+#include "Piece.hh"
+#include <vector>
 
 class InvertedBoardRenderer : public BoardRenderer
 {
 public:
-  InvertedBoardRenderer();
-  ~InvertedBoardRenderer() override = default;
-
-private:
   void PrintWhiteBoard() const override;
   void PrintBlackBoard() const override;
+
+private:
+  std::string PieceVectorToString(const std::vector<Piece*>& pieceVector) const;
 };

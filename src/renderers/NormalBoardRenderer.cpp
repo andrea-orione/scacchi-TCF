@@ -5,7 +5,8 @@
 #include <string_view>
 
 #include "Board.hh"
-#include "BoardRenderer.hh"
+#include "Piece.hh"
+#include "Utils.hh"
 
 using std::cout;
 using std::endl;
@@ -16,24 +17,6 @@ constexpr std::string_view bottom = "╚═══╧═══╧═══╧═�
 constexpr std::string_view border = "║";
 constexpr std::string_view separator = "│";
 
-NormalBoardRenderer::NormalBoardRenderer() : BoardRenderer(
-                                                 std::map<PieceType, std::string_view>{
-                                                     {PieceType::PAWN, "♟︎"},
-                                                     {PieceType::ROOK, "♜"},
-                                                     {PieceType::KNIGHT, "♞"},
-                                                     {PieceType::BISHOP, "♝"},
-                                                     {PieceType::QUEEN, "♛"},
-                                                     {PieceType::KING, "♚"},
-                                                     {PieceType::VOID, " "}},
-                                                 std::map<PieceType, std::string_view>{
-                                                     {PieceType::PAWN, "♙"},
-                                                     {PieceType::ROOK, "♖"},
-                                                     {PieceType::KNIGHT, "♘"},
-                                                     {PieceType::BISHOP, "♗"},
-                                                     {PieceType::QUEEN, "♕"},
-                                                     {PieceType::KING, "♔"},
-                                                     {PieceType::VOID, " "}}) {}
-
 void NormalBoardRenderer::PrintWhiteBoard() const
 {
   const Board &board = Board::Instance();
@@ -43,7 +26,9 @@ void NormalBoardRenderer::PrintWhiteBoard() const
     cout << " " << row << " " << border << " ";
     for (int column = 1; column < 9; column++)
     {
-      cout << this->PieceToString(board.GetPiece(Coordinate(column, row)));
+      const Piece* piece = board.GetPiece(Coordinate(column, row)).get();
+      const auto &pieceChars = (piece->GetColor() == PieceColor::WHITE) ? utils::fullPiecesChars : utils::voidPiecesChars;
+      cout << pieceChars.at(piece->GetType());
 
       // Slightly inefficient but makes the code cleaner
       if (column != 8)
@@ -73,7 +58,9 @@ void NormalBoardRenderer::PrintBlackBoard() const
     cout << " " << row << " " << border << " ";
     for (int column = 8; column > 0; column--)
     {
-      cout << this->PieceToString(board.GetPiece(Coordinate(column, row)));
+      const Piece* piece = board.GetPiece(Coordinate(column, row)).get();
+      const auto &pieceChars = (piece->GetColor() == PieceColor::WHITE) ? utils::fullPiecesChars : utils::voidPiecesChars;
+      cout << pieceChars.at(piece->GetType());
 
       // Slightly inefficient but makes the code cleaner
       if (column != 1)
@@ -82,9 +69,9 @@ void NormalBoardRenderer::PrintBlackBoard() const
         cout << " " << border;
     }
     if (row == 1)
-      cout << "   BLACK CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::WHITE));
+      cout << "   BLACK CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::BLACK));
     if (row == 2)
-      cout << "   WHITE CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::BLACK));
+      cout << "   WHITE CAPTURED PIECES: " << this->PieceVectorToString(board.GetCapturedPieces(PieceColor::WHITE));
     if (row != 8)
       cout << "\n   " << middle << "\n";
     else
@@ -92,4 +79,15 @@ void NormalBoardRenderer::PrintBlackBoard() const
   }
   cout << "     h   g   f   e   d   c   b   a\n"
        << endl;
+}
+
+std::string NormalBoardRenderer::PieceVectorToString(const std::vector<Piece*>& pieceVector) const
+{
+  std::string vectorString{};
+  for (const auto piece : pieceVector)
+  {
+    const auto &pieceChars = (piece->GetColor() == PieceColor::WHITE) ? utils::fullPiecesChars : utils::voidPiecesChars;
+    vectorString += (std::string(pieceChars.at(piece->GetType())) + " ");
+  }
+  return vectorString;
 }
