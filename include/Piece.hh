@@ -70,7 +70,7 @@ public:
    *
    * @return The type of the move to be performed to achieve that position.
    */
-  virtual MoveType IsMoveValid(const Coordinate endingPosition) const = 0;
+  virtual MoveType IsMoveValid(Coordinate endingPosition) const = 0;
 
   char GetChar() const { return literal; }
 
@@ -100,7 +100,7 @@ public:
    *
    * @param[in] newPosition The square where to move the piece to.
    */
-  virtual void Move(const Coordinate newPosition) { position = newPosition; }
+  virtual void Move(Coordinate newPosition) { position = newPosition; }
 
   /**
    * Checks whether the piece can castle or not.

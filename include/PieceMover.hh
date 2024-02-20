@@ -8,8 +8,6 @@
 class PieceMover
 {
 public:
-  virtual ~PieceMover() = default;
-
   /**
    * Function for checking if a move is valid and, in that case, updating the board and the internal position of the piece.
    *
