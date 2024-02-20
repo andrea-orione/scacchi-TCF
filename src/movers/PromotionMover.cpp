@@ -11,7 +11,7 @@
 /**
  * Function for promoting a pawn.
  */
-void PromotionMover::Move(std::shared_ptr<Piece> pawn, const Coordinate endingPosition) const
+void PromotionMover::Move(Piece* pawn, const Coordinate endingPosition) const
 {
   Board &board = Board::Instance();
 
@@ -21,20 +21,19 @@ void PromotionMover::Move(std::shared_ptr<Piece> pawn, const Coordinate endingPo
     std::tolower(this->promotionPiece);
 
   const Coordinate startingPosition = pawn->GetPosition();
-  const std::shared_ptr<Piece> capturedPiece = board.GetPiece(endingPosition);
-  board.UpdateSquare(endingPosition, BoardFactory::MakePiece(newPieceChar, endingPosition));
-  board.UpdateSquare(startingPosition, BoardFactory::MakePiece(0, startingPosition));
+  std::unique_ptr<Piece> capturedPiece = board.ReplacePiece(endingPosition, BoardFactory::MakePiece(newPieceChar, endingPosition));
+  std::unique_ptr<Piece> oldPawn = board.RemovePiece(startingPosition);
 
   // Valid move case
   if (board.IsKingInCheck(pawn->GetColor()))
   {
     pawn->Move(endingPosition);
-    board.AddCapturedPiece(capturedPiece);
+    board.AddCapturedPiece(std::move(capturedPiece));
     return;
   }
 
   // Invalid move case. Resetting the board.
-  board.UpdateSquare(startingPosition, pawn);
-  board.UpdateSquare(endingPosition, capturedPiece);
+  board.InsertPiece(startingPosition, std::move(oldPawn));
+  board.InsertPiece(endingPosition, std::move(capturedPiece));
   throw InvalidMoveException("This move is not allowed. The king would be in check.");
 }

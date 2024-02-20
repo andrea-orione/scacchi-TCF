@@ -42,7 +42,7 @@ void SimplifiedBoardRenderer::PrintWhiteBoard() const
     cout << " " << row << " " << border << " ";
     for (int column = 1; column < 9; column++)
     {
-      const Piece* piece = board.GetPiece(Coordinate(column, row)).get();
+      const Piece* piece = board.GetPiece(Coordinate(column, row));
       const auto &pieceChars = (piece->GetColor() == PieceColor::WHITE) ? whitePiecesChars : blackPiecesChars;
       cout << pieceChars.at(piece->GetType());
 
@@ -74,7 +74,7 @@ void SimplifiedBoardRenderer::PrintBlackBoard() const
     cout << " " << row << " " << border << " ";
     for (int column = 8; column > 0; column--)
     {
-      const Piece* piece = board.GetPiece(Coordinate(column, row)).get();
+      const Piece* piece = board.GetPiece(Coordinate(column, row));
       const auto &pieceChars = (piece->GetColor() == PieceColor::WHITE) ? whitePiecesChars : blackPiecesChars;
       cout << pieceChars.at(piece->GetType());
 

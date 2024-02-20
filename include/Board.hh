@@ -27,8 +27,10 @@ public:
   Board &operator=(const Board &) = delete;  // delete assignment operator
   Board &operator=(const Board &&) = delete; // delete move assignment operator
 
-  void UpdateSquare(Coordinate position, std::shared_ptr<Piece> piece);
   void AddKings(Coordinate whiteKingPosition, Coordinate blackKingPosition);
+  std::unique_ptr<Piece> ReplacePiece(Coordinate position, std::unique_ptr<Piece> piece);
+  std::unique_ptr<Piece> RemovePiece(Coordinate position);
+  void InsertPiece(Coordinate position, std::unique_ptr<Piece> piece);
 
   bool IsSquareAttacked(Coordinate square, PieceColor attackerColor) const;
 
@@ -36,7 +38,7 @@ public:
   bool HasValidMoves(PieceColor playerColor);
   bool IsMaterialLacking() const;
 
-  std::shared_ptr<Piece> GetPiece(Coordinate position) const { return squaresMap.at(position); }
+  Piece* GetPiece(Coordinate position) const { return squaresMap.at(position).get(); }
 
   void ClearBoard();
   void ResetMoveNumber() { moveNumber = 0; }
@@ -44,29 +46,21 @@ public:
   int GetMoveNumber() const { return moveNumber; }
 
   std::vector<Piece*> GetCapturedPieces(PieceColor pColor) const;
-  void AddCapturedPiece(const std::shared_ptr<Piece> piece);
+  void AddCapturedPiece(const std::unique_ptr<Piece> piece);
 
   std::string GetFenPosition() const;
 
 private:
   Board(); // private constructor
 
-  // Map defining the squares as {coordinate : pointer to piece}.
-  std::map<Coordinate, std::shared_ptr<Piece>> squaresMap;
+  std::map<Coordinate, std::unique_ptr<Piece>> squaresMap;  // Map defining the squares as {coordinate : pointer to piece}.
 
-  // Vector with the pointers to the white pieces on the board.
-  std::vector<std::shared_ptr<Piece>> whitePieces;
-  // Vector with the pointers to the black pieces on the board.
-  std::vector<std::shared_ptr<Piece>> blackPieces;
-  // Vector with the pointers to the white pieces captured.
-  std::vector<std::shared_ptr<Piece>> whiteCapturedPieces;
-  // Vector with the pointers to the black pieces captured.
-  std::vector<std::shared_ptr<Piece>> blackCapturedPieces;
-  // Pointer to the white king.
-  std::shared_ptr<Piece> whiteKing;
-  // Pointer to the black king.
-  std::shared_ptr<Piece> blackKing;
+  std::vector<Piece*> whitePieces;  // Vector with the pointers to the white pieces on the board.
+  std::vector<Piece*> blackPieces;  // Vector with the pointers to the black pieces on the board.
+  std::vector<std::unique_ptr<Piece>> whiteCapturedPieces;  // Vector with the pointers to the white pieces captured.
+  std::vector<std::unique_ptr<Piece>> blackCapturedPieces;  // Vector with the pointers to the black pieces captured.
+  Piece* whiteKing;  // Pointer to the white king.
+  Piece* blackKing; // Pointer to the black king.
 
-  // The number of moves done.
-  int moveNumber;
+  int moveNumber;  // The number of moves done.
 };

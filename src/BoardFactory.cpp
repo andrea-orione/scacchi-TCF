@@ -26,11 +26,11 @@
  *
  * @return The pointer to the piece that has been created created.
  */
-std::shared_ptr<Piece> BoardFactory::MakePiece(char pChar, const Coordinate pPosition, const bool hasRookMoved)
+std::unique_ptr<Piece> BoardFactory::MakePiece(char pChar, const Coordinate pPosition, const bool hasRookMoved)
 {
   // Check if void
   if (pChar == 0)
-    return std::make_shared<VoidPiece>(pPosition);
+    return std::make_unique<VoidPiece>(pPosition);
 
   // determine the color of the piece
   PieceColor pColor;
@@ -52,17 +52,17 @@ std::shared_ptr<Piece> BoardFactory::MakePiece(char pChar, const Coordinate pPos
   switch (pChar)
   {
   case 'P':
-    return std::make_shared<Pawn>(pColor, pPosition);
+    return std::make_unique<Pawn>(pColor, pPosition);
   case 'R':
-    return std::make_shared<Rook>(pColor, pPosition, hasRookMoved);
+    return std::make_unique<Rook>(pColor, pPosition, hasRookMoved);
   case 'N':
-    return std::make_shared<Knight>(pColor, pPosition);
+    return std::make_unique<Knight>(pColor, pPosition);
   case 'B':
-    return std::make_shared<Bishop>(pColor, pPosition);
+    return std::make_unique<Bishop>(pColor, pPosition);
   case 'Q':
-    return std::make_shared<Queen>(pColor, pPosition);
+    return std::make_unique<Queen>(pColor, pPosition);
   case 'K':
-    return std::make_shared<King>(pColor, pPosition, false);
+    return std::make_unique<King>(pColor, pPosition, false);
   default:
     throw std::invalid_argument("BoardFactory::makePiece(char, Coordinate) Invalid value for char representing piece.");
   }
@@ -145,7 +145,7 @@ void BoardFactory::LoadFenPosition(std::string_view fenString) const
         throw std::invalid_argument("BoardFactory::loadFendPosition() Invalid castling section");
         break;
     }
-    std::shared_ptr<Piece> rook = board.GetPiece(rookPosition);
+    Piece* rook = board.GetPiece(rookPosition);
     if (rook->GetType() != PieceType::ROOK)
     {
       board.ClearBoard();
@@ -237,7 +237,7 @@ void BoardFactory::LoadBoardPosition(std::string_view boardString) const
     try
     {
       Coordinate pPosition(analyzingX, analyzingY);
-      std::shared_ptr<Piece> piece = MakePiece(analyzingChar, pPosition);
+      std::unique_ptr<Piece> piece = MakePiece(analyzingChar, pPosition);
       if (piece->GetType() == PieceType::KING)
       {
         bool &hasKingColor = (piece->GetColor() == PieceColor::WHITE) ? hasWhiteKing : hasBlackKing;
@@ -247,7 +247,7 @@ void BoardFactory::LoadBoardPosition(std::string_view boardString) const
         hasKingColor = true;
         kingCoordinateColor = pPosition;
       }
-      board.UpdateSquare(pPosition, piece);
+      board.InsertPiece(pPosition, std::move(piece));
     }
     catch (const std::invalid_argument &e)
     {

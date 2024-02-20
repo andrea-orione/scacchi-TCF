@@ -1,7 +1,6 @@
 #include "EnPassantMover.hh"
 
 #include "Board.hh"
-#include "BoardFactory.hh"
 #include "Utils.hh"
 
 /**
@@ -18,7 +17,7 @@
  * @param[in] pawn A pointer to the pawn that should move.
  * @param[in] pawnEndingPosition The coordinate to the square that should be reached.
  */
-void EnPassantMover::Move(std::shared_ptr<Piece> pawn, const Coordinate pawnEndingPosition) const
+void EnPassantMover::Move(Piece* pawn, const Coordinate pawnEndingPosition) const
 {
   const Coordinate pawnStartingPosition = pawn->GetPosition();
   const Movement capturingMovement = (pawn->GetColor() == PieceColor::WHITE) ? Movement(0, -1) : Movement(0, 1);
@@ -26,23 +25,19 @@ void EnPassantMover::Move(std::shared_ptr<Piece> pawn, const Coordinate pawnEndi
 
   Board &board = Board::Instance();
 
-  std::shared_ptr<Piece> capturedPawn = board.GetPiece(capturedPawnPosition);
-
-  board.UpdateSquare(pawnEndingPosition, pawn);
-  board.UpdateSquare(pawnStartingPosition, BoardFactory::MakePiece(0, pawnStartingPosition));
-  board.UpdateSquare(capturedPawnPosition, BoardFactory::MakePiece(0, capturedPawnPosition));
+  std::unique_ptr<Piece> capturedPawn = board.RemovePiece(capturedPawnPosition);
+  board.InsertPiece(pawnEndingPosition, board.RemovePiece(pawnStartingPosition));
 
   // Valid move case
   if (!board.IsKingInCheck(pawn->GetColor()))
   {
     pawn->Move(pawnEndingPosition);
-    board.AddCapturedPiece(capturedPawn);
+    board.AddCapturedPiece(std::move(capturedPawn));
     return;
   }
 
   // Invalid move case. Resetting the board.
-  board.UpdateSquare(pawnStartingPosition, pawn);
-  board.UpdateSquare(pawnEndingPosition, BoardFactory::MakePiece(0, pawnEndingPosition));
-  board.UpdateSquare(capturedPawnPosition, capturedPawn);
+  board.InsertPiece(pawnStartingPosition, board.RemovePiece(pawnEndingPosition));
+  board.InsertPiece(capturedPawnPosition, std::move(capturedPawn));
   throw InvalidMoveException("This move is not allowed. The king would be in check.");
 }

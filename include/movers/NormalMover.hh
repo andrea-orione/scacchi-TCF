@@ -5,5 +5,5 @@
 class NormalMover : public PieceMover
 {
 public:
-  void Move(std::shared_ptr<Piece> movingPiece, Coordinate endingPosition) const override;
+  void Move(Piece* movingPiece, Coordinate endingPosition) const override;
 };

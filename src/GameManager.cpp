@@ -295,7 +295,7 @@ void GameManager::GetUserMove()
     const Coordinate startingSquare(std::string_view(userMove.c_str(), 2));
     const Coordinate endingSquare(std::string_view(userMove.c_str() + 2, 2));
 
-    std::shared_ptr<Piece> pieceToMove = board.GetPiece(startingSquare);
+    Piece* pieceToMove = board.GetPiece(startingSquare);
 
     if (pieceToMove->GetColor() != activePlayerColor)
       throw InvalidMoveException("The piece you want to move doesn't belong to you.");
@@ -336,7 +336,7 @@ void GameManager::GetUserMove()
     const Coordinate endingSquare(std::string_view(userMove.c_str() + 2, 2));
     const char promotionPiece = userMove[4];
 
-    std::shared_ptr<Piece> pieceToMove = board.GetPiece(Coordinate(startingSquare));
+    Piece* pieceToMove = board.GetPiece(Coordinate(startingSquare));
 
     if (pieceToMove->GetColor() != activePlayerColor)
       throw InvalidMoveException("The piece you want to move doesn't belong to you.");

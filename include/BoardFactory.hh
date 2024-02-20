@@ -11,7 +11,7 @@ class BoardFactory
 public:
   BoardFactory() {}
   
-  static std::shared_ptr<Piece> MakePiece(char pieceChar, Coordinate pPosition, bool hasRookMoved = true);
+  static std::unique_ptr<Piece> MakePiece(char pieceChar, Coordinate pPosition, bool hasRookMoved = true);
 
   void LoadFenPosition(std::string_view fenString) const;
   void InitializeStartingBoard() const;

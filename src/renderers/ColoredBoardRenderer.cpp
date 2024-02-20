@@ -25,7 +25,7 @@ void ColoredBoardRenderer::PrintWhiteBoard() const
     for (int column = 1; column < 9; column++)
     {
       const auto &colorParameter = ((row + column) % 2) ? COLOR_WHITE : COLOR_BLACK;
-      const Piece* piece = board.GetPiece(Coordinate(column, row)).get();
+      const Piece* piece = board.GetPiece(Coordinate(column, row));
       const auto &pieceChars = (piece->GetColor() == PieceColor::WHITE) ? utils::voidPiecesChars : utils::fullPiecesChars;
       cout << colorParameter << " " << pieceChars.at(piece->GetType()) << " ";
     }
@@ -50,7 +50,7 @@ void ColoredBoardRenderer::PrintBlackBoard() const
     for (int column = 8; column > 0; column--)
     {
       const auto &colorParameter = ((row + column) % 2) ? COLOR_WHITE : COLOR_BLACK;
-      const Piece* piece = board.GetPiece(Coordinate(column, row)).get();
+      const Piece* piece = board.GetPiece(Coordinate(column, row));
       const auto &pieceChars = (piece->GetColor() == PieceColor::WHITE) ? utils::voidPiecesChars : utils::fullPiecesChars;
       cout << colorParameter << " " << pieceChars.at(piece->GetType()) << " ";
     }
