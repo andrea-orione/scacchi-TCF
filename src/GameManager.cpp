@@ -96,7 +96,9 @@ void GameManager::StartGame()
   }
 
   boardFactory.InitializeStartingBoard();
+  std::cout<<"after"<<std::endl;
   GameLoop();
+  std::cout<<"after2"<<std::endl;
 }
 
 /**
@@ -221,7 +223,6 @@ void GameManager::UserSettings()
       continue;
 
     size_t index = std::distance(settings.begin(), itr);
-    printf("%i\n", (int)index);
 
     switch (index)
     {

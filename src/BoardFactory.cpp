@@ -102,7 +102,6 @@ void BoardFactory::LoadFenPosition(std::string_view fenString) const
   if (analyzingPosition == std::string_view::npos)
     throw std::invalid_argument("BoardFactory::loadFenPosition(string) Space not found.");
   this->LoadBoardPosition(fenString.substr(0, analyzingPosition));
-
   // ActivePiece
   analyzingPosition++;
   char analyzingChar = fenString.at(analyzingPosition);

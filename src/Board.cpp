@@ -57,12 +57,12 @@ std::unique_ptr<Piece> Board::ReplacePiece(Coordinate position, std::unique_ptr<
     auto &occupyingPieceVector = (occupyingPiece->GetColor() == PieceColor::WHITE) ? whitePieces : blackPieces;
     occupyingPieceVector.erase(std::find(occupyingPieceVector.begin(), occupyingPieceVector.end(), occupyingPiece.get()));
   }
-  this->squaresMap.at(position) = std::move(piece);
   if (piece->GetColor() != PieceColor::VOID)
   {
     auto &newPieceVector = (piece->GetColor() == PieceColor::WHITE) ? whitePieces : blackPieces;
     newPieceVector.push_back(piece.get());
   }
+  this->squaresMap.at(position) = std::move(piece);
   return occupyingPiece;
 }
 
@@ -78,18 +78,18 @@ std::unique_ptr<Piece> Board::RemovePiece(Coordinate position){
 }
 
 void Board::InsertPiece(Coordinate position, std::unique_ptr<Piece> piece){
-  const Piece* occupyingPiece = squaresMap.at(position).get();
+  const Piece* occupyingPiece = GetPiece(position);
   if (occupyingPiece->GetColor() != PieceColor::VOID)
   {
     auto &occupyingPieceVector = (occupyingPiece->GetColor() == PieceColor::WHITE) ? whitePieces : blackPieces;
     occupyingPieceVector.erase(std::find(occupyingPieceVector.begin(), occupyingPieceVector.end(), occupyingPiece));
   }
-  this->squaresMap.at(position) = std::move(piece);
   if (piece->GetColor() != PieceColor::VOID)
   {
     auto &newPieceVector = (piece->GetColor() == PieceColor::WHITE) ? whitePieces : blackPieces;
     newPieceVector.push_back(piece.get());
   }
+  this->squaresMap.at(position) = std::move(piece);
 }
 
 /**
