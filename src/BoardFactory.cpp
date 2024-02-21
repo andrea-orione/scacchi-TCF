@@ -75,7 +75,13 @@ void BoardFactory::InitializeStartingBoard() const
 {
   try
   {
-    this->LoadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    // this->LoadFenPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    this->LoadFenPosition("rnbqkbnr/pPpppppp/8/8/8/8/P1PPPPPP/RNBQKBNR w KQkq - 0 1");
+    // this->LoadFenPosition("rnbqkbnr/ppp1pppp/8/8/3p4/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    // this->LoadFenPosition("1k6/7R/8/8/4K3/8/6Q1/8 w - - 0 1");
+    // this->LoadFenPosition("k7/n7/8/8/8/8/7q/7K w - - 0 1");
+    // this->LoadFenPosition("7k/7p/7P/8/8/1nK5/6Q1/8 w - - 0 1");
+    // this->LoadFenPosition("rnb2k1r/pp1Pbppp/2p5/q7/2B5/8/PPPQNnPP/RNB1K2R w KQ - 3 9");
   }
   catch (const std::invalid_argument &e)
   {
