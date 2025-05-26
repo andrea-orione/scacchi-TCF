@@ -26,7 +26,7 @@ void PromotionMover::Move(std::shared_ptr<Piece> pawn, const Coordinate endingPo
   board.UpdateSquare(startingPosition, BoardFactory::MakePiece(0, startingPosition));
 
   // Valid move case
-  if (board.IsKingInCheck(pawn->GetColor()))
+  if (!board.IsKingInCheck(pawn->GetColor()))
   {
     pawn->Move(endingPosition);
     board.AddCapturedPiece(capturedPiece);
