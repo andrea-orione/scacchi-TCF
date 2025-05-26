@@ -1,6 +1,7 @@
 #include "Coordinate.hh"
 
 #include <stdexcept>
+#include <string>
 #include <string_view>
 
 constexpr std::string_view literalChars{"abcdefgh"};
